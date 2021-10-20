@@ -1,5 +1,3 @@
-import {AbstractPageManager} from "../../common/pageManagers/abstractPageManager";
+import {pageManagerFactory} from "../../common/pageManagers/factory";
 
-console.log("plugin", chrome, chrome.runtime);
-console.log(AbstractPageManager.get(document, document.URL))
-AbstractPageManager.get(document, document.URL).then(pm => pm?.init())
+pageManagerFactory(document, document.URL)?.init()

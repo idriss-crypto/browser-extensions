@@ -9,7 +9,8 @@ module.exports = {
     devtool: "inline-source-map",
     output: {
         path: path.resolve(__dirname, "buildResults"),
-        filename: "[name].js"
+        filename: "[name].js",
+        publicPath:"chrome-extension://gjkikholgenelfadphkdbimailkhkonb/"
     }, plugins: [
         new CopyPlugin({
             patterns: [
