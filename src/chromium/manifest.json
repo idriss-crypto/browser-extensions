@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Idriss-crypto",
+  "version": "0.1.0",
+  "description": "Resolving addresses of cryptocurrency wallets by phone number or email address",
+  "author": "Idriss-crypto",
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "contentScript.js"
+      ]
+    }
+  ],
+  "homepage_url": "https://www.idriss-crypto.com/"
+}
