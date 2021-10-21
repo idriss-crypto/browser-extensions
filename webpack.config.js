@@ -11,12 +11,25 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, "buildResults"),
         filename: "[name].js",
-        publicPath:"chrome-extension://gjkikholgenelfadphkdbimailkhkonb/"
-    }, plugins: [
+        publicPath: "chrome-extension://gjkikholgenelfadphkdbimailkhkonb/"
+    },
+    plugins: [
         new CopyPlugin({
             patterns: [
                 {from: "./src/chromium/manifest.json", to: "chromium"},
             ],
         }),
     ],
+    module: {
+        rules: [
+            {
+                test: /\.scss$/,
+                use: [
+                    "css-loader", // translates CSS into CommonJS
+                    "sass-loader" // compiles Sass to CSS, using Node Sass by default
+                ]
+
+            }
+        ]
+    }
 }

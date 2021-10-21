@@ -1,0 +1,35 @@
+:host {
+  font-size: 14px;
+  line-height: 20px;
+  color: #333;
+  border: 5px solid #1b1b1b;
+  border-radius: 9px;
+  background-color: #d7d7d7;
+
+  > div {
+    border-style: none none solid;
+    border-width: 0px 0px 1px;
+    border-color: #1b1b1b;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 8px;
+  }
+}
+
+.type {
+  font-weight: 800;
+  display: inline;
+  font-family: 'Gothic A1', sans-serif;
+}
+
+.key {
+  display: inline;
+  font-family: 'Gothic A1', sans-serif;
+  color: #fc0a7e;
+  font-weight: 800;
+}
+
+.value {
+  font-family: 'Gothic A1', sans-serif;
+
+}
