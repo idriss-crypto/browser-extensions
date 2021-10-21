@@ -5,7 +5,7 @@ export class DefaultPageManager extends AbstractPageManager {
     lastEvent = null;
 
     init() {
-        console.log('aaaa')
+        console.log('defaultPageManager')
         this.document.addEventListener('input', e => this.inputChanged(e, e.target))
         this.document.addEventListener('change', e => this.inputChanged(e, e.target))
     }
@@ -31,6 +31,11 @@ export class DefaultPageManager extends AbstractPageManager {
         this.lastPopup?.remove();
         let div = this.document.createElement('div');
         this.lastPopup = div;
+        let blurHandler = () => {
+            setTimeout(() => div.remove(), 500);
+            input.removeEventListener(blurHandler)
+        }
+        input.addEventListener('blur', blurHandler)
         this.document.body.append(div);
         div.attachShadow({mode: 'open'})
         let style = document.createElement('style')
@@ -60,7 +65,7 @@ export class DefaultPageManager extends AbstractPageManager {
             valueElement.textContent = elements[elementsKey];
             item.append(valueElement)
             div.shadowRoot.append(item)
-            item.onclick = () => {
+            item.onmousedown = () => {
                 navigator.clipboard.writeText(elements[elementsKey])
                 input.value = elements[elementsKey];
                 input.focus();

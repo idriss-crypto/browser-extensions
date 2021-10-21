@@ -1,3 +1,3 @@
 import {pageManagerFactory} from "../../common/pageManagers/factory";
 
-pageManagerFactory(document, document.URL)?.init()
+pageManagerFactory(document, document.location)?.init()

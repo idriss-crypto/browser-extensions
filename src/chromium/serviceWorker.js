@@ -1,4 +1,3 @@
-console.log('idriss service worker');
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.type === 'apiAddressesRequest') {
