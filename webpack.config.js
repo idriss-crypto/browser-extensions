@@ -4,7 +4,8 @@ const CopyPlugin = require("copy-webpack-plugin");
 module.exports = {
     mode: "development", // "production" | "development" | "none"
     entry: {
-        "chromium/contentScript": "./src/chromium/contentScript/index.js"
+        "chromium/contentScript": "./src/chromium/contentScript/index.js",
+        "chromium/serviceWorker": "./src/chromium/serviceWorker.js"
     },
     devtool: "inline-source-map",
     output: {
@@ -15,7 +16,6 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 {from: "./src/chromium/manifest.json", to: "chromium"},
-
             ],
         }),
     ],

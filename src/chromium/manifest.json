@@ -14,5 +14,8 @@
       ]
     }
   ],
+  "background": {
+    "service_worker": "serviceWorker.js"
+  },
   "homepage_url": "https://www.idriss-crypto.com/"
 }

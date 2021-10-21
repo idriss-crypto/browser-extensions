@@ -44,8 +44,12 @@ export class DefaultPageManager extends AbstractPageManager {
         }
     }
 
-    async apiCall(value) {
-        let request = await fetch("https://www.idriss-crypto.com/v1/Addresses?InputCombination=" + encodeURIComponent(value));
-        return await request.json();
+    apiCall(value) {
+        return new Promise((resolve, reject) => {
+            chrome.runtime.sendMessage({type: "apiAddressesRequest", value}, response => {
+                console.log(response);
+                resolve(response);
+            });
+        });
     }
 }
