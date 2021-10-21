@@ -6,13 +6,14 @@ export class DefaultPageManager extends AbstractPageManager {
 
     init() {
         console.log('aaaa')
-        this.document.addEventListener('input', e => this.inputChanged(e.target))
-        this.document.addEventListener('change', e => this.inputChanged(e.target))
+        this.document.addEventListener('input', e => this.inputChanged(e, e.target))
+        this.document.addEventListener('change', e => this.inputChanged(e, e.target))
     }
 
-    inputChanged(input) {
+    inputChanged(e, input) {
+        if (this.lastEvent?.value == input.value) return;
         this.lastPopup?.remove();
-        this.lastEvent = {date: new Date(), input: input, value: input.value}
+        this.lastEvent = {event: e, date: new Date(), input: input, value: input.value}
         setTimeout(() => this.checkInputChanged(), 500)
     }
 
@@ -59,6 +60,25 @@ export class DefaultPageManager extends AbstractPageManager {
             valueElement.textContent = elements[elementsKey];
             item.append(valueElement)
             div.shadowRoot.append(item)
+            item.onclick = () => {
+                navigator.clipboard.writeText(elements[elementsKey])
+                input.value = elements[elementsKey];
+                input.focus();
+                let lastPopup = this.lastPopup;
+                setTimeout(() => lastPopup?.remove(), 100);
+                // let eventInput = new Event('input', { bubbles: true })
+                //  let eventChange = new Event('change', { bubbles: true })
+                // // //eventInput.target = eventChange.target = input;
+                //  input.dispatchEvent(eventInput);
+                //  input.dispatchEvent(eventChange);
+                //  //input.dispatchEvent(this.lastEvent.event);
+                let entries = Object.entries(input);
+                for (const [key, value] of entries) {
+                    if (key.startsWith('__reactEventHandlers$')) {//for react
+                        input[key].onChange({target: input});
+                    }
+                }
+            }
         }
     }
 

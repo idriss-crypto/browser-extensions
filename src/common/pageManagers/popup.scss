@@ -13,6 +13,11 @@
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 8px;
+    cursor: pointer;
+
+    &:hover {
+      background: #fff;
+    }
   }
 }
 
@@ -27,6 +32,10 @@
   font-family: 'Gothic A1', sans-serif;
   color: #fc0a7e;
   font-weight: 800;
+
+  &::before {
+    content: ' ';
+  }
 }
 
 .value {
