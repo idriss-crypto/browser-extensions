@@ -8,3 +8,13 @@ browser.runtime.onMessage.addListener(
         }
     }
 );
+browser.contextMenus.create({
+    title: 'Open idriss',
+    contexts: ["page"],
+    id: "idriss-crypto-1",
+    documentUrlPatterns: ["moz-extension://f8447b2f-6dfc-45ef-acea-dbe7d9828659/*"]
+});
+browser.contextMenus.onClicked.addListener((info, tab) => {
+    console.log(info, tab)
+    chrome.windows.create({url: '/standalone.html', width: 450, height: 600, type: 'popup'})
+})

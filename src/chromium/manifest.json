@@ -26,5 +26,8 @@
     "48": "img/icon48.png",
     "128": "img/icon128.png",
     "148": "img/icon148.png"
+  },
+  "action": {
+    "default_popup": "popup.html"
   }
 }

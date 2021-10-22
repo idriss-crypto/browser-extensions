@@ -11,7 +11,8 @@ chrome.runtime.onMessage.addListener(
 chrome.contextMenus.create({
     title: 'Open idriss',
     contexts: ["page"],
-    id: "idriss-crypto-1"
+    id: "idriss-crypto-1",
+    documentUrlPatterns: ["chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/*", "chrome-extension://hnfanknocfeofbddgcijnmhnfnkdnaad/*"]
 });
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     console.log(info, tab)
