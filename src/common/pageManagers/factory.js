@@ -1,4 +1,5 @@
 import {DefaultPageManager} from "./defaultPageManager";
+import {StandalonePageManager} from "./standalonePageManager";
 
 const defaultDomainList = [
     "binance.com",
@@ -25,12 +26,15 @@ const defaultDomainList = [
     "crypto.com",
     "zaif.jp",
     "ascendex.com",
-    "tokocrypto.com"
+    "tokocrypto.com",
 ];
 
 export function pageManagerFactory(document, url) {
     console.log('pageManagerFactory')
     if (defaultDomainList.some(x => url.hostname === x || url.hostname.endsWith('.' + x))) {
         return new DefaultPageManager(document)
+    }
+    if (url.hostname == "gjkikholgenelfadphkdbimailkhkonb") {
+        return new StandalonePageManager(document)
     }
 }

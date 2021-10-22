@@ -5,7 +5,9 @@ module.exports = {
     mode: "development", // "production" | "development" | "none"
     entry: {
         "chromium/contentScript": "./src/chromium/contentScript/index.js",
-        "chromium/serviceWorker": "./src/chromium/serviceWorker.js"
+        "chromium/serviceWorker": "./src/chromium/serviceWorker.js",
+        "firefox/contentScript": "./src/firefox/contentScript/index.js",
+        "firefox/serviceWorker": "./src/firefox/serviceWorker.js"
     },
     devtool: "inline-source-map",
     output: {
@@ -17,6 +19,12 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 {from: "./src/chromium/manifest.json", to: "chromium"},
+                {from: "./src/common/standalone.html", to: "chromium"},
+                {from: "./src/common/img", to: "chromium/img"},
+
+                {from: "./src/firefox/manifest.json", to: "firefox"},
+                {from: "./src/common/standalone.html", to: "firefox"},
+                {from: "./src/common/img", to: "firefox/img"},
             ],
         }),
     ],

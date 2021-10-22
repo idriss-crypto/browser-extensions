@@ -1,5 +1,5 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "Idriss-crypto",
   "version": "0.1.0",
   "description": "Resolving addresses of cryptocurrency wallets by phone number or email address",
@@ -15,12 +15,15 @@
     }
   ],
   "background": {
-    "service_worker": "serviceWorker.js"
+    "scripts": [
+      "serviceWorker.js"
+    ]
   },
-  "homepage_url": "https://www.idriss-crypto.com/",
   "permissions": [
-    "contextMenus"
+    "tabs",
+    "activeTab"
   ],
+  "homepage_url": "https://www.idriss-crypto.com/",
   "icons": {
     "16": "img/icon16.png",
     "48": "img/icon48.png",
