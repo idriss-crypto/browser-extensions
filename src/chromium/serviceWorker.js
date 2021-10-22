@@ -18,3 +18,8 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     console.log(info, tab)
     chrome.windows.create({url: '/standalone.html', width: 450, height: 600, type: 'popup'})
 })
+chrome.tabs.onUpdated.addListener(async (tabId, _, tab) => {
+    let isActive = tab.url.includes("nkbihfbeogaeaoehlefnkodbefgpgknn") || tab.url.includes("hnfanknocfeofbddgcijnmhnfnkdnaad")
+    chrome.action.setIcon({path: isActive ? "img/icon16.png" : "img/icon16bw.png", tabId}, () => { /* ... */
+    });
+})

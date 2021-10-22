@@ -19,7 +19,8 @@
   },
   "homepage_url": "https://www.idriss-crypto.com/",
   "permissions": [
-    "contextMenus"
+    "contextMenus",
+    "tabs"
   ],
   "icons": {
     "16": "img/icon16.png",
@@ -28,6 +29,7 @@
     "148": "img/icon148.png"
   },
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": "img/icon16bw.png"
   }
 }
