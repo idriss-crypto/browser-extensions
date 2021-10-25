@@ -7,7 +7,7 @@ export class DefaultPageManager extends AbstractPageManager {
     lastEvent = null;
 
     isEnabled() {
-        return new Promise(r => chrome.storage.sync.get(['enabled'], x => r(x.enabled ?? true)))
+        return new Promise(r => chrome.storage.local.get(['enabled'], x => r(x?.enabled ?? true)))
     }
 
     init() {
