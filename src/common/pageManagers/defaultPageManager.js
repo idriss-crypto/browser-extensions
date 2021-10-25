@@ -6,13 +6,17 @@ const badWords = ["login", "signin"]
 export class DefaultPageManager extends AbstractPageManager {
     lastEvent = null;
 
+    isEnabled() {
+        return new Promise(r => chrome.storage.sync.get(['enabled'], x => r(x.enabled ?? true)))
+    }
+
     init() {
-        console.log('defaultPageManager')
         this.document.addEventListener('input', e => this.inputChanged(e, e.target))
         this.document.addEventListener('change', e => this.inputChanged(e, e.target))
     }
 
-    inputChanged(e, input) {
+    async inputChanged(e, input) {
+        if (!await this.isEnabled()) return;
         if (this.lastEvent?.value == input.value) return;
         if (!this.allowedFiled(input)) return;
         const regxE = /^[^@]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;

@@ -33,7 +33,6 @@ export class AbstractPageManager {
     apiCall(value) {
         return new Promise((resolve, reject) => {
             chrome.runtime.sendMessage({type: "apiAddressesRequest", value}, response => {
-                console.log(response);
                 resolve(response);
             });
         });

@@ -15,7 +15,6 @@ chrome.contextMenus.create({
     documentUrlPatterns: ["chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/*", "chrome-extension://hnfanknocfeofbddgcijnmhnfnkdnaad/*"]
 });
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-    console.log(info, tab)
     chrome.windows.create({url: '/standalone.html', width: 450, height: 600, type: 'popup'})
 })
 chrome.tabs.onUpdated.addListener(async (tabId, _, tab) => {

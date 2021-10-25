@@ -20,7 +20,8 @@
   "homepage_url": "https://www.idriss-crypto.com/",
   "permissions": [
     "contextMenus",
-    "tabs"
+    "tabs",
+    "storage"
   ],
   "icons": {
     "16": "img/icon16.png",

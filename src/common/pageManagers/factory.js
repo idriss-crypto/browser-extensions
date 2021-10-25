@@ -29,12 +29,8 @@ const defaultDomainList = [
     "tokocrypto.com",
 ];
 
-export function pageManagerFactory(document, url) {
-    console.log('pageManagerFactory')
+export async function pageManagerFactory(document, url) {
     if (defaultDomainList.some(x => url.hostname === x || url.hostname.endsWith('.' + x))) {
         return new DefaultPageManager(document)
-    }
-    if (url.hostname == "gjkikholgenelfadphkdbimailkhkonb") {
-        return new StandalonePageManager(document)
     }
 }

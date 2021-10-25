@@ -6,8 +6,10 @@ module.exports = {
     entry: {
         "chromium/contentScript": "./src/chromium/contentScript/index.js",
         "chromium/serviceWorker": "./src/chromium/serviceWorker.js",
+        "chromium/standalone": "./src/common/standalone.js",
         "firefox/contentScript": "./src/firefox/contentScript/index.js",
-        "firefox/serviceWorker": "./src/firefox/serviceWorker.js"
+        "firefox/serviceWorker": "./src/firefox/serviceWorker.js",
+        "firefox/standalone": "./src/common/standalone.js",
     },
     devtool: "inline-source-map",
     output: {

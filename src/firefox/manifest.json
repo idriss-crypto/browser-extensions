@@ -22,7 +22,8 @@
   "permissions": [
     "tabs",
     "activeTab",
-    "contextMenus"
+    "contextMenus",
+    "storage"
   ],
   "homepage_url": "https://www.idriss-crypto.com/",
   "icons": {
