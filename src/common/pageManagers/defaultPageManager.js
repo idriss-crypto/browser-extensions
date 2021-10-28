@@ -13,6 +13,8 @@ export class DefaultPageManager extends AbstractPageManager {
     init() {
         this.document.addEventListener('input', e => this.inputChanged(e, e.target))
         this.document.addEventListener('change', e => this.inputChanged(e, e.target))
+        this.document.addEventListener('paste', e => this.inputChanged(e, e.target))
+        this.document.addEventListener('focus', e => this.inputChanged(e, e.target))
     }
 
     async inputChanged(e, input) {

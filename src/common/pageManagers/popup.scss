@@ -1,10 +1,11 @@
 :host {
-  font-size: 14px;
-  line-height: 20px;
-  color: #333;
-  border: 5px solid #1b1b1b;
-  border-radius: 9px;
-  background-color: #d7d7d7;
+  font-size: 14px!important;
+  line-height: 20px!important;
+  color: #333!important;
+  border: 5px solid #1b1b1b!important;
+  border-radius: 9px!important;
+  background-color: #d7d7d7!important;
+  z-index: 1000000!important;
 
   > div {
     border-style: none none solid;
