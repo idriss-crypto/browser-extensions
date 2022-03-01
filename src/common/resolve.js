@@ -9,78 +9,7 @@ var walletTags = {
         ETH: {
 
             "Tally ETH": "f368de8673a59b860b71f54c7ba8ab17f0b9648ad014797e5f8d8fa9f7f1d11a",
-            "Trust ETH": "",
-            "Public ETH": "",
-        },
-        BNB: {
-            "Metamask BNB": "",
-            "Essentials BNB": "",
-        },
-        USDT: {
-            "Metamask USDT": "",
-            "Binance USDT": "",
-            "Coinbase USDT": "",
-            "Exchange USDT": "",
-            "Private USDT": "",
-            "Essentials USDT": "",
-        },
-        USDC: {
-            "Metamask USDC": "",
-            "Binance USDC": "",
-            "Coinbase USDC": "",
-            "Exchange USDC": "",
-            "Private USDC": "",
-            "Essentials USDC": "",
-        },
-        ELA: {
-            "Essentials ELA SC": "",
-        },
-        TLOS: {
-            "Essentials TLOS": "",
-        },
-        MATIC: {
-            "Essentials MATIC": "",
-        },
-        LINK: {
-            "Essentials LINK": "",
-        },
-        HT: {
-            "Essentials HT": "",
-        },
-        FSN: {
-            "Essentials FSN": "",
-        },
-        FTM: {
-            "Essentials FTM": "",
-        },
-        AVAX: {
-            "Essentials AVAX": "",
-        },
-        BTC: {
-            "Essentials BTC": "",
-        },
-        ERC20: {
-            ERC20: "",
-        },
-    },
-    btc: {
-        BTC: {
-            "Binance BTC": "",
-            "Coinbase BTC": "",
-            "Exchange BTC": "",
-            "Private BTC": "",
-        },
-        ELA: {
-            "Essentials ELA": "",
-        },
-    },
-    sol: {
-        SOL: {
-            "Solana SOL": "",
-            "Coinbase SOL": "",
-            "Trust SOL": "",
-            "Binance SOL": "",
-            "Phantom SOL": "",
+
         },
     },
 };
@@ -483,3 +412,60 @@ export async function simpleResolve(identifier, coin = "", network = "") {
     }
     // catch block if coin/network (combination) is invalid/not found
 }
+
+export async function performanceTests()
+{
+    let result="";
+    let timeStart, timeEnd;
+    let waiting=[];
+
+    timeStart= new Date();
+    await simpleResolve("aaa@aaa.pl");
+    timeEnd= new Date();
+    result+="Testing 1 request, "+(timeEnd-timeStart)+"ms\r\n\r\n";
+    await new Promise((resolve)=>setTimeout(resolve, 5000));
+
+
+    timeStart= new Date();
+    for(let i=0;i<10;i++)
+        await simpleResolve("bbb"+i+"@aaa.pl");
+    timeEnd= new Date();
+    result+="Testing 10 request one after next, "+(timeEnd-timeStart)+"ms\r\n\r\n";
+    await new Promise((resolve)=>setTimeout(resolve, 5000));
+
+
+
+    timeStart= new Date();
+    waiting=[]
+    for(let i=0;i<10;i++)
+        waiting.push(simpleResolve("ccc"+i+"@aaa.pl"));
+    await Promise.all(waiting);
+    timeEnd= new Date();
+    result+="Testing 10 request in parraler, "+(timeEnd-timeStart)+"ms\r\n\r\n";
+    await new Promise((resolve)=>setTimeout(resolve, 5000));
+
+
+
+
+
+    timeStart= new Date();
+    for(let i=0;i<100;i++)
+        await simpleResolve("ddd"+i+"@aaa.pl");
+    timeEnd= new Date();
+    result+="Testing 100 request one after next, "+(timeEnd-timeStart)+"ms\r\n\r\n";
+    await new Promise((resolve)=>setTimeout(resolve, 5000));
+
+
+
+    timeStart= new Date();
+    waiting=[]
+    for(let i=0;i<100;i++)
+        waiting.push(simpleResolve("eee"+i+"@aaa.pl"));
+    await Promise.all(waiting);
+    timeEnd= new Date();
+    result+="Testing 100 request in parraler, "+(timeEnd-timeStart)+"ms\r\n\r\n";
+
+
+    return result;
+}
+globalThis.performanceTests=performanceTests;
