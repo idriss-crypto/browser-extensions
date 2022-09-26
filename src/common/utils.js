@@ -19,5 +19,18 @@ export const customTwitterAccounts = {
         tokenFilter: null,
         networkFilter: null,
     },
+    '1570867755661889541': {
+        customHeader: "Vouch for someone!",
+        customText: "Poruka is a credit coordination layer that enables users to set their own interest terms. ",
+        buttonValue: "Go!",
+        hostURL: "https://poruka-new.vercel.app",
+        showNetworkSelection: false,
+        showValueSelection: false,
+        showTokenSelection: false,
+        showInput: false,
+        showMessageBox: false,
+        tokenFilter: null,
+        networkFilter: null,
+    },
 };
 
