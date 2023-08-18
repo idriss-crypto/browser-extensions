@@ -17,7 +17,7 @@
         "showInput": false,
         "showMessageBox": false,
         "tokenFilter": {
-            "network": ["optimism", "pgnb", "ETH"]
+            "network": ["optimism", "pgn", "ETH"]
         },
         "networkFilter": null,
         "isGrantee": false,
