@@ -23,7 +23,7 @@ export class Tipping {
                 back:'close'
             }
 //            window.open(`https://www.idriss.xyz/send?` + Object.entries(params).map(x => encodeURIComponent(x[0]) + '=' + encodeURIComponent(x[1])).join('&'))
-            window.open(`http://localhost:5000/send?` + Object.entries(params).map(x => encodeURIComponent(x[0]) + '=' + encodeURIComponent(x[1])).join('&'))
+            window.open(`127.0.0.1:5000/send?` + Object.entries(params).map(x => encodeURIComponent(x[0]) + '=' + encodeURIComponent(x[1])).join('&'))
         })
     }
 }
