@@ -1,0 +1,7 @@
+import { POLYMARKET_COMMAND_TO_HANDLER_MAP } from 'application/polymarket';
+import { SNAPSHOT_COMMAND_TO_HANDLER_MAP } from 'application/snapshot';
+
+export const SERVICE_WORKER_COMMAND_HANDLERS_MAP = {
+  ...SNAPSHOT_COMMAND_TO_HANDLER_MAP,
+  ...POLYMARKET_COMMAND_TO_HANDLER_MAP,
+};
