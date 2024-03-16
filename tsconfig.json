@@ -21,11 +21,27 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "noUncheckedIndexedAccess": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "infrastructure/*": [
+        "src/infrastructure/*"
+      ],
+      "application": [
+        "src/application/index.ts"
+      ],
+      "application/*": [
+        "src/application/*"
+      ],
+      "shared/*": [
+        "src/shared/*"
+      ]
+    }
   },
   "include": [
     "src"
   ],
   "exclude": [
     "node_modules"
-  ],
+  ]
 }
