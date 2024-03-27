@@ -1,0 +1,20 @@
+import { Handler, OkResult } from 'shared/messaging';
+
+import { POLYMARKET_CLOB_API } from '../../polymarket.constants';
+
+import { GetAvailabilityCommand } from './get-availability.command';
+
+export class GetAvailabilityHandler implements Handler {
+  async handle(_command: GetAvailabilityCommand) {
+    // order throws 403 if user is sending this request from banned region
+    const response = await fetch(`${POLYMARKET_CLOB_API}/order`, {
+      method: 'POST',
+    });
+
+    if (response.status === 403) {
+      return new OkResult(false);
+    }
+
+    return new OkResult(true);
+  }
+}
