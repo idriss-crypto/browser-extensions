@@ -35,12 +35,23 @@ export const useFunder = () => {
         createEthersProvider(wallet.provider),
       );
 
-      const funderBalance: BigNumber =
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        await safeUsdcContract.balanceOf(funderAddress);
+      console.log({
+        safeUsdcContract,
+        provider: wallet.provider,
+        funderAddress,
+      });
 
-      // TODO: type response and re-use it in place where we do optimistic update
-      return { address: funderAddress, balance: funderBalance.toNumber() };
+      try {
+        const funderBalance: BigNumber =
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+          await safeUsdcContract.balanceOf(funderAddress);
+
+        // TODO: type response and re-use it in place where we do optimistic update
+        return { address: funderAddress, balance: funderBalance.toNumber() };
+      } catch (error) {
+        console.log('error while loading balance:', error);
+        throw error;
+      }
     },
   });
 };
