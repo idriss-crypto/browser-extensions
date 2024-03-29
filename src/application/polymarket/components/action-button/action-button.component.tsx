@@ -15,7 +15,7 @@ export const ActionButton = ({
       type={type}
       onClick={onClick}
       className={classes(
-        'relative w-full rounded-lg bg-[#2D9CBD] py-2.5 font-medium text-white',
+        'relative w-full rounded-lg bg-[#2D9CDB] py-2.5 font-medium text-white',
         disabled && 'bg-[#2C3F4F] text-[#858D92]',
         className,
       )}

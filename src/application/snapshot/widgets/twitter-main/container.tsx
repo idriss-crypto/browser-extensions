@@ -1,4 +1,7 @@
-import { useCallback, useState } from 'react';
+import { ErrorInfo, useCallback, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+
+import { sendExceptionEvent } from 'shared/monitoring';
 
 import { useTwitterProposalsToDisplay } from '../../hooks';
 import { Proposal } from '../proposal';
@@ -16,17 +19,40 @@ export const Container = () => {
     });
   }, []);
 
+  const onRuntimeError = useCallback(
+    (error: Error, errorInfo: ErrorInfo, snapshotName: string) => {
+      void sendExceptionEvent({
+        name: 'snapshot-widget-twitter-main-runtime-error',
+        meta: {
+          error,
+          errorInfo,
+          snapshotName,
+        },
+      });
+    },
+    [],
+  );
+
   return proposalsToDisplay.map(({ data, top }) => {
     return (
-      <Proposal
+      <ErrorBoundary
         key={data.id}
-        data={data}
-        className="absolute"
-        top={top - 12}
-        onHide={() => {
-          hideSnapshot(data.space.id);
+        fallbackRender={() => {
+          return null;
         }}
-      />
+        onError={(error, errorInfo) => {
+          onRuntimeError(error, errorInfo, data.space.id);
+        }}
+      >
+        <Proposal
+          data={data}
+          className="absolute"
+          top={top - 12}
+          onHide={() => {
+            hideSnapshot(data.space.id);
+          }}
+        />
+      </ErrorBoundary>
     );
   });
 };

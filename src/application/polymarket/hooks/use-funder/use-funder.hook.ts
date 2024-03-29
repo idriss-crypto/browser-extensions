@@ -19,7 +19,7 @@ export const useFunder = () => {
   return useQuery({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: ['funderAddress', wallet.account],
-    enabled: Boolean(wallet.account),
+    enabled: Boolean(wallet.account) && Boolean(wallet.provider),
     queryFn: async () => {
       if (!wallet.account || !wallet.provider) {
         throw new Error('Expected wallet to be connected');

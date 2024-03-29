@@ -15,10 +15,10 @@ import { PolymarketApp } from './polymarket';
 import { SnapshotApp } from './snapshot';
 
 export const Application = () => {
-  const onApiError = useCallback((error: Error, variables: unknown) => {
+  const onApiError = useCallback((meta: unknown) => {
     void sendExceptionEvent({
       name: 'http-error',
-      meta: { name: error.name, message: error.message, variables },
+      meta,
     });
   }, []);
 
@@ -26,8 +26,9 @@ export const Application = () => {
     void sendExceptionEvent({
       name: 'application-runtime-error',
       meta: {
-      error,
-      errorInfo},
+        message: error.message,
+        ...errorInfo,
+      },
     });
   }, []);
 

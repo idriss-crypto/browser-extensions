@@ -1,3 +1,8 @@
+import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorInfo, useCallback } from 'react';
+
+import { sendExceptionEvent } from 'shared/monitoring';
+
 import { useAvailability, useTwitterMarkets } from '../../hooks';
 import { MarketWidget } from '../market';
 
@@ -6,15 +11,37 @@ export const Container = () => {
   const marketsQuery = useTwitterMarkets();
   const availabilityQuery = useAvailability();
 
+  const onRuntimeError = useCallback(
+    (error: Error, errorInfo: ErrorInfo, conditionId: string) => {
+      void sendExceptionEvent({
+        name: 'polymarket-widget-twitter-runtime-error',
+        meta: {
+          error,
+          errorInfo,
+          conditionId,
+        },
+      });
+    },
+    [],
+  );
+
   return marketsQuery.data?.map((market) => {
     return (
-      <MarketWidget
+      <ErrorBoundary
         key={`${market.top}-${market.conditionId}`}
-        top={market.top}
-        // conditionId={market.conditionId}
-        conditionId="0x5338d1de000b91193e3ea4a066bef50d73c77d0d4ace294e474a236599608dc3"
-        isAvailable={availabilityQuery.data ?? true}
-      />
+        fallbackRender={() => {
+          return null;
+        }}
+        onError={(error, errorInfo) => {
+          onRuntimeError(error, errorInfo, market.conditionId);
+        }}
+      >
+        <MarketWidget
+          top={market.top}
+          conditionId={market.conditionId}
+          isAvailable={availabilityQuery.data ?? true}
+        />
+      </ErrorBoundary>
     );
   });
 };
