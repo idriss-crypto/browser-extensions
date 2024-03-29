@@ -16,7 +16,7 @@ export const VoteButton = ({
   return (
     <Button
       className={classes(
-        'rounded-lg bg-[#2C3F4F] py-4 text-sm font-semibold text-[##858D92]',
+        'rounded-lg bg-[#2C3F4F] py-4 font-semibold text-[##858D92]',
         disabled && 'opacity-50',
         isActive && 'text-white',
         // TODO: cva for variant styles

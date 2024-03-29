@@ -28,7 +28,7 @@ export const InputBase: InputBaseComponent = ({
       ) : null}
       <div
         className={classes(
-          'flex items-center rounded border border-zinc-300 py-4 pl-4 pr-4 outline-none',
+          'flex items-center rounded-lg border border-[#2c3f4f] py-4 pl-4 pr-4 outline-none',
           Boolean(prefix) && 'pl-2',
           Boolean(suffix) && 'pr-2',
           disabled && 'bg-light-600',

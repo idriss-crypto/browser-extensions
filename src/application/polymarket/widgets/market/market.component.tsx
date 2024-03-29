@@ -197,7 +197,10 @@ export const Market = ({
             {imageQuery.data ? (
               <img src={imageQuery.data} className="w-10 rounded" alt="" />
             ) : null}
-            <div className="line-clamp-2 text-sm" title={data.question}>
+            <div
+              className="line-clamp-2 text-base font-semibold"
+              title={data.question}
+            >
               {data.question}
             </div>
             {tokenChanceQuery.data ? (
@@ -207,6 +210,7 @@ export const Market = ({
           <div className="mb-1.5 mt-8 flex items-center justify-between">
             <InputBase.Label label="Outcome" />
             <IconButton
+              className="border border-[#2c3f4f] bg-transparent"
               iconProps={{ name: 'SymbolIcon', size: 16 }}
               onClick={() => {
                 if (wallet.account) {
@@ -309,9 +313,9 @@ export const Market = ({
               <UnavailableButton />
             )}
           </div>
-          <div className="mt-4 flex items-center justify-between text-sm">
+          <div className="mt-4 flex items-center justify-between text-base font-normal">
             <span className="text-[#858D92]">Potential return</span>
-            <span className="text-green-400">
+            <span className="text-green-400 font-semibold">
               ${potentialReturn} ({potentialReturnPercentage}%)
             </span>
           </div>

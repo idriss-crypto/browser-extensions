@@ -92,7 +92,7 @@ export const CurrencyInput = forwardRef<
             disabled={disabled}
             prefix={prefix}
             decimalScale={decimalScale}
-            className="w-full bg-transparent text-center font-medium leading-[1.2] outline-none placeholder:text-zinc-100 disabled:bg-zinc-600 disabled:text-zinc-300"
+            className="w-full bg-transparent text-center font-normal leading-[1.2] outline-none placeholder:text-zinc-100 disabled:bg-zinc-600 disabled:text-zinc-300"
             placeholder={placeholder}
           />
         </div>

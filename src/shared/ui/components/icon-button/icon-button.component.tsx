@@ -18,8 +18,8 @@ export const IconButton = ({
   return (
     <button
       className={classes(
-        'rounded bg-zinc-600 p-1',
-        !disabled && 'hover:bg-zinc-500 active:bg-zinc-400',
+        'rounded bg-[#2c3f4f] p-1',
+        !disabled && 'hover:bg-[#5f7282] active:bg-[#92a5b5]',
         disabled && 'bg-zinc-300 text-zinc-500',
         className,
       )}

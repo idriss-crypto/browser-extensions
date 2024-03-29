@@ -9,7 +9,7 @@ export const InputBaseLabel = ({
   return (
     <span
       className={classes(
-        'text-sm font-semibold leading-tight text-gray-300',
+        'text-base font-semibold leading-tight text-white',
         className,
       )}
     >

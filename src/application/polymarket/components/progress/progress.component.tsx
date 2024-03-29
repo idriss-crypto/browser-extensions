@@ -30,8 +30,10 @@ export const Progress = ({ value }: ProgressProperties) => {
         />
       </svg>
       <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 flex-col text-center">
-        <span className="text-sm leading-tight">{normalisedValue * 100}%</span>
-        <span className="text-xs leading-tight opacity-50">chance</span>
+        <span className="text-base font-medium leading-none">
+          {normalisedValue * 100}%
+        </span>
+        <span className="text-xs leading-none opacity-50">chance</span>
       </div>
     </div>
   );

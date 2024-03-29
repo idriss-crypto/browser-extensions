@@ -26,7 +26,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProperties>(
         type={type}
         disabled={loading || disabled}
         onClick={onClick}
-        className={classes('flex items-center justify-center', className)}
+        className={classes(
+          'flex items-center justify-center text-base',
+          className,
+        )}
         title={title}
       >
         <span
