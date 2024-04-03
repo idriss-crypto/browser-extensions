@@ -19,8 +19,8 @@ export const IconButton = ({
     <button
       className={classes(
         'rounded bg-[#2c3f4f] p-1',
-        !disabled && 'hover:bg-[#5f7282] active:bg-[#92a5b5]',
-        disabled && 'bg-zinc-300 text-zinc-500',
+        'hover:enabled:bg-[#5f7282] active:enabled:bg-[#92a5b5]',
+        'disabled:opacity-50',
         className,
       )}
       onClick={onClick}

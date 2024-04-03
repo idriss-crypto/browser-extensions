@@ -1,15 +1,24 @@
 import { EIP1193Provider, createStore } from 'mipd';
-import { useCallback, useMemo, useSyncExternalStore } from 'react';
+import { useCallback, useMemo, useState, useSyncExternalStore } from 'react';
 import { create as createModal, useModal } from '@ebay/nice-modal-react';
 import { useMutation } from '@tanstack/react-query';
 
-import { Icon, IdrissLogo, Modal } from 'shared/ui/components';
+import {
+  Button,
+  Checkbox,
+  Icon,
+  IdrissLogo,
+  Modal,
+} from 'shared/ui/components';
+import { classes } from 'shared/ui/utils';
 
-import { Hex, Wallet } from '../web3.types';
+import { Wallet } from '../web3.types';
 import { hexStringToNumber, toAddressWithValidChecksum } from '../web3.utils';
 
 export const WalletConnectModal = createModal(() => {
   const modal = useModal();
+  const [chosenProviderRdns, setChosenProviderRdns] = useState<string>();
+  const [termsOfUseAccepted, setTermsOfUseAccepted] = useState(false);
 
   const connect = useMutation({
     mutationFn: async (provider: EIP1193Provider) => {
@@ -17,12 +26,16 @@ export const WalletConnectModal = createModal(() => {
         method: 'eth_requestAccounts',
       });
       const chainId = await provider.request({ method: 'eth_chainId' });
-      return { accounts, chainId };
+      return { accounts, chainId: hexStringToNumber(chainId) };
     },
-    onSuccess: ({ accounts }) => {
+    onSuccess: ({ accounts, chainId }, provider) => {
       // auto select account if there is only a single one
       if (accounts.length === 1 && accounts[0]) {
-        chooseAccount(accounts[0]);
+        resolveWallet({
+          account: toAddressWithValidChecksum(accounts[0]),
+          provider,
+          chainId,
+        });
       }
     },
   });
@@ -37,31 +50,15 @@ export const WalletConnectModal = createModal(() => {
     });
   }, [connect.data]);
 
-  const chosenProvider = connect.variables;
+  const connectedProvider = connect.variables;
+  const connectedProviderChainId = connect.data?.chainId;
 
-  const chooseAccount = useCallback(
-    (account: Hex) => {
-      if (!chosenProvider || !connect.data) {
-        return modal.reject();
-      }
-
-      const wallet: Wallet = {
-        account,
-        provider: chosenProvider,
-        chainId: hexStringToNumber(connect.data.chainId),
-      };
-
+  const resolveWallet = useCallback(
+    (wallet: Wallet) => {
       modal.resolve(wallet);
       modal.remove();
     },
-    [chosenProvider, connect.data, modal],
-  );
-
-  const chooseProvider = useCallback(
-    async (provider: EIP1193Provider) => {
-      await connect.mutateAsync(provider);
-    },
-    [connect],
+    [modal],
   );
 
   const walletProvidersStore = useMemo(() => {
@@ -73,7 +70,7 @@ export const WalletConnectModal = createModal(() => {
     walletProvidersStore.getProviders,
   );
 
-  const providers = [...availableWalletProviders].sort((a, b) => {
+  const providers = [...availableWalletProviders].sort((a) => {
     if (a.info.rdns === 'io.metamask') {
       return -1;
     }
@@ -100,14 +97,18 @@ export const WalletConnectModal = createModal(() => {
         {providers.length === 0 && (
           <p>We couldn&apos;t find any wallet provider.</p>
         )}
-        {chosenProvider ? (
+        {connectedProvider && connectedProviderChainId ? (
           <>
             {availableAccounts.map((account) => {
               return (
                 <button
-                  className="flex items-center space-x-4 rounded bg-[#555] px-4 py-2 shadow-md hover:bg-[#777]"
+                  className="flex items-center space-x-4 rounded bg-[#555] px-4 py-2.5 shadow-md hover:bg-[#777]"
                   onClick={() => {
-                    chooseAccount(account);
+                    resolveWallet({
+                      account,
+                      provider: connectedProvider,
+                      chainId: connectedProviderChainId,
+                    });
                   }}
                   key={account}
                 >
@@ -118,13 +119,16 @@ export const WalletConnectModal = createModal(() => {
           </>
         ) : (
           <>
-            {providers.map(({ provider, info }) => {
+            {providers.map(({ info }) => {
               return (
                 <button
-                  className="flex items-center space-x-4 rounded bg-[#555] px-4 py-2 shadow-md hover:bg-[#777] disabled:opacity-50"
+                  className={classes(
+                    'flex items-center space-x-4 rounded bg-[#555] px-4 py-2.5 shadow-md hover:bg-[#777] disabled:opacity-50',
+                    chosenProviderRdns === info.rdns && 'bg-[#888]',
+                  )}
                   key={info.uuid}
                   onClick={() => {
-                    void chooseProvider(provider);
+                    setChosenProviderRdns(info.rdns);
                   }}
                   disabled={connect.isPending}
                 >
@@ -135,10 +139,13 @@ export const WalletConnectModal = createModal(() => {
             })}
             {window.ethereum ? (
               <button
-                className="flex items-center space-x-4 rounded bg-[#555] px-4 py-2 shadow-md hover:bg-[#777] disabled:opacity-50"
+                className={classes(
+                  'flex items-center space-x-4 rounded bg-[#555] px-4 py-2.5 shadow-md hover:bg-[#777] disabled:opacity-50',
+                  chosenProviderRdns === 'browser' && 'bg-[#888]',
+                )}
                 onClick={() => {
                   if (window.ethereum) {
-                    void chooseProvider(window.ethereum);
+                    setChosenProviderRdns('browser');
                   }
                 }}
                 disabled={connect.isPending}
@@ -147,6 +154,42 @@ export const WalletConnectModal = createModal(() => {
                 <span>Browser wallet</span>
               </button>
             ) : null}
+            <div className="mb-2 mt-4 flex items-center space-x-2">
+              <Checkbox
+                value={termsOfUseAccepted}
+                onChange={setTermsOfUseAccepted}
+              />
+              <p className="text-sm">
+                I agree to{' '}
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400"
+                >
+                  Terms of use
+                </a>
+              </p>
+            </div>
+            <Button
+              className="bg-[#2D9CDB]"
+              onClick={() => {
+                const providerToConnect =
+                  chosenProviderRdns === 'browser'
+                    ? window.ethereum
+                    : providers.find((provider) => {
+                        return provider.info.rdns === chosenProviderRdns;
+                      })?.provider;
+
+                if (!providerToConnect) {
+                  return;
+                }
+                connect.mutate(providerToConnect);
+              }}
+              disabled={!termsOfUseAccepted || !chosenProviderRdns}
+            >
+              Continue
+            </Button>
           </>
         )}
       </div>

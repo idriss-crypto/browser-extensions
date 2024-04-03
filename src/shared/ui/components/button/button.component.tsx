@@ -27,7 +27,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProperties>(
         disabled={loading || disabled}
         onClick={onClick}
         className={classes(
-          'flex items-center justify-center text-base',
+          'flex items-center justify-center py-2.5 text-base',
+          'disabled:bg-gray-500 disabled:text-gray-200',
           className,
         )}
         title={title}

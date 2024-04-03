@@ -16,7 +16,6 @@ import {
   CurrencyInput,
   IconButton,
   InputBase,
-  Checkbox,
 } from 'shared/ui/components';
 import { sendMonitoringEvent } from 'shared/monitoring';
 
@@ -77,11 +76,7 @@ export const Market = ({
     mode: 'onChange',
   });
 
-  const [selectedTokenId, amount, termsAccepted] = watch([
-    'selectedTokenId',
-    'amount',
-    'termsAccepted',
-  ]);
+  const [selectedTokenId, amount] = watch(['selectedTokenId', 'amount']);
 
   const selectedToken = useMemo(() => {
     return tokens.find((token) => {
@@ -161,8 +156,6 @@ export const Market = ({
       }),
     );
 
-    await switchToPolygon(wallet.provider);
-
     const ethersProvider = createEthersProvider(wallet.provider);
     const signer = ethersProvider.getSigner(wallet.account);
     const credentials = await requestAuth.mutateAsync(signer);
@@ -183,7 +176,7 @@ export const Market = ({
   };
 
   const isBuyingPending =
-    postOrder.isPending || requestAuth.isPending || switchChain.isPending;
+    postOrder.isPending || requestAuth.isPending;
 
   const isPolymarketAccountNotFoundError =
     Boolean(funderQuery.error) &&
@@ -287,28 +280,6 @@ export const Market = ({
               }}
             />
           </div>
-          <Controller
-            control={control}
-            name="termsAccepted"
-            render={({ field }) => {
-              return (
-                <div className="mt-4 flex items-center space-x-2">
-                  <Checkbox value={field.value} onChange={field.onChange} />
-                  <p className="text-sm">
-                    I agree to{' '}
-                    <a
-                      href="#"
-                      target="_blank"
-                      className="text-[#2D9CDB]"
-                      rel="noopener noreferrer"
-                    >
-                      Terms of Use
-                    </a>
-                  </p>
-                </div>
-              );
-            }}
-          />
           {/* TODO: this could be nicer */}
           <div className="mt-4">
             {isAvailable ? (
@@ -319,7 +290,6 @@ export const Market = ({
                   <ActionButton
                     type="submit"
                     loading={isBuyingPending || switchChain.isPending}
-                    disabled={!termsAccepted}
                   >
                     Buy
                   </ActionButton>

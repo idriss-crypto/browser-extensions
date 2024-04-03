@@ -12,6 +12,5 @@ export const marketFormSchema = (max?: number) => {
   return z.object({
     selectedTokenId: z.string(),
     amount: amountSchema,
-    termsAccepted: z.boolean(),
   });
 };

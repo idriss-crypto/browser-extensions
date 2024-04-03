@@ -25,7 +25,7 @@ export const CurrencyInput = forwardRef<
     reference,
   ) => {
     const canDecrement = useMemo(() => {
-      if (!value) {
+      if (value === undefined) {
         return true;
       }
 

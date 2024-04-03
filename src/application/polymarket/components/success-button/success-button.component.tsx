@@ -13,7 +13,7 @@ export const SuccessButton = forwardRef<
     <Button
       ref={reference}
       className={classes(
-        'relative w-full rounded-lg bg-[#27AE60] py-2.5 text-white',
+        'relative w-full rounded-lg bg-[#27AE60] text-white',
         className,
       )}
       disabled
