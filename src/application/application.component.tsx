@@ -1,57 +1,34 @@
-import { ErrorInfo, useCallback } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
+import NiceModal from '@ebay/nice-modal-react';
 
 import {
   PortalContextProvider,
   WithQueryClient,
   WithTailwind,
 } from 'shared/ui/providers';
-import { WalletContextProvider, WithWalletConnectModal } from 'shared/web3';
+import { WalletContextProvider } from 'shared/web3';
 import { ExtensionSettingsProvider } from 'shared/extension';
 import { TwitterPageProvider } from 'shared/twitter';
-import { sendExceptionEvent } from 'shared/monitoring';
+import { ErrorBoundary } from 'shared/monitoring';
 
 import { PolymarketApp } from './polymarket';
 import { SnapshotApp } from './snapshot';
 
 export const Application = () => {
-  const onApiError = useCallback((meta: unknown) => {
-    void sendExceptionEvent({
-      name: 'http-error',
-      meta,
-    });
-  }, []);
-
-  const onRuntimeError = useCallback((error: Error, errorInfo: ErrorInfo) => {
-    void sendExceptionEvent({
-      name: 'application-runtime-error',
-      meta: {
-        message: error.message,
-        ...errorInfo,
-      },
-    });
-  }, []);
-
   return (
-    <ErrorBoundary
-      fallbackRender={() => {
-        return null;
-      }}
-      onError={onRuntimeError}
-    >
+    <ErrorBoundary exceptionEventName="application-runtime-error">
       <PortalContextProvider>
         <WithTailwind>
-          <WithQueryClient onError={onApiError}>
-            <WalletContextProvider>
-              <WithWalletConnectModal>
+          <WithQueryClient>
+            <NiceModal.Provider>
+              <WalletContextProvider>
                 <ExtensionSettingsProvider>
                   <TwitterPageProvider>
                     <PolymarketApp />
                     <SnapshotApp />
                   </TwitterPageProvider>
                 </ExtensionSettingsProvider>
-              </WithWalletConnectModal>
-            </WalletContextProvider>
+              </WalletContextProvider>
+            </NiceModal.Provider>
           </WithQueryClient>
         </WithTailwind>
       </PortalContextProvider>

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TickSize } from '@polymarket/clob-client';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { EIP1193Provider } from 'mipd';
 
 import {
   CHAIN,
@@ -15,6 +16,7 @@ import {
   CurrencyInput,
   IconButton,
   InputBase,
+  Checkbox,
 } from 'shared/ui/components';
 import { sendMonitoringEvent } from 'shared/monitoring';
 
@@ -50,7 +52,7 @@ export const Market = ({
   isAvailable,
   onRefresh,
 }: MarketProperties) => {
-  const wallet = useWallet();
+  const { wallet, openConnectionModal } = useWallet();
   const funderQuery = useFunder();
   const imageQuery = useBase64Image({ url: data.image });
   const tokenChanceQuery = useTokenChance({
@@ -75,8 +77,11 @@ export const Market = ({
     mode: 'onChange',
   });
 
-  const selectedTokenId = watch('selectedTokenId');
-  const amount = watch('amount');
+  const [selectedTokenId, amount, termsAccepted] = watch([
+    'selectedTokenId',
+    'amount',
+    'termsAccepted',
+  ]);
 
   const selectedToken = useMemo(() => {
     return tokens.find((token) => {
@@ -113,6 +118,16 @@ export const Market = ({
   const postOrder = usePostOrder({ conditionId: data.condition_id });
   const switchChain = useSwitchChain();
 
+  const switchToPolygon = useCallback(
+    (provider: EIP1193Provider) => {
+      return switchChain.mutateAsync({
+        walletProvider: provider,
+        chainId: CHAIN.POLYGON.id,
+      });
+    },
+    [switchChain],
+  );
+
   const resetMutations = useCallback(() => {
     switchChain.reset();
     requestAuth.reset();
@@ -125,19 +140,14 @@ export const Market = ({
     }
   }, [postOrder.isSuccess, resetMutations]);
 
-  const requestProvider = () => {
+  const requestProvider = async () => {
     resetMutations();
-    // TODO: deferred promise, await wallet.connect();
-    wallet.openConnectionModal();
+    const wallet = await openConnectionModal();
+    await switchToPolygon(wallet.provider);
   };
 
   const submit: SubmitHandler<MarketForm> = async (formValues) => {
-    if (
-      !wallet.provider ||
-      !wallet.account ||
-      !funderQuery.data ||
-      !selectedToken
-    ) {
+    if (!wallet || !funderQuery.data || !selectedToken) {
       return;
     }
     resetMutations();
@@ -151,10 +161,7 @@ export const Market = ({
       }),
     );
 
-    await switchChain.mutateAsync({
-      walletProvider: wallet.provider,
-      chainId: CHAIN.POLYGON.id,
-    });
+    await switchToPolygon(wallet.provider);
 
     const ethersProvider = createEthersProvider(wallet.provider);
     const signer = ethersProvider.getSigner(wallet.account);
@@ -213,7 +220,7 @@ export const Market = ({
               className="border border-[#2c3f4f] bg-transparent"
               iconProps={{ name: 'SymbolIcon', size: 16 }}
               onClick={() => {
-                if (wallet.account) {
+                if (wallet) {
                   void funderQuery.refetch();
                 }
                 onRefresh();
@@ -280,21 +287,56 @@ export const Market = ({
               }}
             />
           </div>
+          <Controller
+            control={control}
+            name="termsAccepted"
+            render={({ field }) => {
+              return (
+                <div className="mt-4 flex items-center space-x-2">
+                  <Checkbox value={field.value} onChange={field.onChange} />
+                  <p className="text-sm">
+                    I agree to{' '}
+                    <a
+                      href="#"
+                      target="_blank"
+                      className="text-[#2D9CDB]"
+                      rel="noopener noreferrer"
+                    >
+                      Terms of Use
+                    </a>
+                  </p>
+                </div>
+              );
+            }}
+          />
           {/* TODO: this could be nicer */}
           <div className="mt-4">
             {isAvailable ? (
               postOrder.isSuccess ? (
                 <SuccessButton />
-              ) : wallet.account ? (
-                <ActionButton
-                  type="submit"
-                  loading={isBuyingPending || switchChain.isPending}
-                >
-                  Buy
-                </ActionButton>
+              ) : wallet ? (
+                wallet.chainId === CHAIN.POLYGON.id ? (
+                  <ActionButton
+                    type="submit"
+                    loading={isBuyingPending || switchChain.isPending}
+                    disabled={!termsAccepted}
+                  >
+                    Buy
+                  </ActionButton>
+                ) : (
+                  <ActionButton
+                    type="button"
+                    onClick={() => {
+                      void switchToPolygon(wallet.provider);
+                    }}
+                    loading={switchChain.isPending}
+                  >
+                    Switch to Polygon
+                  </ActionButton>
+                )
               ) : (
                 <ActionButton
-                  loading={wallet.isModalOpened || funderQuery.isLoading}
+                  loading={funderQuery.isLoading}
                   onClick={() => {
                     void sendMonitoringEvent(
                       new LoginClickedEvent({
@@ -303,10 +345,10 @@ export const Market = ({
                       }),
                     );
 
-                    requestProvider();
+                    void requestProvider();
                   }}
                 >
-                  Log In
+                  Connect wallet
                 </ActionButton>
               )
             ) : (
@@ -315,7 +357,7 @@ export const Market = ({
           </div>
           <div className="mt-4 flex items-center justify-between text-base font-normal">
             <span className="text-[#858D92]">Potential return</span>
-            <span className="text-green-400 font-semibold">
+            <span className="font-semibold text-green-400">
               ${potentialReturn} ({potentialReturnPercentage}%)
             </span>
           </div>

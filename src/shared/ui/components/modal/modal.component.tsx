@@ -25,10 +25,12 @@ export const Modal = ({
         <div>{title}</div>
         <div className="mt-4">{children}</div>
         <IconButton
-          className="absolute right-2 top-2"
           onClick={onClose}
+          className="absolute right-2 top-2 flex cursor-pointer items-center justify-center bg-transparent"
           iconProps={{
             name: 'Cross2Icon',
+            size: 16,
+            className: 'text-[#aaa]',
           }}
         />
       </div>

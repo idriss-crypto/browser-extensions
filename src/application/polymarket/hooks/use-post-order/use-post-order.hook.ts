@@ -23,7 +23,7 @@ const postOrder = async ({ l2Headers, orderPayload }: PostOrderProperties) => {
 
 export const usePostOrder = ({ conditionId }: UsePostOrderProperties) => {
   const queryClient = useQueryClient();
-  const wallet = useWallet();
+  const { wallet } = useWallet();
 
   return useMutation({
     onSuccess: (_, { amount, tokenID, funderAddress }) => {
@@ -35,18 +35,20 @@ export const usePostOrder = ({ conditionId }: UsePostOrderProperties) => {
           funderAddress,
         }),
       );
-      queryClient.setQueryData<{ address: string; balance: number }>(
-        ['funderAddress', wallet.account],
-        (currentData) => {
-          if (!currentData) {
-            return { address: wallet.account ?? '0x', balance: 0 };
-          }
-          return {
-            ...currentData,
-            balance: currentData.balance - amount * 1_000_000,
-          };
-        },
-      );
+      if (wallet?.account) {
+        queryClient.setQueryData<{ address: string; balance: number }>(
+          ['funderAddress', wallet.account],
+          (currentData) => {
+            if (!currentData) {
+              return;
+            }
+            return {
+              ...currentData,
+              balance: currentData.balance - amount * 1_000_000,
+            };
+          },
+        );
+      }
     },
     mutationFn: async ({
       signer,

@@ -1,10 +1,6 @@
 export { CHAIN } from './web3.constants';
 export type { Hex, Wallet } from './web3.types';
-export {
-  useWallet,
-  WalletContextProvider,
-  WithWalletConnectModal,
-} from './wallet';
+export { useWallet, WalletContextProvider } from './wallet';
 export {
   createEthersProvider,
   resolveAddress,

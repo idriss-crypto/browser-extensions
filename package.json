@@ -17,6 +17,7 @@
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-react": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
+    "@ebay/nice-modal-react": "^1.2.13",
     "@ethersproject/providers": "^5.7.0",
     "@hookform/resolvers": "^3.3.4",
     "@idriss-crypto/send-core": "^0.4.16",

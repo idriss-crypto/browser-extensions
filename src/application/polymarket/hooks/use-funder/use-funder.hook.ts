@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { BigNumber, ethers } from 'ethers';
 
-import { createEthersProvider, useWallet } from 'shared/web3';
+import { CHAIN, createEthersProvider, useWallet } from 'shared/web3';
 
 import { GetPolymarketSafeCommand } from '../../commands';
 import { AccountNotFoundError } from '../../errors';
@@ -14,14 +14,15 @@ const getFunderAddress = async (address: string) => {
 };
 
 export const useFunder = () => {
-  const wallet = useWallet();
+  const { wallet } = useWallet();
 
   return useQuery({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
-    queryKey: ['funderAddress', wallet.account],
-    enabled: Boolean(wallet.account) && Boolean(wallet.provider),
+    queryKey: ['funderAddress', wallet?.account, wallet?.chainId],
+    enabled: Boolean(wallet) && wallet?.chainId === CHAIN.POLYGON.id,
+    retry: 3,
     queryFn: async () => {
-      if (!wallet.account || !wallet.provider) {
+      if (!wallet) {
         throw new Error('Expected wallet to be connected');
       }
       const funderAddress = await getFunderAddress(wallet.account);
@@ -29,29 +30,20 @@ export const useFunder = () => {
         throw new AccountNotFoundError();
       }
 
+      const ethersProvider = createEthersProvider(wallet.provider);
+
       const safeUsdcContract = new ethers.Contract(
         SAFE_USDC_ADDRES,
         ERC_20_ABI,
-        createEthersProvider(wallet.provider),
+        ethersProvider,
       );
 
-      console.log({
-        safeUsdcContract,
-        provider: wallet.provider,
-        funderAddress,
-      });
+      const funderBalance: BigNumber =
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        await safeUsdcContract.balanceOf(funderAddress);
 
-      try {
-        const funderBalance: BigNumber =
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-          await safeUsdcContract.balanceOf(funderAddress);
-
-        // TODO: type response and re-use it in place where we do optimistic update
-        return { address: funderAddress, balance: funderBalance.toNumber() };
-      } catch (error) {
-        console.log('error while loading balance:', error);
-        throw error;
-      }
+      // TODO: type response and re-use it in place where we do optimistic update
+      return { address: funderAddress, balance: funderBalance.toNumber() };
     },
   });
 };

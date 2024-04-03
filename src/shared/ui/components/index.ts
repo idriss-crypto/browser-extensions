@@ -10,3 +10,4 @@ export { Icon } from './icon';
 export { CurrencyInput } from './currency-input';
 export { InputBase } from './input-base';
 export { WidgetBase } from './widget-base';
+export { Checkbox } from './checkbox';
