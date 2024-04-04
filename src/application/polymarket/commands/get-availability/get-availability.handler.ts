@@ -1,5 +1,5 @@
 import { Handler, OkResult } from 'shared/messaging';
-import { sendMonitoringEvent } from 'shared/monitoring';
+import { sendHandlerMonitoringEvent } from 'shared/monitoring';
 
 import { POLYMARKET_CLOB_API } from '../../polymarket.constants';
 
@@ -17,9 +17,8 @@ export class GetAvailabilityHandler implements Handler {
         return new OkResult(false);
       }
       return new OkResult(true);
-    } catch {
-      await sendMonitoringEvent({ name: 'polymarket-unavailable' });
-
+    } catch (error) {
+      await sendHandlerMonitoringEvent({ name: 'polymarket-unavailable' });
       return new OkResult(false);
     }
   }

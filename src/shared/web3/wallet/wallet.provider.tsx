@@ -17,6 +17,17 @@ export const WalletContextProvider = ({ children }: Properties) => {
   const [wallet, setWallet] = useState<Wallet>();
 
   useEffect(() => {
+    const onAccountsChanged = () => {
+      setWallet(undefined);
+    };
+    wallet?.provider.on('accountsChanged', onAccountsChanged);
+
+    return () => {
+      wallet?.provider.removeListener('accountsChanged', onAccountsChanged);
+    };
+  }, [wallet?.provider]);
+
+  useEffect(() => {
     const onChainChanged = (chainId: Hex) => {
       setWallet((previous) => {
         if (!previous) {

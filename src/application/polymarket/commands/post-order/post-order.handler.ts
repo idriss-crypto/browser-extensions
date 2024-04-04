@@ -4,11 +4,11 @@ import {
   HandlerError,
   OkResult,
 } from 'shared/messaging';
+import { sendHandlerExceptionEvent } from 'shared/monitoring';
 
 import { POLYMARKET_CLOB_API } from '../../polymarket.constants';
 
 import { PostOrderCommand } from './post-order.command';
-import { sendHandlerExceptionEvent } from 'shared/monitoring';
 
 export class PostOrderHandler implements Handler {
   async handle(command: PostOrderCommand) {

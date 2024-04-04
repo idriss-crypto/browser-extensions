@@ -4,5 +4,6 @@ export {
   sendMonitoringEvent,
   sendExceptionEvent,
   sendHandlerExceptionEvent,
+  sendHandlerMonitoringEvent,
 } from './monitoring.library';
 export { ErrorBoundary } from './error-boundary.component';

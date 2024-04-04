@@ -24,15 +24,27 @@ export const sendExceptionEvent = async (event: ExceptionEvent) => {
   }
 };
 
+export const sendHandlerMonitoringEvent = async (event: MonitoringEvent) => {
+  const command = new SendMonitoringEventCommand({ event });
+  return fetch('https://www.idriss.xyz/submit-event', {
+    method: 'POST',
+    body: JSON.stringify(command.details.event),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
 export const sendHandlerExceptionEvent = async (command: Command) => {
-  return sendExceptionEvent({
-    name: 'command-handler-error',
-    meta: {
-      command: {
-        id: command.id,
-        name: command.name,
-        details: command.details,
-      },
+  const exceptionCommand = new SendExceptionEventCommand({
+    event: { name: 'handler-exception', meta: command },
+  });
+
+  return fetch('https://www.idriss.xyz/submit-error', {
+    method: 'POST',
+    body: JSON.stringify(exceptionCommand.details.event),
+    headers: {
+      'Content-Type': 'application/json',
     },
   });
 };

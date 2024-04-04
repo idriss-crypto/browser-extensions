@@ -37,7 +37,7 @@ export const usePostOrder = ({ conditionId }: UsePostOrderProperties) => {
       );
       if (wallet?.account) {
         queryClient.setQueryData<{ address: string; balance: number }>(
-          ['funderAddress', wallet.account],
+          ['funderAddress', wallet.account, wallet.chainId],
           (currentData) => {
             if (!currentData) {
               return;
