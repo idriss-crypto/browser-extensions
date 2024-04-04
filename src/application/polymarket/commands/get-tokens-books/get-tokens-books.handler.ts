@@ -4,12 +4,12 @@ import {
   HandlerError,
   OkResult,
 } from 'shared/messaging';
+import { sendHandlerExceptionEvent } from 'shared/monitoring';
 
 import { POLYMARKET_CLOB_API } from '../../polymarket.constants';
 import { GetTokenBookResponse, TokenIdToPrice } from '../../polymarket.types';
 
 import { GetTokensBooksCommand } from './get-tokens-books.command';
-import { sendHandlerExceptionEvent } from 'shared/monitoring';
 
 export class GetTokensBooksHandler implements Handler {
   async handle(command: GetTokensBooksCommand) {

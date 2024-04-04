@@ -37,7 +37,6 @@ import {
   useBase64Image,
   useTokenChance,
 } from '../../hooks';
-import { AccountNotFoundError } from '../../errors';
 
 import { MarketForm, MarketProperties } from './market.types';
 import { EMPTY_MARKET_FORM } from './market.constants';
@@ -175,16 +174,7 @@ export const Market = ({
     });
   };
 
-  const isBuyingPending =
-    postOrder.isPending || requestAuth.isPending;
-
-  const isPolymarketAccountNotFoundError =
-    Boolean(funderQuery.error) &&
-    funderQuery.error instanceof AccountNotFoundError;
-
-  const isOtherPolymarketAccountError =
-    Boolean(funderQuery.error) &&
-    !(funderQuery.error instanceof AccountNotFoundError);
+  const isBuyingPending = postOrder.isPending || requestAuth.isPending;
 
   return (
     <WidgetBase
@@ -289,7 +279,12 @@ export const Market = ({
                 wallet.chainId === CHAIN.POLYGON.id ? (
                   <ActionButton
                     type="submit"
-                    loading={isBuyingPending || switchChain.isPending}
+                    loading={
+                      isBuyingPending ||
+                      switchChain.isPending ||
+                      funderQuery.isPending
+                    }
+                    disabled={funderQuery.isError}
                   >
                     Buy
                   </ActionButton>
@@ -331,12 +326,10 @@ export const Market = ({
               ${potentialReturn} ({potentialReturnPercentage}%)
             </span>
           </div>
-          {isPolymarketAccountNotFoundError ? (
+          {funderQuery.error ? (
             <AccountNotFoundMessage onSwitchWallet={requestProvider} />
           ) : null}
-          {(isOtherPolymarketAccountError || switchChain.error) ??
-          requestAuth.error ??
-          postOrder.error ? (
+          {switchChain.error ?? requestAuth.error ?? postOrder.error ? (
             <SomethingWentWrongMessage
               onRetry={() => {
                 return formReference.current?.requestSubmit();

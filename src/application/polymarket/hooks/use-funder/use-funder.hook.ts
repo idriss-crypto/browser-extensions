@@ -3,13 +3,13 @@ import { BigNumber, ethers } from 'ethers';
 
 import { CHAIN, createEthersProvider, useWallet } from 'shared/web3';
 
-import { GetPolymarketSafeCommand } from '../../commands';
+import { GetFunderAddresCommand } from '../../commands';
 import { AccountNotFoundError } from '../../errors';
 
 import { ERC_20_ABI, SAFE_USDC_ADDRES } from './use-funder.constants';
 
 const getFunderAddress = async (address: string) => {
-  const command = new GetPolymarketSafeCommand({ address });
+  const command = new GetFunderAddresCommand({ address });
   return command.send<string | undefined>();
 };
 
@@ -20,7 +20,7 @@ export const useFunder = () => {
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: ['funderAddress', wallet?.account, wallet?.chainId],
     enabled: Boolean(wallet) && wallet?.chainId === CHAIN.POLYGON.id,
-    retry: 3,
+    retry: 2,
     queryFn: async () => {
       if (!wallet) {
         throw new Error('Expected wallet to be connected');

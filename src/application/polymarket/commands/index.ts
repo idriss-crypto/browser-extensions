@@ -6,7 +6,7 @@ import {
 import {
   GetConditionIdCommand,
   GetConditionIdHandler,
-} from './get-condition-id.ts';
+} from './get-condition-id';
 import {
   GetImageAsBase64Command,
   GetImageAsBase64Handler,
@@ -16,9 +16,9 @@ import {
   GetMarketsByConditionIdHandler,
 } from './get-market-by-condition-id';
 import {
-  GetPolymarketSafeCommand,
-  GetPolymarketSafeHandler,
-} from './get-polymarket-safe';
+  GetFunderAddresCommand,
+  GetFunderAddressHandler,
+} from './get-funder-address';
 import {
   GetTokenChanceCommand,
   GetTokenChanceHandler,
@@ -39,7 +39,7 @@ export const POLYMARKET_COMMAND_TO_HANDLER_MAP = {
   [GetTokenChanceCommand.name]: new GetTokenChanceHandler(),
   [GetTokensPricesCommand.name]: new GetTokensPricesHandler(),
   [GetImageAsBase64Command.name]: new GetImageAsBase64Handler(),
-  [GetPolymarketSafeCommand.name]: new GetPolymarketSafeHandler(),
+  [GetFunderAddresCommand.name]: new GetFunderAddressHandler(),
   [GetConditionIdCommand.name]: new GetConditionIdHandler(),
   [GetMarketByConditionIdCommand.name]: new GetMarketsByConditionIdHandler(),
   [GetTokensBooksCommand.name]: new GetTokensBooksHandler(),
@@ -48,12 +48,12 @@ export const POLYMARKET_COMMAND_TO_HANDLER_MAP = {
 
 export { PostOrderCommand } from './post-order';
 export { GetMarketsByConditionIdHandler } from './get-market-by-condition-id';
-export { GetPolymarketSafeCommand } from './get-polymarket-safe';
+export { GetFunderAddresCommand } from './get-funder-address';
 export { GetMarketByConditionIdCommand } from './get-market-by-condition-id';
 export { GetTokensPricesCommand } from './get-tokens-prices';
 export { GetApiKeyCommand } from './get-api-key';
 export { GetImageAsBase64Command } from './get-image-as-base64';
 export { GetTokenChanceCommand } from './get-token-chance';
-export { GetConditionIdCommand } from './get-condition-id.ts';
+export { GetConditionIdCommand } from './get-condition-id';
 export { GetTokensBooksCommand } from './get-tokens-books';
 export { GetAvailabilityCommand } from './get-availability';

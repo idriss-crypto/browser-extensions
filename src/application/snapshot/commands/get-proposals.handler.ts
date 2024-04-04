@@ -5,13 +5,13 @@ import {
   HandlerError,
   OkResult,
 } from 'shared/messaging';
+import { sendHandlerExceptionEvent } from 'shared/monitoring';
 
 import { generateGetProposalsQuery } from '../utils';
 import { SNAPSHOT_GRAPHQL_API_URL } from '../constants';
 import { getProposalsResponseSchema } from '../schema';
 
 import { GetProposalsCommand } from './get-proposals.command';
-import { sendHandlerExceptionEvent } from 'shared/monitoring';
 
 export class GetProposalsHandler implements Handler {
   async handle(command: GetProposalsCommand) {

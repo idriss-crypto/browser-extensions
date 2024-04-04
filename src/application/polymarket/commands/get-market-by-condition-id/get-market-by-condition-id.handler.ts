@@ -4,12 +4,12 @@ import {
   HandlerError,
   OkResult,
 } from 'shared/messaging';
+import { sendHandlerExceptionEvent } from 'shared/monitoring';
 
 import { POLYMARKET_CLOB_API } from '../../polymarket.constants';
 import { MarketData } from '../../polymarket.types';
 
 import { GetMarketByConditionIdCommand } from './get-market-by-condition-id.command';
-import { sendHandlerExceptionEvent } from 'shared/monitoring';
 
 export class GetMarketsByConditionIdHandler implements Handler {
   async handle(command: GetMarketByConditionIdCommand) {

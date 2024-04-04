@@ -17,7 +17,7 @@ export class GetAvailabilityHandler implements Handler {
         return new OkResult(false);
       }
       return new OkResult(true);
-    } catch (error) {
+    } catch {
       await sendHandlerMonitoringEvent({ name: 'polymarket-unavailable' });
       return new OkResult(false);
     }

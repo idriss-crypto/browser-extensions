@@ -6,10 +6,10 @@ import {
 } from 'shared/messaging';
 import { sendHandlerExceptionEvent } from 'shared/monitoring';
 
-import { GetPolymarketSafeCommand } from './get-polymarket-safe.command';
+import { GetFunderAddresCommand } from './get-funder-address.command';
 
-export class GetPolymarketSafeHandler implements Handler {
-  async handle(command: GetPolymarketSafeCommand) {
+export class GetFunderAddressHandler implements Handler {
+  async handle(command: GetFunderAddresCommand) {
     try {
       const response = await fetch(
         `https://safe-transaction-polygon.safe.global/api/v1/owners/${command.details.address}/safes/`,
