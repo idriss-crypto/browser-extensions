@@ -19,7 +19,7 @@ export const useSafeWallet = () => {
   const { wallet } = useWallet();
 
   const usdcContract = useMemo(() => {
-    if (!wallet?.provider) {
+    if (!wallet?.provider || wallet.chainId !== CHAIN.POLYGON.id) {
       return;
     }
     const ethersProvider = createEthersProvider(wallet.provider);
@@ -31,7 +31,7 @@ export const useSafeWallet = () => {
     );
 
     return safeUsdcContract;
-  }, [wallet?.provider]);
+  }, [wallet?.chainId, wallet?.provider]);
 
   return useQuery({
     retry: 3,

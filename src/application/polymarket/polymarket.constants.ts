@@ -24,7 +24,7 @@ export const ERC_20_ABI = [
   'function balanceOf(address) view returns (uint)',
   'function transfer(address to, uint amount)',
   'event Transfer(address indexed from, address indexed to, uint amount)',
-];
+] as const;
 
 export const EMPTY_MARKET_FORM = {
   amount: 0,

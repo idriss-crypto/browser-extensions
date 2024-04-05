@@ -18,7 +18,7 @@ export const useIsUsdcAllowed = () => {
   const safeWalletAddress = safeWalletQuery.data?.address;
 
   const usdcContract = useMemo(() => {
-    if (!wallet?.provider) {
+    if (!wallet?.provider || wallet.chainId !== CHAIN.POLYGON.id) {
       return;
     }
     const ethersProvider = createEthersProvider(wallet.provider);
@@ -30,7 +30,7 @@ export const useIsUsdcAllowed = () => {
     );
 
     return safeUsdcContract;
-  }, [wallet?.provider]);
+  }, [wallet?.provider, wallet?.chainId]);
 
   return useQuery({
     queryKey: [
