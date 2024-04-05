@@ -2,14 +2,14 @@ import { ErrorMessage } from 'shared/ui/components';
 
 import { POLYMARKET_WEBSITE } from '../../polymarket.constants';
 
-import { AccountNotFoundMessageProperties } from './account-not-found-message.types';
+import { UsdcNotAllowedMessageProperties } from './usdc-not-allowed-message.types';
 
-export const AccountNotFoundMessage = ({
+export const UsdcNotAllowedMessage = ({
   onSwitchWallet,
-}: AccountNotFoundMessageProperties) => {
+}: UsdcNotAllowedMessageProperties) => {
   return (
     <ErrorMessage className="mt-4">
-      Account not found. Create{' '}
+      Please enable USDC at{' '}
       <a
         href={POLYMARKET_WEBSITE}
         target="_blank"
@@ -17,8 +17,7 @@ export const AccountNotFoundMessage = ({
         className="font-semibold underline"
       >
         Polymarket
-      </a>{' '}
-      account and enable trading or{' '}
+      </a>{' '}or{' '}
       <span
         className="cursor-pointer font-semibold underline"
         onClick={onSwitchWallet}

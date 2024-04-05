@@ -1111,6 +1111,10 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(146 165 181 / var(--tw-bg-opacity));
 }
+.disabled\:bg-\[\#27AE60\]:disabled {
+  --tw-bg-opacity: 1;
+  background-color: rgb(39 174 96 / var(--tw-bg-opacity));
+}
 .disabled\:bg-gray-500:disabled {
   --tw-bg-opacity: 1;
   background-color: rgb(107 114 128 / var(--tw-bg-opacity));
@@ -1122,6 +1126,10 @@ video {
 .disabled\:text-gray-200:disabled {
   --tw-text-opacity: 1;
   color: rgb(229 231 235 / var(--tw-text-opacity));
+}
+.disabled\:text-white:disabled {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 .disabled\:text-zinc-300:disabled {
   --tw-text-opacity: 1;

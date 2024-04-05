@@ -12,6 +12,7 @@ const getBase64Image = async (url: string) => {
 export const useBase64Image = ({ url }: UseBase64ImageArguments) => {
   return useQuery({
     queryKey: ['getBase64Image', url],
+    enabled: url.length > 0,
     queryFn: () => {
       // sometimes polymarket stores images as base64 already
       if (url.startsWith('data:image')) {

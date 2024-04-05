@@ -3,9 +3,6 @@ import { JsonRpcSigner } from '@ethersproject/providers';
 
 import { L2Headers } from '../../polymarket.types';
 
-export interface UsePostOrderProperties {
-  conditionId: string;
-}
 
 export interface PostOrderProperties {
   orderPayload: NewOrder<OrderType.FOK>;

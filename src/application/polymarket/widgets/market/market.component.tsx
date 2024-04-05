@@ -1,15 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TickSize } from '@polymarket/clob-client';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { EIP1193Provider } from 'mipd';
 
-import {
-  CHAIN,
-  createEthersProvider,
-  useSwitchChain,
-  useWallet,
-} from 'shared/web3';
+import { CHAIN } from 'shared/web3';
 import {
   Chip,
   WidgetBase,
@@ -29,14 +23,9 @@ import {
   SomethingWentWrongMessage,
   SuccessButton,
   VoteButton,
+  UsdcNotAllowedMessage,
 } from '../../components';
-import {
-  useFunder,
-  useRequestAuth,
-  usePostOrder,
-  useBase64Image,
-  useTokenChance,
-} from '../../hooks';
+import { useOrderPlacer, useUser } from '../../hooks';
 
 import { MarketForm, MarketProperties } from './market.types';
 import { EMPTY_MARKET_FORM } from './market.constants';
@@ -48,22 +37,12 @@ export const Market = ({
   defaultValues,
   tokens,
   isAvailable,
+  imageUrl,
+  chance,
   onRefresh,
 }: MarketProperties) => {
-  const { wallet, openConnectionModal } = useWallet();
-  const funderQuery = useFunder();
-  const imageQuery = useBase64Image({ url: data.image });
-  const tokenChanceQuery = useTokenChance({
-    tokenId: defaultValues?.selectedTokenId ?? '',
-  });
-
-  const balanceInDollars = useMemo(() => {
-    if (!funderQuery.data) {
-      return;
-    }
-
-    return Number(funderQuery.data.balance / 1_000_000);
-  }, [funderQuery.data]);
+  const user = useUser();
+  const orderPlacer = useOrderPlacer();
 
   const { control, watch, handleSubmit } = useForm<MarketForm>({
     defaultValues: {
@@ -71,7 +50,7 @@ export const Market = ({
       selectedTokenId:
         defaultValues?.selectedTokenId ?? EMPTY_MARKET_FORM.selectedTokenId,
     },
-    resolver: zodResolver(marketFormSchema(balanceInDollars)),
+    resolver: zodResolver(marketFormSchema(user.safeWalletDetails.balance)),
     mode: 'onChange',
   });
 
@@ -108,73 +87,29 @@ export const Market = ({
 
   const formReference = useRef<HTMLFormElement | null>(null);
 
-  const requestAuth = useRequestAuth();
-  const postOrder = usePostOrder({ conditionId: data.condition_id });
-  const switchChain = useSwitchChain();
-
-  const switchToPolygon = useCallback(
-    (provider: EIP1193Provider) => {
-      return switchChain.mutateAsync({
-        walletProvider: provider,
-        chainId: CHAIN.POLYGON.id,
-      });
-    },
-    [switchChain],
-  );
-
-  const resetMutations = useCallback(() => {
-    switchChain.reset();
-    requestAuth.reset();
-    postOrder.reset();
-  }, [postOrder, requestAuth, switchChain]);
-
   useEffect(() => {
-    if (postOrder.isSuccess) {
-      setTimeout(resetMutations, 2000);
+    if (orderPlacer.isPlaced) {
+      setTimeout(orderPlacer.reset, 2000);
     }
-  }, [postOrder.isSuccess, resetMutations]);
-
-  const requestProvider = async () => {
-    resetMutations();
-    const wallet = await openConnectionModal();
-    await switchToPolygon(wallet.provider);
-  };
+  }, [orderPlacer.isPlaced, orderPlacer.reset]);
 
   const submit: SubmitHandler<MarketForm> = async (formValues) => {
-    if (!wallet || !funderQuery.data || !selectedToken) {
+    if (!user.wallet) {
       return;
     }
-    resetMutations();
 
-    void sendMonitoringEvent(
-      new BuyClickedEvent({
-        conditionId: data.condition_id,
-        tokenId: formValues.selectedTokenId,
+    await orderPlacer.place({
+      wallet: user.wallet,
+      funderAddress: user.safeWalletDetails.address,
+      orderDetails: {
+        minimumTickSize: data.minimum_tick_size as TickSize,
+        negRisk: data.neg_risk,
         amount: formValues.amount,
-        funderAddress: funderQuery.data.address,
-      }),
-    );
-
-    const ethersProvider = createEthersProvider(wallet.provider);
-    const signer = ethersProvider.getSigner(wallet.account);
-    const credentials = await requestAuth.mutateAsync(signer);
-
-    postOrder.mutate({
-      funderAddress: funderQuery.data.address,
-      tickSize: data.minimum_tick_size as TickSize,
-      negRisk: data.neg_risk,
-      tokenID: formValues.selectedTokenId,
-      amount: formValues.amount,
-      credentials: {
-        passphrase: credentials.passphrase,
-        secret: credentials.secret,
-        key: credentials.apiKey,
+        tokenId: formValues.selectedTokenId,
       },
-      signer,
     });
+    user.orderPlacedFor(formValues.amount);
   };
-
-  const isBuyingPending = postOrder.isPending || requestAuth.isPending;
 
   return (
     <WidgetBase
@@ -184,8 +119,8 @@ export const Market = ({
       <form ref={formReference} onSubmit={handleSubmit(submit)}>
         <div>
           <div className="flex items-center justify-between space-x-2">
-            {imageQuery.data ? (
-              <img src={imageQuery.data} className="w-10 rounded" alt="" />
+            {imageUrl ? (
+              <img src={imageUrl} className="w-10 rounded" alt="" />
             ) : null}
             <div
               className="line-clamp-2 text-base font-semibold"
@@ -193,9 +128,7 @@ export const Market = ({
             >
               {data.question}
             </div>
-            {tokenChanceQuery.data ? (
-              <Progress value={tokenChanceQuery.data} />
-            ) : null}
+            <Progress value={chance} />
           </div>
           <div className="mb-1.5 mt-8 flex items-center justify-between">
             <InputBase.Label label="Outcome" />
@@ -203,9 +136,6 @@ export const Market = ({
               className="border border-[#2c3f4f] bg-transparent"
               iconProps={{ name: 'SymbolIcon', size: 16 }}
               onClick={() => {
-                if (wallet) {
-                  void funderQuery.refetch();
-                }
                 onRefresh();
               }}
             />
@@ -227,7 +157,7 @@ export const Market = ({
                           onClick={() => {
                             field.onChange(token.token_id);
                           }}
-                          disabled={isBuyingPending}
+                          disabled={orderPlacer.isPlacing}
                         >
                           {token.outcome}
                         </VoteButton>
@@ -253,11 +183,10 @@ export const Market = ({
                         return (
                           <div className="mb-1.5 flex items-center justify-between">
                             <InputBase.Label label="Amount" />
-                            {typeof balanceInDollars === 'number' ? (
-                              <Chip className="bg-[#2C3F4F]">
-                                Balance ${balanceInDollars.toFixed(2)}
-                              </Chip>
-                            ) : null}
+                            <Chip className="bg-[#2C3F4F]">
+                              Balance $
+                              {user.safeWalletDetails.balance.toFixed(2)}
+                            </Chip>
                           </div>
                         );
                       },
@@ -273,18 +202,23 @@ export const Market = ({
           {/* TODO: this could be nicer */}
           <div className="mt-4">
             {isAvailable ? (
-              postOrder.isSuccess ? (
+              orderPlacer.isPlaced ? (
                 <SuccessButton />
-              ) : wallet ? (
-                wallet.chainId === CHAIN.POLYGON.id ? (
+              ) : user.wallet ? (
+                user.wallet.chainId === CHAIN.POLYGON.id ? (
                   <ActionButton
                     type="submit"
-                    loading={
-                      isBuyingPending ||
-                      switchChain.isPending ||
-                      funderQuery.isPending
-                    }
-                    disabled={funderQuery.isError}
+                    loading={orderPlacer.isPlacing || user.isSigning}
+                    disabled={user.isSigningError}
+                    onClick={() => {
+                      void sendMonitoringEvent(
+                        new BuyClickedEvent({
+                          conditionId: data.condition_id,
+                          tokenId: selectedTokenId,
+                          amount: amount,
+                        }),
+                      );
+                    }}
                   >
                     Buy
                   </ActionButton>
@@ -292,16 +226,16 @@ export const Market = ({
                   <ActionButton
                     type="button"
                     onClick={() => {
-                      void switchToPolygon(wallet.provider);
+                      void user.signIn();
                     }}
-                    loading={switchChain.isPending}
+                    loading={user.isSigning}
                   >
                     Switch to Polygon
                   </ActionButton>
                 )
               ) : (
                 <ActionButton
-                  loading={funderQuery.isLoading}
+                  loading={user.isSigning}
                   onClick={() => {
                     void sendMonitoringEvent(
                       new LoginClickedEvent({
@@ -310,7 +244,7 @@ export const Market = ({
                       }),
                     );
 
-                    void requestProvider();
+                    void user.signIn();
                   }}
                 >
                   Connect wallet
@@ -326,17 +260,25 @@ export const Market = ({
               ${potentialReturn} ({potentialReturnPercentage}%)
             </span>
           </div>
-          {funderQuery.error ? (
-            <AccountNotFoundMessage onSwitchWallet={requestProvider} />
-          ) : null}
-          {switchChain.error ?? requestAuth.error ?? postOrder.error ? (
-            <SomethingWentWrongMessage
-              onRetry={() => {
-                return formReference.current?.requestSubmit();
-              }}
-              onSwitchWallet={requestProvider}
-            />
-          ) : null}
+          {user.isSigning || !user.wallet ? null : (
+            <>
+              {user.hasPolymarketAccount ? (
+                user.hasUsdcAllowed ? null : (
+                  <UsdcNotAllowedMessage onSwitchWallet={user.signIn} />
+                )
+              ) : (
+                <AccountNotFoundMessage onSwitchWallet={user.signIn} />
+              )}
+              {user.isSigningError ?? orderPlacer.isError ? (
+                <SomethingWentWrongMessage
+                  onRetry={() => {
+                    return formReference.current?.requestSubmit();
+                  }}
+                  onSwitchWallet={user.signIn}
+                />
+              ) : null}
+            </>
+          )}
         </div>
       </form>
     </WidgetBase>

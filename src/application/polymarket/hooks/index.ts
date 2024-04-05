@@ -1,10 +1,11 @@
 export { useMarketByConditionId } from './use-market-by-condition-id';
-export { useFunder } from './use-funder';
-export { useRequestAuth } from './use-request-auth';
 export { useAvailability } from './use-availability';
-export { usePostOrder } from './use-post-order';
 export { useTokensPrices } from './use-tokens-prices';
 export { useBase64Image } from './use-base-64-image';
 export { useTwitterMarkets } from './use-twitter-markets';
-export { useTokenChance } from './use-token-chance';
+export { useChance } from './use-chance';
 export { useTokensBooks } from './use-tokens-books';
+
+export { useOrderPlacer } from './use-order-placer';
+export { useUser } from './use-user';
+export { useUsdcAllowanceChecker } from './use-usdc-allowance-checker';

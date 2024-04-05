@@ -4,6 +4,8 @@ import {
   useTokensBooks,
   useMarketByConditionId,
   useTokensPrices,
+  useBase64Image,
+  useChance,
 } from '../../hooks';
 import { EnhancedToken } from '../../polymarket.types';
 
@@ -15,6 +17,8 @@ export const MarketContainer = memo(
     const marketQuery = useMarketByConditionId({
       conditionId,
     });
+
+    const imageQuery = useBase64Image({ url: marketQuery.data?.image ?? '' });
 
     const tokensIds = useMemo(() => {
       if (!marketQuery.data) {
@@ -56,16 +60,24 @@ export const MarketContainer = memo(
         .filter(Boolean);
     }, [marketQuery.data, tokensBooksQuery.data, tokensPricesQuery.data]);
 
+    const chanceQuery = useChance({
+      tokenId: tokens[0]?.token_id ?? '',
+    });
+
     const refresh = useCallback(async () => {
       await marketQuery.refetch();
       await tokensPricesQuery.refetch();
-    }, [marketQuery, tokensPricesQuery]);
+      await chanceQuery.refetch();
+    }, [chanceQuery, marketQuery, tokensPricesQuery]);
 
-    if (!marketQuery.data || !tokensPricesQuery.data || tokens.length === 0) {
-      return null;
-    }
-
-    if (marketQuery.data.closed) {
+    if (
+      !marketQuery.data ||
+      !tokensPricesQuery.data ||
+      tokens.length === 0 ||
+      !imageQuery.data ||
+      !chanceQuery.data ||
+      marketQuery.data.closed
+    ) {
       return null;
     }
 
@@ -73,6 +85,8 @@ export const MarketContainer = memo(
       <Market
         top={top}
         data={marketQuery.data}
+        chance={chanceQuery.data}
+        imageUrl={imageQuery.data}
         tokens={tokens}
         isAvailable={isAvailable}
         onRefresh={refresh}

@@ -2,16 +2,16 @@ import { useQuery } from '@tanstack/react-query';
 
 import { GetTokenChanceCommand } from '../../commands';
 
-import { UseTokenChanceArguments } from './use-token-chance.types';
+import { UseTokenChanceArguments } from './use-chance.types';
 
 const getTokenChance = async (tokenId: string) => {
   const command = new GetTokenChanceCommand({ tokenId });
   return command.send<number>();
 };
 
-export const useTokenChance = ({ tokenId }: UseTokenChanceArguments) => {
+export const useChance = ({ tokenId }: UseTokenChanceArguments) => {
   return useQuery({
-    queryKey: ['getTokenChance', tokenId],
+    queryKey: ['getChance', tokenId],
     queryFn: () => {
       return getTokenChance(tokenId);
     },

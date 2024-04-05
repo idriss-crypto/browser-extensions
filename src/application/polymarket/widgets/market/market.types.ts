@@ -13,6 +13,8 @@ export interface MarketProperties {
   onRefresh: () => void;
   top: number;
   isAvailable: boolean;
+  imageUrl: string;
+  chance: number;
 }
 
 export interface MarketContainerProperties {
