@@ -26,7 +26,7 @@ export const Modal = ({
         <div className="mt-4">{children}</div>
         <IconButton
           onClick={onClose}
-          className="absolute right-2 top-2 flex cursor-pointer items-center justify-center bg-transparent"
+          className="absolute right-2 top-2 flex cursor-pointer items-center justify-center bg-transparent hover:enabled:bg-[#53535a]"
           iconProps={{
             name: 'Cross2Icon',
             size: 16,
