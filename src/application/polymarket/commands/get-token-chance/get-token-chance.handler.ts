@@ -33,7 +33,7 @@ export class GetTokenChanceHandler implements Handler {
       }
       // TODO: validate response
       const json = (await response.json()) as { mid: string };
-      return new OkResult(Math.round(Number(json.mid) * 100) / 100);
+      return new OkResult(Number(Math.round(Number(json.mid) * 100) / 100).toFixed(2));
     } catch (error) {
       await sendHandlerExceptionEvent(command);
       if (error instanceof HandlerError) {

@@ -46,9 +46,7 @@ export class GetConditionIdHandler implements Handler {
       const urlMatch = twitterUrlShortenerResponseText.match(eventUrlRegex);
       const url = urlMatch?.[0];
       if (!url) {
-        throw new HandlerError(
-          'Document does not contain polymarket event website',
-        );
+        return new FailureResult();
       }
       const polymarketResponse = await fetch(
         `https://www.idriss.xyz/fetch-data?url=${url}`,

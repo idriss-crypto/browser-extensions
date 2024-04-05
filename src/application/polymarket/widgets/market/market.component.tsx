@@ -266,7 +266,9 @@ export const Market = ({
               ${potentialReturn} ({potentialReturnPercentage}%)
             </span>
           </div>
-          {user.isSigning || !user.wallet || user.wallet.chainId !== CHAIN.POLYGON.id ? null : (
+          {user.isSigning ||
+          !user.wallet ||
+          user.wallet.chainId !== CHAIN.POLYGON.id ? null : (
             <>
               {user.hasPolymarketAccount ? (
                 user.hasUsdcAllowed ? null : (

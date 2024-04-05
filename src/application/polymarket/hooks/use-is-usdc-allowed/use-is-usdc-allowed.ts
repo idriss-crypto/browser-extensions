@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 
 import { CHAIN, createEthersProvider, useWallet } from 'shared/web3';
 
@@ -28,7 +28,11 @@ export const useIsUsdcAllowed = () => {
       wallet.chainId === CHAIN.POLYGON.id &&
       safeWalletQuery.isSuccess,
     queryFn: async () => {
-      if (!wallet || wallet.chainId !== CHAIN.POLYGON.id || !safeWalletAddress) {
+      if (
+        !wallet ||
+        wallet.chainId !== CHAIN.POLYGON.id ||
+        !safeWalletAddress
+      ) {
         return;
       }
       const ethersProvider = createEthersProvider(wallet.provider);
@@ -39,14 +43,14 @@ export const useIsUsdcAllowed = () => {
         ethersProvider,
       );
 
-      const allowance =
+      const allowance: BigNumber =
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         await usdcContract.allowance(
           safeWalletAddress,
           POLYMARKET_CONDITIONAL_TOKENS_CONTRACT_ADDRESS,
         );
 
-      return allowance > 0;
+      return allowance.gt(BigNumber.from(0));
     },
   });
 };

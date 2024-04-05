@@ -28,24 +28,34 @@ export const useSwitchChain = () => {
           throw new Error('Chain is not configured');
         }
 
-        // TODO: call this only if user is not having chain, currently the side effect of calling this is that when user declines it, it will be called twice ( 1st time add, 2nd time switch)
-        // TODO: possibly need to check for 4902 error
-        // await walletProvider.request({
-        //   method: 'wallet_addEthereumChain',
-        //   params: [
-        //     {
-        //       chainId: numberToHexString(chainId),
-        //       chainName: foundChain.name,
-        //       nativeCurrency: foundChain.nativeCurrency,
-        //       rpcUrls: foundChain.rpcUrls,
-        //       blockExplorerUrls: foundChain.blockExplorerUrls,
-        //     },
-        //   ],
-        // });
-        await walletProvider.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: numberToHexString(chainId) }],
-        });
+        try {
+          await walletProvider.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: numberToHexString(chainId) }],
+          });
+        } catch (error) {
+          if (
+            typeof error === 'object' &&
+            error !== null &&
+            'code' in error &&
+            error.code === 4902
+          ) {
+            await walletProvider.request({
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: numberToHexString(chainId),
+                  chainName: foundChain.name,
+                  nativeCurrency: foundChain.nativeCurrency,
+                  rpcUrls: foundChain.rpcUrls,
+                  blockExplorerUrls: foundChain.blockExplorerUrls,
+                },
+              ],
+            });
+          } else {
+            throw error;
+          }
+        }
       }
     },
   });
