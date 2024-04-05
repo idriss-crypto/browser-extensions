@@ -32,3 +32,18 @@ export const marketsQueryStateSchema = z.object({
     ),
   }),
 });
+
+export const marketFormSchema = (max?: number) => {
+  const amountSchema =
+    max === undefined
+      ? z.number().positive('Amount must be greater than 0')
+      : z
+          .number()
+          .positive('Amount must be greater than 0')
+          .lte(max, "You don't have enough balance");
+
+  return z.object({
+    selectedTokenId: z.string(),
+    amount: amountSchema,
+  });
+};

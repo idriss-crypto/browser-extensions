@@ -1,10 +1,4 @@
-import { z } from 'zod';
-
-import { EnhancedToken, MarketData } from '../../polymarket.types';
-
-import { marketFormSchema } from './market.schema';
-
-export type MarketForm = z.infer<ReturnType<typeof marketFormSchema>>;
+import { EnhancedToken, MarketData, MarketForm } from '../../polymarket.types';
 
 export interface MarketProperties {
   data: MarketData;

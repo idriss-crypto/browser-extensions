@@ -3,10 +3,11 @@ import { OrderBuilder, OrderType } from '@polymarket/clob-client';
 import { orderToJson } from '@polymarket/clob-client/dist/utilities';
 import { createL2Headers } from '@polymarket/clob-client/dist/headers';
 
-import { CHAIN, useWallet } from 'shared/web3';
+import { CHAIN, Hex, useWallet } from 'shared/web3';
 
 import { PostOrderCommand } from '../../commands';
 import { POLYMARKET_GNOSIS_SAFE_SIGNATURE } from '../../polymarket.constants';
+import { getSafeWalletQueryKey } from '../use-safe-wallet/use-safe-wallet';
 
 import {
   PostOrderMutationProperties,
@@ -25,15 +26,15 @@ export const usePostOrder = () => {
   return useMutation({
     onSuccess: (_, { amount }) => {
       if (wallet?.account) {
-        queryClient.setQueryData<{ address: string; balance: number }>(
-          ['funderAddress', wallet.account, wallet.chainId],
+        queryClient.setQueryData<{ address: Hex; balance: number }>(
+          getSafeWalletQueryKey(wallet),
           (currentData) => {
             if (!currentData) {
               return;
             }
             return {
               ...currentData,
-              balance: currentData.balance - amount * 1_000_000,
+              balance: currentData.balance - amount,
             };
           },
         );

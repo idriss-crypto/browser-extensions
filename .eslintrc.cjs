@@ -142,6 +142,7 @@ module.exports = {
     'unicorn/prefer-top-level-await': 'off',
     'react/jsx-curly-brace-presence': ['warn', 'never'],
     'react/jsx-no-bind': ['error', { allowArrowFunctions: true }],
+    '@tanstack/query/exhaustive-deps': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off', // TODO: enable and fix issuess
     '@typescript-eslint/no-unsafe-argument': 'off', // TODO: enable and fix issuess
     '@typescript-eslint/no-unsafe-assignment': 'off', // TODO: enable and fix issuess

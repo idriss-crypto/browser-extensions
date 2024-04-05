@@ -13,6 +13,7 @@
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "strict": true,
+    "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,

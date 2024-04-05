@@ -154,28 +154,27 @@ export const WalletConnectModal = createModal(() => {
                 <span>Browser wallet</span>
               </button>
             ) : null}
-              <div>
-
-            <div className="mb-2 mt-4 flex items-center space-x-2">
-              <Checkbox
-                value={termsOfUseAccepted}
-                onChange={setTermsOfUseAccepted}
-              />
-              <p className="text-sm">
-                I agree to{' '}
-                <a
-                  href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-[#2D9CDB]"
-                >
-                  Terms of Use
-                </a>
-              </p>
-            </div>
+            <div>
+              <div className="mb-2 mt-4 flex items-center space-x-2">
+                <Checkbox
+                  value={termsOfUseAccepted}
+                  onChange={setTermsOfUseAccepted}
+                />
+                <p className="text-sm">
+                  I agree to{' '}
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-[#2D9CDB]"
+                  >
+                    Terms of Use
+                  </a>
+                </p>
               </div>
+            </div>
             <Button
-              className="bg-[#2D9CDB]"
+              className="rounded bg-[#2D9CDB] font-medium"
               onClick={() => {
                 const providerToConnect =
                   chosenProviderRdns === 'browser'

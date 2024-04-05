@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { getApiKeyResponseSchema } from './polymarket.schema';
+import { getApiKeyResponseSchema, marketFormSchema } from './polymarket.schema';
 import { OUTCOME } from './polymarket.constants';
 
 export interface L1Headers {
@@ -67,3 +67,5 @@ export interface EnhancedToken extends Token {
   price: number;
   book: Book;
 }
+
+export type MarketForm = z.infer<ReturnType<typeof marketFormSchema>>;

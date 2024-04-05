@@ -5,18 +5,12 @@ import { createEthersProvider } from 'shared/web3';
 import { useRequestAuth } from '../use-request-auth';
 import { usePostOrder } from '../use-post-order';
 
-import { PlaceOrderArguments } from './use-order.types';
+import {
+  PlaceOrderParameters,
+  UseOrderPlacerParameters,
+} from './use-order.types';
 
-// void sendMonitoringEvent(
-//   new OrderSucceededEvent({
-//     conditionId,
-//     tokenId: tokenID,
-//     amount,
-//     funderAddress,
-//   }),
-// );
-
-export const useOrderPlacer = () => {
+export const useOrderPlacer = ({ onSuccess }: UseOrderPlacerParameters) => {
   const requestAuth = useRequestAuth();
   const postOrder = usePostOrder();
 
@@ -25,26 +19,33 @@ export const useOrderPlacer = () => {
   const isError = requestAuth.isError || postOrder.isError;
 
   const place = useCallback(
-    async ({ wallet, orderDetails, funderAddress }: PlaceOrderArguments) => {
-      const ethersProvider = createEthersProvider(wallet.provider);
-      const signer = ethersProvider.getSigner(wallet.account);
+    async (parameters: PlaceOrderParameters) => {
+      const ethersProvider = createEthersProvider(parameters.wallet.provider);
+      const signer = ethersProvider.getSigner(parameters.wallet.account);
       const credentials = await requestAuth.mutateAsync(signer);
 
-      await postOrder.mutateAsync({
-        funderAddress,
-        tickSize: orderDetails.minimumTickSize,
-        negRisk: orderDetails.negRisk,
-        tokenID: orderDetails.tokenId,
-        amount: orderDetails.amount,
-        credentials: {
-          passphrase: credentials.passphrase,
-          secret: credentials.secret,
-          key: credentials.apiKey,
+      await postOrder.mutateAsync(
+        {
+          funderAddress: parameters.funderAddress,
+          tickSize: parameters.orderDetails.minimumTickSize,
+          negRisk: parameters.orderDetails.negRisk,
+          tokenID: parameters.orderDetails.tokenId,
+          amount: parameters.orderDetails.amount,
+          credentials: {
+            passphrase: credentials.passphrase,
+            secret: credentials.secret,
+            key: credentials.apiKey,
+          },
+          signer,
         },
-        signer,
-      });
+        {
+          onSuccess: () => {
+            return onSuccess?.(parameters);
+          },
+        },
+      );
     },
-    [postOrder, requestAuth],
+    [postOrder, requestAuth, onSuccess],
   );
 
   const reset = useCallback(() => {

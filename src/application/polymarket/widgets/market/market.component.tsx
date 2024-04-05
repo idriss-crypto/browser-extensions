@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { TickSize } from '@polymarket/clob-client';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler } from 'react-hook-form';
 
 import { CHAIN } from 'shared/web3';
 import {
@@ -13,7 +12,13 @@ import {
 } from 'shared/ui/components';
 import { sendMonitoringEvent } from 'shared/monitoring';
 
-import { BuyClickedEvent, LoginClickedEvent } from '../../monitoring';
+import { MarketForm } from '../../polymarket.types';
+import { useMarketForm, useOrderPlacer, useUser } from '../../hooks';
+import {
+  BuyClickedEvent,
+  LoginClickedEvent,
+  OrderSucceededEvent,
+} from '../../monitoring';
 import { calculateTotalSharesForAmount } from '../../polymarket.library';
 import {
   UnavailableButton,
@@ -25,11 +30,8 @@ import {
   VoteButton,
   UsdcNotAllowedMessage,
 } from '../../components';
-import { useOrderPlacer, useUser } from '../../hooks';
 
-import { MarketForm, MarketProperties } from './market.types';
-import { EMPTY_MARKET_FORM } from './market.constants';
-import { marketFormSchema } from './market.schema';
+import { MarketProperties } from './market.types';
 
 export const Market = ({
   top,
@@ -42,19 +44,23 @@ export const Market = ({
   onRefresh,
 }: MarketProperties) => {
   const user = useUser();
-  const orderPlacer = useOrderPlacer();
-
-  const { control, watch, handleSubmit } = useForm<MarketForm>({
-    defaultValues: {
-      amount: defaultValues?.amount ?? EMPTY_MARKET_FORM.amount,
-      selectedTokenId:
-        defaultValues?.selectedTokenId ?? EMPTY_MARKET_FORM.selectedTokenId,
+  const orderPlacer = useOrderPlacer({
+    onSuccess: (parameters) => {
+      void sendMonitoringEvent(
+        new OrderSucceededEvent({
+          conditionId: data.condition_id,
+          tokenId: parameters.orderDetails.tokenId,
+          amount: parameters.orderDetails.amount,
+          funderAddress: parameters.funderAddress,
+        }),
+      );
     },
-    resolver: zodResolver(marketFormSchema(user.safeWalletDetails.balance)),
-    mode: 'onChange',
   });
 
-  const [selectedTokenId, amount] = watch(['selectedTokenId', 'amount']);
+  const { control, amount, selectedTokenId, handleSubmit } = useMarketForm({
+    defaultValues,
+    availableBalance: user.safeWalletDetails?.balance ?? 0,
+  });
 
   const selectedToken = useMemo(() => {
     return tokens.find((token) => {
@@ -94,7 +100,7 @@ export const Market = ({
   }, [orderPlacer.isPlaced, orderPlacer.reset]);
 
   const submit: SubmitHandler<MarketForm> = async (formValues) => {
-    if (!user.wallet) {
+    if (!user.wallet || !user.safeWalletDetails) {
       return;
     }
 
@@ -108,7 +114,6 @@ export const Market = ({
         tokenId: formValues.selectedTokenId,
       },
     });
-    user.orderPlacedFor(formValues.amount);
   };
 
   return (
@@ -135,9 +140,7 @@ export const Market = ({
             <IconButton
               className="border border-[#2c3f4f] bg-transparent"
               iconProps={{ name: 'SymbolIcon', size: 16 }}
-              onClick={() => {
-                onRefresh();
-              }}
+              onClick={onRefresh}
             />
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -185,7 +188,7 @@ export const Market = ({
                             <InputBase.Label label="Amount" />
                             <Chip className="bg-[#2C3F4F]">
                               Balance $
-                              {user.safeWalletDetails.balance.toFixed(2)}
+                              {user.safeWalletDetails?.balance.toFixed(2) ?? 0}
                             </Chip>
                           </div>
                         );

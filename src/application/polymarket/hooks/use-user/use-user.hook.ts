@@ -4,14 +4,15 @@ import { EIP1193Provider } from 'mipd';
 import { CHAIN, useSwitchChain, useWallet } from 'shared/web3';
 
 import { useSafeWallet } from '../use-safe-wallet';
-import { useUsdcAllowanceChecker } from '../use-usdc-allowance-checker';
+import { useIsUsdcAllowed } from '../use-is-usdc-allowed';
 
 export const useUser = () => {
   const { wallet, openConnectionModal } = useWallet();
 
-  const safeWallet = useSafeWallet();
-  const safeWalletDetails = safeWallet.details;
-  const usdcAllowanceChecker = useUsdcAllowanceChecker();
+  const safeWalletQuery = useSafeWallet();
+  console.log({error: safeWalletQuery.error})
+  const safeWalletDetails = safeWalletQuery.data;
+  const isUsdcAllowedQuery = useIsUsdcAllowed();
 
   const switchChain = useSwitchChain();
 
@@ -28,36 +29,21 @@ export const useUser = () => {
   const signIn = useCallback(async () => {
     const connectedWallet = await openConnectionModal();
     await switchToPolygon(connectedWallet.provider);
-    const foundSafeWallet = await safeWallet.find({
-      wallet: connectedWallet,
-    });
-    await usdcAllowanceChecker.check({
-      provider: connectedWallet.provider,
-      safeWalletAddress: foundSafeWallet.address,
-    });
-  }, [openConnectionModal, safeWallet, switchToPolygon, usdcAllowanceChecker]);
-
-  const orderPlacedFor = useCallback(
-    (amount: number) => {
-      safeWallet.spend(amount);
-    },
-    [safeWallet],
-  );
+  }, [openConnectionModal, switchToPolygon]);
 
   const isSigning =
-    safeWallet.isFinding ||
+    safeWalletQuery.isLoading ||
     switchChain.isPending ||
-    usdcAllowanceChecker.isChecking;
+    isUsdcAllowedQuery.isLoading;
   const isSigningError = switchChain.isError;
-  const hasPolymarketAccount = !safeWallet.isError;
-  const hasUsdcAllowed = usdcAllowanceChecker.isAllowed;
+  const hasPolymarketAccount = !safeWalletQuery.isError;
+  const hasUsdcAllowed = isUsdcAllowedQuery.data;
 
   return {
     wallet,
     signIn,
     isSigning,
     hasUsdcAllowed,
-    orderPlacedFor,
     isSigningError,
     switchToPolygon,
     safeWalletDetails,

@@ -17,7 +17,8 @@ export const UsdcNotAllowedMessage = ({
         className="font-semibold underline"
       >
         Polymarket
-      </a>{' '}or{' '}
+      </a>{' '}
+      or{' '}
       <span
         className="cursor-pointer font-semibold underline"
         onClick={onSwitchWallet}

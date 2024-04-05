@@ -25,3 +25,8 @@ export const ERC_20_ABI = [
   'function transfer(address to, uint amount)',
   'event Transfer(address indexed from, address indexed to, uint amount)',
 ];
+
+export const EMPTY_MARKET_FORM = {
+  amount: 0,
+  selectedTokenId: '',
+} as const;
