@@ -10,7 +10,6 @@ export const useUser = () => {
   const { wallet, openConnectionModal } = useWallet();
 
   const safeWalletQuery = useSafeWallet();
-  console.log({error: safeWalletQuery.error})
   const safeWalletDetails = safeWalletQuery.data;
   const isUsdcAllowedQuery = useIsUsdcAllowed();
 
@@ -43,9 +42,9 @@ export const useUser = () => {
     wallet,
     signIn,
     isSigning,
+    switchToPolygon,
     hasUsdcAllowed,
     isSigningError,
-    switchToPolygon,
     safeWalletDetails,
     hasPolymarketAccount,
   };

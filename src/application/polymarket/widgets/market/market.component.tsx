@@ -229,7 +229,10 @@ export const Market = ({
                   <ActionButton
                     type="button"
                     onClick={() => {
-                      void user.signIn();
+                      if (!user.wallet?.provider) {
+                        return;
+                      }
+                      void user.switchToPolygon(user.wallet.provider);
                     }}
                     loading={user.isSigning}
                   >
@@ -263,7 +266,7 @@ export const Market = ({
               ${potentialReturn} ({potentialReturnPercentage}%)
             </span>
           </div>
-          {user.isSigning || !user.wallet ? null : (
+          {user.isSigning || !user.wallet || user.wallet.chainId !== CHAIN.POLYGON.id ? null : (
             <>
               {user.hasPolymarketAccount ? (
                 user.hasUsdcAllowed ? null : (

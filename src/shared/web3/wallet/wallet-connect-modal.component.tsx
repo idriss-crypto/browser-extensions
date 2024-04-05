@@ -25,13 +25,18 @@ export const WalletConnectModal = createModal(() => {
       const accounts = await provider.request({
         method: 'eth_requestAccounts',
       });
+
+      await new Promise((resolve) => {
+        setTimeout(resolve, 500);
+      });
+
       const chainId = await provider.request({ method: 'eth_chainId' });
       return { accounts, chainId: hexStringToNumber(chainId) };
     },
     onSuccess: ({ accounts, chainId }, provider) => {
       // auto select account if there is only a single one
       if (accounts.length === 1 && accounts[0]) {
-        resolveWallet({
+        void resolveWallet({
           account: toAddressWithValidChecksum(accounts[0]),
           provider,
           chainId,
@@ -54,7 +59,10 @@ export const WalletConnectModal = createModal(() => {
   const connectedProviderChainId = connect.data?.chainId;
 
   const resolveWallet = useCallback(
-    (wallet: Wallet) => {
+    async (wallet: Wallet) => {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000);
+      });
       modal.resolve(wallet);
       modal.remove();
     },
@@ -104,7 +112,7 @@ export const WalletConnectModal = createModal(() => {
                 <button
                   className="flex items-center space-x-4 rounded bg-[#555] px-4 py-2.5 shadow-md hover:bg-[#777]"
                   onClick={() => {
-                    resolveWallet({
+                    void resolveWallet({
                       account,
                       provider: connectedProvider,
                       chainId: connectedProviderChainId,

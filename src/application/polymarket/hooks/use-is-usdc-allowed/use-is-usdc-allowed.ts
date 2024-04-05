@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { ethers } from 'ethers';
-import { useMemo } from 'react';
 
 import { CHAIN, createEthersProvider, useWallet } from 'shared/web3';
 
@@ -17,21 +16,6 @@ export const useIsUsdcAllowed = () => {
 
   const safeWalletAddress = safeWalletQuery.data?.address;
 
-  const usdcContract = useMemo(() => {
-    if (!wallet?.provider || wallet.chainId !== CHAIN.POLYGON.id) {
-      return;
-    }
-    const ethersProvider = createEthersProvider(wallet.provider);
-
-    const safeUsdcContract = new ethers.Contract(
-      SAFE_USDC_ADDRES,
-      ERC_20_ABI,
-      ethersProvider,
-    );
-
-    return safeUsdcContract;
-  }, [wallet?.provider, wallet?.chainId]);
-
   return useQuery({
     queryKey: [
       'isUsdcAllowed',
@@ -42,12 +26,18 @@ export const useIsUsdcAllowed = () => {
     enabled:
       !!wallet &&
       wallet.chainId === CHAIN.POLYGON.id &&
-      safeWalletQuery.isSuccess &&
-      Boolean(usdcContract),
+      safeWalletQuery.isSuccess,
     queryFn: async () => {
-      if (!wallet || !usdcContract) {
+      if (!wallet || wallet.chainId !== CHAIN.POLYGON.id || !safeWalletAddress) {
         return;
       }
+      const ethersProvider = createEthersProvider(wallet.provider);
+
+      const usdcContract = new ethers.Contract(
+        SAFE_USDC_ADDRES,
+        ERC_20_ABI,
+        ethersProvider,
+      );
 
       const allowance =
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call

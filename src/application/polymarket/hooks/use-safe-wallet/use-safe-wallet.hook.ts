@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { BigNumber, ethers } from 'ethers';
-import { useMemo } from 'react';
 
 import { CHAIN, Hex, createEthersProvider, useWallet } from 'shared/web3';
 
@@ -18,35 +17,26 @@ const getFunderAddress = async (address: string) => {
 export const useSafeWallet = () => {
   const { wallet } = useWallet();
 
-  const usdcContract = useMemo(() => {
-    if (!wallet?.provider || wallet.chainId !== CHAIN.POLYGON.id) {
-      return;
-    }
-    const ethersProvider = createEthersProvider(wallet.provider);
-
-    const safeUsdcContract = new ethers.Contract(
-      SAFE_USDC_ADDRES,
-      ERC_20_ABI,
-      ethersProvider,
-    );
-
-    return safeUsdcContract;
-  }, [wallet?.chainId, wallet?.provider]);
-
   return useQuery({
-    retry: 3,
-    retryDelay: 2000,
     queryKey: getSafeWalletQueryKey(wallet),
-    enabled:
-      !!wallet && wallet.chainId === CHAIN.POLYGON.id && Boolean(usdcContract),
+    enabled: !!wallet && wallet.chainId === CHAIN.POLYGON.id,
     queryFn: async () => {
-      if (!wallet || !usdcContract) {
+      if (!wallet || wallet.chainId !== CHAIN.POLYGON.id) {
         return;
       }
+
       const address = await getFunderAddress(wallet.account);
       if (!address) {
         throw new AccountNotFoundError();
       }
+
+      const ethersProvider = createEthersProvider(wallet.provider);
+
+      const usdcContract = new ethers.Contract(
+        SAFE_USDC_ADDRES,
+        ERC_20_ABI,
+        ethersProvider,
+      );
 
       const funderBalance: BigNumber =
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
