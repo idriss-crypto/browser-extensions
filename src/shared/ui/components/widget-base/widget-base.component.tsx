@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react';
 
+import { classes } from 'shared/ui/utils';
+
 import { IconButton } from '../icon-button';
 
 import { WidgetBaseProperties } from './widget-base.types';
@@ -24,7 +26,7 @@ export const WidgetBase = ({
 
   return (
     <div
-      className={className}
+      className={classes('right-4 w-96 p-5 shadow-lg', className)}
       style={{
         top, // TODO: style won't be needed but need to write scoped css variable and read it from tailwind
       }}
@@ -32,7 +34,7 @@ export const WidgetBase = ({
       {children}
       <IconButton
         onClick={hide}
-        className="absolute right-2 top-2 flex cursor-pointer items-center justify-center bg-transparent"
+        className="absolute right-1 top-1 flex items-center justify-center bg-transparent p-0.5"
         iconProps={{
           name: 'Cross2Icon',
           size: 16,

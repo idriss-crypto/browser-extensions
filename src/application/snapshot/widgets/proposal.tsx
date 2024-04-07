@@ -21,15 +21,16 @@ export const Proposal = ({ data, className, top, onHide }: Properties) => {
   return (
     <WidgetBase
       className={classes(
-        'right-4 w-96 rounded-lg bg-[#2d2d2d] p-3 text-xs leading-tight',
+        'rounded-lg bg-[#2d2d2d] text-xs leading-tight',
         className,
       )}
       top={top}
       onHide={onHide}
     >
-      <header className="flex content-between items-center space-x-3">
+      <header className="flex items-center justify-between space-x-3">
         <a
           href={getUserUrl(data.author.address)}
+          className="text-[#aaa]"
           target="_blank"
           rel="noopener noreferrer"
         >

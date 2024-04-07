@@ -118,7 +118,7 @@ export const Market = ({
 
   return (
     <WidgetBase
-      className="absolute right-4 w-96 rounded-xl bg-polymarket-gray p-6 font-sans text-white shadow-lg"
+      className="absolute rounded-xl bg-polymarket-gray font-sans text-white"
       top={top}
     >
       <form ref={formReference} onSubmit={handleSubmit(submit)}>

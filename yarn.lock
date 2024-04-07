@@ -8804,6 +8804,11 @@ postcss-nested@^6.0.1:
   dependencies:
     postcss-selector-parser "^6.0.11"
 
+postcss-rem-to-responsive-pixel@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/postcss-rem-to-responsive-pixel/-/postcss-rem-to-responsive-pixel-6.0.1.tgz#6a360f7c07c3dd38053a1d929edb8683416d540b"
+  integrity sha512-CbqKssPDiz+bT/HHI07KChLPm1IgnCCOqxCTxTw3/ddlpgTQeP8+oYzrjeC6Weo5UsKcRrhgScbmTBI1xsJEEA==
+
 postcss-reporter@^7.0.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/postcss-reporter/-/postcss-reporter-7.1.0.tgz#5ec476d224e2fe25a054e3c66d9b2901d4fab422"
