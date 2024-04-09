@@ -602,9 +602,6 @@ video {
 .mt-2 {
   margin-top: 8px;
 }
-.mt-3 {
-  margin-top: 12px;
-}
 .mt-4 {
   margin-top: 16px;
 }
@@ -912,6 +909,18 @@ video {
   padding-left: 16px;
   padding-right: 16px;
 }
+.px-6 {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+.py-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.py-0\.5 {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
 .py-1 {
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1120,9 +1129,8 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(83 83 90 / var(--tw-bg-opacity));
 }
-.hover\:enabled\:bg-\[\#5f7282\]:enabled:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(95 114 130 / var(--tw-bg-opacity));
+.hover\:enabled\:bg-white\/20:enabled:hover {
+  background-color: rgb(255 255 255 / 0.2);
 }
 .active\:enabled\:bg-\[\#92a5b5\]:enabled:active {
   --tw-bg-opacity: 1;

@@ -36,10 +36,10 @@ export const Proposal = ({ data, className, top, onHide }: Properties) => {
         >
           By {getProposalAuthor(data)}
         </a>
-        <Chip className="bg-green-600">Active</Chip>
+        <Chip>Active</Chip>
       </header>
-      <main className="mt-3">
-        <p className="text-sm">{data.title}</p>
+      <main className="mt-2">
+        <p className="text-base font-semibold">{data.title}</p>
         <p className="mt-1 overflow-hidden text-[#ccc]">
           ${data.body.slice(0, 120)}...
         </p>
@@ -53,7 +53,9 @@ export const Proposal = ({ data, className, top, onHide }: Properties) => {
           rel="noopener noreferrer"
           target="_blank"
         >
-          <Chip className="bg-white text-[#1c1b20]">Vote</Chip>
+          <Chip className="py-1" variant="info" width="long">
+            Vote
+          </Chip>
         </a>
       </footer>
     </WidgetBase>

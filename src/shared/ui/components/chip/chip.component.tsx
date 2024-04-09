@@ -3,11 +3,21 @@ import { classes } from 'shared/ui/utils';
 import { ChipProperties } from './chip.types';
 
 // TODO: compound component
-export const Chip = ({ children, className, onClick }: ChipProperties) => {
+export const Chip = ({
+  children,
+  className,
+  width = 'short',
+  variant = 'success',
+  onClick,
+}: ChipProperties) => {
   return (
     <div
       className={classes(
-        'rounded-full px-3 py-1 text-xs',
+        'rounded-full px-3 py-0.5 text-xs',
+        width === 'short' && 'px-3',
+        width === 'long' && 'px-6',
+        variant === 'success' && 'bg-green-600 text-white',
+        variant === 'info' && 'bg-white text-[#1c1b20]',
         onClick && 'cursor-pointer',
         className,
       )}

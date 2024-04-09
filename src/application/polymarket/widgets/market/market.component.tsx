@@ -119,6 +119,7 @@ export const Market = ({
   return (
     <WidgetBase
       className="absolute rounded-xl bg-polymarket-gray font-sans text-white"
+      closeButtonClassName="hover:enabled:bg-[#5f7282]"
       top={top}
     >
       <form ref={formReference} onSubmit={handleSubmit(submit)}>
@@ -138,7 +139,7 @@ export const Market = ({
           <div className="mb-1.5 mt-8 flex items-center justify-between">
             <InputBase.Label label="Outcome" />
             <IconButton
-              className="border border-[#2c3f4f] bg-transparent"
+              className="border border-[#2c3f4f] bg-transparent hover:enabled:bg-[#53535a]"
               iconProps={{ name: 'SymbolIcon', size: 16 }}
               onClick={onRefresh}
             />
@@ -180,6 +181,7 @@ export const Market = ({
                   <CurrencyInput
                     value={field.value}
                     onChange={field.onChange}
+                    iconButtonClassName="hover:enabled:bg-[#5f7282]"
                     inputBaseProps={{
                       errorMessage: fieldState.error?.message,
                       renderLabel: () => {

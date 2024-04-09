@@ -5,4 +5,5 @@ export interface WidgetBaseProperties {
   className?: string;
   top?: number;
   onHide?: () => void;
+  closeButtonClassName?: string;
 }

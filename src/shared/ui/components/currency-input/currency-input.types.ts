@@ -13,4 +13,5 @@ export interface CurrencyInputProperties {
   min?: number;
   disabled?: boolean;
   decimalScale?: number;
+  iconButtonClassName?: string;
 }

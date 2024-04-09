@@ -16,6 +16,7 @@ export const CurrencyInput = forwardRef<
       onChange,
       placeholder,
       inputBaseProps,
+      iconButtonClassName,
       decimalScale = 2,
       prefix = '$',
       disabled = false,
@@ -67,6 +68,7 @@ export const CurrencyInput = forwardRef<
             iconProps={{
               name: 'MinusIcon',
             }}
+            className={iconButtonClassName}
             onClick={decrement}
             disabled={!canDecrement}
           />
@@ -77,6 +79,7 @@ export const CurrencyInput = forwardRef<
               name: 'PlusIcon',
             }}
             onClick={increment}
+            className={iconButtonClassName}
           />
         }
         disabled={disabled}

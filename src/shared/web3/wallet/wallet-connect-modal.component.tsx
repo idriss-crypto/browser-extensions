@@ -169,9 +169,9 @@ export const WalletConnectModal = createModal(() => {
                   onChange={setTermsOfUseAccepted}
                 />
                 <p className="text-sm">
-                  I agree to{' '}
+                  I agree to the{' '}
                   <a
-                    href="#"
+                    href="https://www.idriss.xyz/tos"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-semibold text-[#2D9CDB]"

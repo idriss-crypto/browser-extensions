@@ -19,7 +19,7 @@ export const IconButton = ({
     <button
       className={classes(
         'rounded bg-[#2c3f4f] p-1',
-        'hover:enabled:bg-[#5f7282] active:enabled:bg-[#92a5b5]',
+        'hover:enabled:bg-white/20 active:enabled:bg-[#92a5b5]',
         'disabled:opacity-50',
         className,
       )}

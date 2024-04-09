@@ -12,6 +12,7 @@ export const WidgetBase = ({
   className,
   onHide,
   top,
+  closeButtonClassName,
 }: WidgetBaseProperties) => {
   const [isVisible, setIsVisible] = useState(true);
 
@@ -26,7 +27,7 @@ export const WidgetBase = ({
 
   return (
     <div
-      className={classes('right-4 w-96 p-5 shadow-lg', className)}
+      className={classes('right-4 w-96 p-5 text-white shadow-lg', className)}
       style={{
         top, // TODO: style won't be needed but need to write scoped css variable and read it from tailwind
       }}
@@ -34,7 +35,10 @@ export const WidgetBase = ({
       {children}
       <IconButton
         onClick={hide}
-        className="absolute right-1 top-1 flex items-center justify-center bg-transparent p-0.5"
+        className={classes(
+          'absolute right-1 top-1 flex items-center justify-center bg-transparent p-0.5',
+          closeButtonClassName,
+        )}
         iconProps={{
           name: 'Cross2Icon',
           size: 16,
