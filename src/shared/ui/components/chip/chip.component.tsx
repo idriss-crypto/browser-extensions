@@ -16,7 +16,7 @@ export const Chip = ({
         'rounded-full px-3 py-0.5 text-xs',
         width === 'short' && 'px-3',
         width === 'long' && 'px-6',
-        variant === 'success' && 'bg-green-600 text-white',
+        variant === 'success' && 'bg-[#21B66F] text-white',
         variant === 'info' && 'bg-white text-[#1c1b20]',
         onClick && 'cursor-pointer',
         className,
