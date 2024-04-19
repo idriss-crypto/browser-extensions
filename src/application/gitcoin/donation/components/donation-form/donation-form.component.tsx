@@ -165,7 +165,7 @@ export const DonationForm = ({
           size={124}
         />
         <p className="mt-4 text-lg font-medium leading-6 text-gray-900">
-          Transaction Submitted🥳
+          Transaction Submitted 🥳
         </p>
         <a
           href={`${
