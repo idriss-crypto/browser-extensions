@@ -54,7 +54,8 @@
     "https://*.coincheck.com/*",
     "https://*.guarda.co/*",
     "https://*.blockscout.com/*",
-    "https://*.blockscout.scroll.io/*"
+    "https://*.blockscout.scroll.io/*",
+    "https://*.warpcast.com/*"
   ],
   "content_scripts": [
     {
@@ -99,7 +100,8 @@
         "https://*.coincheck.com/*",
         "https://*.guarda.co/*",
         "https://*.blockscout.com/*",
-        "https://*.blockscout.scroll.io/*"
+        "https://*.blockscout.scroll.io/*",
+        "https://*.warpcast.com/*"
       ],
       "js": [
         "polyfills.js",
