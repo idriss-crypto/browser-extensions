@@ -53,7 +53,7 @@ export const WalletContextProvider = ({ children }: Properties) => {
 
     const connectToStoredWallet = async () => {
       const accounts = await foundProvider.provider.request({
-        method: 'eth_requestAccounts',
+        method: 'eth_accounts',
       });
 
       if (
