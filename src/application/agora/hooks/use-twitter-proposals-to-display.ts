@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useCommandQuery } from 'shared/messaging';
 
-import { GetProposalsCommand } from '../commands';
+import { GetAgoraProposalsCommand } from '../commands';
 
 import { useTwitterVisibleAgoraNodes } from './use-twitter-visible-agora-nodes';
 
@@ -17,7 +17,7 @@ export const useTwitterProposalsToDisplay = ({ hidden }: Properties) => {
     });
 
   const proposalsQuery = useCommandQuery({
-    command: new GetProposalsCommand({
+    command: new GetAgoraProposalsCommand({
       agoraUsernames: visibleAgoraUsernames.sort(),
     }),
     placeholderData: (previousData) => {

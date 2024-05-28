@@ -1,6 +1,6 @@
 import { useCommandQuery } from 'shared/messaging';
 
-import { GetProposalCommand } from '../commands';
+import { GetAgoraProposalCommand } from '../commands';
 import { getAgoraUsernameFromTwitterUsername } from '../utils';
 
 import { Proposal } from './proposal';
@@ -13,7 +13,9 @@ export const ProposalHandleContainer = ({ handle }: Properties) => {
   const agoraUsername = getAgoraUsernameFromTwitterUsername(handle);
 
   const proposalQuery = useCommandQuery({
-    command: new GetProposalCommand({ agoraUsername: agoraUsername ?? '' }),
+    command: new GetAgoraProposalCommand({
+      agoraUsername: agoraUsername ?? '',
+    }),
     enabled: agoraUsername ? agoraUsername.length > 0 : false,
   });
 

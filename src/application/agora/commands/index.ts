@@ -1,10 +1,10 @@
-import { GetProposalCommand } from './get-proposal.command';
-import { GetProposalsCommand } from './get-proposals.command';
+import { GetAgoraProposalCommand } from './get-agora-proposal.command';
+import { GetAgoraProposalsCommand } from './get-agora-proposals.command';
 
 export const COMMAND_MAP = {
-  [GetProposalCommand.name]: GetProposalCommand,
-  [GetProposalsCommand.name]: GetProposalsCommand,
+  [GetAgoraProposalCommand.name]: GetAgoraProposalCommand,
+  [GetAgoraProposalsCommand.name]: GetAgoraProposalsCommand,
 };
 
-export { GetProposalCommand } from './get-proposal.command';
-export { GetProposalsCommand } from './get-proposals.command';
+export { GetAgoraProposalCommand } from './get-agora-proposal.command';
+export { GetAgoraProposalsCommand } from './get-agora-proposals.command';

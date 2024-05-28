@@ -14,9 +14,12 @@ import {
 import { WalletContextProvider } from 'shared/web3';
 import { ErrorBoundary } from 'shared/monitoring';
 
-import { SnapshotApp } from './snapshot';
-import { GitcoinApp } from './gitcoin';
-import { PolymarketApp } from './polymarket';
+// TODO console.log('Uncomment Below Code')
+// import { SnapshotApp } from './snapshot';
+// import { GitcoinApp } from './gitcoin';
+// import { PolymarketApp } from './polymarket';
+// TODO console.log('Uncomment Above Code')
+import { AgoraApp } from './agora';
 
 export const bootstrap = () => {
   const root = document.createElement('div');
@@ -48,17 +51,24 @@ const ApplicationWithProviders = () => {
 
 const Applications = () => {
   const serviceStatusQuery = useGetServiceStatus();
+  //TODO console.log('Remove Below Code')
+  if (serviceStatusQuery?.data) {
+    serviceStatusQuery.data.agora = true;
+  }
+  //TODO console.log('Remove Above Code')
 
   const applicationsStatus = useMemo(() => {
     return {
       polymarket: Boolean(serviceStatusQuery.data?.polymarket),
       snapshot: Boolean(serviceStatusQuery.data?.snapshot),
       gitcoin: Boolean(serviceStatusQuery.data?.gitcoin),
+      agora: Boolean(serviceStatusQuery.data?.agora),
     };
   }, [
     serviceStatusQuery.data?.gitcoin,
     serviceStatusQuery.data?.polymarket,
     serviceStatusQuery.data?.snapshot,
+    serviceStatusQuery.data?.agora,
   ]);
 
   if (!serviceStatusQuery.data) {
@@ -67,9 +77,12 @@ const Applications = () => {
 
   return (
     <>
-      {applicationsStatus.polymarket ? <PolymarketApp /> : null}
+      {/* TODO console.log('Uncomment Below Code') */}
+      {/* {applicationsStatus.polymarket ? <PolymarketApp /> : null}
       {applicationsStatus.snapshot ? <SnapshotApp /> : null}
-      {applicationsStatus.gitcoin ? <GitcoinApp /> : null}
+      {applicationsStatus.gitcoin ? <GitcoinApp /> : null} */}
+      {/* TODO console.log('Uncomment Below Code') */}
+      {applicationsStatus.agora ? <AgoraApp /> : null}
     </>
   );
 };

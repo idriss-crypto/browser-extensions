@@ -15,8 +15,8 @@ interface Details {
   agoraUsernames: string[];
 }
 
-export class GetProposalsCommand extends Command<Details, ProposalData[]> {
-  public readonly name = 'GetProposalsCommand' as const;
+export class GetAgoraProposalsCommand extends Command<Details, ProposalData[]> {
+  public readonly name = 'GetAgoraProposalsCommand' as const;
 
   constructor(
     public details: Details,
