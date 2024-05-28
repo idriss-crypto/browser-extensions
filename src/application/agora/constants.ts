@@ -1,0 +1,6 @@
+export const TWITTER_HANDLE_TO_AGORA: Record<string, string> = {
+  optimism: 'optimism.eth',
+} as const;
+
+export const AGORA_WEBSITE_URL = 'https://vote.optimism.io/';
+export const AGORA_API_URL = 'https://vote.optimism.io/api/v1';
