@@ -2,37 +2,7 @@
 import { TwitterUserPoolingResult } from 'src/host/twitter';
 
 import { AGORA_WEBSITE_URL, TWITTER_HANDLE_TO_AGORA } from './constants';
-import { GetProposalsOptions, ProposalData } from './types';
-
-export const generateGetProposalsQuery = (
-  agoraUsernames: string[],
-  options: GetProposalsOptions,
-) => {
-  // TODO: use GQL variables for this
-  return `query Proposals {
-  proposals (
-    first: ${options.first},
-    skip: 0,
-    where: {
-      space_in: [${agoraUsernames.map((name) => {
-        return `"${name}"`;
-      })}],
-      state: "active"
-    },
-    orderBy: "end",
-    orderDirection: asc
-  ) {
-    id
-    title
-    body
-    end
-    author
-    space {
-      id
-    }
-  }
-}`;
-};
+import { ProposalData } from './types';
 
 export const getProposalUrl = (agoraUsernames: string, proposalId: string) => {
   return `${AGORA_WEBSITE_URL}/#/${agoraUsernames}/proposal/${proposalId}`;

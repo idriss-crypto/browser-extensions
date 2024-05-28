@@ -7,7 +7,6 @@ import {
 import { resolveAddress } from 'shared/web3';
 
 import { ProposalData } from '../types';
-import { generateGetProposalsQuery } from '../utils';
 import { AGORA_API_URL } from '../constants';
 import { getProposalsResponseSchema } from '../schema';
 
@@ -27,20 +26,14 @@ export class GetAgoraProposalCommand extends Command<Details, ProposalData> {
 
   async handle() {
     try {
-      const query = generateGetProposalsQuery([this.details.agoraUsername], {
-        first: 1,
-      });
-      const response = await fetch(AGORA_API_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          query: query,
-          operationName: 'Proposals',
-          variables: undefined,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${AGORA_API_URL}/proposals/${this.details.agoraUsername}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      });
+      );
 
       if (response.status !== 200) {
         throw new HandlerError();
