@@ -2,13 +2,7 @@ import { classes } from 'shared/ui/utils';
 import { Chip, WidgetBase } from 'shared/ui/components';
 
 import { ProposalData } from '../types';
-import {
-  getDaysUntil,
-  getEndsInLabel,
-  getProposalAuthor,
-  getProposalUrl,
-  getUserUrl,
-} from '../utils';
+import { getDaysUntil, getEndsInLabel, getProposalUrl } from '../utils';
 
 interface Properties {
   data: ProposalData;
@@ -32,14 +26,7 @@ export const Proposal = ({ data, className, top, onClose }: Properties) => {
       onClose={onClose}
     >
       <header className="flex items-center justify-between space-x-3">
-        <a
-          href={getUserUrl(data.author.address)}
-          className="text-[#aaa]"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          By {getProposalAuthor(data)}
-        </a>
+        <p>Standard Proposal by The Optimism Foundation</p>
         <Chip>Active</Chip>
       </header>
       <main className="mt-2">
@@ -53,7 +40,7 @@ export const Proposal = ({ data, className, top, onClose }: Properties) => {
           {getEndsInLabel(getDaysUntil(proposalEndDateInMs))}
         </div>
         <a
-          href={getProposalUrl(data.author.address, data.proposalId)}
+          href={getProposalUrl(data.proposalId)}
           rel="noopener noreferrer"
           target="_blank"
         >
@@ -61,6 +48,21 @@ export const Proposal = ({ data, className, top, onClose }: Properties) => {
             Vote
           </Chip>
         </a>
+        <div className="flex">
+          <a
+            href="#"
+            className="flex h-8 items-center justify-center rounded-lg border border-gray-300 bg-white px-3 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >
+            Previous
+          </a>
+
+          <a
+            href="#"
+            className="ms-3 flex h-8 items-center justify-center rounded-lg border border-gray-300 bg-white px-3 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >
+            Next
+          </a>
+        </div>
       </footer>
     </WidgetBase>
   );

@@ -33,8 +33,15 @@ export const proposalSchema = z.object({
   }),
 });
 
+export const proposalsMetadata = z.object({
+  has_next: z.boolean(),
+  total_returned: z.number(),
+  next_offset: z.number(),
+});
+
 export const getProposalsResponseSchema = z.object({
   data: z.object({
+    metadata: proposalsMetadata,
     proposals: z.array(proposalSchema),
   }),
 });

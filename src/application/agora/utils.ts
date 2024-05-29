@@ -2,14 +2,9 @@
 import { TwitterUserPoolingResult } from 'src/host/twitter';
 
 import { AGORA_WEBSITE_URL, TWITTER_HANDLE_TO_AGORA } from './constants';
-import { ProposalData } from './types';
 
-export const getProposalUrl = (agoraUsernames: string, proposalId: string) => {
-  return `${AGORA_WEBSITE_URL}/#/${agoraUsernames}/proposal/${proposalId}`;
-};
-
-export const getUserUrl = (userId: string) => {
-  return `${AGORA_WEBSITE_URL}/#/profile/${userId}`;
+export const getProposalUrl = (proposalId: string) => {
+  return `${AGORA_WEBSITE_URL}/proposals/${proposalId}`;
 };
 
 export const getAgoraUsernameFromTwitterUsername = (handle: string) => {
@@ -49,13 +44,6 @@ export const getEndsInLabel = (daysUntil: number) => {
   }
 
   return `Ends in ${daysUntil} days`;
-};
-
-export const getProposalAuthor = (proposal: ProposalData) => {
-  return (
-    proposal.author.resolvedAddress ??
-    `${proposal.author.address.slice(0, 6)}...${proposal.author.address.slice(Math.max(0, proposal.author.address.length - 4))}`
-  );
 };
 
 export const getAgoraUserNodes = (
