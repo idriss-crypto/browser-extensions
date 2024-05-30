@@ -57,7 +57,7 @@ export class GetAgoraProposalsCommand extends Command<Details, ProposalData[]> {
                   proposalId:
                     '46662599590868619415724059715206858415123913604990481279137083354870809650669',
                   contractAddress: 'contractAddress',
-                  proposerAddress: 'proposerAddress',
+                  proposerAddress: 'optimism.eth',
                   description: `This update enables voters with advanced delegated voting power to cast their votes in a single transaction. This enhancement addresses user feedback on the advanced delegation feature, simplifying the voting process.
 
                   If approved by governance, the Optimism Foundation admin will set the governor proxy to a new implementation deployed at 0x637DA4Eeac836188D8C46F63Cb2655f4d3C9F893.
@@ -74,7 +74,7 @@ export class GetAgoraProposalsCommand extends Command<Details, ProposalData[]> {
                     title:
                       'Governor Upgrade #1: Improve advanced delegation voting',
                     startTimestamp: '2024-05-29T16:54:38.631Z',
-                    endTimestamp: '2024-05-29T16:54:38.631Z',
+                    endTimestamp: '2024-06-01T16:54:38.631Z',
                     createdTimestamp: '2024-05-29T16:54:38.631Z',
                     link: 'link',
                     scores: ['scores'],

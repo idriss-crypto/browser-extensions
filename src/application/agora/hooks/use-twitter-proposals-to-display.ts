@@ -11,14 +11,14 @@ interface Properties {
 }
 
 export const useTwitterProposalsToDisplay = ({ hidden }: Properties) => {
-  const { visibleAgoraNodes, visibleAgoraUsernames } =
-    useTwitterVisibleAgoraNodes({
-      hidden,
-    });
+  const { visibleAgoraNodes } = useTwitterVisibleAgoraNodes({
+    hidden,
+  });
 
   const proposalsQuery = useCommandQuery({
     command: new GetAgoraProposalsCommand({
-      agoraUsernames: visibleAgoraUsernames.sort(),
+      limit: 10,
+      offset: 0,
     }),
     placeholderData: (previousData) => {
       return previousData;
@@ -29,7 +29,7 @@ export const useTwitterProposalsToDisplay = ({ hidden }: Properties) => {
     return visibleAgoraNodes
       .map((agoraNode) => {
         const data = proposalsQuery.data?.find((proposal) => {
-          return proposal.author.address === agoraNode.username;
+          return proposal.proposerAddress === agoraNode.username;
         });
 
         if (!data) {
