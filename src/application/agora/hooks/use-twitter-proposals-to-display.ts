@@ -28,7 +28,7 @@ export const useTwitterProposalsToDisplay = ({ hidden }: Properties) => {
   const proposalsToDisplay = useMemo(() => {
     return visibleAgoraNodes
       .map((agoraNode) => {
-        const data = proposalsQuery.data?.find((proposal) => {
+        const data = proposalsQuery.data?.proposals?.find((proposal) => {
           return proposal.proposerAddress === agoraNode.username;
         });
 

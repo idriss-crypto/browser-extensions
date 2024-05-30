@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { useCommandQuery } from 'shared/messaging';
 
 import { getAgoraUsernameFromTwitterUsername } from '../utils';
@@ -10,19 +12,56 @@ interface Properties {
 }
 
 export const ProposalHandleContainer = ({ handle }: Properties) => {
-  const agoraUsername = getAgoraUsernameFromTwitterUsername(handle);
+  const [currentProposalIndex, setCurrentProposalIndex] = useState<number>(0);
 
+  const agoraUsername = getAgoraUsernameFromTwitterUsername(handle);
   const proposalQuery = useCommandQuery({
     command: new GetAgoraProposalsCommand({
-      limit: 10,
-      offset: 0,
+      limit: 1,
+      offset: currentProposalIndex,
     }),
     enabled: agoraUsername ? agoraUsername.length > 0 : false,
   });
+  const currentProposal = proposalQuery.data?.proposals?.at(0);
+  const isPreviousProposalAvailable = currentProposalIndex > 0;
+  const isNextProposalAvailable = Boolean(
+    proposalQuery.data?.metadata.has_next,
+  );
 
-  if (!proposalQuery.data || !proposalQuery.data[0] || !agoraUsername) {
+  console.log('proposalQuery', proposalQuery);
+
+  const showPreviousProposal = () => {
+    if (!isPreviousProposalAvailable) {
+      return;
+    }
+
+    setCurrentProposalIndex((previous) => {
+      return previous - 1;
+    });
+  };
+
+  const showNextProposal = () => {
+    if (!isNextProposalAvailable) {
+      return;
+    }
+
+    setCurrentProposalIndex((previous) => {
+      return previous + 1;
+    });
+  };
+
+  if (!currentProposal || !agoraUsername) {
     return null;
   }
 
-  return <Proposal data={proposalQuery.data[0]} className="fixed top-20" />;
+  return (
+    <Proposal
+      isPreviousProposalAvailable={isPreviousProposalAvailable}
+      isNextProposalAvailable={isNextProposalAvailable}
+      showNextProposal={showNextProposal}
+      showPreviousProposal={showPreviousProposal}
+      data={currentProposal}
+      className="fixed top-20"
+    />
+  );
 };

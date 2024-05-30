@@ -8,10 +8,23 @@ interface Properties {
   data: ProposalData;
   className?: string;
   top?: number;
+  isPreviousProposalAvailable: boolean;
+  isNextProposalAvailable: boolean;
   onClose?: () => void;
+  showPreviousProposal: () => void;
+  showNextProposal: () => void;
 }
 
-export const Proposal = ({ data, className, top, onClose }: Properties) => {
+export const Proposal = ({
+  data,
+  className,
+  top,
+  isPreviousProposalAvailable,
+  isNextProposalAvailable,
+  onClose,
+  showPreviousProposal,
+  showNextProposal,
+}: Properties) => {
   const proposalEndDateInMs = new Date(
     data.proposalData.endTimestamp,
   ).getTime();
@@ -19,13 +32,13 @@ export const Proposal = ({ data, className, top, onClose }: Properties) => {
   return (
     <WidgetBase
       className={classes(
-        'rounded-md bg-white text-xs leading-tight',
+        'grid h-[200px] rounded-md bg-white text-xs leading-tight',
         className,
       )}
       top={top}
       onClose={onClose}
     >
-      <header className="flex items-center justify-between space-x-3">
+      <header className="mb-auto flex items-center justify-between space-x-3">
         <p className="text-xs font-semibold text-gray-700">
           Standard Proposal by The Optimism Foundation
         </p>
@@ -35,14 +48,15 @@ export const Proposal = ({ data, className, top, onClose }: Properties) => {
       </header>
       <main className="mt-2">
         <p className="text-lg font-black text-black">
-          {data.proposalData.title}
+          {data.proposalData.title.slice(0, 56)}
+          {data.proposalData.title.length > 56 ? '...' : ''}
         </p>
         <p className="mt-1 overflow-hidden text-[#374151]">
           {data.description.slice(0, 120)}
           {data.description.length > 120 ? '...' : ''}
         </p>
       </main>
-      <footer className="mt-2 flex items-center justify-between ">
+      <footer className="mt-auto flex items-center justify-between">
         <div className="flex justify-start gap-3.5">
           <div className="flex items-center text-xs font-semibold text-gray-700">
             {getEndsInLabel(getDaysUntil(proposalEndDateInMs))}
@@ -62,10 +76,18 @@ export const Proposal = ({ data, className, top, onClose }: Properties) => {
           </a>
         </div>
         <div className="flex justify-end gap-3.5">
-          <Button className="inline-flex h-7 items-center justify-center rounded-md text-sm font-light text-[#444444] transition-all hover:text-[#7d848a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+          <Button
+            disabled={!isPreviousProposalAvailable}
+            onClick={showPreviousProposal}
+            className="inline-flex h-7 items-center justify-center rounded-md text-sm font-light text-[#444444] transition-all hover:text-[#7d848a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:bg-white"
+          >
             Previous
           </Button>
-          <Button className="inline-flex h-7 items-center justify-center rounded-md text-sm font-light text-[#444444] transition-all hover:text-[#7d848a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+          <Button
+            disabled={!isNextProposalAvailable}
+            onClick={showNextProposal}
+            className="inline-flex h-7 items-center justify-center rounded-md text-sm font-light text-[#444444] transition-all hover:text-[#7d848a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:bg-white"
+          >
             Next
           </Button>
         </div>

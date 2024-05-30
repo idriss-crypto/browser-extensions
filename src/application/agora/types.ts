@@ -1,12 +1,8 @@
 import { z } from 'zod';
 
-import { proposalSchema } from './schema';
+import { getProposalsResponseSchema, proposalSchema } from './schema';
 
-export type RawProposal = z.infer<typeof proposalSchema>;
+export type ProposalData = z.infer<typeof proposalSchema>;
 
-export type ProposalData = Omit<RawProposal, 'author'> & {
-  author: {
-    address: string;
-    resolvedAddress?: string;
-  };
-};
+export type ProposalsResponse = z.infer<typeof getProposalsResponseSchema>;
+export type ProposalsResponseData = ProposalsResponse['data'];
