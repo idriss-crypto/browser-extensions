@@ -10,6 +10,7 @@ interface Properties {
   top?: number;
   isPreviousProposalAvailable: boolean;
   isNextProposalAvailable: boolean;
+  loadingNextProposal: boolean;
   onClose?: () => void;
   showPreviousProposal: () => void;
   showNextProposal: () => void;
@@ -21,6 +22,7 @@ export const Proposal = ({
   top,
   isPreviousProposalAvailable,
   isNextProposalAvailable,
+  loadingNextProposal,
   onClose,
   showPreviousProposal,
   showNextProposal,
@@ -92,6 +94,9 @@ export const Proposal = ({
           </Button>
         </div>
       </footer>
+      {loadingNextProposal && (
+        <div className="absolute bottom-px h-1 w-full animate-pulse rounded-md bg-gradient-to-r from-neutral-200 via-neutral-200 via-neutral-300 to-neutral-300" />
+      )}
     </WidgetBase>
   );
 };
