@@ -1,15 +1,20 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { ErrorBoundary } from 'shared/monitoring';
+import { useCommandQuery } from 'shared/messaging';
 
-import { useTwitterProposalsToDisplay } from '../hooks';
+import { useTwitterVisibleAgoraNodes } from '../hooks';
+import { ProposalData } from '../types';
+import { GetAgoraProposalsCommand } from '../commands';
 
 import { Proposal } from './proposal';
 
 export const ProposalMainContainer = () => {
   const [hiddenAgoraUsers, setHiddenAgoraUsers] = useState<string[]>([]);
+  const [currentProposalIndex, setCurrentProposalIndex] = useState<number>(0);
+  const [currentProposal, setCurrentProposal] = useState<ProposalData>();
 
-  const { proposalsToDisplay } = useTwitterProposalsToDisplay({
+  const { visibleAgoraNodes } = useTwitterVisibleAgoraNodes({
     hidden: hiddenAgoraUsers,
   });
 
@@ -19,18 +24,67 @@ export const ProposalMainContainer = () => {
     });
   }, []);
 
-  return proposalsToDisplay.map(({ data, top }) => {
+  const proposalQuery = useCommandQuery({
+    command: new GetAgoraProposalsCommand({
+      limit: 1,
+      offset: currentProposalIndex,
+    }),
+    enabled: visibleAgoraNodes ? visibleAgoraNodes.length > 0 : false,
+  });
+
+  const isPreviousProposalAvailable = currentProposalIndex > 0;
+  const isNextProposalAvailable = Boolean(
+    proposalQuery.data?.metadata.has_next,
+  );
+
+  const showPreviousProposal = () => {
+    if (!isPreviousProposalAvailable) {
+      return;
+    }
+
+    setCurrentProposalIndex((previous) => {
+      return previous - 1;
+    });
+  };
+
+  const showNextProposal = () => {
+    if (!isNextProposalAvailable) {
+      return;
+    }
+
+    setCurrentProposalIndex((previous) => {
+      return previous + 1;
+    });
+  };
+
+  useEffect(() => {
+    const proposalResponse = proposalQuery.data?.proposals?.at(0);
+    if (proposalResponse) {
+      setCurrentProposal(proposalResponse);
+    }
+  }, [proposalQuery.data?.proposals]);
+
+  if (!currentProposal || !visibleAgoraNodes?.length) {
+    return null;
+  }
+
+  return visibleAgoraNodes.map(({ top }) => {
     return (
       <ErrorBoundary
-        key={data.proposalId}
+        key={currentProposal.proposalId}
         exceptionEventName="agora-widget-twitter-main-runtime-error"
       >
         <Proposal
-          data={data}
+          isPreviousProposalAvailable={isPreviousProposalAvailable}
+          isNextProposalAvailable={isNextProposalAvailable}
+          showNextProposal={showNextProposal}
+          showPreviousProposal={showPreviousProposal}
+          loadingNextProposal={proposalQuery.isLoading}
+          data={currentProposal}
           className="absolute"
           top={top - 12}
           onClose={() => {
-            hideAgoraUser(data.author.address);
+            hideAgoraUser(currentProposal.proposerAddress);
           }}
         />
       </ErrorBoundary>

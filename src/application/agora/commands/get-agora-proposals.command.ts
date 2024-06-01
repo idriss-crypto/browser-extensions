@@ -108,6 +108,246 @@ const proposalsResponses = [
   {
     data: {
       metadata: {
+        has_next: true,
+        total_returned: 1_073_741_824,
+        next_offset: 1_073_741_824,
+      },
+      proposals: [
+        {
+          proposalId:
+            '105090569675606228680479820654354019470447822380910214626164858605991232311940',
+          contractAddress: 'contractAddress',
+          proposerAddress: 'optimism.eth',
+          description: `Please read Code of Conduct Rescoping #2 before voting on this proposal: https://gov.optimism.io/t/season-6-code-of-conduct-rescoping-2/8101
+
+         in Season N+1. It is now time for delegates to assess whether the Council should be renewed.
+        
+         The Token House experimented with a Code of Conduct Council to oversee the Rules of Engagement in Season 6, effectively electing the proposal author as Council Lead. If delegates do not believe an elected Council is necessary to enforce the Rules of Engagement, they should not approve any operating budget for a Code of Conduct Council.`,
+          ordinal: 'ordinal',
+          createBlock: 'createBlock',
+          startBlock: 'startBlock',
+          endBlock: 'endBlock',
+          cancelledBlock: 'cancelledBlock',
+          executedBlock: 'executedBlock',
+          proposalData: {
+            votingStrategy: 'STANDARD',
+            title: 'Season N+1: Code of Renewal',
+            startTimestamp: '2024-05-29T16:54:38.631Z',
+            endTimestamp: '2024-06-02T16:54:38.631Z',
+            createdTimestamp: '2024-05-29T16:54:38.631Z',
+            link: 'link',
+            scores: ['scores'],
+            votes: 'votes',
+            state: 'ACTIVE',
+          },
+          proposalTemplate: {
+            name: 'name',
+            proposalTemplateId: 0,
+            votingStrategy: 'STANDARD',
+            quorum: 'quorum',
+            approvalThreshold: 'approvalThreshold',
+            contractAddress: 'contractAddress',
+            createBlock: 'createBlock',
+          },
+        },
+      ],
+    },
+  },
+  {
+    data: {
+      metadata: {
+        has_next: true,
+        total_returned: 1_073_741_824,
+        next_offset: 1_073_741_824,
+      },
+      proposals: [
+        {
+          proposalId:
+            '105090569675606228680479820654354019470447822380910214626164858605991232311940',
+          contractAddress: 'contractAddress',
+          proposerAddress: 'optimism.eth',
+          description: `Please read Code of Conduct Rescoping #2 before voting on this proposal: https://gov.optimism.io/t/season-6-code-of-conduct-rescoping-2/8101
+
+         in Season N+2. It is now time for delegates to assess whether the Council should be renewed.
+        
+         The Token House experimented with a Code of Conduct Council to oversee the Rules of Engagement in Season 6, effectively electing the proposal author as Council Lead. If delegates do not believe an elected Council is necessary to enforce the Rules of Engagement, they should not approve any operating budget for a Code of Conduct Council.`,
+          ordinal: 'ordinal',
+          createBlock: 'createBlock',
+          startBlock: 'startBlock',
+          endBlock: 'endBlock',
+          cancelledBlock: 'cancelledBlock',
+          executedBlock: 'executedBlock',
+          proposalData: {
+            votingStrategy: 'STANDARD',
+            title: 'Season N+2: Code of Renewal',
+            startTimestamp: '2024-05-29T16:54:38.631Z',
+            endTimestamp: '2024-06-02T16:54:38.631Z',
+            createdTimestamp: '2024-05-29T16:54:38.631Z',
+            link: 'link',
+            scores: ['scores'],
+            votes: 'votes',
+            state: 'ACTIVE',
+          },
+          proposalTemplate: {
+            name: 'name',
+            proposalTemplateId: 0,
+            votingStrategy: 'STANDARD',
+            quorum: 'quorum',
+            approvalThreshold: 'approvalThreshold',
+            contractAddress: 'contractAddress',
+            createBlock: 'createBlock',
+          },
+        },
+      ],
+    },
+  },
+  {
+    data: {
+      metadata: {
+        has_next: true,
+        total_returned: 1_073_741_824,
+        next_offset: 1_073_741_824,
+      },
+      proposals: [
+        {
+          proposalId:
+            '105090569675606228680479820654354019470447822380910214626164858605991232311940',
+          contractAddress: 'contractAddress',
+          proposerAddress: 'optimism.eth',
+          description: `Please read Code of Conduct Rescoping #2 before voting on this proposal: https://gov.optimism.io/t/season-6-code-of-conduct-rescoping-2/8101
+
+         in Season N+3. It is now time for delegates to assess whether the Council should be renewed.
+        
+         The Token House experimented with a Code of Conduct Council to oversee the Rules of Engagement in Season 6, effectively electing the proposal author as Council Lead. If delegates do not believe an elected Council is necessary to enforce the Rules of Engagement, they should not approve any operating budget for a Code of Conduct Council.`,
+          ordinal: 'ordinal',
+          createBlock: 'createBlock',
+          startBlock: 'startBlock',
+          endBlock: 'endBlock',
+          cancelledBlock: 'cancelledBlock',
+          executedBlock: 'executedBlock',
+          proposalData: {
+            votingStrategy: 'STANDARD',
+            title: 'Season N+3: Code of Renewal',
+            startTimestamp: '2024-05-29T16:54:38.631Z',
+            endTimestamp: '2024-06-02T16:54:38.631Z',
+            createdTimestamp: '2024-05-29T16:54:38.631Z',
+            link: 'link',
+            scores: ['scores'],
+            votes: 'votes',
+            state: 'ACTIVE',
+          },
+          proposalTemplate: {
+            name: 'name',
+            proposalTemplateId: 0,
+            votingStrategy: 'STANDARD',
+            quorum: 'quorum',
+            approvalThreshold: 'approvalThreshold',
+            contractAddress: 'contractAddress',
+            createBlock: 'createBlock',
+          },
+        },
+      ],
+    },
+  },
+  {
+    data: {
+      metadata: {
+        has_next: true,
+        total_returned: 1_073_741_824,
+        next_offset: 1_073_741_824,
+      },
+      proposals: [
+        {
+          proposalId:
+            '105090569675606228680479820654354019470447822380910214626164858605991232311940',
+          contractAddress: 'contractAddress',
+          proposerAddress: 'optimism.eth',
+          description: `Please read Code of Conduct Rescoping #2 before voting on this proposal: https://gov.optimism.io/t/season-6-code-of-conduct-rescoping-2/8101
+
+         in Season N+4. It is now time for delegates to assess whether the Council should be renewed.
+        
+         The Token House experimented with a Code of Conduct Council to oversee the Rules of Engagement in Season 6, effectively electing the proposal author as Council Lead. If delegates do not believe an elected Council is necessary to enforce the Rules of Engagement, they should not approve any operating budget for a Code of Conduct Council.`,
+          ordinal: 'ordinal',
+          createBlock: 'createBlock',
+          startBlock: 'startBlock',
+          endBlock: 'endBlock',
+          cancelledBlock: 'cancelledBlock',
+          executedBlock: 'executedBlock',
+          proposalData: {
+            votingStrategy: 'STANDARD',
+            title: 'Season N+4: Code of Renewal',
+            startTimestamp: '2024-05-29T16:54:38.631Z',
+            endTimestamp: '2024-06-02T16:54:38.631Z',
+            createdTimestamp: '2024-05-29T16:54:38.631Z',
+            link: 'link',
+            scores: ['scores'],
+            votes: 'votes',
+            state: 'ACTIVE',
+          },
+          proposalTemplate: {
+            name: 'name',
+            proposalTemplateId: 0,
+            votingStrategy: 'STANDARD',
+            quorum: 'quorum',
+            approvalThreshold: 'approvalThreshold',
+            contractAddress: 'contractAddress',
+            createBlock: 'createBlock',
+          },
+        },
+      ],
+    },
+  },
+  {
+    data: {
+      metadata: {
+        has_next: true,
+        total_returned: 1_073_741_824,
+        next_offset: 1_073_741_824,
+      },
+      proposals: [
+        {
+          proposalId:
+            '105090569675606228680479820654354019470447822380910214626164858605991232311940',
+          contractAddress: 'contractAddress',
+          proposerAddress: 'optimism.eth',
+          description: `Please read Code of Conduct Rescoping #2 before voting on this proposal: https://gov.optimism.io/t/season-6-code-of-conduct-rescoping-2/8101
+
+         in Season N+5. It is now time for delegates to assess whether the Council should be renewed.
+        
+         The Token House experimented with a Code of Conduct Council to oversee the Rules of Engagement in Season 6, effectively electing the proposal author as Council Lead. If delegates do not believe an elected Council is necessary to enforce the Rules of Engagement, they should not approve any operating budget for a Code of Conduct Council.`,
+          ordinal: 'ordinal',
+          createBlock: 'createBlock',
+          startBlock: 'startBlock',
+          endBlock: 'endBlock',
+          cancelledBlock: 'cancelledBlock',
+          executedBlock: 'executedBlock',
+          proposalData: {
+            votingStrategy: 'STANDARD',
+            title: 'Season N+5: Code of Renewal',
+            startTimestamp: '2024-05-29T16:54:38.631Z',
+            endTimestamp: '2024-06-02T16:54:38.631Z',
+            createdTimestamp: '2024-05-29T16:54:38.631Z',
+            link: 'link',
+            scores: ['scores'],
+            votes: 'votes',
+            state: 'ACTIVE',
+          },
+          proposalTemplate: {
+            name: 'name',
+            proposalTemplateId: 0,
+            votingStrategy: 'STANDARD',
+            quorum: 'quorum',
+            approvalThreshold: 'approvalThreshold',
+            contractAddress: 'contractAddress',
+            createBlock: 'createBlock',
+          },
+        },
+      ],
+    },
+  },
+  {
+    data: {
+      metadata: {
         has_next: false,
         total_returned: 1_073_741_824,
         next_offset: 1_073_741_824,
@@ -197,7 +437,7 @@ export class GetAgoraProposalsCommand extends Command<
       const response = new Promise((r) => {
         return setTimeout(() => {
           return r(proposalsResponses[this.details.offset]);
-        }, 500);
+        }, Math.random() * 3400);
       });
 
       const json = await response;

@@ -31,6 +31,9 @@ export const Proposal = ({
     data.proposalData.endTimestamp,
   ).getTime();
 
+  const navigationButtonClassName =
+    'inline-flex h-7 select-none items-center justify-center rounded-md text-sm font-light text-[#444444] transition-all hover:text-[#7d848a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:bg-white';
+
   return (
     <WidgetBase
       className={classes(
@@ -44,7 +47,7 @@ export const Proposal = ({
         <p className="text-xs font-semibold text-gray-700">
           Standard Proposal by The Optimism Foundation
         </p>
-        <Chip className="rounded-sm bg-green-200 px-1 py-0.5 font-semibold text-green-600">
+        <Chip className="rounded-sm bg-green-200 px-1 py-0.5 font-semibold uppercase text-green-600">
           Active
         </Chip>
       </header>
@@ -69,7 +72,7 @@ export const Proposal = ({
             target="_blank"
           >
             <Chip
-              className="mr-2 inline-flex h-7 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:bg-[#F1F5F9] hover:text-[#0F172A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              className="mr-2 inline-flex h-7 select-none items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:bg-[#F1F5F9] hover:text-[#0F172A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
               variant="info"
               width="long"
             >
@@ -81,21 +84,21 @@ export const Proposal = ({
           <Button
             disabled={!isPreviousProposalAvailable}
             onClick={showPreviousProposal}
-            className="inline-flex h-7 items-center justify-center rounded-md text-sm font-light text-[#444444] transition-all hover:text-[#7d848a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:bg-white"
+            className={navigationButtonClassName}
           >
             Previous
           </Button>
           <Button
             disabled={!isNextProposalAvailable}
             onClick={showNextProposal}
-            className="inline-flex h-7 items-center justify-center rounded-md text-sm font-light text-[#444444] transition-all hover:text-[#7d848a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:bg-white"
+            className={navigationButtonClassName}
           >
             Next
           </Button>
         </div>
       </footer>
       {loadingNextProposal && (
-        <div className="absolute bottom-px h-1 w-full animate-pulse rounded-md bg-gradient-to-r from-neutral-200 via-neutral-200 via-neutral-300 to-neutral-300" />
+        <div className="absolute bottom-px h-1 w-full animate-pulse rounded-md bg-gradient-to-r from-neutral-200 via-neutral-200 via-neutral-300 via-neutral-300 to-neutral-200" />
       )}
     </WidgetBase>
   );

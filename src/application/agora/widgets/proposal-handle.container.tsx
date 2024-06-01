@@ -30,8 +30,6 @@ export const ProposalHandleContainer = ({ handle }: Properties) => {
     proposalQuery.data?.metadata.has_next,
   );
 
-  console.log('proposalQuery', proposalQuery);
-
   const showPreviousProposal = () => {
     if (!isPreviousProposalAvailable) {
       return;
