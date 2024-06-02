@@ -429,22 +429,13 @@ export class GetAgoraProposalsCommand extends Command<
       // const json = await response.json();
       // END OF TODO
 
-      console.log('this.details.offset', this.details.offset);
-      console.log(
-        'proposalsResponses[this.details.offset]',
-        proposalsResponses[this.details.offset],
-      );
       const response = new Promise((r) => {
         return setTimeout(() => {
           return r(proposalsResponses[this.details.offset]);
         }, Math.random() * 3400);
       });
-
       const json = await response;
-      console.log('json', json);
       const validResponse = getProposalsResponseSchema.parse(json);
-      console.log('validResponse', validResponse);
-
       return new OkResult(validResponse.data);
     } catch (error) {
       await this.trackHandlerException();

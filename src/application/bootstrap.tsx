@@ -14,11 +14,9 @@ import {
 import { WalletContextProvider } from 'shared/web3';
 import { ErrorBoundary } from 'shared/monitoring';
 
-// TODO console.log('Uncomment Below Code')
-// import { SnapshotApp } from './snapshot';
-// import { GitcoinApp } from './gitcoin';
-// import { PolymarketApp } from './polymarket';
-// TODO console.log('Uncomment Above Code')
+import { SnapshotApp } from './snapshot';
+import { GitcoinApp } from './gitcoin';
+import { PolymarketApp } from './polymarket';
 import { AgoraApp } from './agora';
 
 export const bootstrap = () => {
@@ -77,11 +75,9 @@ const Applications = () => {
 
   return (
     <>
-      {/* TODO console.log('Uncomment Below Code') */}
-      {/* {applicationsStatus.polymarket ? <PolymarketApp /> : null}
+      {applicationsStatus.polymarket ? <PolymarketApp /> : null}
       {applicationsStatus.snapshot ? <SnapshotApp /> : null}
-      {applicationsStatus.gitcoin ? <GitcoinApp /> : null} */}
-      {/* TODO console.log('Uncomment Below Code') */}
+      {applicationsStatus.gitcoin ? <GitcoinApp /> : null}
       {applicationsStatus.agora ? <AgoraApp /> : null}
     </>
   );
