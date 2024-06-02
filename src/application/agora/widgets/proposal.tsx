@@ -37,28 +37,26 @@ export const Proposal = ({
   return (
     <WidgetBase
       className={classes(
-        'grid h-[200px] rounded-md bg-white text-xs leading-tight',
+        'grid h-[200px] overflow-hidden rounded-md bg-white text-xs leading-tight',
         className,
       )}
       top={top}
       onClose={onClose}
     >
       <header className="mb-auto flex items-center justify-between space-x-3">
-        <p className="text-xs font-semibold text-gray-700">
-          Standard Proposal by The Optimism Foundation
+        <p className="line-clamp-[1] text-xs font-semibold text-gray-700">
+          {data.proposerAddress}
         </p>
         <Chip className="rounded-sm bg-green-200 px-1 py-0.5 font-semibold uppercase text-green-600">
-          Active
+          {data.proposalData.state}
         </Chip>
       </header>
       <main className="mt-2">
-        <p className="text-lg font-black text-black">
-          {data.proposalData.title.slice(0, 56)}
-          {data.proposalData.title.length > 56 ? '...' : ''}
+        <p className="line-clamp-[1] text-base font-black text-black">
+          {data.proposalData.title}
         </p>
-        <p className="mt-1 overflow-hidden text-[#374151]">
-          {data.description.slice(0, 120)}
-          {data.description.length > 120 ? '...' : ''}
+        <p className="mt-1 line-clamp-[4] overflow-hidden text-[#374151]">
+          {data.description}
         </p>
       </main>
       <footer className="mt-auto flex items-center justify-between">
@@ -97,9 +95,9 @@ export const Proposal = ({
           </Button>
         </div>
       </footer>
-      {loadingNextProposal && (
-        <div className="absolute bottom-px h-1 w-full animate-pulse rounded-md bg-gradient-to-r from-neutral-200 via-neutral-200 via-neutral-300 via-neutral-300 to-neutral-200" />
-      )}
+      <div
+        className={`absolute top-0 h-1 ${loadingNextProposal ? 'left-0' : 'right-0'} ${loadingNextProposal ? 'w-full' : 'w-0'} animate-pulse rounded-full bg-gradient-to-r from-stone-300 via-stone-300 via-stone-400 via-stone-500 to-stone-300  delay-75 duration-200`}
+      />
     </WidgetBase>
   );
 };
