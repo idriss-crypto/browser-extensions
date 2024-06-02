@@ -16,12 +16,12 @@ export const App = () => {
 
   return (
     <ErrorBoundary exceptionEventName="agora-runtime-error">
-      {isTwitterHandlePage ? (
+      {isTwitterHandlePage && (
         <ProposalHandleContainer
           handle={extractTwitterHandleFromPathname(location.pathname ?? '')}
         />
-      ) : null}
-      {isTwitterHomePage ? <ProposalMainContainer /> : null}
+      )}
+      {isTwitterHomePage && <ProposalMainContainer />}
     </ErrorBoundary>
   );
 };
