@@ -12,6 +12,7 @@ import {
   Spinner,
 } from 'shared/ui/components';
 import { classes } from 'shared/ui/utils';
+// eslint-disable-next-line boundaries/element-types
 import { useTwitterLocationInfo } from 'host/twitter';
 
 import { hexToDecimal, toAddressWithValidChecksum } from '../web3.utils';
