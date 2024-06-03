@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
-import { useTwitterUsersPooling } from 'src/host/twitter';
-
+import { useTwitterUsersPooling } from '../../../host/twitter';
 import { getAgoraUserNodes } from '../utils';
 
 interface Properties {

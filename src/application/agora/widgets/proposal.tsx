@@ -1,8 +1,13 @@
 import { classes } from 'shared/ui/utils';
-import { Button, Chip, WidgetBase } from 'shared/ui/components';
+import { Chip, WidgetBase } from 'shared/ui/components';
+import {
+  getDifferenceInDays,
+  getEndsInLabel,
+} from 'shared/ui/utils/date-utils';
 
 import { ProposalData } from '../types';
-import { getDaysUntil, getEndsInLabel, getProposalUrl } from '../utils';
+import { getProposalUrl } from '../utils';
+import { NavigationButton } from '../components/navigation-button';
 
 interface Properties {
   data: ProposalData;
@@ -10,10 +15,10 @@ interface Properties {
   top?: number;
   isPreviousProposalAvailable: boolean;
   isNextProposalAvailable: boolean;
-  loadingNextProposal: boolean;
+  isLoading: boolean;
   onClose?: () => void;
-  showPreviousProposal: () => void;
-  showNextProposal: () => void;
+  onPrevious: () => void;
+  onNext: () => void;
 }
 
 export const Proposal = ({
@@ -22,17 +27,14 @@ export const Proposal = ({
   top,
   isPreviousProposalAvailable,
   isNextProposalAvailable,
-  loadingNextProposal,
+  isLoading,
   onClose,
-  showPreviousProposal,
-  showNextProposal,
+  onPrevious,
+  onNext,
 }: Properties) => {
   const proposalEndDateInMs = new Date(
     data.proposalData.endTimestamp,
   ).getTime();
-
-  const navigationButtonClassName =
-    'inline-flex h-7 select-none items-center justify-center rounded-md text-sm font-light text-[#444444] transition-all hover:text-[#7d848a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:bg-white';
 
   return (
     <WidgetBase
@@ -62,7 +64,7 @@ export const Proposal = ({
       <footer className="mt-auto flex items-center justify-between">
         <div className="flex justify-start gap-3.5">
           <div className="flex items-center text-xs font-semibold text-gray-700">
-            {getEndsInLabel(getDaysUntil(proposalEndDateInMs))}
+            {getEndsInLabel(getDifferenceInDays(proposalEndDateInMs))}
           </div>
           <a
             href={getProposalUrl(data.proposalId)}
@@ -79,24 +81,25 @@ export const Proposal = ({
           </a>
         </div>
         <div className="flex justify-end gap-3.5">
-          <Button
+          <NavigationButton
             disabled={!isPreviousProposalAvailable}
-            onClick={showPreviousProposal}
-            className={navigationButtonClassName}
+            onClick={onPrevious}
           >
             Previous
-          </Button>
-          <Button
+          </NavigationButton>
+          <NavigationButton
             disabled={!isNextProposalAvailable}
-            onClick={showNextProposal}
-            className={navigationButtonClassName}
+            onClick={onNext}
           >
             Next
-          </Button>
+          </NavigationButton>
         </div>
       </footer>
       <div
-        className={`absolute top-0 h-1 ${loadingNextProposal ? 'left-0' : 'right-0'} ${loadingNextProposal ? 'w-full' : 'w-0'} animate-pulse rounded-full bg-gradient-to-r from-stone-300 via-stone-300 via-stone-400 via-stone-500 to-stone-300  delay-75 duration-200`}
+        className={classes(
+          'absolute top-0 h-1 animate-pulse rounded-full bg-gradient-to-r from-stone-300 via-stone-300 via-stone-400 via-stone-500 to-stone-300  delay-75 duration-200',
+          isLoading ? 'left-0 w-full' : 'right-0 w-0',
+        )}
       />
     </WidgetBase>
   );

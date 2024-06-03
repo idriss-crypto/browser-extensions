@@ -11,7 +11,7 @@ import { Proposal } from './proposal';
 
 export const ProposalMainContainer = () => {
   const [hiddenAgoraUsers, setHiddenAgoraUsers] = useState<string[]>([]);
-  const [currentProposalIndex, setCurrentProposalIndex] = useState<number>(0);
+  const [currentProposalIndex, setCurrentProposalIndex] = useState(0);
   const [currentProposal, setCurrentProposal] = useState<ProposalData>();
 
   const { visibleAgoraNodes } = useTwitterVisibleAgoraNodes({
@@ -77,9 +77,9 @@ export const ProposalMainContainer = () => {
         <Proposal
           isPreviousProposalAvailable={isPreviousProposalAvailable}
           isNextProposalAvailable={isNextProposalAvailable}
-          showNextProposal={showNextProposal}
-          showPreviousProposal={showPreviousProposal}
-          loadingNextProposal={proposalQuery.isLoading}
+          onNext={showNextProposal}
+          onPrevious={showPreviousProposal}
+          isLoading={proposalQuery.isLoading}
           data={currentProposal}
           className="absolute"
           top={top - 12}

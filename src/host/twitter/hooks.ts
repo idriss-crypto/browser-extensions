@@ -5,6 +5,7 @@ import { usePooling } from 'shared/ui';
 
 import { Twitter } from './twitter';
 import {
+  extractTwitterHandleFromPathname,
   isTwitterHandlePathname,
   isTwitterHomePathname,
   isTwitterHostname,
@@ -90,6 +91,14 @@ export const useTwitterLocationInfo = () => {
   const isTwitter = isTwitterHostname(location.hostname ?? '');
   const isTwitterHandlePage = isTwitterHandlePathname(location.pathname ?? '');
   const isTwitterHomePage = isTwitterHomePathname(location.pathname ?? '');
+  const twitterHandleFromPathname = extractTwitterHandleFromPathname(
+    location.pathname ?? '',
+  );
 
-  return { isTwitter, isTwitterHandlePage, isTwitterHomePage };
+  return {
+    isTwitter,
+    isTwitterHandlePage,
+    isTwitterHomePage,
+    twitterHandleFromPathname,
+  };
 };

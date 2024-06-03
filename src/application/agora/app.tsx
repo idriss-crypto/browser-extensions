@@ -1,14 +1,17 @@
 import { useExtensionSettings } from 'shared/extension';
 import { ErrorBoundary } from 'shared/monitoring';
-import { extractTwitterHandleFromPathname } from 'host/twitter';
-import { useTwitterLocationInfo } from 'host/twitter/hooks';
+import { useTwitterLocationInfo } from 'host/twitter';
 
 import { ProposalHandleContainer, ProposalMainContainer } from './widgets';
 
 export const App = () => {
   const { experimentalFeatures } = useExtensionSettings();
-  const { isTwitter, isTwitterHandlePage, isTwitterHomePage } =
-    useTwitterLocationInfo();
+  const {
+    isTwitter,
+    isTwitterHandlePage,
+    isTwitterHomePage,
+    twitterHandleFromPathname,
+  } = useTwitterLocationInfo();
 
   if (!experimentalFeatures || !isTwitter) {
     return null;
@@ -17,9 +20,7 @@ export const App = () => {
   return (
     <ErrorBoundary exceptionEventName="agora-runtime-error">
       {isTwitterHandlePage && (
-        <ProposalHandleContainer
-          handle={extractTwitterHandleFromPathname(location.pathname ?? '')}
-        />
+        <ProposalHandleContainer handle={twitterHandleFromPathname} />
       )}
       {isTwitterHomePage && <ProposalMainContainer />}
     </ErrorBoundary>
