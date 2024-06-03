@@ -429,9 +429,12 @@ export class GetAgoraProposalsCommand extends Command<
       // END OF TODO
 
       const response = new Promise((r) => {
-        return setTimeout(() => {
-          return r(proposalsResponses[this.details.offset]);
-        }, Math.random() * 600);
+        return setTimeout(
+          () => {
+            return r(proposalsResponses[this.details.offset]);
+          },
+          Math.random() * 1000 + 300,
+        );
       });
       const json = await response;
       const validResponse = getProposalsResponseSchema.parse(json);
