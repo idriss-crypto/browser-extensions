@@ -69,7 +69,7 @@ export const ProposalMainContainer = () => {
   return visibleAgoraNodes.map(({ top }) => {
     return (
       <ErrorBoundary
-        key={currentProposal?.proposalId}
+        key={`${currentProposal?.proposalId}at_${top}`}
         exceptionEventName="agora-widget-twitter-main-runtime-error"
       >
         <Proposal

@@ -15,23 +15,14 @@ export const useTwitterVisibleAgoraNodes = ({ hidden }: Properties) => {
   }, [results]);
 
   const visibleAgoraNodes = useMemo(() => {
-    return [
-      ...new Set(
-        agoraNodes.map((user) => {
-          return user.agoraUsername;
-        }),
-      ),
-    ]
-      .filter((agoraUsername) => {
-        return !hidden.includes(agoraUsername);
+    return agoraNodes
+      .filter((node) => {
+        return !hidden.includes(node.agoraUsername);
       })
-      .map((agoraUsername) => {
+      .map((node) => {
         return {
-          username: agoraUsername,
-          top:
-            agoraNodes.find((node) => {
-              return node.agoraUsername === agoraUsername;
-            })?.top ?? 0,
+          username: node.agoraUsername,
+          top: node.top,
         };
       });
   }, [agoraNodes, hidden]);
