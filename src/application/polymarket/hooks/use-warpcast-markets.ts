@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-import { useWarpcastExternalLinksPooling } from '../../../host/warpcast';
+import { useWarpcastExternalLinksPooling } from 'host/warpcast';
+
 import { GetConditionIdCommand } from '../commands';
 import { isEventUrl } from '../utils';
 

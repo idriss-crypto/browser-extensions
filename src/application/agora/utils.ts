@@ -1,4 +1,4 @@
-import { TwitterUserPoolingResult } from '../../host/twitter';
+import { TwitterUserPoolingResult } from 'host/twitter';
 
 import { AGORA_WEBSITE_URL, TWITTER_HANDLE_TO_AGORA } from './constants';
 

@@ -1,9 +1,6 @@
 import { classes } from 'shared/ui/utils';
 import { Chip, WidgetBase } from 'shared/ui/components';
-import {
-  getDifferenceInDays,
-  getEndsInLabel,
-} from 'shared/ui/utils/date-utils';
+import { getDifferenceInDays, getEndsInLabel } from 'shared/utils';
 
 import { ProposalData } from '../types';
 import { getProposalAuthor, getProposalUrl, getUserUrl } from '../utils';

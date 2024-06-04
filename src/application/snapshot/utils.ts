@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { TwitterUserPoolingResult } from '../../host/twitter';
+import { TwitterUserPoolingResult } from 'host/twitter';
 
 import { SNAPSHOT_WEBSITE_URL, TWITTER_HANDLE_TO_SNAPSHOT } from './constants';
 import { GetProposalsOptions, ProposalData } from './types';
