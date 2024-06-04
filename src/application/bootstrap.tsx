@@ -49,11 +49,6 @@ const ApplicationWithProviders = () => {
 
 const Applications = () => {
   const serviceStatusQuery = useGetServiceStatus();
-  //TODO console.log('Remove Below Code')
-  if (serviceStatusQuery?.data) {
-    serviceStatusQuery.data.agora = true;
-  }
-  //TODO console.log('Remove Above Code')
 
   const applicationsStatus = useMemo(() => {
     return {
