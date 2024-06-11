@@ -11,6 +11,7 @@ import { EXTENSION_COMMAND_MAP } from 'shared/extension';
 import { MONITORING_COMMAND_MAP } from 'shared/monitoring';
 import { UTILS_COMMAND_MAP } from 'shared/utils';
 import { AGORA_COMMAND_MAP } from 'application/agora';
+import { TALLY_COMMAND_MAP } from 'application/tally';
 
 import { GtcResolver } from '../common/resolvers/GtcResolver';
 import { SbtResolver } from '../common/resolvers/SbtResolver';
@@ -26,6 +27,7 @@ const COMMAND_MAP = {
   ...UTILS_COMMAND_MAP,
   ...TWITTER_COMMAND_MAP,
   ...AGORA_COMMAND_MAP,
+  ...TALLY_COMMAND_MAP,
 };
 
 export class ServiceWorker {
