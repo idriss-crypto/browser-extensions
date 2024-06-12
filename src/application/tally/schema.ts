@@ -13,6 +13,7 @@ export const proposalSchema = z.object({
   organization: z.object({
     id: z.string(),
     name: z.string(),
+    slug: z.string(),
   }),
 });
 
@@ -34,7 +35,7 @@ export const getProposalsResponseSchema = z.object({
 });
 
 export const organizationInfoSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   proposalsCount: z.number(),
   hasActiveProposals: z.boolean(),
   chainIds: z.array(z.string()),

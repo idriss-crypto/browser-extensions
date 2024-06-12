@@ -12,6 +12,7 @@ import { ProposalsResponse } from '../types';
 
 interface Details {
   tallyUserId: string;
+  afterCursor: string | null;
 }
 
 export class GetProposalsCommand extends Command<Details, ProposalsResponse> {
@@ -32,21 +33,24 @@ export class GetProposalsCommand extends Command<Details, ProposalsResponse> {
         method: 'POST',
         body: JSON.stringify({
           query: query,
-          operationName: 'Proposals',
           variables: {
             input: {
               filters: {
                 includeArchived: true,
                 organizationId: '2206072050198513402',
+                // organizationId: this.details.tallyUserId,
               },
               page: {
                 limit: 1,
+                afterCursor: this.details.afterCursor,
               },
             },
           },
         }),
         headers: {
           'Content-Type': 'application/json',
+          'Api-Key':
+            'a0a4cd00bb6953720c9c201c010cdd36a563e65c97e926a36a8acdfcd1d1eeb7',
         },
       });
 
@@ -55,10 +59,10 @@ export class GetProposalsCommand extends Command<Details, ProposalsResponse> {
       }
 
       const json = await response.json();
-      const validResponse = getProposalsResponseSchema.parse(json);
-      const proposals = validResponse;
 
-      return new OkResult(proposals.data.proposalsV2);
+      const validResponse = getProposalsResponseSchema.parse(json);
+
+      return new OkResult(validResponse.data.proposalsV2);
     } catch (error) {
       await this.trackHandlerException();
       if (error instanceof HandlerError) {

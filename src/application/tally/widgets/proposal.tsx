@@ -1,58 +1,107 @@
 import { classes } from 'shared/ui/utils';
 import { Chip, WidgetBase } from 'shared/ui/components';
 import { getDifferenceInDays, getEndsInLabel } from 'shared/utils';
+import { NavigationButton } from 'application/agora/components';
 
-import { ProposalData, ProposalsResponse } from '../types';
+import { ProposalData } from '../types';
 import { getProposalUrl, getUserUrl } from '../utils';
 
 interface Properties {
-  data: ProposalsResponse;
+  proposalDetails: ProposalData;
   className?: string;
   top?: number;
+  isPreviousProposalAvailable: boolean;
+  isNextProposalAvailable: boolean;
+  isLoading: boolean;
   onClose?: () => void;
+  onPrevious: () => void;
+  onNext: () => void;
 }
 
-export const Proposal = ({ data, className, top, onClose }: Properties) => {
+export const Proposal = ({
+  proposalDetails,
+  className,
+  top,
+  isPreviousProposalAvailable,
+  isNextProposalAvailable,
+  isLoading,
+  onClose,
+  onPrevious,
+  onNext,
+}: Properties) => {
+  const proposalEndDateInMs = new Date(proposalDetails.end.timestamp).getTime();
+
   return (
     <WidgetBase
       className={classes(
-        'rounded-lg bg-[#2d2d2d] text-xs leading-tight',
+        'grid h-[200px] overflow-hidden rounded-md bg-white text-xs leading-tight',
         className,
       )}
       top={top}
       onClose={onClose}
     >
-      <header className="flex items-center justify-between space-x-3">
-        <a
-          href={getUserUrl(data.nodes[0]?.organization.name ?? '')}
-          className="text-[#aaa]"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          By {data.nodes[0]?.organization.name}
-        </a>
-        <Chip>Active</Chip>
+      <header className="mb-auto flex items-center justify-between space-x-3">
+        <p className="line-clamp-[1] text-xs font-semibold text-gray-700">
+          <a
+            href={getUserUrl(proposalDetails.organization.slug ?? '')}
+            className="text-[#aaa]"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            By {proposalDetails.organization.name}
+          </a>
+        </p>
+        <Chip className="rounded-sm bg-green-200 px-1 py-0.5 font-semibold uppercase text-green-600">
+          {proposalDetails.status.toUpperCase()}
+        </Chip>
       </header>
       <main className="mt-2">
-        <p className="text-base font-semibold">{data.title}</p>
-        <p className="mt-1 overflow-hidden text-[#ccc]">
-          ${data.body.slice(0, 120)}...
+        <p className="line-clamp-[1] text-base font-black text-black">
+          {proposalDetails.metadata.title}
+        </p>
+        <p className="mt-1 line-clamp-[4] overflow-hidden text-[#374151]">
+          {proposalDetails.metadata.description}
         </p>
       </main>
-      <footer className="mt-2 flex items-center space-x-2">
-        <div className="text-[#aaa]">
-          {getEndsInLabel(getDifferenceInDays(data.end * 1000))}
+      <footer className="mt-auto flex items-center justify-between">
+        <div className="flex justify-start gap-3.5">
+          <div className="flex items-center text-xs font-semibold text-gray-700">
+            {getEndsInLabel(getDifferenceInDays(proposalEndDateInMs))}
+          </div>
+          <a
+            href={getProposalUrl(
+              proposalDetails.organization.slug,
+              proposalDetails.id,
+            )}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Chip className="py-1" variant="info" width="long">
+              Vote
+            </Chip>
+          </a>
         </div>
-        <a
-          href={getProposalUrl(data.space.id, data.id)}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <Chip className="py-1" variant="info" width="long">
-            Vote
-          </Chip>
-        </a>
+        <div className="flex justify-end gap-3.5">
+          <NavigationButton
+            disabled={!isPreviousProposalAvailable}
+            onClick={onPrevious}
+          >
+            Previous
+          </NavigationButton>
+          <NavigationButton
+            disabled={!isNextProposalAvailable}
+            onClick={onNext}
+          >
+            Next
+          </NavigationButton>
+        </div>
       </footer>
+      <div
+        className={classes(
+          'absolute top-0 h-1 animate-pulse rounded-full bg-gradient-to-r from-stone-300 via-stone-300 via-stone-400 via-stone-500 to-stone-300  delay-75 duration-200',
+          isLoading ? 'left-0 w-full' : 'right-0 w-0',
+        )}
+      />
     </WidgetBase>
   );
 };

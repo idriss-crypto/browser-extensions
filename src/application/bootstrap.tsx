@@ -18,6 +18,7 @@ import { SnapshotApp } from './snapshot';
 import { GitcoinApp } from './gitcoin';
 import { PolymarketApp } from './polymarket';
 import { AgoraApp } from './agora';
+import { TallyApp } from './tally';
 
 export const bootstrap = () => {
   const root = document.createElement('div');
@@ -70,10 +71,11 @@ const Applications = () => {
 
   return (
     <>
-      {applicationsStatus.polymarket ? <PolymarketApp /> : null}
+      {/* {applicationsStatus.polymarket ? <PolymarketApp /> : null}
       {applicationsStatus.snapshot ? <SnapshotApp /> : null}
       {applicationsStatus.gitcoin ? <GitcoinApp /> : null}
-      {applicationsStatus.agora ? <AgoraApp /> : null}
+      {applicationsStatus.agora ? <AgoraApp /> : null} */}
+      <TallyApp />
     </>
   );
 };

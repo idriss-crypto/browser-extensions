@@ -18,7 +18,7 @@ export const useTwitterProposalsToDisplay = ({ hidden }: Properties) => {
 
   const proposalsQuery = useCommandQuery({
     command: new GetProposalsCommand({
-      tallyUserIds: visibleTallysNames.sort(),
+      tallyUserId: visibleTallysNames.sort(),
     }),
     placeholderData: (previousData) => {
       return previousData;

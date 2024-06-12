@@ -59,6 +59,7 @@ export const generateGetProposalsQuery = () => {
         organization {
           id
           name
+          slug
         }
       }
     }
@@ -72,11 +73,11 @@ export const generateGetProposalsQuery = () => {
 };
 
 export const getProposalUrl = (userName: string, proposalId: string) => {
-  return `${TALLY_WEBSITE_URL}/gov/${userName}/proposal/${proposalId}`;
+  return `${TALLY_WEBSITE_URL}gov/${userName}/proposal/${proposalId}`;
 };
 
 export const getUserUrl = (userName: string) => {
-  return `${TALLY_WEBSITE_URL}/gov/${userName}`;
+  return `${TALLY_WEBSITE_URL}gov/${userName}`;
 };
 
 export const getTallyFromTwitterUsername = (handle: string) => {
