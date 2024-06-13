@@ -55,7 +55,7 @@ export const Proposal = ({
           {proposalDetails.status.toUpperCase()}
         </Chip>
       </header>
-      <main className="mt-2">
+      <main className="mt-2 grid">
         <p className="line-clamp-[1] text-base font-black text-black">
           {proposalDetails.metadata.title}
         </p>
@@ -76,7 +76,11 @@ export const Proposal = ({
             rel="noopener noreferrer"
             target="_blank"
           >
-            <Chip className="py-1" variant="info" width="long">
+            <Chip
+              className="mr-2 inline-flex h-7 select-none items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:bg-[#F1F5F9] hover:text-[#0F172A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              variant="info"
+              width="long"
+            >
               Vote
             </Chip>
           </a>

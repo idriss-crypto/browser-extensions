@@ -37,8 +37,7 @@ export class GetProposalsCommand extends Command<Details, ProposalsResponse> {
             input: {
               filters: {
                 includeArchived: true,
-                organizationId: '2206072050198513402',
-                // organizationId: this.details.tallyUserId,
+                organizationId: this.details.tallyUserId,
               },
               page: {
                 limit: 1,

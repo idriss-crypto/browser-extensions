@@ -15,8 +15,7 @@ interface Properties {
 export const ProposalHandleContainer = ({ handle }: Properties) => {
   const [fetchedProposals, setFetchedProposals] = useState<ProposalData[]>([]);
   const [currentProposalIndex, setCurrentProposalIndex] = useState(0);
-  const [isNextProposalAvailable, setIsNextProposalAvailable] = useState(true);
-  const isPreviousProposalAvailable = currentProposalIndex > 0;
+  const [hasMoreProposalsToFetch, setHasMoreProposalsToFetch] = useState(true);
 
   const tallyName = getTallyFromTwitterUsername(handle);
 
@@ -25,18 +24,30 @@ export const ProposalHandleContainer = ({ handle }: Properties) => {
     enabled: handle ? handle.length > 0 : false,
   });
 
-  const hasActiveProposal =
+  const hasActiveProposals =
     organizationInfoQuery.data?.hasActiveProposals ?? false;
 
   const currentProposal = fetchedProposals.at(currentProposalIndex);
+  const isCurrentProposalLastFetched =
+    fetchedProposals.at(-1)?.id === currentProposal?.id;
+  const isProposalQueryEnabled =
+    hasActiveProposals &&
+    hasMoreProposalsToFetch &&
+    isCurrentProposalLastFetched;
 
   const proposalQuery = useCommandQuery({
     command: new GetProposalsCommand({
       tallyUserId: organizationInfoQuery.data?.id?.toString() ?? '',
       afterCursor: currentProposal?.id ? `0;${currentProposal.id}` : null,
     }),
-    enabled: hasActiveProposal,
+    enabled: isProposalQueryEnabled,
   });
+
+  const isLoadingProposal =
+    proposalQuery.isLoading || proposalQuery.isPlaceholderData;
+  const isPreviousProposalAvailable = currentProposalIndex > 0;
+  const isNextProposalAvailable =
+    currentProposalIndex < fetchedProposals.length - 1;
 
   const showPreviousProposal = () => {
     if (!isPreviousProposalAvailable || isLoadingProposal) {
@@ -59,27 +70,27 @@ export const ProposalHandleContainer = ({ handle }: Properties) => {
   };
 
   useEffect(() => {
-    if (proposalQuery.isLoading) {
+    if (!isProposalQueryEnabled || proposalQuery.isLoading) {
       return;
     }
 
     if (proposalQuery.data?.nodes.length === 0) {
-      setIsNextProposalAvailable(false);
+      setHasMoreProposalsToFetch(false);
       return;
     }
 
     const newFetchedProposal = proposalQuery.data?.nodes[0];
-    if (!newFetchedProposal) {
-      return;
+    if (newFetchedProposal) {
+      setFetchedProposals((previous) => {
+        return [...previous, newFetchedProposal];
+      });
     }
-
-    setFetchedProposals((previous) => {
-      return [...previous, newFetchedProposal];
-    });
-  }, [proposalQuery.data?.nodes, proposalQuery.isLoading]);
-
-  const isLoadingProposal =
-    proposalQuery.isLoading || proposalQuery.isPlaceholderData;
+  }, [
+    hasMoreProposalsToFetch,
+    isProposalQueryEnabled,
+    proposalQuery.data?.nodes,
+    proposalQuery.isLoading,
+  ]);
 
   if (!currentProposal || !tallyName) {
     return null;
