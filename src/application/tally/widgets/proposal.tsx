@@ -4,7 +4,12 @@ import { getDifferenceInDays, getEndsInLabel } from 'shared/utils';
 import { NavigationButton } from 'application/agora/components';
 
 import { ProposalData } from '../types';
-import { getProposalUrl, getUserUrl } from '../utils';
+import {
+  getProposalUrl,
+  getStatusBadgeColorClassNames,
+  getOrganizationUrl,
+  getOrganizationDelegateUrl,
+} from '../utils';
 
 interface Properties {
   proposalDetails: ProposalData;
@@ -34,29 +39,42 @@ export const Proposal = ({
   return (
     <WidgetBase
       className={classes(
-        'grid h-[200px] overflow-hidden rounded-md bg-white text-xs leading-tight',
+        'grid h-[200px] overflow-hidden rounded-[0.375rem] bg-white text-xs leading-tight',
         className,
       )}
       top={top}
       onClose={onClose}
     >
       <header className="mb-auto flex items-center justify-between space-x-3">
-        <p className="line-clamp-[1] text-xs font-semibold text-gray-700">
+        <p className="line-clamp-[1] text-xs text-black">
+          by{' '}
           <a
-            href={getUserUrl(proposalDetails.organization.slug ?? '')}
-            className="text-[#aaa]"
+            href={
+              proposalDetails.creator.ens.length > 0
+                ? getOrganizationDelegateUrl(
+                    proposalDetails.organization.slug ?? '',
+                    proposalDetails.creator.ens,
+                  )
+                : getOrganizationUrl(proposalDetails.organization.slug ?? '')
+            }
+            className="font-semibold font-semibold text-gray-700 hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
-            By {proposalDetails.organization.name}
+            {proposalDetails.creator.name ?? proposalDetails.organization.name}
           </a>
         </p>
-        <Chip className="rounded-sm bg-green-200 px-1 py-0.5 font-semibold uppercase text-green-600">
-          {proposalDetails.status.toUpperCase()}
+        <Chip
+          className={classes(
+            'rounded-sm px-[6px] py-[2px] font-bold uppercase leading-6 tracking-wide',
+            getStatusBadgeColorClassNames(proposalDetails.status),
+          )}
+        >
+          {proposalDetails.status}
         </Chip>
       </header>
-      <main className="mt-2 grid">
-        <p className="line-clamp-[1] text-base font-black text-black">
+      <main className="my-2 grid">
+        <p className="line-clamp-[1] text-base font-bold tracking-tighter text-gray-900">
           {proposalDetails.metadata.title}
         </p>
         <p className="mt-1 line-clamp-[4] overflow-hidden text-[#374151]">
@@ -65,7 +83,7 @@ export const Proposal = ({
       </main>
       <footer className="mt-auto flex items-center justify-between">
         <div className="flex justify-start gap-3.5">
-          <div className="flex items-center text-xs font-semibold text-gray-700">
+          <div className="flex w-[110px] items-center text-xs font-semibold font-semibold leading-5 text-gray-600">
             {getEndsInLabel(getDifferenceInDays(proposalEndDateInMs))}
           </div>
           <a
@@ -77,11 +95,13 @@ export const Proposal = ({
             target="_blank"
           >
             <Chip
-              className="mr-2 inline-flex h-7 select-none items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:bg-[#F1F5F9] hover:text-[#0F172A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              className=" mr-2 inline-flex h-7 select-none items-center justify-center rounded-md border border-gray-700 bg-gray-800 px-4 py-2 text-sm font-semibold leading-6 text-white transition-all duration-200 ease-in-out hover:bg-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
               variant="info"
               width="long"
             >
-              Vote
+              {proposalDetails.status.toLowerCase() === 'active'
+                ? 'Vote'
+                : 'View'}
             </Chip>
           </a>
         </div>

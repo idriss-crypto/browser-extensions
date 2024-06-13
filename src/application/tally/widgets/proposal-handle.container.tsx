@@ -41,6 +41,8 @@ export const ProposalHandleContainer = ({ handle }: Properties) => {
       afterCursor: currentProposal?.id ? `0;${currentProposal.id}` : null,
     }),
     enabled: isProposalQueryEnabled,
+    retry: 5,
+    retryDelay: 1600,
   });
 
   const isLoadingProposal =

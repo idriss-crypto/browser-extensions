@@ -105,6 +105,7 @@ interface CommandQueryProperties<
 > {
   command: Command<Parameters, ExpectedResponse>;
   retry?: number;
+  retryDelay?: number;
   refetchInterval?: number;
   select?: (response: ExpectedResponse) => MappedResponse;
   enabled?: boolean;
@@ -122,6 +123,7 @@ export const useCommandQuery = <
   command,
   select,
   retry,
+  retryDelay = 1000,
   staleTime,
   refetchInterval,
   placeholderData,
@@ -133,7 +135,7 @@ export const useCommandQuery = <
     retry,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     placeholderData: placeholderData as any,
-    retryDelay: 1000,
+    retryDelay: retryDelay,
     staleTime,
     enabled,
     select,

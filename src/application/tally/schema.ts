@@ -15,6 +15,10 @@ export const proposalSchema = z.object({
     name: z.string(),
     slug: z.string(),
   }),
+  creator: z.object({
+    name: z.string(),
+    ens: z.string(),
+  }),
 });
 
 export const proposalsPageInfoSchema = z.object({

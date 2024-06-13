@@ -56,6 +56,10 @@ export const generateGetProposalsQuery = () => {
           description
         }
         status
+        creator {
+          name
+          ens
+        }
         organization {
           id
           name
@@ -76,8 +80,15 @@ export const getProposalUrl = (userName: string, proposalId: string) => {
   return `${TALLY_WEBSITE_URL}gov/${userName}/proposal/${proposalId}`;
 };
 
-export const getUserUrl = (userName: string) => {
-  return `${TALLY_WEBSITE_URL}gov/${userName}`;
+export const getOrganizationUrl = (organizationName: string) => {
+  return `${TALLY_WEBSITE_URL}gov/${organizationName}`;
+};
+
+export const getOrganizationDelegateUrl = (
+  organizationName: string,
+  delegateEns: string,
+) => {
+  return `${TALLY_WEBSITE_URL}gov/${organizationName}/delegate/${delegateEns}`;
 };
 
 export const getTallyFromTwitterUsername = (handle: string) => {
@@ -100,4 +111,18 @@ export const getTallyUsernameNodes = (
       };
     })
     .filter(Boolean);
+};
+
+export const getStatusBadgeColorClassNames = (status: string) => {
+  switch (status.toLowerCase()) {
+    case 'active': {
+      return 'text-purple-600 bg-purple-100';
+    }
+    case 'defeated': {
+      return 'text-red-600 bg-red-100';
+    }
+    default: {
+      return 'text-teal-500 bg-teal-100';
+    }
+  }
 };
