@@ -2,35 +2,35 @@ import { useCallback, useState } from 'react';
 
 import { ErrorBoundary } from 'shared/monitoring';
 
-import { useTwitterProposalsToDisplay } from '../hooks';
+import { useTwitterVisibleTallyUsersNodes } from '../hooks';
 
-import { Proposal } from './proposal';
+import { OrganizationProposalsContainer } from './organization-proposals.container';
 
 export const ProposalMainContainer = () => {
-  const [hiddenTallys, setHiddenTallys] = useState<string[]>([]);
+  const [hiddenUsers, setHiddenUsers] = useState<string[]>([]);
 
-  const { proposalsToDisplay } = useTwitterProposalsToDisplay({
-    hidden: hiddenTallys,
+  const { visibleTallys } = useTwitterVisibleTallyUsersNodes({
+    hidden: hiddenUsers,
   });
 
   const hideTally = useCallback((tallyName: string) => {
-    setHiddenTallys((previous) => {
+    setHiddenUsers((previous) => {
       return [...previous, tallyName];
     });
   }, []);
 
-  return proposalsToDisplay.map(({ data, top }) => {
+  return visibleTallys.map(({ name, top }) => {
     return (
       <ErrorBoundary
-        key={data.id}
+        key={name}
         exceptionEventName="tally-widget-twitter-main-runtime-error"
       >
-        <Proposal
-          data={data}
+        <OrganizationProposalsContainer
+          twitterName={name}
           className="absolute"
           top={top - 12}
           onClose={() => {
-            hideTally(data.space.id);
+            hideTally(name);
           }}
         />
       </ErrorBoundary>

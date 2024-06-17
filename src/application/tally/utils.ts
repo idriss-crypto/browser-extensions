@@ -116,13 +116,13 @@ export const getTallyUsernameNodes = (
 export const getStatusBadgeColorClassNames = (status: string) => {
   switch (status.toLowerCase()) {
     case 'active': {
-      return 'text-purple-600 bg-purple-100';
+      return 'text-tally-purple-500 bg-tally-purple-100';
     }
     case 'defeated': {
-      return 'text-red-600 bg-red-100';
+      return 'text-tally-red-500 bg-tally-red-100';
     }
     default: {
-      return 'text-teal-500 bg-teal-100';
+      return 'text-tally-teal-600 bg-tally-teal-50';
     }
   }
 };

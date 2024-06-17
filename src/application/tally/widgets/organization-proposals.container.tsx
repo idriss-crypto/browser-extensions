@@ -3,25 +3,30 @@ import { useEffect, useState } from 'react';
 import { useCommandQuery } from 'shared/messaging';
 
 import { GetOrganizationInfoCommand, GetProposalsCommand } from '../commands';
-import { getTallyFromTwitterUsername } from '../utils';
 import { ProposalData } from '../types';
 
 import { Proposal } from './proposal';
 
 interface Properties {
-  handle: string;
+  twitterName: string;
+  className?: string;
+  top?: number;
+  onClose?: () => void;
 }
 
-export const ProposalHandleContainer = ({ handle }: Properties) => {
+export const OrganizationProposalsContainer = ({
+  twitterName,
+  className = 'fixed top-20',
+  top,
+  onClose,
+}: Properties) => {
   const [fetchedProposals, setFetchedProposals] = useState<ProposalData[]>([]);
   const [currentProposalIndex, setCurrentProposalIndex] = useState(0);
   const [hasMoreProposalsToFetch, setHasMoreProposalsToFetch] = useState(true);
 
-  const tallyName = getTallyFromTwitterUsername(handle);
-
   const organizationInfoQuery = useCommandQuery({
-    command: new GetOrganizationInfoCommand({ twitterName: handle ?? '' }),
-    enabled: handle ? handle.length > 0 : false,
+    command: new GetOrganizationInfoCommand({ twitterName: twitterName ?? '' }),
+    enabled: twitterName ? twitterName.length > 0 : false,
   });
 
   const hasActiveProposals =
@@ -94,7 +99,7 @@ export const ProposalHandleContainer = ({ handle }: Properties) => {
     proposalQuery.isLoading,
   ]);
 
-  if (!currentProposal || !tallyName) {
+  if (!currentProposal || !twitterName) {
     return null;
   }
 
@@ -106,7 +111,9 @@ export const ProposalHandleContainer = ({ handle }: Properties) => {
       onPrevious={showPreviousProposal}
       isLoading={isLoadingProposal}
       proposalDetails={currentProposal}
-      className="fixed top-20"
+      className={className}
+      top={top}
+      onClose={onClose}
     />
   );
 };

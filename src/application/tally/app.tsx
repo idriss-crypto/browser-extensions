@@ -21,7 +21,7 @@ export const App = () => {
   return (
     <ErrorBoundary exceptionEventName="tally-runtime-error">
       {isTwitterHandlePage ? (
-        <ProposalHandleContainer handle={twitterHandleFromPathname} />
+        <ProposalHandleContainer twitterName={twitterHandleFromPathname} />
       ) : null}
       {isTwitterHomePage ? <ProposalMainContainer /> : null}
     </ErrorBoundary>

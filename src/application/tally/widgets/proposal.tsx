@@ -1,7 +1,6 @@
 import { classes } from 'shared/ui/utils';
-import { Chip, WidgetBase } from 'shared/ui/components';
+import { Chip, IconButton, WidgetBase } from 'shared/ui/components';
 import { getDifferenceInDays, getEndsInLabel } from 'shared/utils';
-import { NavigationButton } from 'application/agora/components';
 
 import { ProposalData } from '../types';
 import {
@@ -39,14 +38,14 @@ export const Proposal = ({
   return (
     <WidgetBase
       className={classes(
-        'grid h-[200px] overflow-hidden rounded-[0.375rem] bg-white text-xs leading-tight',
+        'text-tally-text-primary grid h-[200px] overflow-hidden rounded-[0.375rem] bg-white text-xs leading-tight',
         className,
       )}
       top={top}
       onClose={onClose}
     >
       <header className="mb-auto flex items-center justify-between space-x-3">
-        <p className="line-clamp-[1] text-xs text-black">
+        <p className="text-tally-gray-600 line-clamp-[1] text-xs">
           by{' '}
           <a
             href={
@@ -57,7 +56,7 @@ export const Proposal = ({
                   )
                 : getOrganizationUrl(proposalDetails.organization.slug ?? '')
             }
-            className="font-semibold font-semibold text-gray-700 hover:underline"
+            className="font-semibold font-semibold hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -66,7 +65,7 @@ export const Proposal = ({
         </p>
         <Chip
           className={classes(
-            'rounded-sm px-[6px] py-[2px] font-bold uppercase leading-6 tracking-wide',
+            'border-tally-border-primary rounded-sm px-[4px] py-0 font-bold uppercase leading-6 tracking-wide',
             getStatusBadgeColorClassNames(proposalDetails.status),
           )}
         >
@@ -74,16 +73,16 @@ export const Proposal = ({
         </Chip>
       </header>
       <main className="my-2 grid">
-        <p className="line-clamp-[1] text-base font-bold tracking-tighter text-gray-900">
+        <p className="line-clamp-[1] text-base font-bold tracking-tighter">
           {proposalDetails.metadata.title}
         </p>
-        <p className="mt-1 line-clamp-[4] overflow-hidden text-[#374151]">
+        <p className="mt-1 line-clamp-[4] overflow-hidden">
           {proposalDetails.metadata.description}
         </p>
       </main>
       <footer className="mt-auto flex items-center justify-between">
-        <div className="flex justify-start gap-3.5">
-          <div className="flex w-[110px] items-center text-xs font-semibold font-semibold leading-5 text-gray-600">
+        <div className="flex justify-start gap-1.5">
+          <div className="text-tally-gray-500 flex min-w-[84px] items-center text-xs font-semibold font-semibold leading-5">
             {getEndsInLabel(getDifferenceInDays(proposalEndDateInMs))}
           </div>
           <a
@@ -95,7 +94,7 @@ export const Proposal = ({
             target="_blank"
           >
             <Chip
-              className=" mr-2 inline-flex h-7 select-none items-center justify-center rounded-md border border-gray-700 bg-gray-800 px-4 py-2 text-sm font-semibold leading-6 text-white transition-all duration-200 ease-in-out hover:bg-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              className=" border-tally-gray-700 bg-tally-gray-700 hover:bg-tally-gray-900 mr-2 inline-flex h-7 select-none items-center justify-center rounded-md border px-4 py-2 text-sm font-semibold leading-6 text-white transition-all duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
               variant="info"
               width="long"
             >
@@ -106,18 +105,16 @@ export const Proposal = ({
           </a>
         </div>
         <div className="flex justify-end gap-3.5">
-          <NavigationButton
+          <IconButton
             disabled={!isPreviousProposalAvailable}
             onClick={onPrevious}
-          >
-            Previous
-          </NavigationButton>
-          <NavigationButton
+            iconProps={{ name: 'ArrowLeftIcon' }}
+          />
+          <IconButton
             disabled={!isNextProposalAvailable}
             onClick={onNext}
-          >
-            Next
-          </NavigationButton>
+            iconProps={{ name: 'ArrowRightIcon' }}
+          />
         </div>
       </footer>
       <div
