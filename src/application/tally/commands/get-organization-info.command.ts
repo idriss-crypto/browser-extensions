@@ -11,7 +11,7 @@ import { getOrganizationInfoResponseSchema } from '../schema';
 import { OrganizationInfo } from '../types';
 
 interface Details {
-  twitterName: string;
+  tallyName: string;
 }
 
 export class GetOrganizationInfoCommand extends Command<
@@ -37,7 +37,7 @@ export class GetOrganizationInfoCommand extends Command<
           query: query,
           variables: {
             input: {
-              slug: this.details.twitterName,
+              slug: this.details.tallyName,
             },
           },
         }),

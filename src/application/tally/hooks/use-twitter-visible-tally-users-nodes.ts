@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useTwitterUsersPooling } from 'host/twitter';
 
-import { getTallyUsernameNodes } from '../utils';
+import { getTallyUserNodes } from '../utils';
 
 interface Properties {
   hidden: string[];
@@ -12,36 +12,21 @@ export const useTwitterVisibleTallyUsersNodes = ({ hidden }: Properties) => {
   const { results } = useTwitterUsersPooling();
 
   const tallyUserNodes = useMemo(() => {
-    return getTallyUsernameNodes(results);
+    return getTallyUserNodes(results);
   }, [results]);
 
-  const visibleTallys = useMemo(() => {
-    return [
-      ...new Set(
-        tallyUserNodes.map((user) => {
-          return user.tallyName;
-        }),
-      ),
-    ]
-      .filter((tallyName) => {
-        return !hidden.includes(tallyName);
+  const visibleTallyNodes = useMemo(() => {
+    return tallyUserNodes
+      .filter((tallyNode) => {
+        return !hidden.includes(tallyNode.tallyName);
       })
-      .map((tallyName) => {
+      .map((tallyNode) => {
         return {
-          name: tallyName,
-          top:
-            tallyUserNodes.find((node) => {
-              return node.tallyName === tallyName;
-            })?.top ?? 0,
+          name: tallyNode.tallyName,
+          top: tallyNode.top ?? 0,
         };
       });
   }, [hidden, tallyUserNodes]);
 
-  const visibleTallysNames = useMemo(() => {
-    return visibleTallys.map((tally) => {
-      return tally.name;
-    });
-  }, [visibleTallys]);
-
-  return { visibleTallys, visibleTallysNames };
+  return { visibleTallyNodes };
 };

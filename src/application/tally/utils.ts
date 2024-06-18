@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { TwitterUserPoolingResult } from 'src/host/twitter';
 
-import { TALLY_WEBSITE_URL } from './constants';
+import { TALLY_WEBSITE_URL, TWITTER_HANDLE_TO_TALLY } from './constants';
 
 export const generateGetOrganizationInfoQuery = () => {
   return `query Organization($input: OrganizationInput!) {
@@ -50,6 +50,9 @@ export const generateGetProposalsQuery = () => {
           ... on Block {
             timestamp
           }
+          ... on BlocklessTimestamp {
+            timestamp
+          }
         }
         metadata {
           title
@@ -92,10 +95,10 @@ export const getOrganizationDelegateUrl = (
 };
 
 export const getTallyFromTwitterUsername = (handle: string) => {
-  return handle.toLowerCase();
+  return TWITTER_HANDLE_TO_TALLY[handle.toLowerCase()];
 };
 
-export const getTallyUsernameNodes = (
+export const getTallyUserNodes = (
   poolingResults: TwitterUserPoolingResult[],
 ) => {
   return poolingResults

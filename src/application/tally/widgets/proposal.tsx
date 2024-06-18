@@ -38,15 +38,15 @@ export const Proposal = ({
   return (
     <WidgetBase
       className={classes(
-        'text-tally-text-primary grid h-[200px] overflow-hidden rounded-[0.375rem] bg-white text-xs leading-tight',
+        'grid h-[200px] overflow-hidden rounded-[0.375rem] bg-white text-xs leading-tight text-tally-text-primary',
         className,
       )}
       top={top}
       onClose={onClose}
     >
       <header className="mb-auto flex items-center justify-between space-x-3">
-        <p className="text-tally-gray-600 line-clamp-[1] text-xs">
-          by{' '}
+        <p className="line-clamp-[1] text-xs text-tally-gray-600">
+          By{' '}
           <a
             href={
               proposalDetails.creator.ens.length > 0
@@ -65,7 +65,7 @@ export const Proposal = ({
         </p>
         <Chip
           className={classes(
-            'border-tally-border-primary rounded-sm px-[4px] py-0 font-bold uppercase leading-6 tracking-wide',
+            'rounded-sm border-tally-border-primary px-[4px] py-0 font-bold uppercase leading-6 tracking-wide',
             getStatusBadgeColorClassNames(proposalDetails.status),
           )}
         >
@@ -82,7 +82,7 @@ export const Proposal = ({
       </main>
       <footer className="mt-auto flex items-center justify-between">
         <div className="flex justify-start gap-1.5">
-          <div className="text-tally-gray-500 flex min-w-[84px] items-center text-xs font-semibold font-semibold leading-5">
+          <div className="flex min-w-[84px] items-center text-xs font-semibold font-semibold leading-5 text-tally-gray-500">
             {getEndsInLabel(getDifferenceInDays(proposalEndDateInMs))}
           </div>
           <a
@@ -94,7 +94,7 @@ export const Proposal = ({
             target="_blank"
           >
             <Chip
-              className=" border-tally-gray-700 bg-tally-gray-700 hover:bg-tally-gray-900 mr-2 inline-flex h-7 select-none items-center justify-center rounded-md border px-4 py-2 text-sm font-semibold leading-6 text-white transition-all duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              className=" mr-2 inline-flex h-7 select-none items-center justify-center rounded-md border border-tally-gray-700 bg-tally-gray-700 px-4 py-2 text-sm font-semibold leading-6 text-white transition-all duration-200 ease-in-out hover:bg-tally-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
               variant="info"
               width="long"
             >
@@ -104,16 +104,18 @@ export const Proposal = ({
             </Chip>
           </a>
         </div>
-        <div className="flex justify-end gap-3.5">
+        <div className="flex justify-end gap-[18px]">
           <IconButton
             disabled={!isPreviousProposalAvailable}
             onClick={onPrevious}
             iconProps={{ name: 'ArrowLeftIcon' }}
+            className="px-0"
           />
           <IconButton
             disabled={!isNextProposalAvailable}
             onClick={onNext}
             iconProps={{ name: 'ArrowRightIcon' }}
+            className="px-0"
           />
         </div>
       </footer>

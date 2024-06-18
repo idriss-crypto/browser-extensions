@@ -3,30 +3,36 @@ import { useEffect, useState } from 'react';
 import { useCommandQuery } from 'shared/messaging';
 
 import { GetOrganizationInfoCommand, GetProposalsCommand } from '../commands';
-import { ProposalData } from '../types';
+import { useTallyContext } from '../tally.context';
 
 import { Proposal } from './proposal';
 
 interface Properties {
-  twitterName: string;
+  tallyName: string;
   className?: string;
   top?: number;
   onClose?: () => void;
 }
 
 export const OrganizationProposalsContainer = ({
-  twitterName,
+  tallyName,
   className = 'fixed top-20',
   top,
   onClose,
 }: Properties) => {
-  const [fetchedProposals, setFetchedProposals] = useState<ProposalData[]>([]);
   const [currentProposalIndex, setCurrentProposalIndex] = useState(0);
-  const [hasMoreProposalsToFetch, setHasMoreProposalsToFetch] = useState(true);
+  const {
+    addOrganizationFetchedProposals,
+    setOrganizationHasMoreProposalsToFetch,
+    getOrganizationInfo,
+  } = useTallyContext();
+
+  const { fetchedProposals, hasMoreProposalsToFetch } =
+    getOrganizationInfo(tallyName);
 
   const organizationInfoQuery = useCommandQuery({
-    command: new GetOrganizationInfoCommand({ twitterName: twitterName ?? '' }),
-    enabled: twitterName ? twitterName.length > 0 : false,
+    command: new GetOrganizationInfoCommand({ tallyName: tallyName ?? '' }),
+    enabled: tallyName ? tallyName.length > 0 : false,
   });
 
   const hasActiveProposals =
@@ -82,24 +88,25 @@ export const OrganizationProposalsContainer = ({
     }
 
     if (proposalQuery.data?.nodes.length === 0) {
-      setHasMoreProposalsToFetch(false);
+      setOrganizationHasMoreProposalsToFetch(tallyName, false);
       return;
     }
 
     const newFetchedProposal = proposalQuery.data?.nodes[0];
     if (newFetchedProposal) {
-      setFetchedProposals((previous) => {
-        return [...previous, newFetchedProposal];
-      });
+      addOrganizationFetchedProposals(tallyName, [newFetchedProposal]);
     }
   }, [
+    addOrganizationFetchedProposals,
     hasMoreProposalsToFetch,
     isProposalQueryEnabled,
     proposalQuery.data?.nodes,
     proposalQuery.isLoading,
+    setOrganizationHasMoreProposalsToFetch,
+    tallyName,
   ]);
 
-  if (!currentProposal || !twitterName) {
+  if (!currentProposal || !tallyName) {
     return null;
   }
 

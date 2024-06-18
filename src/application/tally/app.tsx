@@ -3,6 +3,8 @@ import { ErrorBoundary } from 'shared/monitoring';
 import { useTwitterLocationInfo } from 'host/twitter';
 
 import { ProposalHandleContainer, ProposalMainContainer } from './widgets';
+import { getTallyFromTwitterUsername } from './utils';
+import { TallyProvider } from './tally.context';
 
 export const App = () => {
   const { experimentalFeatures } = useExtensionSettings();
@@ -14,16 +16,24 @@ export const App = () => {
     twitterHandleFromPathname,
   } = useTwitterLocationInfo();
 
+  const tallyUserHandle = isTwitterHandlePage
+    ? getTallyFromTwitterUsername(twitterHandleFromPathname)
+    : null;
+
   if (!experimentalFeatures || !isTwitter) {
     return null;
   }
 
   return (
     <ErrorBoundary exceptionEventName="tally-runtime-error">
-      {isTwitterHandlePage ? (
-        <ProposalHandleContainer twitterName={twitterHandleFromPathname} />
-      ) : null}
-      {isTwitterHomePage ? <ProposalMainContainer /> : null}
+      <TallyProvider>
+        <>
+          {tallyUserHandle ? (
+            <ProposalHandleContainer tallyName={tallyUserHandle} />
+          ) : null}
+          {isTwitterHomePage ? <ProposalMainContainer /> : null}
+        </>
+      </TallyProvider>
     </ErrorBoundary>
   );
 };
