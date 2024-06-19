@@ -45,14 +45,17 @@ export const Proposal = ({
       onClose={onClose}
     >
       <header className="mb-auto flex items-center justify-between space-x-3">
-        <p className="line-clamp-[1] text-xs text-tally-gray-600">
+        <p className="line-clamp-[1] break-all text-xs text-tally-gray-600">
           By{' '}
           <a
             href={
-              proposalDetails.creator.ens.length > 0
+              proposalDetails.creator.ens.length > 0 ||
+              proposalDetails.creator.address.length > 0
                 ? getOrganizationDelegateUrl(
                     proposalDetails.organization.slug ?? '',
-                    proposalDetails.creator.ens,
+                    proposalDetails.creator.ens.length > 0
+                      ? proposalDetails.creator.ens
+                      : proposalDetails.creator.address,
                   )
                 : getOrganizationUrl(proposalDetails.organization.slug ?? '')
             }
@@ -60,7 +63,9 @@ export const Proposal = ({
             target="_blank"
             rel="noopener noreferrer"
           >
-            {proposalDetails.creator.name ?? proposalDetails.organization.name}
+            {proposalDetails.creator.name.length > 0
+              ? proposalDetails.creator.name
+              : proposalDetails.creator.address}
           </a>
         </p>
         <Chip
@@ -73,7 +78,7 @@ export const Proposal = ({
         </Chip>
       </header>
       <main className="my-2 grid">
-        <p className="line-clamp-[1] text-base font-bold tracking-tighter">
+        <p className="line-clamp-[1] break-all text-base font-bold tracking-tighter">
           {proposalDetails.metadata.title}
         </p>
         <p className="mt-1 line-clamp-[4] overflow-hidden">

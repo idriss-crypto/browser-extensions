@@ -2,8 +2,12 @@ import { useEffect, useState } from 'react';
 
 import { useCommandQuery } from 'shared/messaging';
 
-import { GetOrganizationInfoCommand, GetProposalsCommand } from '../commands';
+import {
+  GetOrganizationInfoCommand,
+  GetTallyProposalsCommand,
+} from '../commands';
 import { useTallyContext } from '../tally.context';
+import { ProposalData } from '../types';
 
 import { Proposal } from './proposal';
 
@@ -27,12 +31,14 @@ export const OrganizationProposalsContainer = ({
     getOrganizationInfo,
   } = useTallyContext();
 
-  const { fetchedProposals, hasMoreProposalsToFetch } =
-    getOrganizationInfo(tallyName);
+  const [fetchedProposals, setFetchedProposals] = useState<ProposalData[]>([]);
+  const [hasMoreProposalsToFetch, setHasMoreProposalsToFetch] =
+    useState<boolean>(true);
 
   const organizationInfoQuery = useCommandQuery({
     command: new GetOrganizationInfoCommand({ tallyName: tallyName ?? '' }),
     enabled: tallyName ? tallyName.length > 0 : false,
+    staleTime: Number.POSITIVE_INFINITY,
   });
 
   const hasActiveProposals =
@@ -41,19 +47,21 @@ export const OrganizationProposalsContainer = ({
   const currentProposal = fetchedProposals.at(currentProposalIndex);
   const isCurrentProposalLastFetched =
     fetchedProposals.at(-1)?.id === currentProposal?.id;
+
   const isProposalQueryEnabled =
     hasActiveProposals &&
     hasMoreProposalsToFetch &&
     isCurrentProposalLastFetched;
 
   const proposalQuery = useCommandQuery({
-    command: new GetProposalsCommand({
+    command: new GetTallyProposalsCommand({
       tallyUserId: organizationInfoQuery.data?.id?.toString() ?? '',
       afterCursor: currentProposal?.id ? `0;${currentProposal.id}` : null,
     }),
     enabled: isProposalQueryEnabled,
     retry: 5,
     retryDelay: 1600,
+    staleTime: Number.POSITIVE_INFINITY,
   });
 
   const isLoadingProposal =
@@ -81,6 +89,14 @@ export const OrganizationProposalsContainer = ({
       return previous + 1;
     });
   };
+
+  useEffect(() => {
+    const { fetchedProposals: proposals, hasMoreProposalsToFetch: hasMore } =
+      getOrganizationInfo(tallyName);
+
+    setFetchedProposals(proposals);
+    setHasMoreProposalsToFetch(hasMore);
+  }, [getOrganizationInfo, tallyName]);
 
   useEffect(() => {
     if (!isProposalQueryEnabled || proposalQuery.isLoading) {

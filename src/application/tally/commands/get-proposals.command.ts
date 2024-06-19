@@ -15,8 +15,11 @@ interface Details {
   afterCursor: string | null;
 }
 
-export class GetProposalsCommand extends Command<Details, ProposalsResponse> {
-  public readonly name = 'GetProposalsCommand' as const;
+export class GetTallyProposalsCommand extends Command<
+  Details,
+  ProposalsResponse
+> {
+  public readonly name = 'GetTallyProposalsCommand' as const;
 
   constructor(
     public details: Details,

@@ -71,10 +71,10 @@ const Applications = () => {
 
   return (
     <>
-      {/* {applicationsStatus.polymarket ? <PolymarketApp /> : null}
+      {applicationsStatus.polymarket ? <PolymarketApp /> : null}
       {applicationsStatus.snapshot ? <SnapshotApp /> : null}
       {applicationsStatus.gitcoin ? <GitcoinApp /> : null}
-      {applicationsStatus.agora ? <AgoraApp /> : null} */}
+      {applicationsStatus.agora ? <AgoraApp /> : null}
       <TallyApp />
     </>
   );

@@ -16,13 +16,13 @@ export const App = () => {
     twitterHandleFromPathname,
   } = useTwitterLocationInfo();
 
-  const tallyUserHandle = isTwitterHandlePage
-    ? getTallyFromTwitterUsername(twitterHandleFromPathname)
-    : null;
-
   if (!experimentalFeatures || !isTwitter) {
     return null;
   }
+
+  const tallyUserHandle = isTwitterHandlePage
+    ? getTallyFromTwitterUsername(twitterHandleFromPathname)
+    : null;
 
   return (
     <ErrorBoundary exceptionEventName="tally-runtime-error">

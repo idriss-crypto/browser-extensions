@@ -16,6 +16,7 @@ export const proposalSchema = z.object({
     slug: z.string(),
   }),
   creator: z.object({
+    address: z.string(),
     name: z.string(),
     ens: z.string(),
   }),

@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 import { ProposalData } from './types';
 
@@ -19,58 +19,67 @@ interface OrganizationInfo {
   hasMoreProposalsToFetch: boolean;
 }
 
+const createNewOrganizationsInfoMap = () => {
+  return {
+    fetchedProposals: [],
+    hasMoreProposalsToFetch: true,
+  };
+};
+
 export const TallyContext = createContext<TallyContextType | null>(null);
 
 export const TallyProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const organizationsInfo = new Map<string, OrganizationInfo>();
+  const [organizationsInfo, setOrganizationsInfo] = useState(
+    new Map<string, OrganizationInfo>(),
+  );
 
   const getOrganizationInfo = (tallyName: string) => {
-    const organization = organizationsInfo.get(tallyName);
-    if (organization) {
-      return organization;
-    } else {
-      organizationsInfo.set(tallyName, {
-        fetchedProposals: [],
-        hasMoreProposalsToFetch: true,
-      });
-
-      return organizationsInfo.get(tallyName)!;
+    let organization = organizationsInfo.get(tallyName);
+    if (!organization) {
+      organization = createNewOrganizationsInfoMap();
+      setOrganizationsInfo(
+        new Map(organizationsInfo).set(tallyName, organization),
+      );
     }
+    return organization;
   };
 
   const addOrganizationFetchedProposals = (
     tallyName: string,
     newProposals: ProposalData[],
   ) => {
-    const organization = organizationsInfo.get(tallyName);
-    if (organization) {
-      organization.fetchedProposals = [
-        ...organization.fetchedProposals,
-        ...newProposals,
-      ];
-    } else {
-      organizationsInfo.set(tallyName, {
-        fetchedProposals: newProposals,
-        hasMoreProposalsToFetch: true,
-      });
-    }
+    const organization =
+      organizationsInfo.get(tallyName) ?? createNewOrganizationsInfoMap();
+
+    const uniqueProposals = [
+      ...organization.fetchedProposals,
+      ...newProposals,
+    ].filter((proposal, index, self) => {
+      return (
+        index ===
+        self.findIndex((t) => {
+          return t.id === proposal.id;
+        })
+      );
+    });
+    organization.fetchedProposals = uniqueProposals;
+    setOrganizationsInfo(
+      new Map(organizationsInfo).set(tallyName, organization),
+    );
   };
 
   const setOrganizationHasMoreProposalsToFetch = (
     tallyName: string,
     hasMoreProposalsToFetch: boolean,
   ) => {
-    const organization = organizationsInfo.get(tallyName);
-    if (organization) {
-      organization.hasMoreProposalsToFetch = hasMoreProposalsToFetch;
-    } else {
-      organizationsInfo.set(tallyName, {
-        fetchedProposals: [],
-        hasMoreProposalsToFetch: hasMoreProposalsToFetch,
-      });
-    }
+    const organization =
+      organizationsInfo.get(tallyName) ?? createNewOrganizationsInfoMap();
+    organization.hasMoreProposalsToFetch = hasMoreProposalsToFetch;
+    setOrganizationsInfo(
+      new Map(organizationsInfo).set(tallyName, organization),
+    );
   };
 
   return (

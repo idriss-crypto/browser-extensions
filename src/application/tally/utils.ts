@@ -60,6 +60,7 @@ export const generateGetProposalsQuery = () => {
         }
         status
         creator {
+          address
           name
           ens
         }
