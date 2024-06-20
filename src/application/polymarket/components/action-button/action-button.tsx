@@ -1,4 +1,10 @@
+
 import { Button, ButtonProperties, classes } from 'shared/ui';
+
+type Properties = Pick<
+  ButtonProperties,
+  'children' | 'className' | 'onClick' | 'type' | 'loading' | 'disabled'
+>;
 
 export const ActionButton = ({
   children,
@@ -7,8 +13,7 @@ export const ActionButton = ({
   type,
   loading = false,
   disabled = false,
-  // TODO: pick properties to avoid leaking unused properties
-}: ButtonProperties) => {
+}: Properties) => {
   return (
     <Button
       type={type}
