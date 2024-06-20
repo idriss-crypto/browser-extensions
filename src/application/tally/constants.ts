@@ -5,8 +5,9 @@ export const TWITTER_HANDLE_TO_TALLY: Record<string, string> = {
   idlefinance: 'idle',
   unlockprotocol: 'unlock',
   internet_token: 'internet-token-dao',
-  contentguildxyz: 'content-guild-arbitrum-old',
+  contentguildxyz: 'content-guild',
   lxdao_official: 'lxdao',
+  pooltogether_: 'pooltogether',
 };
 
 export const TALLY_WEBSITE_URL = 'https://www.tally.xyz/';
