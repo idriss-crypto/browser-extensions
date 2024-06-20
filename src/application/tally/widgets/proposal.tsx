@@ -70,7 +70,7 @@ export const Proposal = ({
         </p>
         <Chip
           className={classes(
-            'rounded-sm border-tally-border-primary px-[4px] py-0 font-bold uppercase leading-6 tracking-wide',
+            'rounded-sm border-tally-border-primary px-[4px] py-0.5 font-bold uppercase tracking-wide',
             getStatusBadgeColorClassNames(proposalDetails.status),
           )}
         >
@@ -109,20 +109,22 @@ export const Proposal = ({
             </Chip>
           </a>
         </div>
-        <div className="flex justify-end gap-[18px]">
-          <IconButton
-            disabled={!isPreviousProposalAvailable}
-            onClick={onPrevious}
-            iconProps={{ name: 'ArrowLeftIcon' }}
-            className="px-0"
-          />
-          <IconButton
-            disabled={!isNextProposalAvailable}
-            onClick={onNext}
-            iconProps={{ name: 'ArrowRightIcon' }}
-            className="px-0"
-          />
-        </div>
+        {(isPreviousProposalAvailable || isNextProposalAvailable) && (
+          <div className="flex justify-end gap-[18px]">
+            <IconButton
+              disabled={!isPreviousProposalAvailable}
+              onClick={onPrevious}
+              iconProps={{ name: 'ArrowLeftIcon' }}
+              className="px-0"
+            />
+            <IconButton
+              disabled={!isNextProposalAvailable}
+              onClick={onNext}
+              iconProps={{ name: 'ArrowRightIcon' }}
+              className="px-0"
+            />
+          </div>
+        )}
       </footer>
       <div
         className={classes(

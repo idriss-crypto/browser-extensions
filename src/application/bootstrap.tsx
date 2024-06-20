@@ -57,13 +57,9 @@ const Applications = () => {
       snapshot: Boolean(serviceStatusQuery.data?.snapshot),
       gitcoin: Boolean(serviceStatusQuery.data?.gitcoin),
       agora: Boolean(serviceStatusQuery.data?.agora),
+      tally: Boolean(serviceStatusQuery.data?.tally),
     };
-  }, [
-    serviceStatusQuery.data?.gitcoin,
-    serviceStatusQuery.data?.polymarket,
-    serviceStatusQuery.data?.snapshot,
-    serviceStatusQuery.data?.agora,
-  ]);
+  }, [serviceStatusQuery.data]);
 
   if (!serviceStatusQuery.data) {
     return;
@@ -75,7 +71,7 @@ const Applications = () => {
       {applicationsStatus.snapshot ? <SnapshotApp /> : null}
       {applicationsStatus.gitcoin ? <GitcoinApp /> : null}
       {applicationsStatus.agora ? <AgoraApp /> : null}
-      <TallyApp />
+      {applicationsStatus.tally ? <TallyApp /> : null}
     </>
   );
 };

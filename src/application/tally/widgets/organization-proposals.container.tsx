@@ -60,7 +60,7 @@ export const OrganizationProposalsContainer = ({
     }),
     enabled: isProposalQueryEnabled,
     retry: 5,
-    retryDelay: 1600,
+    retryDelay: 1800,
     staleTime: Number.POSITIVE_INFINITY,
   });
 

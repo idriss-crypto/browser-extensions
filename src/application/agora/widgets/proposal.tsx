@@ -1,10 +1,9 @@
 import { classes } from 'shared/ui/utils';
-import { Chip, WidgetBase } from 'shared/ui/components';
+import { Chip, IconButton, WidgetBase } from 'shared/ui/components';
 import { getDifferenceInDays, getEndsInLabel } from 'shared/utils';
 
 import { ProposalData } from '../types';
 import { getProposalUrl } from '../utils';
-import { NavigationButton } from '../components';
 
 interface Properties {
   data: ProposalData;
@@ -59,7 +58,7 @@ export const Proposal = ({
         </p>
       </main>
       <footer className="mt-auto flex items-center justify-between">
-        <div className="flex justify-start gap-3.5">
+        <div className="flex justify-start gap-1.5">
           <div className="flex items-center text-xs font-semibold text-gray-700">
             {getEndsInLabel(getDifferenceInDays(proposalEndDateInMs))}
           </div>
@@ -77,20 +76,22 @@ export const Proposal = ({
             </Chip>
           </a>
         </div>
-        <div className="flex justify-end gap-3.5">
-          <NavigationButton
-            disabled={!isPreviousProposalAvailable}
-            onClick={onPrevious}
-          >
-            Previous
-          </NavigationButton>
-          <NavigationButton
-            disabled={!isNextProposalAvailable}
-            onClick={onNext}
-          >
-            Next
-          </NavigationButton>
-        </div>
+        {(isPreviousProposalAvailable || isNextProposalAvailable) && (
+          <div className="flex justify-end gap-[18px] text-gray-700">
+            <IconButton
+              disabled={!isPreviousProposalAvailable}
+              onClick={onPrevious}
+              iconProps={{ name: 'ArrowLeftIcon' }}
+              className="px-0"
+            />
+            <IconButton
+              disabled={!isNextProposalAvailable}
+              onClick={onNext}
+              iconProps={{ name: 'ArrowRightIcon' }}
+              className="px-0"
+            />
+          </div>
+        )}
       </footer>
       <div
         className={classes(
