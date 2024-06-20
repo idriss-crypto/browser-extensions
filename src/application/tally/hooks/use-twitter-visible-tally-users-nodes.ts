@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
 import { useTwitterUsersPooling } from 'host/twitter';
+import { useGetDaoHandles } from 'shared/extension/commands/get-dao-handles';
 
 import { getTallyUserNodes } from '../utils';
 
@@ -10,10 +11,14 @@ interface Properties {
 
 export const useTwitterVisibleTallyUsersNodes = ({ hidden }: Properties) => {
   const { results } = useTwitterUsersPooling();
+  const { data: daoHandles } = useGetDaoHandles('tally');
 
   const tallyUserNodes = useMemo(() => {
-    return getTallyUserNodes(results);
-  }, [results]);
+    if (!daoHandles) {
+      return [];
+    }
+    return getTallyUserNodes(daoHandles, results);
+  }, [daoHandles, results]);
 
   const visibleTallyNodes = useMemo(() => {
     return tallyUserNodes

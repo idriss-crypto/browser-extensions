@@ -14,7 +14,7 @@ export class GetServiceStatusCommand extends Command<
   }
 
   async handle() {
-    const response = await fetch('https://www.idriss.xyz/service-status');
+    const response = await fetch('https://api.idriss.xyz/service-status');
     const json = await response.json();
     return new OkResult(json as Record<string, boolean>);
   }

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { TwitterUserPoolingResult } from 'src/host/twitter';
 
-import { TALLY_WEBSITE_URL, TWITTER_HANDLE_TO_TALLY } from './constants';
+import { TALLY_WEBSITE_URL } from './constants';
 
 export const generateGetOrganizationInfoQuery = () => {
   return `query Organization($input: OrganizationInput!) {
@@ -95,16 +95,23 @@ export const getOrganizationDelegateUrl = (
   return `${TALLY_WEBSITE_URL}gov/${organizationName}/delegate/${delegateEns}`;
 };
 
-export const getTallyFromTwitterUsername = (handle: string) => {
-  return TWITTER_HANDLE_TO_TALLY[handle.toLowerCase()];
+export const getTallyFromTwitterUsername = (
+  daoHandles: Record<string, string>,
+  handle: string,
+) => {
+  return daoHandles[handle.toLowerCase()];
 };
 
 export const getTallyUserNodes = (
+  daoHandles: Record<string, string>,
   poolingResults: TwitterUserPoolingResult[],
 ) => {
   return poolingResults
     .map((result) => {
-      const tallyName = getTallyFromTwitterUsername(result.username);
+      const tallyName = getTallyFromTwitterUsername(
+        daoHandles,
+        result.username,
+      );
       if (!tallyName) {
         return;
       }
