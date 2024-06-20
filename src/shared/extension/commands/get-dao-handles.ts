@@ -25,7 +25,7 @@ export const useGetDaoHandles = (applicationName: string) => {
     staleTime: Number.POSITIVE_INFINITY,
     command: new GetDaoHandlesCommand({}),
     select: (handles) => {
-      return handles[applicationName] ?? {};
+      return handles[applicationName.toLowerCase()] ?? {};
     },
   });
 };

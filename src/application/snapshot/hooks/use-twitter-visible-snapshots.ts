@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
 import { useTwitterUsersPooling } from 'host/twitter';
+import { useGetDaoHandles } from 'shared/extension/commands/get-dao-handles';
 
 import { getSnapshotUsernameNodes } from '../utils';
 
@@ -10,10 +11,11 @@ interface Properties {
 
 export const useTwitterVisibleSnapshots = ({ hidden }: Properties) => {
   const { results } = useTwitterUsersPooling();
+  const { data: daoHandles } = useGetDaoHandles('snapshot');
 
   const snapshotUserNodes = useMemo(() => {
-    return getSnapshotUsernameNodes(results);
-  }, [results]);
+    return getSnapshotUsernameNodes(daoHandles ?? {}, results);
+  }, [daoHandles, results]);
 
   const visibleSnapshots = useMemo(() => {
     return [

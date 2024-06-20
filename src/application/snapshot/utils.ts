@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { TwitterUserPoolingResult } from 'host/twitter';
 
-import { SNAPSHOT_WEBSITE_URL, TWITTER_HANDLE_TO_SNAPSHOT } from './constants';
+import { SNAPSHOT_WEBSITE_URL } from './constants';
 import { GetProposalsOptions, ProposalData } from './types';
 
 export const generateGetProposalsQuery = (
@@ -42,8 +42,11 @@ export const getUserUrl = (userId: string) => {
   return `${SNAPSHOT_WEBSITE_URL}/#/profile/${userId}`;
 };
 
-export const getSnapshotFromTwitterUsername = (handle: string) => {
-  return TWITTER_HANDLE_TO_SNAPSHOT[handle.toLowerCase()];
+export const getSnapshotFromTwitterUsername = (
+  daoHandles: Record<string, string>,
+  handle: string,
+) => {
+  return daoHandles[handle.toLowerCase()];
 };
 
 export const getProposalAuthor = (proposal: ProposalData) => {
@@ -54,11 +57,15 @@ export const getProposalAuthor = (proposal: ProposalData) => {
 };
 
 export const getSnapshotUsernameNodes = (
+  daoHandles: Record<string, string>,
   poolingResults: TwitterUserPoolingResult[],
 ) => {
   return poolingResults
     .map((result) => {
-      const snapshotName = getSnapshotFromTwitterUsername(result.username);
+      const snapshotName = getSnapshotFromTwitterUsername(
+        daoHandles,
+        result.username,
+      );
       if (!snapshotName) {
         return;
       }
