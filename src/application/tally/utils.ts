@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { TwitterUserPoolingResult } from 'src/host/twitter';
 
 import { TALLY_WEBSITE_URL } from './constants';
