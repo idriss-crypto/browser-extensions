@@ -1,5 +1,5 @@
 import { useCommandQuery } from 'shared/messaging';
-import { useGetDaoHandles } from 'shared/extension/commands/get-dao-handles';
+import { useDaoHandles } from 'shared/extension';
 
 import { GetProposalCommand } from '../commands';
 import { getSnapshotFromTwitterUsername } from '../utils';
@@ -11,7 +11,7 @@ interface Properties {
 }
 
 export const ProposalHandleContainer = ({ handle }: Properties) => {
-  const { data: daoHandles } = useGetDaoHandles('snapshot');
+  const { data: daoHandles } = useDaoHandles('snapshot');
   const snapshotName = getSnapshotFromTwitterUsername(daoHandles ?? {}, handle);
 
   const proposalQuery = useCommandQuery({

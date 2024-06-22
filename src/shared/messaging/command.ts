@@ -147,15 +147,16 @@ export const useCommandQuery = <
       queryFn: queryFunction,
     };
   }, [
-    command.payload,
     command.name,
-    enabled,
-    placeholderData,
-    queryFunction,
+    command.payload,
     refetchInterval,
     retry,
-    select,
+    placeholderData,
+    retryDelay,
     staleTime,
+    enabled,
+    select,
+    queryFunction,
   ]);
 
   return useQuery(queryOptions);

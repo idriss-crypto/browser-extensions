@@ -1,4 +1,4 @@
-import { TwitterUserPoolingResult } from 'src/host/twitter';
+import { ScrapingResult } from 'shared/scraping';
 
 import { TALLY_WEBSITE_URL } from './constants';
 
@@ -103,14 +103,11 @@ export const getTallyFromTwitterUsername = (
 
 export const getTallyUserNodes = (
   daoHandles: Record<string, string>,
-  poolingResults: TwitterUserPoolingResult[],
+  poolingResults: ScrapingResult[],
 ) => {
   return poolingResults
     .map((result) => {
-      const tallyName = getTallyFromTwitterUsername(
-        daoHandles,
-        result.username,
-      );
+      const tallyName = getTallyFromTwitterUsername(daoHandles, result.value);
       if (!tallyName) {
         return;
       }

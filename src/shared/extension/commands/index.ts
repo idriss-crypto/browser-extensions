@@ -7,3 +7,4 @@ export const COMMAND_MAP = {
 };
 
 export { GetServiceStatusCommand } from './get-service-status';
+export { GetDaoHandlesCommand } from './get-dao-handles';

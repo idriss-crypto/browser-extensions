@@ -10,18 +10,18 @@ import { TALLY_GRAPHQL_API_URL } from '../constants';
 import { getOrganizationInfoResponseSchema } from '../schema';
 import { OrganizationInfo } from '../types';
 
-interface Details {
+interface Payload {
   tallyName: string;
 }
 
 export class GetOrganizationInfoCommand extends Command<
-  Details,
+  Payload,
   OrganizationInfo
 > {
   public readonly name = 'GetOrganizationInfoCommand' as const;
 
   constructor(
-    public details: Details,
+    public payload: Payload,
     id?: string,
   ) {
     super(id ?? null);
@@ -37,7 +37,7 @@ export class GetOrganizationInfoCommand extends Command<
           query: query,
           variables: {
             input: {
-              slug: this.details.tallyName,
+              slug: this.payload.tallyName,
             },
           },
         }),
@@ -60,7 +60,7 @@ export class GetOrganizationInfoCommand extends Command<
 
       return new OkResult(organizationInfo);
     } catch (error) {
-      await this.trackHandlerException();
+      await this.logException();
       if (error instanceof HandlerError) {
         return new FailureResult(error.message);
       }

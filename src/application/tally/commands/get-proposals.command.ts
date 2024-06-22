@@ -10,19 +10,19 @@ import { TALLY_GRAPHQL_API_URL } from '../constants';
 import { getProposalsResponseSchema } from '../schema';
 import { ProposalsResponse } from '../types';
 
-interface Details {
+interface Payload {
   tallyUserId: string;
   afterCursor: string | null;
 }
 
 export class GetTallyProposalsCommand extends Command<
-  Details,
+  Payload,
   ProposalsResponse
 > {
   public readonly name = 'GetTallyProposalsCommand' as const;
 
   constructor(
-    public details: Details,
+    public payload: Payload,
     id?: string,
   ) {
     super(id ?? null);
@@ -40,11 +40,11 @@ export class GetTallyProposalsCommand extends Command<
             input: {
               filters: {
                 includeArchived: false,
-                organizationId: this.details.tallyUserId,
+                organizationId: this.payload.tallyUserId,
               },
               page: {
                 limit: 1,
-                afterCursor: this.details.afterCursor,
+                afterCursor: this.payload.afterCursor,
               },
             },
           },
@@ -71,7 +71,7 @@ export class GetTallyProposalsCommand extends Command<
       };
       return new OkResult(activeProposals);
     } catch (error) {
-      await this.trackHandlerException();
+      await this.logException();
       if (error instanceof HandlerError) {
         return new FailureResult(error.message);
       }

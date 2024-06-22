@@ -1,7 +1,6 @@
-import { useExtensionSettings } from 'shared/extension';
-import { ErrorBoundary } from 'shared/monitoring';
+import { ErrorBoundary } from 'shared/observability';
+import { useExtensionSettings, useDaoHandles } from 'shared/extension';
 import { useTwitterLocationInfo } from 'host/twitter';
-import { useGetDaoHandles } from 'shared/extension/commands/get-dao-handles';
 
 import { ProposalHandleContainer, ProposalMainContainer } from './widgets';
 import { getTallyFromTwitterUsername } from './utils';
@@ -17,7 +16,7 @@ export const App = () => {
     twitterHandleFromPathname,
   } = useTwitterLocationInfo();
 
-  const { data: daoHandles } = useGetDaoHandles('tally');
+  const { data: daoHandles } = useDaoHandles('tally');
 
   if (!experimentalFeatures || !isTwitter) {
     return null;

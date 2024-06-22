@@ -1,31 +1,44 @@
-import { Command, OkResult, useCommandQuery } from 'shared/messaging';
+import { z } from 'zod';
 
-export class GetDaoHandlesCommand extends Command<
-  Record<string, never>,
-  Record<string, Record<string, string>>
-> {
+import {
+  Command,
+  FailureResult,
+  HandlerError,
+  OkResult,
+} from 'shared/messaging';
+
+type Payload = Record<string, never>;
+
+const responseSchema = z.record(z.string(), z.record(z.string(), z.string()));
+type Response = z.infer<typeof responseSchema>;
+
+export class GetDaoHandlesCommand extends Command<Payload, Response> {
   public readonly name = 'GetDaoHandlesCommand' as const;
 
   constructor(
-    public details: Record<string, never>,
+    public payload: Record<string, never>,
     id?: string,
   ) {
     super(id ?? null);
   }
 
   async handle() {
-    const response = await fetch('https://api.idriss.xyz/dao-handles');
-    const json = await response.json();
-    return new OkResult(json as Record<string, Record<string, string>>);
+    try {
+      const response = await fetch('https://api.idriss.xyz/dao-handles');
+      const json = await response.json();
+      const validationResult = responseSchema.safeParse(json);
+      if (!validationResult.success) {
+        throw new HandlerError('Schema validation failed');
+      }
+
+      return new OkResult(validationResult.data);
+    } catch (error) {
+      await this.logException();
+      if (error instanceof HandlerError) {
+        return new FailureResult(error.message);
+      }
+
+      return new FailureResult();
+    }
   }
 }
-
-export const useGetDaoHandles = (applicationName: string) => {
-  return useCommandQuery({
-    staleTime: Number.POSITIVE_INFINITY,
-    command: new GetDaoHandlesCommand({}),
-    select: (handles) => {
-      return handles[applicationName.toLowerCase()] ?? {};
-    },
-  });
-};
