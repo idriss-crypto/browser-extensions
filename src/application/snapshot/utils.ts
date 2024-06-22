@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { TwitterUserPoolingResult } from 'host/twitter';
+
+import { ScrapingResult } from 'shared/scraping';
 
 import { SNAPSHOT_WEBSITE_URL } from './constants';
 import { GetProposalsOptions, ProposalData } from './types';
@@ -58,13 +59,13 @@ export const getProposalAuthor = (proposal: ProposalData) => {
 
 export const getSnapshotUsernameNodes = (
   daoHandles: Record<string, string>,
-  poolingResults: TwitterUserPoolingResult[],
+  poolingResults: ScrapingResult[],
 ) => {
   return poolingResults
     .map((result) => {
       const snapshotName = getSnapshotFromTwitterUsername(
         daoHandles,
-        result.username,
+        result.value,
       );
       if (!snapshotName) {
         return;

@@ -1,5 +1,4 @@
-import { classes } from 'shared/ui/utils';
-import { Chip, IconButton, WidgetBase } from 'shared/ui/components';
+import { classes, Chip, WidgetBase, IconButton } from 'shared/ui';
 import { getDifferenceInDays, getEndsInLabel } from 'shared/utils';
 
 import { ProposalData } from '../types';
