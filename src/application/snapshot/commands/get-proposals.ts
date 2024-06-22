@@ -27,16 +27,18 @@ export class GetProposalsCommand extends Command<Payload, ProposalData[]> {
 
   async handle() {
     try {
-      const query = generateGetProposalsQuery(this.payload.snapshotNames, {
-        first: 30,
-      });
+      const query = generateGetProposalsQuery();
 
       const response = await fetch(SNAPSHOT_GRAPHQL_API_URL, {
         method: 'POST',
         body: JSON.stringify({
           query: query,
           operationName: 'Proposals',
-          variables: undefined,
+          variables: {
+            first: 1,
+            snapshotNames: this.payload.snapshotNames,
+            skip: 0,
+          },
         }),
         headers: {
           'Content-Type': 'application/json',
