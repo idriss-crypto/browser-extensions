@@ -1,27 +1,85 @@
+import { useState } from 'react';
+
 import { useCommandQuery } from 'shared/messaging';
-import { useDaoHandles } from 'shared/extension';
 
 import { GetProposalCommand } from '../commands';
-import { getSnapshotFromTwitterUsername } from '../utils';
 
 import { Proposal } from './proposal';
 
 interface Properties {
-  handle: string;
+  snapshotHandle: string;
+  className?: string;
+  top?: number;
+  onClose?: () => void;
 }
 
-export const ProposalHandleContainer = ({ handle }: Properties) => {
-  const { data: daoHandles } = useDaoHandles('snapshot');
-  const snapshotName = getSnapshotFromTwitterUsername(daoHandles ?? {}, handle);
+export const ProposalHandleContainer = ({
+  snapshotHandle,
+  className = 'fixed top-20',
+  top,
+  onClose,
+}: Properties) => {
+  const [currentProposalIndex, setCurrentProposalIndex] = useState(0);
 
-  const proposalQuery = useCommandQuery({
-    command: new GetProposalCommand({ snapshotName: snapshotName ?? '' }),
-    enabled: snapshotName ? snapshotName.length > 0 : false,
+  const currentProposalQuery = useCommandQuery({
+    command: new GetProposalCommand({
+      snapshotName: snapshotHandle ?? '',
+      pageNumber: currentProposalIndex,
+    }),
+    enabled: snapshotHandle ? snapshotHandle.length > 0 : false,
+    staleTime: Number.POSITIVE_INFINITY,
   });
 
-  if (!proposalQuery.data || !snapshotName) {
+  const nextProposalQuery = useCommandQuery({
+    command: new GetProposalCommand({
+      snapshotName: snapshotHandle ?? '',
+      pageNumber: currentProposalIndex + 1,
+    }),
+    enabled: snapshotHandle ? snapshotHandle.length > 0 : false,
+    staleTime: Number.POSITIVE_INFINITY,
+  });
+
+  const isLoadingProposal =
+    currentProposalQuery.isLoading || nextProposalQuery.isLoading;
+
+  const isPreviousProposalAvailable = currentProposalIndex > 0;
+  const isNextProposalAvailable = !!nextProposalQuery.data;
+
+  const showPreviousProposal = () => {
+    if (!isPreviousProposalAvailable || isLoadingProposal) {
+      return;
+    }
+
+    setCurrentProposalIndex((previous) => {
+      return previous - 1;
+    });
+  };
+
+  const showNextProposal = () => {
+    if (!isNextProposalAvailable || isLoadingProposal) {
+      return;
+    }
+
+    setCurrentProposalIndex((previous) => {
+      return previous + 1;
+    });
+  };
+
+  if (!currentProposalQuery.data || !snapshotHandle) {
     return null;
   }
 
-  return <Proposal data={proposalQuery.data} className="fixed top-20" />;
+  return (
+    <Proposal
+      isPreviousProposalAvailable={isPreviousProposalAvailable}
+      isNextProposalAvailable={isNextProposalAvailable}
+      onNext={showNextProposal}
+      onPrevious={showPreviousProposal}
+      isLoading={isLoadingProposal}
+      data={currentProposalQuery.data}
+      className={className}
+      top={top}
+      onClose={onClose}
+    />
+  );
 };

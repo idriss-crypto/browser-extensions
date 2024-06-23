@@ -13,9 +13,10 @@ import { getProposalsResponseSchema } from '../schema';
 
 interface Payload {
   snapshotName: string;
+  pageNumber: number;
 }
 
-export class GetProposalCommand extends Command<Payload, ProposalData> {
+export class GetProposalCommand extends Command<Payload, ProposalData | null> {
   public readonly name = 'GetProposalCommand' as const;
 
   constructor(
@@ -36,7 +37,7 @@ export class GetProposalCommand extends Command<Payload, ProposalData> {
           variables: {
             first: 1,
             snapshotNames: this.payload.snapshotName,
-            skip: 0,
+            skip: this.payload.pageNumber,
           },
         }),
         headers: {
@@ -54,7 +55,7 @@ export class GetProposalCommand extends Command<Payload, ProposalData> {
       }
       const proposal = validationResult.data.data.proposals[0];
       if (!proposal) {
-        throw new HandlerError('Proposal not found');
+        return new OkResult(null);
       }
 
       const resolvedAddress = await resolveAddress(proposal.author);

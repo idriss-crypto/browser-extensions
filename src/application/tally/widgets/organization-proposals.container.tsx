@@ -64,8 +64,7 @@ export const OrganizationProposalsContainer = ({
     staleTime: Number.POSITIVE_INFINITY,
   });
 
-  const isLoadingProposal =
-    proposalQuery.isLoading || proposalQuery.isPlaceholderData;
+  const isLoadingProposal = proposalQuery.isLoading;
   const isPreviousProposalAvailable = currentProposalIndex > 0;
   const isNextProposalAvailable =
     currentProposalIndex < fetchedProposals.length - 1;

@@ -1,8 +1,9 @@
 import { ErrorBoundary } from 'shared/observability';
-import { useExtensionSettings } from 'shared/extension';
+import { useDaoHandles, useExtensionSettings } from 'shared/extension';
 import { useTwitterLocationInfo } from 'host/twitter';
 
 import { ProposalHandleContainer, ProposalMainContainer } from './widgets';
+import { getSnapshotFromTwitterUsername } from './utils';
 
 export const App = () => {
   const { experimentalFeatures } = useExtensionSettings();
@@ -14,14 +15,20 @@ export const App = () => {
     twitterHandleFromPathname,
   } = useTwitterLocationInfo();
 
+  const { data: daoHandles } = useDaoHandles('snapshot');
+  const snapshotHandle = getSnapshotFromTwitterUsername(
+    daoHandles ?? {},
+    twitterHandleFromPathname,
+  );
+
   if (!experimentalFeatures || !isTwitter) {
     return null;
   }
 
   return (
     <ErrorBoundary exceptionEventName="snapshot-runtime-error">
-      {isTwitterHandlePage ? (
-        <ProposalHandleContainer handle={twitterHandleFromPathname} />
+      {isTwitterHandlePage && snapshotHandle ? (
+        <ProposalHandleContainer snapshotHandle={snapshotHandle} />
       ) : null}
       {isTwitterHomePage ? <ProposalMainContainer /> : null}
     </ErrorBoundary>
