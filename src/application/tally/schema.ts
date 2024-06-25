@@ -11,8 +11,6 @@ export const proposalSchema = z.object({
   }),
   status: z.string(),
   organization: z.object({
-    id: z.string(),
-    name: z.string(),
     slug: z.string(),
   }),
   creator: z.object({
@@ -23,9 +21,7 @@ export const proposalSchema = z.object({
 });
 
 export const proposalsPageInfoSchema = z.object({
-  firstCursor: z.string(),
   lastCursor: z.string(),
-  count: z.number(),
 });
 
 export const proposalsResponseObjectSchema = z.object({

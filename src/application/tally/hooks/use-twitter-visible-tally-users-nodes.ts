@@ -1,9 +1,6 @@
 import { useMemo } from 'react';
 
-import { useDaoHandles } from 'shared/extension';
-import { useTwitterScraping } from 'host/twitter';
-
-import { getTallyUserNodes } from '../utils';
+import { useHandleToUsernameMap, useTwitterScraping } from 'host/twitter';
 
 interface Properties {
   hidden: string[];
@@ -11,13 +8,19 @@ interface Properties {
 
 export const useTwitterVisibleTallyUsersNodes = ({ hidden }: Properties) => {
   const { tweetAuthors } = useTwitterScraping();
-  const { data: daoHandles } = useDaoHandles('tally');
+  const { data: daoHandles } = useHandleToUsernameMap('tally');
 
   const tallyUserNodes = useMemo(() => {
     if (!daoHandles) {
       return [];
     }
-    return getTallyUserNodes(daoHandles, tweetAuthors);
+
+    return tweetAuthors
+      .map((author) => {
+        const tallyName = daoHandles[author.value.toLowerCase()];
+        return tallyName ? { tallyName, ...author } : undefined;
+      })
+      .filter(Boolean);
   }, [daoHandles, tweetAuthors]);
 
   const visibleTallyNodes = useMemo(() => {
@@ -28,7 +31,7 @@ export const useTwitterVisibleTallyUsersNodes = ({ hidden }: Properties) => {
       .map((tallyNode) => {
         return {
           name: tallyNode.tallyName,
-          top: tallyNode.top ?? 0,
+          top: tallyNode.top,
         };
       });
   }, [hidden, tallyUserNodes]);

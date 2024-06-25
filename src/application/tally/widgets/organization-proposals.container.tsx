@@ -38,7 +38,6 @@ export const OrganizationProposalsContainer = ({
   const organizationInfoQuery = useCommandQuery({
     command: new GetOrganizationInfoCommand({ tallyName: tallyName ?? '' }),
     enabled: tallyName ? tallyName.length > 0 : false,
-    staleTime: Number.POSITIVE_INFINITY,
   });
 
   const hasActiveProposals =
@@ -61,7 +60,6 @@ export const OrganizationProposalsContainer = ({
     enabled: isProposalQueryEnabled,
     retry: 5,
     retryDelay: 1800,
-    staleTime: Number.POSITIVE_INFINITY,
   });
 
   const isLoadingProposal =

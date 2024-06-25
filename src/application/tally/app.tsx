@@ -1,9 +1,8 @@
 import { ErrorBoundary } from 'shared/observability';
-import { useExtensionSettings, useDaoHandles } from 'shared/extension';
-import { useTwitterLocationInfo } from 'host/twitter';
+import { useExtensionSettings } from 'shared/extension';
+import { useTwitterLocationInfo, useHandleToUsernameMap } from 'host/twitter';
 
 import { ProposalHandleContainer, ProposalMainContainer } from './widgets';
-import { getTallyFromTwitterUsername } from './utils';
 import { TallyProvider } from './tally.context';
 
 export const App = () => {
@@ -16,7 +15,7 @@ export const App = () => {
     twitterHandleFromPathname,
   } = useTwitterLocationInfo();
 
-  const { data: daoHandles } = useDaoHandles('tally');
+  const { data: daoHandles } = useHandleToUsernameMap('tally');
 
   if (!experimentalFeatures || !isTwitter) {
     return null;
@@ -24,7 +23,7 @@ export const App = () => {
 
   const tallyUserHandle =
     isTwitterHandlePage && daoHandles
-      ? getTallyFromTwitterUsername(daoHandles, twitterHandleFromPathname)
+      ? daoHandles[twitterHandleFromPathname.toLowerCase()]
       : null;
 
   return (
