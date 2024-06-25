@@ -5,35 +5,7 @@ export const generateGetOrganizationInfoQuery = () => {
   return `query Organization($input: OrganizationInput!) {
   organization(input: $input) {
     id
-    slug
-    name
-    chainIds
-    governorIds
-    tokenIds
-    metadata {
-      color
-      description
-      icon
-      karmaName
-    }
-    creator {
-      id
-      address
-      ens
-      twitter
-      name
-      bio
-      picture
-      safes
-      type
-    }
     hasActiveProposals
-    proposalsCount
-    votersCount
-    delegatesCount
-    delegatesVotesCount
-    tokenHoldersCount
-    tokenOwnersCount
   }
 }`;
 };

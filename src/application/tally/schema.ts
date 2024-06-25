@@ -37,11 +37,7 @@ export const getProposalsResponseSchema = z.object({
 
 export const organizationInfoSchema = z.object({
   id: z.string(),
-  proposalsCount: z.number(),
   hasActiveProposals: z.boolean(),
-  chainIds: z.array(z.string()),
-  name: z.string(),
-  slug: z.string(),
 });
 
 export const getOrganizationInfoResponseSchema = z.object({
