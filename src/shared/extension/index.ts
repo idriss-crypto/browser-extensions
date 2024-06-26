@@ -8,6 +8,4 @@ export { ExtensionSettingsProvider, useExtensionSettings } from './context';
 export {
   COMMAND_MAP as EXTENSION_COMMAND_MAP,
   GetServiceStatusCommand,
-  GetDaoHandlesCommand,
 } from './commands';
-export * from './hooks';

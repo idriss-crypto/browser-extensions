@@ -1,36 +1,38 @@
-import { classes, Chip, IconButton, WidgetBase } from 'shared/ui';
+import {
+  classes,
+  Chip,
+  WidgetBase,
+  Pagination,
+  PaginationComponent,
+  PulsingLoadingBar,
+} from 'shared/ui';
 import { getDifferenceInDays, getEndsInLabel } from 'shared/utils';
 
 import { ProposalData } from '../types';
 import {
   getProposalUrl,
-  getStatusBadgeColorClassNames,
-  getOrganizationUrl,
-  getOrganizationDelegateUrl,
+  getProposalAuthorUrl,
+  getProposalAuthorLabel,
+  getProposalStatusLabel,
 } from '../utils';
+import { StatusChip } from '../components';
 
 interface Properties {
   proposalDetails: ProposalData;
   className?: string;
   top?: number;
-  isPreviousProposalAvailable: boolean;
-  isNextProposalAvailable: boolean;
+  pagination: Pagination;
   isLoading: boolean;
   onClose?: () => void;
-  onPrevious: () => void;
-  onNext: () => void;
 }
 
 export const Proposal = ({
   proposalDetails,
   className,
   top,
-  isPreviousProposalAvailable,
-  isNextProposalAvailable,
   isLoading,
+  pagination,
   onClose,
-  onPrevious,
-  onNext,
 }: Properties) => {
   const proposalEndDateInMs = new Date(proposalDetails.end.timestamp).getTime();
 
@@ -43,38 +45,20 @@ export const Proposal = ({
       top={top}
       onClose={onClose}
     >
+      <PulsingLoadingBar isLoading={isLoading} />
       <header className="mb-auto flex items-center justify-between space-x-3">
         <p className="line-clamp-[1] break-all text-xs text-tally-gray-600">
           By{' '}
           <a
-            href={
-              proposalDetails.creator.ens.length > 0 ||
-              proposalDetails.creator.address.length > 0
-                ? getOrganizationDelegateUrl(
-                    proposalDetails.organization.slug ?? '',
-                    proposalDetails.creator.ens.length > 0
-                      ? proposalDetails.creator.ens
-                      : proposalDetails.creator.address,
-                  )
-                : getOrganizationUrl(proposalDetails.organization.slug ?? '')
-            }
-            className="font-semibold font-semibold hover:underline"
+            href={getProposalAuthorUrl(proposalDetails)}
+            className="font-semibold hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {proposalDetails.creator.name.length > 0
-              ? proposalDetails.creator.name
-              : proposalDetails.creator.address}
+            {getProposalAuthorLabel(proposalDetails)}
           </a>
         </p>
-        <Chip
-          className={classes(
-            'rounded-sm border-tally-border-primary px-[4px] py-0.5 font-bold uppercase tracking-wide',
-            getStatusBadgeColorClassNames(proposalDetails.status),
-          )}
-        >
-          {proposalDetails.status}
-        </Chip>
+        <StatusChip status={proposalDetails.status} />
       </header>
       <main className="my-2 grid">
         <p className="line-clamp-[1] break-all text-base font-bold tracking-tighter">
@@ -86,7 +70,7 @@ export const Proposal = ({
       </main>
       <footer className="mt-auto flex items-center justify-between">
         <div className="flex justify-start gap-1.5">
-          <div className="flex min-w-[84px] items-center text-xs font-semibold font-semibold leading-5 text-tally-gray-500">
+          <div className="flex min-w-[84px] items-center text-xs font-semibold leading-5 text-tally-gray-500">
             {getEndsInLabel(getDifferenceInDays(proposalEndDateInMs))}
           </div>
           <a
@@ -102,35 +86,12 @@ export const Proposal = ({
               variant="info"
               width="long"
             >
-              {proposalDetails.status.toLowerCase() === 'active'
-                ? 'Vote'
-                : 'View'}
+              {getProposalStatusLabel(proposalDetails.status)}
             </Chip>
           </a>
         </div>
-        {(isPreviousProposalAvailable || isNextProposalAvailable) && (
-          <div className="flex justify-end gap-[18px]">
-            <IconButton
-              disabled={!isPreviousProposalAvailable}
-              onClick={onPrevious}
-              iconProps={{ name: 'ArrowLeftIcon' }}
-              className="px-0"
-            />
-            <IconButton
-              disabled={!isNextProposalAvailable}
-              onClick={onNext}
-              iconProps={{ name: 'ArrowRightIcon' }}
-              className="px-0"
-            />
-          </div>
-        )}
+        <PaginationComponent pagination={pagination} />
       </footer>
-      <div
-        className={classes(
-          'absolute top-0 h-1 animate-pulse rounded-full bg-gradient-to-r from-stone-300 via-stone-300 via-stone-400 via-stone-500 to-stone-300  delay-75 duration-200',
-          isLoading ? 'left-0 w-full' : 'right-0 w-0',
-        )}
-      />
     </WidgetBase>
   );
 };

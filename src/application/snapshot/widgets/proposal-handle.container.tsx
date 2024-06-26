@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { useCommandQuery } from 'shared/messaging';
+import { useHandleToUsernameMap } from 'host/twitter';
 
 import { GetProposalCommand } from '../commands';
 
@@ -19,6 +20,11 @@ export const ProposalHandleContainer = ({
   top,
   onClose,
 }: Properties) => {
+  // const { data: daoHandles } = useHandleToUsernameMap('snapshot');
+  // const snapshotName = daoHandles
+  //   ? daoHandles[handle.toLowerCase()]
+  //   : undefined;
+  
   const [currentProposalIndex, setCurrentProposalIndex] = useState(0);
 
   const currentProposalQuery = useCommandQuery({

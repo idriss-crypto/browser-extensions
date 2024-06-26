@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { ErrorBoundary } from 'shared/observability';
 
@@ -13,20 +13,20 @@ export const ProposalMainContainer = () => {
     hidden: hiddenUsers,
   });
 
-  const hideTally = useCallback((tallyName: string) => {
+  const hideTally = (tallyName: string) => {
     setHiddenUsers((previous) => {
       return [...previous, tallyName];
     });
-  }, []);
+  };
 
-  return visibleTallyNodes.map(({ name, top }) => {
+  return visibleTallyNodes.map(({ name, top, twitterHandle }) => {
     return (
       <ErrorBoundary
         key={`${name}at_${top}`}
         exceptionEventName="tally-widget-twitter-main-runtime-error"
       >
         <OrganizationProposalsContainer
-          tallyName={name}
+          twitterHandle={twitterHandle}
           className="absolute"
           top={top - 12}
           onClose={() => {

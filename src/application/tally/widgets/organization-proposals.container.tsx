@@ -1,81 +1,83 @@
 import { useEffect, useState } from 'react';
 
 import { useCommandQuery } from 'shared/messaging';
+import { Pagination } from 'shared/ui';
 
-import {
-  GetOrganizationInfoCommand,
-  GetTallyProposalsCommand,
-} from '../commands';
-import { useTallyContext } from '../tally.context';
-import { ProposalData } from '../types';
+import { GetTallyProposalsCommand } from '../commands';
 
 import { Proposal } from './proposal';
 
 interface Properties {
-  tallyName: string;
+  twitterHandle: string;
   className?: string;
   top?: number;
   onClose?: () => void;
 }
 
 export const OrganizationProposalsContainer = ({
-  tallyName,
+  twitterHandle: tallyName,
   className = 'fixed top-20',
   top,
   onClose,
 }: Properties) => {
-  const [currentProposalIndex, setCurrentProposalIndex] = useState(0);
-  const {
-    addOrganizationFetchedProposals,
-    setOrganizationHasMoreProposalsToFetch,
-    getOrganizationInfo,
-  } = useTallyContext();
-
-  const [fetchedProposals, setFetchedProposals] = useState<ProposalData[]>([]);
-  const [hasMoreProposalsToFetch, setHasMoreProposalsToFetch] =
-    useState<boolean>(true);
-
-  const organizationInfoQuery = useCommandQuery({
-    command: new GetOrganizationInfoCommand({ tallyName: tallyName ?? '' }),
-    enabled: tallyName ? tallyName.length > 0 : false,
-    staleTime: Number.POSITIVE_INFINITY,
-  });
-
-  const hasActiveProposals =
-    organizationInfoQuery.data?.hasActiveProposals ?? false;
-
-  const currentProposal = fetchedProposals.at(currentProposalIndex);
-  const isCurrentProposalLastFetched =
-    fetchedProposals.at(-1)?.id === currentProposal?.id;
-
-  const isProposalQueryEnabled =
-    hasActiveProposals &&
-    hasMoreProposalsToFetch &&
-    isCurrentProposalLastFetched;
+  const [previousProposalCursors, setPreviousProposalCursors] = useState<
+    (string | null)[]
+  >([]);
+  const [currentProposalCursor, setCurrentProposalCursor] = useState<
+    string | null
+  >(null);
+  const [nextProposalCursor, setNextProposalCursor] = useState<string | null>(
+    null,
+  );
 
   const proposalQuery = useCommandQuery({
     command: new GetTallyProposalsCommand({
-      tallyUserId: organizationInfoQuery.data?.id?.toString() ?? '',
-      afterCursor: currentProposal?.id ? `0;${currentProposal.id}` : null,
+      twitterHandle: tallyName ?? '',
+      afterCursor: currentProposalCursor,
     }),
-    enabled: isProposalQueryEnabled,
+    retry: 5,
+    retryDelay: 1800,
+    staleTime: Number.POSITIVE_INFINITY,
+    placeholderData: (previousData) => {
+      return previousData;
+    },
+  });
+
+  const nextProposalQuery = useCommandQuery({
+    command: new GetTallyProposalsCommand({
+      twitterHandle: tallyName ?? '',
+      afterCursor: nextProposalCursor,
+    }),
+    enabled: !!nextProposalCursor,
     retry: 5,
     retryDelay: 1800,
     staleTime: Number.POSITIVE_INFINITY,
   });
 
-  const isLoadingProposal = proposalQuery.isLoading;
-  const isPreviousProposalAvailable = currentProposalIndex > 0;
+  const currentProposal = proposalQuery.data?.nodes[0];
+
+  const isLoadingProposal =
+    proposalQuery.isLoading ||
+    proposalQuery.isPlaceholderData ||
+    nextProposalQuery.isLoading;
+  const isPreviousProposalAvailable = previousProposalCursors.length > 0;
   const isNextProposalAvailable =
-    currentProposalIndex < fetchedProposals.length - 1;
+    !!nextProposalQuery.data && nextProposalQuery.data.nodes.length > 0;
 
   const showPreviousProposal = () => {
-    if (!isPreviousProposalAvailable || isLoadingProposal) {
+    const previousProposalCursor = previousProposalCursors.at(-1);
+    if (
+      !isPreviousProposalAvailable ||
+      isLoadingProposal ||
+      previousProposalCursor === undefined
+    ) {
       return;
     }
 
-    setCurrentProposalIndex((previous) => {
-      return previous - 1;
+    setNextProposalCursor(currentProposalCursor);
+    setCurrentProposalCursor(previousProposalCursor);
+    setPreviousProposalCursors((previous) => {
+      return previous.slice(0, -1);
     });
   };
 
@@ -84,53 +86,36 @@ export const OrganizationProposalsContainer = ({
       return;
     }
 
-    setCurrentProposalIndex((previous) => {
-      return previous + 1;
+    setCurrentProposalCursor(nextProposalCursor);
+    setPreviousProposalCursors((previous) => {
+      return [...previous, currentProposalCursor];
     });
   };
 
   useEffect(() => {
-    const { fetchedProposals: proposals, hasMoreProposalsToFetch: hasMore } =
-      getOrganizationInfo(tallyName);
-
-    setFetchedProposals(proposals);
-    setHasMoreProposalsToFetch(hasMore);
-  }, [getOrganizationInfo, tallyName]);
-
-  useEffect(() => {
-    if (!isProposalQueryEnabled || proposalQuery.isLoading) {
+    if (proposalQuery.isLoading) {
       return;
     }
 
-    if (proposalQuery.data?.nodes.length === 0) {
-      setOrganizationHasMoreProposalsToFetch(tallyName, false);
-      return;
+    const newFetchedProposalInfo = proposalQuery.data;
+    if (newFetchedProposalInfo) {
+      setNextProposalCursor(newFetchedProposalInfo.pageInfo.lastCursor);
     }
+  }, [proposalQuery]);
 
-    const newFetchedProposal = proposalQuery.data?.nodes[0];
-    if (newFetchedProposal) {
-      addOrganizationFetchedProposals(tallyName, [newFetchedProposal]);
-    }
-  }, [
-    addOrganizationFetchedProposals,
-    hasMoreProposalsToFetch,
-    isProposalQueryEnabled,
-    proposalQuery.data?.nodes,
-    proposalQuery.isLoading,
-    setOrganizationHasMoreProposalsToFetch,
-    tallyName,
-  ]);
-
+  const pagination: Pagination = {
+    hasPrevious: isPreviousProposalAvailable,
+    hasNext: isNextProposalAvailable,
+    onPrevious: showPreviousProposal,
+    onNext: showNextProposal,
+  };
   if (!currentProposal || !tallyName) {
     return null;
   }
 
   return (
     <Proposal
-      isPreviousProposalAvailable={isPreviousProposalAvailable}
-      isNextProposalAvailable={isNextProposalAvailable}
-      onNext={showNextProposal}
-      onPrevious={showPreviousProposal}
+      pagination={pagination}
       isLoading={isLoadingProposal}
       proposalDetails={currentProposal}
       className={className}
