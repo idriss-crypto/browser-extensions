@@ -1,3 +1,3 @@
-export interface PulsingLoadingBarProps {
-    isLoading: boolean
+export interface PulsingLoadingBarProperties {
+  isLoading: boolean;
 }

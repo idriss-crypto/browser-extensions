@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
 import { useCommandQuery } from 'shared/messaging';
+import { Pagination } from 'shared/ui';
 
 import { getAgoraUsernameFromTwitterUsername } from '../utils';
 import { GetAgoraProposalsCommand } from '../commands';
 
 import { Proposal } from './proposal';
-import { Pagination } from 'shared/ui';
 
 interface Properties {
   handle: string;

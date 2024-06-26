@@ -1,1 +1,1 @@
-export { PulsingLoadingBar } from './pulsing-laoding-bar.component'
+export { PulsingLoadingBar } from './pulsing-loading-bar.component';

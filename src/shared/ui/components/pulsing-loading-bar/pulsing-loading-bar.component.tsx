@@ -1,7 +1,10 @@
 import { classes } from 'shared/ui/utils';
-import { PulsingLoadingBarProps } from './pulsing-loading-bar.types';
 
-export const PulsingLoadingBar = ({ isLoading }: PulsingLoadingBarProps) => {
+import { PulsingLoadingBarProperties } from './pulsing-loading-bar.types';
+
+export const PulsingLoadingBar = ({
+  isLoading,
+}: PulsingLoadingBarProperties) => {
   return (
     <div
       className={classes(

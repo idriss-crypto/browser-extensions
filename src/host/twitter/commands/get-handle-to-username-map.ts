@@ -24,7 +24,9 @@ export class GetHandleToUsernameMapCommand extends Command<Payload, Response> {
 
   async handle() {
     try {
-      const response = await fetch('https://api.idriss.xyz/dao-twitter-handles');
+      const response = await fetch(
+        'https://api.idriss.xyz/dao-twitter-handles',
+      );
       const json = await response.json();
       const validationResult = responseSchema.safeParse(json);
       if (!validationResult.success) {

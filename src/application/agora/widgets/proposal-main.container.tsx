@@ -2,12 +2,12 @@ import { useCallback, useState } from 'react';
 
 import { ErrorBoundary } from 'shared/observability';
 import { useCommandQuery } from 'shared/messaging';
+import { Pagination } from 'shared/ui';
 
 import { useTwitterVisibleAgoraNodes } from '../hooks';
 import { GetAgoraProposalsCommand } from '../commands';
 
 import { Proposal } from './proposal';
-import { Pagination } from 'shared/ui';
 
 export const ProposalMainContainer = () => {
   const [hiddenAgoraUsers, setHiddenAgoraUsers] = useState<string[]>([]);
