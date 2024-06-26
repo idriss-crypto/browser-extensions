@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { useCommandQuery } from 'shared/messaging';
+import { Pagination } from 'shared/ui';
 
 import { GetProposalCommand } from '../commands';
 
@@ -65,16 +66,20 @@ export const OrganizationProposalsContainer = ({
     });
   };
 
+  const pagination: Pagination = {
+    hasPrevious: isPreviousProposalAvailable,
+    hasNext: isNextProposalAvailable,
+    onPrevious: showPreviousProposal,
+    onNext: showNextProposal,
+  };
+
   if (!currentProposalQuery.data || !snapshotHandle) {
     return null;
   }
 
   return (
     <Proposal
-      isPreviousProposalAvailable={isPreviousProposalAvailable}
-      isNextProposalAvailable={isNextProposalAvailable}
-      onNext={showNextProposal}
-      onPrevious={showPreviousProposal}
+      pagination={pagination}
       isLoading={isLoadingProposal}
       data={currentProposalQuery.data}
       className={className}

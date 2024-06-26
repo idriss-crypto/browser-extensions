@@ -1,4 +1,11 @@
-import { Chip, IconButton, WidgetBase, classes } from 'shared/ui';
+import {
+  Chip,
+  Pagination,
+  PaginationComponent,
+  PulsingLoadingBar,
+  WidgetBase,
+  classes,
+} from 'shared/ui';
 import { getDifferenceInDays, getEndsInLabel } from 'shared/utils';
 
 import { ProposalData } from '../types';
@@ -8,24 +15,18 @@ interface Properties {
   data: ProposalData;
   className?: string;
   top?: number;
-  isPreviousProposalAvailable: boolean;
-  isNextProposalAvailable: boolean;
+  pagination: Pagination;
   isLoading: boolean;
   onClose?: () => void;
-  onPrevious: () => void;
-  onNext: () => void;
 }
 
 export const Proposal = ({
   data,
   className,
   top,
-  isPreviousProposalAvailable,
-  isNextProposalAvailable,
+  pagination,
   isLoading,
   onClose,
-  onPrevious,
-  onNext,
 }: Properties) => {
   return (
     <WidgetBase
@@ -36,6 +37,7 @@ export const Proposal = ({
       top={top}
       onClose={onClose}
     >
+      <PulsingLoadingBar isLoading={isLoading} />
       <header className="flex items-center justify-between space-x-3">
         <a
           href={getUserUrl(data.author.address)}
@@ -68,29 +70,11 @@ export const Proposal = ({
             </Chip>
           </a>
         </div>
-        {(isPreviousProposalAvailable || isNextProposalAvailable) && (
-          <div className="flex justify-end gap-[18px]">
-            <IconButton
-              disabled={!isPreviousProposalAvailable}
-              onClick={onPrevious}
-              iconProps={{ name: 'ArrowLeftIcon' }}
-              className="bg-transparent px-0 hover:enabled:bg-transparent active:enabled:bg-transparent"
-            />
-            <IconButton
-              disabled={!isNextProposalAvailable}
-              onClick={onNext}
-              iconProps={{ name: 'ArrowRightIcon' }}
-              className="bg-transparent px-0 hover:enabled:bg-transparent active:enabled:bg-transparent"
-            />
-          </div>
-        )}
+        <PaginationComponent
+          pagination={pagination}
+          buttonClassNames="text-white bg-transparent hover:enabled:bg-transparent active:enabled:bg-transparent"
+        />
       </footer>
-      <div
-        className={classes(
-          'absolute top-0 h-1 animate-pulse rounded-full bg-gradient-to-r from-stone-300 via-stone-300 via-stone-400 via-stone-500 to-stone-300  delay-75 duration-200',
-          isLoading ? 'left-1 w-[98%]' : 'right-1 w-0',
-        )}
-      />
     </WidgetBase>
   );
 };

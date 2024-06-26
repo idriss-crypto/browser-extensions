@@ -18,8 +18,8 @@ export const IconButton = ({
   return (
     <button
       className={classes(
-        'flex rounded bg-black/10 p-1',
-        'hover:enabled:bg-black/20 active:enabled:bg-black/40',
+        'flex rounded bg-white/10 p-1',
+        'hover:enabled:bg-white/20 active:enabled:bg-white/40',
         'disabled:opacity-50',
         className,
       )}
