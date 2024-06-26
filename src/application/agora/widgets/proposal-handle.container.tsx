@@ -6,6 +6,7 @@ import { getAgoraUsernameFromTwitterUsername } from '../utils';
 import { GetAgoraProposalsCommand } from '../commands';
 
 import { Proposal } from './proposal';
+import { Pagination } from 'shared/ui';
 
 interface Properties {
   handle: string;
@@ -55,16 +56,20 @@ export const ProposalHandleContainer = ({ handle }: Properties) => {
     });
   };
 
+  const pagination: Pagination = {
+    hasPrevious: isPreviousProposalAvailable,
+    hasNext: isNextProposalAvailable,
+    onPrevious: showPreviousProposal,
+    onNext: showNextProposal,
+  };
+
   if (!currentProposal || !agoraUsername) {
     return null;
   }
 
   return (
     <Proposal
-      isPreviousProposalAvailable={isPreviousProposalAvailable}
-      isNextProposalAvailable={isNextProposalAvailable}
-      onNext={showNextProposal}
-      onPrevious={showPreviousProposal}
+      pagination={pagination}
       isLoading={isLoadingProposal}
       data={currentProposal}
       className="fixed top-20"
