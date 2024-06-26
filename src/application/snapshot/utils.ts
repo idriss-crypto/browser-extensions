@@ -1,5 +1,3 @@
-import { ScrapingResult } from 'shared/scraping';
-
 import { SNAPSHOT_WEBSITE_URL } from './constants';
 import { ProposalData } from './types';
 

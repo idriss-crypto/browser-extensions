@@ -48,9 +48,9 @@ export const Proposal = ({
         <Chip>Active</Chip>
       </header>
       <main className="mt-2">
-        <p className="text-base font-semibold">{data.title}</p>
-        <p className="mt-1 overflow-hidden text-[#ccc]">
-          ${data.body.slice(0, 120)}...
+        <p className="line-clamp-[1] text-base font-semibold">{data.title}</p>
+        <p className="mt-1 line-clamp-[2] overflow-hidden text-[#ccc]">
+          {data.body}
         </p>
       </main>
       <footer className="mt-2 flex items-center justify-between">

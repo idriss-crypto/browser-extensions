@@ -1,10 +1,10 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { ErrorBoundary } from 'shared/observability';
 
 import { useTwitterVisibleSnapshots } from '../hooks';
 
-import { ProposalHandleContainer } from './proposal-handle.container';
+import { OrganizationProposalsContainer } from './organization-proposals.container';
 
 export const ProposalMainContainer = () => {
   const [hiddenSnapshots, setHiddenSnapshots] = useState<string[]>([]);
@@ -13,11 +13,11 @@ export const ProposalMainContainer = () => {
     hidden: hiddenSnapshots,
   });
 
-  const hideSnapshot = useCallback((snapshotName: string) => {
+  const hideSnapshot = (snapshotName: string) => {
     setHiddenSnapshots((previous) => {
       return [...previous, snapshotName];
     });
-  }, []);
+  };
 
   return visibleSnapshots.map(({ name, top }) => {
     return (
@@ -25,7 +25,7 @@ export const ProposalMainContainer = () => {
         key={`snapshot-${name}-at-${top}`}
         exceptionEventName="snapshot-widget-twitter-main-runtime-error"
       >
-        <ProposalHandleContainer
+        <OrganizationProposalsContainer
           snapshotHandle={name}
           className="absolute"
           top={top - 12}

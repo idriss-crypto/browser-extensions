@@ -1,2 +1,2 @@
 export { ProposalMainContainer } from './proposal-main.container';
-export { ProposalHandleContainer } from './proposal-handle.container';
+export { OrganizationProposalsContainer as ProposalHandleContainer } from './organization-proposals.container';

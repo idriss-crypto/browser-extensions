@@ -1,9 +1,8 @@
 import { ErrorBoundary } from 'shared/observability';
-import { useDaoHandles, useExtensionSettings } from 'shared/extension';
-import { useTwitterLocationInfo } from 'host/twitter';
+import { useExtensionSettings } from 'shared/extension';
+import { useHandleToUsernameMap, useTwitterLocationInfo } from 'host/twitter';
 
 import { ProposalHandleContainer, ProposalMainContainer } from './widgets';
-import { getSnapshotFromTwitterUsername } from './utils';
 
 export const App = () => {
   const { experimentalFeatures } = useExtensionSettings();
@@ -15,11 +14,10 @@ export const App = () => {
     twitterHandleFromPathname,
   } = useTwitterLocationInfo();
 
-  const { data: daoHandles } = useDaoHandles('snapshot');
-  const snapshotHandle = getSnapshotFromTwitterUsername(
-    daoHandles ?? {},
-    twitterHandleFromPathname,
-  );
+  const { data: daoHandles } = useHandleToUsernameMap('snapshot');
+  const snapshotHandle = daoHandles
+    ? daoHandles[twitterHandleFromPathname.toLowerCase()]
+    : undefined;
 
   if (!experimentalFeatures || !isTwitter) {
     return null;
