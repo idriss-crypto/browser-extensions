@@ -1,0 +1,1 @@
+export { PulsingLoadingBar } from './pulsing-laoding-bar.component'

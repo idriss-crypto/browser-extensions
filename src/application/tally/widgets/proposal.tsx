@@ -1,4 +1,11 @@
-import { classes, Chip, IconButton, WidgetBase } from 'shared/ui';
+import {
+  classes,
+  Chip,
+  WidgetBase,
+  Pagination,
+  PaginationComponent,
+  PulsingLoadingBar,
+} from 'shared/ui';
 import { getDifferenceInDays, getEndsInLabel } from 'shared/utils';
 
 import { ProposalData } from '../types';
@@ -8,30 +15,24 @@ import {
   getProposalAuthorLabel,
   getProposalStatusLabel,
 } from '../utils';
-import { StatusChip } from '../components/status-chip';
+import { StatusChip } from '../components';
 
 interface Properties {
   proposalDetails: ProposalData;
   className?: string;
   top?: number;
-  isPreviousProposalAvailable: boolean;
-  isNextProposalAvailable: boolean;
+  pagination: Pagination;
   isLoading: boolean;
   onClose?: () => void;
-  onPrevious: () => void;
-  onNext: () => void;
 }
 
 export const Proposal = ({
   proposalDetails,
   className,
   top,
-  isPreviousProposalAvailable,
-  isNextProposalAvailable,
   isLoading,
+  pagination,
   onClose,
-  onPrevious,
-  onNext,
 }: Properties) => {
   const proposalEndDateInMs = new Date(proposalDetails.end.timestamp).getTime();
 
@@ -44,6 +45,7 @@ export const Proposal = ({
       top={top}
       onClose={onClose}
     >
+      <PulsingLoadingBar isLoading={isLoading} />
       <header className="mb-auto flex items-center justify-between space-x-3">
         <p className="line-clamp-[1] break-all text-xs text-tally-gray-600">
           By{' '}
@@ -88,29 +90,8 @@ export const Proposal = ({
             </Chip>
           </a>
         </div>
-        {(isPreviousProposalAvailable || isNextProposalAvailable) && (
-          <div className="flex justify-end gap-[18px]">
-            <IconButton
-              disabled={!isPreviousProposalAvailable}
-              onClick={onPrevious}
-              iconProps={{ name: 'ArrowLeftIcon' }}
-              className="px-0"
-            />
-            <IconButton
-              disabled={!isNextProposalAvailable}
-              onClick={onNext}
-              iconProps={{ name: 'ArrowRightIcon' }}
-              className="px-0"
-            />
-          </div>
-        )}
+        <PaginationComponent pagination={pagination} />
       </footer>
-      <div
-        className={classes(
-          'absolute top-0 h-1 animate-pulse rounded-full bg-gradient-to-r from-stone-300 via-stone-500 to-stone-300  delay-75 duration-200',
-          isLoading ? 'left-0 w-full' : 'right-0 w-0',
-        )}
-      />
     </WidgetBase>
   );
 };

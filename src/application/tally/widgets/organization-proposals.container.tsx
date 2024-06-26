@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useCommandQuery } from 'shared/messaging';
+import { Pagination } from 'shared/ui';
 
 import { GetTallyProposalsCommand } from '../commands';
 
@@ -101,16 +102,20 @@ export const OrganizationProposalsContainer = ({
       setNextProposalCursor(newFetchedProposalInfo.pageInfo.lastCursor);
     }
   }, [proposalQuery]);
+
+  const pagination: Pagination = {
+    hasPrevious: isPreviousProposalAvailable,
+    hasNext: isNextProposalAvailable,
+    onPrevious: showPreviousProposal,
+    onNext: showNextProposal,
+  };
   if (!currentProposal || !tallyName) {
     return null;
   }
 
   return (
     <Proposal
-      isPreviousProposalAvailable={isPreviousProposalAvailable}
-      isNextProposalAvailable={isNextProposalAvailable}
-      onNext={showNextProposal}
-      onPrevious={showPreviousProposal}
+      pagination={pagination}
       isLoading={isLoadingProposal}
       proposalDetails={currentProposal}
       className={className}

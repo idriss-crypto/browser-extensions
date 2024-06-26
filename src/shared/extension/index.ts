@@ -9,4 +9,3 @@ export {
   COMMAND_MAP as EXTENSION_COMMAND_MAP,
   GetServiceStatusCommand,
 } from './commands';
-export * from '../../host/twitter/hooks';

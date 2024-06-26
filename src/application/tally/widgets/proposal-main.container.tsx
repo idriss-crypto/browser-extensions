@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { ErrorBoundary } from 'shared/observability';
 
@@ -13,11 +13,11 @@ export const ProposalMainContainer = () => {
     hidden: hiddenUsers,
   });
 
-  const hideTally = useCallback((tallyName: string) => {
+  const hideTally = (tallyName: string) => {
     setHiddenUsers((previous) => {
       return [...previous, tallyName];
     });
-  }, []);
+  };
 
   return visibleTallyNodes.map(({ name, top, twitterHandle }) => {
     return (
