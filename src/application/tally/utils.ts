@@ -1,49 +1,14 @@
-import { TALLY_WEBSITE_URL } from './constants';
+import { TALLY_GRAPHQL_API_URL, TALLY_WEBSITE_URL } from './constants';
 import { ProposalData } from './types';
 
-export const generateGetOrganizationInfoQuery = () => {
-  return `query Organization($input: OrganizationInput!) {
-  organization(input: $input) {
-    id
-    hasActiveProposals
-  }
-}`;
-};
-
-export const generateGetProposalsQuery = () => {
-  return `query ProposalsV2($input: ProposalsInput!) {
-  proposalsV2(input: $input) {
-    nodes {
-      ... on ProposalV2 {
-        id
-        end {
-          ... on Block {
-            timestamp
-          }
-          ... on BlocklessTimestamp {
-            timestamp
-          }
-        }
-        metadata {
-          title
-          description
-        }
-        status
-        creator {
-          address
-          name
-          ens
-        }
-        organization {
-          slug
-        }
-      }
-    }
-    pageInfo {
-      lastCursor
-    }
-  }
-}`;
+export const generateGetProposalsQuery = ({
+  twitterName,
+  afterCursor,
+}: {
+  twitterName: string;
+  afterCursor: string | null;
+}) => {
+  return `${TALLY_GRAPHQL_API_URL}?twitter-name=${twitterName}${afterCursor ? `&afterCursor=${afterCursor}` : ''}`;
 };
 
 export const getProposalUrl = (userName: string, proposalId: string) => {

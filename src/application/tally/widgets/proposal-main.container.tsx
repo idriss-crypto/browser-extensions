@@ -19,14 +19,14 @@ export const ProposalMainContainer = () => {
     });
   }, []);
 
-  return visibleTallyNodes.map(({ name, top }) => {
+  return visibleTallyNodes.map(({ name, top, twitterHandle }) => {
     return (
       <ErrorBoundary
         key={`${name}at_${top}`}
         exceptionEventName="tally-widget-twitter-main-runtime-error"
       >
         <OrganizationProposalsContainer
-          tallyName={name}
+          twitterHandle={twitterHandle}
           className="absolute"
           top={top - 12}
           onClose={() => {

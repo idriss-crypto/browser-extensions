@@ -2,22 +2,19 @@ import { useEffect, useState } from 'react';
 
 import { useCommandQuery } from 'shared/messaging';
 
-import {
-  GetOrganizationInfoCommand,
-  GetTallyProposalsCommand,
-} from '../commands';
+import { GetTallyProposalsCommand } from '../commands';
 
 import { Proposal } from './proposal';
 
 interface Properties {
-  tallyName: string;
+  twitterHandle: string;
   className?: string;
   top?: number;
   onClose?: () => void;
 }
 
 export const OrganizationProposalsContainer = ({
-  tallyName,
+  twitterHandle: tallyName,
   className = 'fixed top-20',
   top,
   onClose,
@@ -32,20 +29,11 @@ export const OrganizationProposalsContainer = ({
     null,
   );
 
-  const organizationInfoQuery = useCommandQuery({
-    command: new GetOrganizationInfoCommand({ tallyName: tallyName ?? '' }),
-    enabled: tallyName ? tallyName.length > 0 : false,
-  });
-
-  const hasActiveProposals =
-    organizationInfoQuery.data?.hasActiveProposals ?? false;
-
   const proposalQuery = useCommandQuery({
     command: new GetTallyProposalsCommand({
-      tallyUserId: organizationInfoQuery.data?.id?.toString() ?? '',
+      twitterHandle: tallyName ?? '',
       afterCursor: currentProposalCursor,
     }),
-    enabled: hasActiveProposals,
     retry: 5,
     retryDelay: 1800,
     staleTime: Number.POSITIVE_INFINITY,
@@ -90,7 +78,7 @@ export const OrganizationProposalsContainer = ({
   };
 
   useEffect(() => {
-    if (!hasActiveProposals || proposalQuery.isLoading) {
+    if (proposalQuery.isLoading) {
       return;
     }
 
@@ -98,7 +86,7 @@ export const OrganizationProposalsContainer = ({
     if (newFetchedProposalInfo) {
       setNextProposalCursor(newFetchedProposalInfo.pageInfo.lastCursor);
     }
-  }, [hasActiveProposals, proposalQuery]);
+  }, [proposalQuery]);
   if (!currentProposal || !tallyName) {
     return null;
   }

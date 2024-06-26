@@ -19,15 +19,13 @@ export const App = () => {
     return null;
   }
 
-  const tallyUserHandle =
-    isTwitterHandlePage && daoHandles
-      ? daoHandles[twitterHandleFromPathname.toLowerCase()]
-      : null;
-
+  const isTallyUser =
+    isTwitterHandlePage &&
+    daoHandles?.[twitterHandleFromPathname.toLowerCase()];
   return (
     <ErrorBoundary exceptionEventName="tally-runtime-error">
-      {tallyUserHandle ? (
-        <ProposalHandleContainer tallyName={tallyUserHandle} />
+      {isTallyUser ? (
+        <ProposalHandleContainer twitterHandle={twitterHandleFromPathname} />
       ) : null}
       {isTwitterHomePage ? <ProposalMainContainer /> : null}
     </ErrorBoundary>

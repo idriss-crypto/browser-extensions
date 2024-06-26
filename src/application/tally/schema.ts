@@ -34,14 +34,3 @@ export const getProposalsResponseSchema = z.object({
     proposalsV2: proposalsResponseObjectSchema,
   }),
 });
-
-export const organizationInfoSchema = z.object({
-  id: z.string(),
-  hasActiveProposals: z.boolean(),
-});
-
-export const getOrganizationInfoResponseSchema = z.object({
-  data: z.object({
-    organization: organizationInfoSchema,
-  }),
-});

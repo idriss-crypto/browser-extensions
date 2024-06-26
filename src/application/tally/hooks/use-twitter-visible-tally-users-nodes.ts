@@ -30,6 +30,7 @@ export const useTwitterVisibleTallyUsersNodes = ({ hidden }: Properties) => {
       })
       .map((tallyNode) => {
         return {
+          twitterHandle: tallyNode.value,
           name: tallyNode.tallyName,
           top: tallyNode.top,
         };

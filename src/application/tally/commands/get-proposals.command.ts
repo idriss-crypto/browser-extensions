@@ -6,12 +6,11 @@ import {
 } from 'shared/messaging';
 
 import { generateGetProposalsQuery } from '../utils';
-import { TALLY_GRAPHQL_API_URL } from '../constants';
 import { getProposalsResponseSchema } from '../schema';
 import { ProposalsResponse } from '../types';
 
 interface Payload {
-  tallyUserId: string;
+  twitterHandle: string;
   afterCursor: string | null;
 }
 
@@ -30,29 +29,14 @@ export class GetTallyProposalsCommand extends Command<
 
   async handle() {
     try {
-      const query = generateGetProposalsQuery();
+      const query = generateGetProposalsQuery({
+        afterCursor: this.payload.afterCursor,
+        twitterName: this.payload.twitterHandle,
+      });
 
-      const response = await fetch(TALLY_GRAPHQL_API_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          query: query,
-          variables: {
-            input: {
-              filters: {
-                includeArchived: false,
-                organizationId: this.payload.tallyUserId,
-              },
-              page: {
-                limit: 1,
-                afterCursor: this.payload.afterCursor,
-              },
-            },
-          },
-        }),
+      const response = await fetch(query, {
         headers: {
           'Content-Type': 'application/json',
-          'Api-Key':
-            'a0a4cd00bb6953720c9c201c010cdd36a563e65c97e926a36a8acdfcd1d1eeb7',
         },
       });
 
