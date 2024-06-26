@@ -21,7 +21,7 @@ export const proposalSchema = z.object({
 });
 
 export const proposalsPageInfoSchema = z.object({
-  lastCursor: z.string(),
+  firstCursor: z.string(),
 });
 
 export const proposalsResponseObjectSchema = z.object({
