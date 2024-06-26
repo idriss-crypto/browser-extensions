@@ -42,12 +42,26 @@ export const OrganizationProposalsContainer = ({
     },
   });
 
+  const nextProposalQuery = useCommandQuery({
+    command: new GetTallyProposalsCommand({
+      twitterHandle: tallyName ?? '',
+      afterCursor: nextProposalCursor,
+    }),
+    enabled: !!nextProposalCursor,
+    retry: 5,
+    retryDelay: 1800,
+    staleTime: Number.POSITIVE_INFINITY,
+  });
+
   const currentProposal = proposalQuery.data?.nodes[0];
 
   const isLoadingProposal =
-    proposalQuery.isLoading || proposalQuery.isPlaceholderData;
+    proposalQuery.isLoading ||
+    proposalQuery.isPlaceholderData ||
+    nextProposalQuery.isLoading;
   const isPreviousProposalAvailable = previousProposalCursors.length > 0;
-  const isNextProposalAvailable = nextProposalCursor !== null;
+  const isNextProposalAvailable =
+    !!nextProposalQuery.data && nextProposalQuery.data.nodes.length > 0;
 
   const showPreviousProposal = () => {
     const previousProposalCursor = previousProposalCursors.at(-1);
