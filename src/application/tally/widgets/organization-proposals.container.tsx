@@ -43,26 +43,13 @@ export const OrganizationProposalsContainer = ({
     },
   });
 
-  const nextProposalQuery = useCommandQuery({
-    command: new GetTallyProposalsCommand({
-      twitterHandle: tallyName ?? '',
-      afterCursor: nextProposalCursor,
-    }),
-    enabled: !!nextProposalCursor,
-    retry: 5,
-    retryDelay: 1800,
-    staleTime: Number.POSITIVE_INFINITY,
-  });
-
   const currentProposal = proposalQuery.data?.nodes[0];
+  const nextProposal = proposalQuery.data?.nodes[1];
 
   const isLoadingProposal =
-    proposalQuery.isLoading ||
-    proposalQuery.isPlaceholderData ||
-    nextProposalQuery.isLoading;
+    proposalQuery.isLoading || proposalQuery.isPlaceholderData;
   const isPreviousProposalAvailable = previousProposalCursors.length > 0;
-  const isNextProposalAvailable =
-    !!nextProposalQuery.data && nextProposalQuery.data.nodes.length > 0;
+  const isNextProposalAvailable = nextProposal !== undefined;
 
   const showPreviousProposal = () => {
     const previousProposalCursor = previousProposalCursors.at(-1);
@@ -99,7 +86,7 @@ export const OrganizationProposalsContainer = ({
 
     const newFetchedProposalInfo = proposalQuery.data;
     if (newFetchedProposalInfo) {
-      setNextProposalCursor(newFetchedProposalInfo.pageInfo.lastCursor);
+      setNextProposalCursor(newFetchedProposalInfo.pageInfo.firstCursor);
     }
   }, [proposalQuery]);
 
