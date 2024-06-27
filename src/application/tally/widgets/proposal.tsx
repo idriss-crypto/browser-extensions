@@ -39,7 +39,7 @@ export const Proposal = ({
   return (
     <WidgetBase
       className={classes(
-        'grid h-[200px] overflow-hidden rounded-[0.375rem] bg-white text-xs leading-tight text-tally-text-primary',
+        'grid overflow-hidden rounded-[0.375rem] bg-white text-xs leading-tight text-tally-text-primary',
         className,
       )}
       top={top}
@@ -61,10 +61,10 @@ export const Proposal = ({
         <StatusChip status={proposalDetails.status} />
       </header>
       <main className="my-2 grid">
-        <p className="line-clamp-[1] break-all text-base font-bold tracking-tighter">
+        <p className="line-clamp-[1] break-all text-base font-bold">
           {proposalDetails.metadata.title}
         </p>
-        <p className="mt-1 line-clamp-[4] overflow-hidden">
+        <p className="mt-1 line-clamp-[2] overflow-hidden break-all">
           {proposalDetails.metadata.description}
         </p>
       </main>

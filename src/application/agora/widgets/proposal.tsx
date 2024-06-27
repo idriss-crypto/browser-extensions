@@ -35,7 +35,7 @@ export const Proposal = ({
   return (
     <WidgetBase
       className={classes(
-        'grid h-[200px] overflow-hidden rounded-md bg-white text-xs leading-tight',
+        'grid overflow-hidden rounded-md bg-white text-xs leading-tight',
         className,
       )}
       top={top}
@@ -51,10 +51,10 @@ export const Proposal = ({
         </Chip>
       </header>
       <main className="mt-2">
-        <p className="line-clamp-[1] text-base font-black text-black">
+        <p className="line-clamp-[1] break-all text-base font-black text-black">
           {data.proposalData.title}
         </p>
-        <p className="mt-1 line-clamp-[4] overflow-hidden text-[#374151]">
+        <p className="mt-1 line-clamp-[2] overflow-hidden break-all text-[#374151]">
           {data.description}
         </p>
       </main>
