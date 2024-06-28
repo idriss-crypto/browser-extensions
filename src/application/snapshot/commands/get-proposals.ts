@@ -82,7 +82,7 @@ export class GetProposalsCommand extends Command<Payload, ProposalData[]> {
 
       return new OkResult(mappedProposals);
     } catch (error) {
-      await this.logException();
+      await this.logException(error);
       if (error instanceof HandlerError) {
         return new FailureResult(error.message);
       }
