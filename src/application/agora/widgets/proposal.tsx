@@ -43,8 +43,8 @@ export const Proposal = ({
     >
       <PulsingLoadingBar isLoading={isLoading} />
       <header className="flex items-center justify-between space-x-3">
-        <p className="line-clamp-[1] text-xs font-semibold text-gray-700">
-          {data.proposerAddress}
+        <p className="line-clamp-[1] text-xs text-gray-700">
+          By {data.proposerAddress}
         </p>
         <Chip className="rounded-sm bg-green-200 px-1 py-0.5 font-semibold uppercase text-green-600">
           {data.proposalData.state}
@@ -58,9 +58,9 @@ export const Proposal = ({
           {data.description}
         </p>
       </main>
-      <footer className="mt-2.5 flex items-center justify-between">
+      <footer className="mt-3.5 flex items-center justify-between">
         <div className="flex justify-start gap-1.5">
-          <div className="flex items-center text-xs font-semibold text-gray-700">
+          <div className="flex items-center text-xs text-gray-700">
             {getEndsInLabel(getDifferenceInDays(proposalEndDateInMs))}
           </div>
           <a

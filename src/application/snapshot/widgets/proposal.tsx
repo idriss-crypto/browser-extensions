@@ -40,7 +40,7 @@ export const Proposal = ({ data, className, top, onClose }: Properties) => {
           {data.body}
         </p>
       </main>
-      <footer className="mt-2.5 flex items-center space-x-2">
+      <footer className="mt-3.5 flex items-center space-x-2">
         <div className="text-[#aaa]">
           {getEndsInLabel(getDifferenceInDays(data.end * 1000))}
         </div>

@@ -47,7 +47,7 @@ export const Proposal = ({
     >
       <PulsingLoadingBar isLoading={isLoading} />
       <header className="flex items-center justify-between space-x-3">
-        <p className="line-clamp-[1] break-all text-xs font-semibold leading-5 text-tally-gray-500 hover:underline">
+        <p className="line-clamp-[1] break-all text-xs leading-5 text-tally-gray-500 hover:underline">
           By{' '}
           <a
             href={getProposalAuthorUrl(proposalDetails)}
@@ -67,9 +67,9 @@ export const Proposal = ({
           {proposalDetails.metadata.description}
         </p>
       </main>
-      <footer className="mt-2.5 flex items-center justify-between">
+      <footer className="mt-3.5 flex items-center justify-between">
         <div className="flex justify-start gap-1.5">
-          <div className="flex min-w-[84px] items-center text-xs font-semibold leading-5 text-tally-gray-500">
+          <div className="flex min-w-[84px] items-center text-xs leading-5 text-tally-gray-500">
             {getEndsInLabel(getDifferenceInDays(proposalEndDateInMs))}
           </div>
           <a
