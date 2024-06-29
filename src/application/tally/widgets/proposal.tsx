@@ -42,7 +42,7 @@ export const Proposal = ({
     <WidgetTab
       twitterHandle={twitterHandle}
       className={classes(
-        'grid h-[200px] overflow-visible rounded-[0.375rem] bg-white text-xs leading-tight text-tally-text-primary',
+        'grid overflow-visible rounded-[0.375rem] bg-white text-xs leading-tight text-tally-text-primary',
         className,
       )}
       top={top}
