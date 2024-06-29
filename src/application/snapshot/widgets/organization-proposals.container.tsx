@@ -54,7 +54,7 @@ export const OrganizationProposalsContainer = ({
   };
 
   const showNextProposal = () => {
-    if (!isNextProposalAvailable || isLoadingProposal) {
+    if (!isNextProposalAvailable) {
       return;
     }
 
