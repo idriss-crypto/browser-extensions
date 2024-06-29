@@ -67,7 +67,7 @@ export const WidgetTabsProvider: React.FC<{ children: ReactNode }> = ({
 
         return {
           ...previous,
-          [organizationId]: [...orgData, application],
+          [organizationId]: [...orgData, application].sort(),
         };
       });
     },
