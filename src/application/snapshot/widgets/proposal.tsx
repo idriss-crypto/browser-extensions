@@ -53,7 +53,7 @@ export const Proposal = ({
         </a>
         <Chip>Active</Chip>
       </header>
-      <main className="mt-2">
+      <main className="my-2">
         <p className="line-clamp-[1] break-all text-base font-semibold">
           {data.title}
         </p>
@@ -71,7 +71,7 @@ export const Proposal = ({
             rel="noopener noreferrer"
             target="_blank"
           >
-            <Chip className="py-1" variant="info" width="long">
+            <Chip className="border py-1" variant="info" width="long">
               Vote
             </Chip>
           </a>

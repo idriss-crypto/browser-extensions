@@ -44,7 +44,7 @@ export const WidgetTab = ({
   const left = useMemo(() => {
     const index = handleWidgetTabs.indexOf(application) ?? -1;
     if (index !== -1) {
-      return index * 50;
+      return index * 100;
     }
 
     return 0;
@@ -78,15 +78,23 @@ export const WidgetTab = ({
         }}
         style={{ left }}
         className={classes(
-          'border-bottom-[5px] absolute -top-5 h-[25px] w-[50px] cursor-pointer rounded-tl-[2px] rounded-tr-[20px] border-solid pl-1 pt-1',
+          'border-bottom-[5px] absolute -top-5 flex h-[25px] w-[100px] cursor-pointer flex-row gap-[10px] rounded-tl-[2px] rounded-tr-[20px] border-solid pl-1 pt-1 font-bold',
           {
             'border-[#2d2d2d] bg-[#2d2d2d]': application === 'snapshot',
             'border-white bg-white': application !== 'snapshot',
-            'opacity-50': handlePreferredApplication !== application,
+            'brightness-75': handlePreferredApplication !== application,
           },
         )}
       >
         <img className="h-3/4" src={getProperLogoSource(application)} />
+        <span
+          className={classes({
+            'text-white': application === 'snapshot',
+            'text-black': application !== 'snapshot',
+          })}
+        >
+          {application}
+        </span>
       </div>
       {children}
     </WidgetBase>
