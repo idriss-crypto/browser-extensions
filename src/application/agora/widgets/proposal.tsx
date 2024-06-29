@@ -46,25 +46,25 @@ export const Proposal = ({
       application="agora"
     >
       <PulsingLoadingBar isLoading={isLoading} />
-      <header className="mb-auto flex items-center justify-between space-x-3">
-        <p className="line-clamp-[1] text-xs font-semibold text-gray-700">
-          {data.proposerAddress}
+      <header className="flex items-center justify-between space-x-3">
+        <p className="line-clamp-[1] text-xs text-gray-700">
+          By {data.proposerAddress}
         </p>
         <Chip className="rounded-sm bg-green-200 px-1 py-0.5 font-semibold uppercase text-green-600">
           {data.proposalData.state}
         </Chip>
       </header>
       <main className="mt-2">
-        <p className="line-clamp-[1] text-base font-black text-black">
+        <p className="line-clamp-[1] break-all text-base font-black text-black">
           {data.proposalData.title}
         </p>
-        <p className="mt-1 line-clamp-[4] overflow-hidden text-[#374151]">
+        <p className="mt-1 line-clamp-[2] overflow-hidden break-all text-[#374151]">
           {data.description}
         </p>
       </main>
-      <footer className="mt-auto flex items-center justify-between">
+      <footer className="mt-3.5 flex items-center justify-between">
         <div className="flex justify-start gap-1.5">
-          <div className="flex items-center text-xs font-semibold text-gray-700">
+          <div className="flex items-center text-xs text-gray-700">
             {getEndsInLabel(getDifferenceInDays(proposalEndDateInMs))}
           </div>
           <a
@@ -73,7 +73,7 @@ export const Proposal = ({
             target="_blank"
           >
             <Chip
-              className="mr-2 inline-flex h-7 select-none items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:bg-[#F1F5F9] hover:text-[#0F172A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              className="mr-2 inline-flex select-none items-center justify-center rounded-md border px-4 py-1 font-medium transition-colors hover:bg-[#F1F5F9] hover:text-[#0F172A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
               variant="info"
               width="long"
             >

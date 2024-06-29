@@ -50,12 +50,11 @@ export const Proposal = ({
       application="tally"
     >
       <PulsingLoadingBar isLoading={isLoading} />
-      <header className="mb-auto flex items-center justify-between space-x-3">
-        <p className="line-clamp-[1] break-all text-xs text-tally-gray-600">
+      <header className="flex items-center justify-between space-x-3">
+        <p className="line-clamp-[1] break-all text-xs leading-5 text-tally-gray-500 hover:underline">
           By{' '}
           <a
             href={getProposalAuthorUrl(proposalDetails)}
-            className="font-semibold hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -64,17 +63,17 @@ export const Proposal = ({
         </p>
         <StatusChip status={proposalDetails.status} />
       </header>
-      <main className="my-2 grid">
-        <p className="line-clamp-[1] break-all text-base font-bold tracking-tighter">
+      <main className="my-2">
+        <p className="line-clamp-[1] break-all text-base font-bold">
           {proposalDetails.metadata.title}
         </p>
-        <p className="mt-1 line-clamp-[2] overflow-hidden">
+        <p className="mt-1 line-clamp-[2] overflow-hidden break-all">
           {proposalDetails.metadata.description}
         </p>
       </main>
-      <footer className="mt-auto flex items-center justify-between">
+      <footer className="mt-3.5 flex items-center justify-between">
         <div className="flex justify-start gap-1.5">
-          <div className="flex min-w-[84px] items-center text-xs font-semibold leading-5 text-tally-gray-500">
+          <div className="flex min-w-[84px] items-center text-xs leading-5 text-tally-gray-500">
             {getEndsInLabel(getDifferenceInDays(proposalEndDateInMs))}
           </div>
           <a
@@ -86,7 +85,7 @@ export const Proposal = ({
             target="_blank"
           >
             <Chip
-              className=" mr-2 inline-flex h-7 select-none items-center justify-center rounded-md border border-tally-gray-700 bg-tally-gray-700 px-4 py-2 text-sm font-semibold leading-6 text-white transition-all duration-200 ease-in-out hover:bg-tally-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              className="mr-2 inline-flex select-none items-center justify-center rounded-md border border-tally-gray-700 bg-tally-gray-700 px-4 py-1  font-semibold text-white transition-all duration-200 ease-in-out hover:bg-tally-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
               variant="info"
               width="long"
             >

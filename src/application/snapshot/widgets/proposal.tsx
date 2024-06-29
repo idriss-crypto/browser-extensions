@@ -35,7 +35,7 @@ export const Proposal = ({
       twitterHandle={twitterHandle}
       application="snapshot"
       className={classes(
-        'rounded-lg bg-[#2d2d2d] text-xs leading-tight',
+        'rounded-[0.375rem] bg-[#2d2d2d] text-xs leading-tight',
         className,
       )}
       top={top}
@@ -54,12 +54,14 @@ export const Proposal = ({
         <Chip>Active</Chip>
       </header>
       <main className="mt-2">
-        <p className="line-clamp-[1] text-base font-semibold">{data.title}</p>
-        <p className="mt-1 line-clamp-[2] overflow-hidden text-[#ccc]">
+        <p className="line-clamp-[1] break-all text-base font-semibold">
+          {data.title}
+        </p>
+        <p className="mt-1 line-clamp-[2] overflow-hidden break-all text-[#ccc]">
           {data.body}
         </p>
       </main>
-      <footer className="mt-2 flex items-center justify-between">
+      <footer className="mt-3.5 flex items-center justify-between space-x-2">
         <div className="flex items-center justify-start gap-1.5">
           <div className="text-[#aaa]">
             {getEndsInLabel(getDifferenceInDays(data.end * 1000))}

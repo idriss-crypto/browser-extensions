@@ -16,7 +16,12 @@ interface Payload {
   pageNumber: number;
 }
 
-export class GetProposalCommand extends Command<Payload, ProposalData | null> {
+interface Response {
+  proposal: ProposalData | null;
+  hasNextProposal: boolean;
+}
+
+export class GetProposalCommand extends Command<Payload, Response> {
   public readonly name = 'GetProposalCommand' as const;
 
   constructor(
@@ -35,7 +40,7 @@ export class GetProposalCommand extends Command<Payload, ProposalData | null> {
           query: query,
           operationName: 'Proposals',
           variables: {
-            first: 1,
+            first: 2,
             snapshotNames: this.payload.snapshotName,
             skip: this.payload.pageNumber,
           },
@@ -54,18 +59,24 @@ export class GetProposalCommand extends Command<Payload, ProposalData | null> {
         throw new HandlerError('Schema validation failed');
       }
       const proposal = validationResult.data.data.proposals[0];
-      if (!proposal) {
-        return new OkResult(null);
+      let proposalWithResolvedAddress = null;
+
+      if (proposal) {
+        const resolvedProposalAddress = await resolveAddress(proposal.author);
+
+        proposalWithResolvedAddress = {
+          ...proposal,
+          author: {
+            address: proposal.author,
+            resolvedProposalAddress,
+          },
+        };
       }
 
-      const resolvedAddress = await resolveAddress(proposal.author);
       return new OkResult({
-        ...proposal,
-        author: {
-          address: proposal.author,
-          resolvedAddress,
-        },
-      });
+        proposal: proposalWithResolvedAddress,
+        hasNextProposal: !!validationResult.data.data.proposals[1],
+      } as Response);
     } catch (error) {
       await this.logException();
       if (error instanceof HandlerError) {

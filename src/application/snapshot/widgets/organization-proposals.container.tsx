@@ -24,29 +24,26 @@ export const OrganizationProposalsContainer = ({
 }: Properties) => {
   const [currentProposalIndex, setCurrentProposalIndex] = useState(0);
 
-  const currentProposalQuery = useCommandQuery({
+  const proposalQuery = useCommandQuery({
     command: new GetProposalCommand({
       snapshotName: snapshotHandle ?? '',
       pageNumber: currentProposalIndex,
     }),
     enabled: snapshotHandle ? snapshotHandle.length > 0 : false,
     staleTime: Number.POSITIVE_INFINITY,
+    placeholderData: (previousData) => {
+      return previousData;
+    },
   });
 
-  const nextProposalQuery = useCommandQuery({
-    command: new GetProposalCommand({
-      snapshotName: snapshotHandle ?? '',
-      pageNumber: currentProposalIndex + 1,
-    }),
-    enabled: snapshotHandle ? snapshotHandle.length > 0 : false,
-    staleTime: Number.POSITIVE_INFINITY,
-  });
+  const currentProposal = proposalQuery.data?.proposal;
 
   const isLoadingProposal =
-    currentProposalQuery.isLoading || nextProposalQuery.isLoading;
+    proposalQuery.isLoading || proposalQuery.isPlaceholderData;
 
   const isPreviousProposalAvailable = currentProposalIndex > 0;
-  const isNextProposalAvailable = !!nextProposalQuery.data;
+  const isNextProposalAvailable =
+    Boolean(proposalQuery.data?.hasNextProposal) && !isLoadingProposal;
 
   const showPreviousProposal = () => {
     if (!isPreviousProposalAvailable || isLoadingProposal) {
@@ -59,7 +56,7 @@ export const OrganizationProposalsContainer = ({
   };
 
   const showNextProposal = () => {
-    if (!isNextProposalAvailable || isLoadingProposal) {
+    if (!isNextProposalAvailable) {
       return;
     }
 
@@ -75,7 +72,7 @@ export const OrganizationProposalsContainer = ({
     onNext: showNextProposal,
   };
 
-  if (!currentProposalQuery.data || !snapshotHandle) {
+  if (!currentProposal || !snapshotHandle) {
     return null;
   }
 
@@ -84,7 +81,7 @@ export const OrganizationProposalsContainer = ({
       twitterHandle={twitterHandle}
       pagination={pagination}
       isLoading={isLoadingProposal}
-      data={currentProposalQuery.data}
+      data={currentProposal}
       className={className}
       top={top}
       onClose={onClose}
