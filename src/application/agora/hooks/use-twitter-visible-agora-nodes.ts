@@ -24,15 +24,10 @@ export const useTwitterVisibleAgoraNodes = ({ hidden }: Properties) => {
         return {
           username: node.agoraUsername,
           top: node.top,
+          twitterHandle: node.value,
         };
       });
   }, [agoraNodes, hidden]);
 
-  const visibleAgoraUsernames = useMemo(() => {
-    return visibleAgoraNodes.map((agoraNode) => {
-      return agoraNode.username;
-    });
-  }, [visibleAgoraNodes]);
-
-  return { visibleAgoraNodes, visibleAgoraUsernames };
+  return { visibleAgoraNodes };
 };

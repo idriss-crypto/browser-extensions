@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { ErrorBoundary } from 'shared/observability';
 
@@ -19,21 +19,25 @@ export const ProposalMainContainer = () => {
     });
   };
 
-  return visibleTallyNodes.map(({ name, top, twitterHandle }) => {
-    return (
-      <ErrorBoundary
-        key={`${name}at_${top}`}
-        exceptionEventName="tally-widget-twitter-main-runtime-error"
-      >
-        <OrganizationProposalsContainer
-          twitterHandle={twitterHandle}
-          className="absolute"
-          top={top - 12}
-          onClose={() => {
-            hideTally(name);
-          }}
-        />
-      </ErrorBoundary>
-    );
-  });
+  const memoizedComponents = useMemo(() => {
+    return visibleTallyNodes.map(({ name, top, twitterHandle }) => {
+      return (
+        <ErrorBoundary
+          key={`${name}at_${top}`}
+          exceptionEventName="tally-widget-twitter-main-runtime-error"
+        >
+          <OrganizationProposalsContainer
+            twitterHandle={twitterHandle}
+            className="absolute"
+            top={top - 12}
+            onClose={() => {
+              return hideTally(name);
+            }}
+          />
+        </ErrorBoundary>
+      );
+    });
+  }, [visibleTallyNodes]); // Only re-create when visibleTallyNodes changes
+
+  return memoizedComponents;
 };

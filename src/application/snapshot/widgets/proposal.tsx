@@ -3,7 +3,7 @@ import {
   Pagination,
   PaginationComponent,
   PulsingLoadingBar,
-  WidgetBase,
+  WidgetTab,
   classes,
 } from 'shared/ui';
 import { getDifferenceInDays, getEndsInLabel } from 'shared/utils';
@@ -12,6 +12,7 @@ import { ProposalData } from '../types';
 import { getProposalAuthor, getProposalUrl, getUserUrl } from '../utils';
 
 interface Properties {
+  twitterHandle: string;
   data: ProposalData;
   className?: string;
   top?: number;
@@ -21,6 +22,7 @@ interface Properties {
 }
 
 export const Proposal = ({
+  twitterHandle,
   data,
   className,
   top,
@@ -29,7 +31,9 @@ export const Proposal = ({
   onClose,
 }: Properties) => {
   return (
-    <WidgetBase
+    <WidgetTab
+      twitterHandle={twitterHandle}
+      application="snapshot"
       className={classes(
         'rounded-lg bg-[#2d2d2d] text-xs leading-tight',
         className,
@@ -75,6 +79,6 @@ export const Proposal = ({
           buttonClassNames="text-white bg-transparent hover:enabled:bg-transparent active:enabled:bg-transparent"
         />
       </footer>
-    </WidgetBase>
+    </WidgetTab>
   );
 };

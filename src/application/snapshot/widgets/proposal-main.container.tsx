@@ -19,13 +19,14 @@ export const ProposalMainContainer = () => {
     });
   };
 
-  return visibleSnapshots.map(({ name, top }) => {
+  return visibleSnapshots.map(({ name, top, twitterHandle }) => {
     return (
       <ErrorBoundary
         key={`snapshot-${name}-at-${top}`}
         exceptionEventName="snapshot-widget-twitter-main-runtime-error"
       >
         <OrganizationProposalsContainer
+          twitterHandle={twitterHandle}
           snapshotHandle={name}
           className="absolute"
           top={top - 12}

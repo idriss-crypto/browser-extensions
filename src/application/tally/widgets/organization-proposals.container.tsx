@@ -15,7 +15,7 @@ interface Properties {
 }
 
 export const OrganizationProposalsContainer = ({
-  twitterHandle: tallyName,
+  twitterHandle,
   className = 'fixed top-20',
   top,
   onClose,
@@ -32,7 +32,7 @@ export const OrganizationProposalsContainer = ({
 
   const proposalQuery = useCommandQuery({
     command: new GetTallyProposalsCommand({
-      twitterHandle: tallyName ?? '',
+      twitterHandle: twitterHandle ?? '',
       afterCursor: currentProposalCursor,
     }),
     retry: 5,
@@ -96,12 +96,13 @@ export const OrganizationProposalsContainer = ({
     onPrevious: showPreviousProposal,
     onNext: showNextProposal,
   };
-  if (!currentProposal || !tallyName) {
+  if (!currentProposal || !twitterHandle) {
     return null;
   }
 
   return (
     <Proposal
+      twitterHandle={twitterHandle}
       pagination={pagination}
       isLoading={isLoadingProposal}
       proposalDetails={currentProposal}

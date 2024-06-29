@@ -22,6 +22,7 @@ export const App = () => {
   const isTallyUser =
     isTwitterHandlePage &&
     daoHandles?.[twitterHandleFromPathname.toLowerCase()];
+
   return (
     <ErrorBoundary exceptionEventName="tally-runtime-error">
       {isTallyUser ? (

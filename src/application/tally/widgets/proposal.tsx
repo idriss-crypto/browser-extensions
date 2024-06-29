@@ -1,10 +1,10 @@
 import {
   classes,
   Chip,
-  WidgetBase,
   Pagination,
   PaginationComponent,
   PulsingLoadingBar,
+  WidgetTab,
 } from 'shared/ui';
 import { getDifferenceInDays, getEndsInLabel } from 'shared/utils';
 
@@ -18,6 +18,7 @@ import {
 import { StatusChip } from '../components';
 
 interface Properties {
+  twitterHandle: string;
   proposalDetails: ProposalData;
   className?: string;
   top?: number;
@@ -27,6 +28,7 @@ interface Properties {
 }
 
 export const Proposal = ({
+  twitterHandle,
   proposalDetails,
   className,
   top,
@@ -37,13 +39,15 @@ export const Proposal = ({
   const proposalEndDateInMs = new Date(proposalDetails.end.timestamp).getTime();
 
   return (
-    <WidgetBase
+    <WidgetTab
+      twitterHandle={twitterHandle}
       className={classes(
-        'grid h-[200px] overflow-hidden rounded-[0.375rem] bg-white text-xs leading-tight text-tally-text-primary',
+        'grid h-[200px] overflow-visible rounded-[0.375rem] bg-white text-xs leading-tight text-tally-text-primary',
         className,
       )}
       top={top}
       onClose={onClose}
+      application="tally"
     >
       <PulsingLoadingBar isLoading={isLoading} />
       <header className="mb-auto flex items-center justify-between space-x-3">
@@ -64,7 +68,7 @@ export const Proposal = ({
         <p className="line-clamp-[1] break-all text-base font-bold tracking-tighter">
           {proposalDetails.metadata.title}
         </p>
-        <p className="mt-1 line-clamp-[4] overflow-hidden">
+        <p className="mt-1 line-clamp-[2] overflow-hidden">
           {proposalDetails.metadata.description}
         </p>
       </main>
@@ -92,6 +96,6 @@ export const Proposal = ({
         </div>
         <PaginationComponent pagination={pagination} />
       </footer>
-    </WidgetBase>
+    </WidgetTab>
   );
 };

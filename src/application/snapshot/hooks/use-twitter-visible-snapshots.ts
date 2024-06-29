@@ -24,23 +24,15 @@ export const useTwitterVisibleSnapshots = ({ hidden }: Properties) => {
   }, [daoHandles, tweetAuthors]);
 
   const visibleSnapshots = useMemo(() => {
-    return [
-      ...new Set(
-        snapshotUserNodes.map((user) => {
-          return user.snapshotName;
-        }),
-      ),
-    ]
-      .filter((snapshotName) => {
-        return !hidden.includes(snapshotName);
+    return snapshotUserNodes
+      .filter((snapshotNode) => {
+        return !hidden.includes(snapshotNode.snapshotName);
       })
-      .map((snapshotName) => {
+      .map((snapshotNode) => {
         return {
-          name: snapshotName,
-          top:
-            snapshotUserNodes.find((node) => {
-              return node.snapshotName === snapshotName;
-            })?.top ?? 0,
+          name: snapshotNode.snapshotName,
+          top: snapshotNode.top,
+          twitterHandle: snapshotNode.value,
         };
       });
   }, [hidden, snapshotUserNodes]);
