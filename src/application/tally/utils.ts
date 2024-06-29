@@ -38,10 +38,14 @@ export const getProposalAuthorUrl = (proposalDetails: ProposalData) => {
     : getOrganizationUrl(proposalDetails.organization.slug ?? '');
 };
 
+const formatProposerAddress = (address: string) => {
+  return `${address.slice(0, 6)}...${address.slice(Math.max(0, address.length - 4))}`;
+};
+
 export const getProposalAuthorLabel = (proposalDetails: ProposalData) => {
   return proposalDetails.creator.name.length > 0
     ? proposalDetails.creator.name
-    : proposalDetails.creator.address;
+    : formatProposerAddress(proposalDetails.creator.address);
 };
 
 export const getProposalStatusLabel = (status: string) => {

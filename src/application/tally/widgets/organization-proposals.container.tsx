@@ -49,7 +49,8 @@ export const OrganizationProposalsContainer = ({
   const isLoadingProposal =
     proposalQuery.isLoading || proposalQuery.isPlaceholderData;
   const isPreviousProposalAvailable = previousProposalCursors.length > 0;
-  const isNextProposalAvailable = nextProposal !== undefined;
+  const isNextProposalAvailable =
+    nextProposal !== undefined && !isLoadingProposal;
 
   const showPreviousProposal = () => {
     const previousProposalCursor = previousProposalCursors.at(-1);
@@ -69,7 +70,7 @@ export const OrganizationProposalsContainer = ({
   };
 
   const showNextProposal = () => {
-    if (!isNextProposalAvailable || isLoadingProposal) {
+    if (!isNextProposalAvailable) {
       return;
     }
 
