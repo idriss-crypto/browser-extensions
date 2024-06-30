@@ -43,7 +43,7 @@ export const WidgetTab = ({
   }, [organizationTabs, twitterHandle]);
 
   const handlePreferredApplication =
-    organizationPreferredApplication[twitterHandle];
+    organizationPreferredApplication[twitterHandle] ?? handleWidgetTabs.at(0);
 
   const left = useMemo(() => {
     const index = handleWidgetTabs.indexOf(application) ?? -1;
