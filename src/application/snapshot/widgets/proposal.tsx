@@ -34,10 +34,7 @@ export const Proposal = ({
     <WidgetTab
       twitterHandle={twitterHandle}
       application="snapshot"
-      className={classes(
-        'rounded-[0.375rem] bg-[#2d2d2d] text-xs leading-tight',
-        className,
-      )}
+      className={classes('bg-[#2d2d2d] text-xs leading-tight', className)}
       top={top}
       onClose={onClose}
     >

@@ -39,7 +39,7 @@ export const WidgetTabsProvider: React.FC<{ children: ReactNode }> = ({
 
   const [
     organizationPreferredApplication,
-    setOrganizationPrefferedApplication,
+    setOrganizationPreferredApplication,
   ] = useState<Record<string, WidgetTabCompatibleApplication | undefined>>({});
 
   const setPreferredApplication = useCallback(
@@ -47,7 +47,7 @@ export const WidgetTabsProvider: React.FC<{ children: ReactNode }> = ({
       organizationId: string,
       application: WidgetTabCompatibleApplication | undefined,
     ) => {
-      setOrganizationPrefferedApplication((previous) => {
+      setOrganizationPreferredApplication((previous) => {
         return {
           ...previous,
           [organizationId]: application,
@@ -89,16 +89,14 @@ export const WidgetTabsProvider: React.FC<{ children: ReactNode }> = ({
         };
       });
 
-      setOrganizationPrefferedApplication((previous) => {
-        const orgData = previous[organizationId];
-        if (!orgData) {
-          return previous;
+      setOrganizationPreferredApplication((previous) => {
+        if (previous[organizationId] === application) {
+          return {
+            ...previous,
+            [organizationId]: undefined,
+          };
         }
-
-        return {
-          ...previous,
-          [organizationId]: undefined,
-        };
+        return previous;
       });
     },
     [],
@@ -119,7 +117,7 @@ export const WidgetTabsProvider: React.FC<{ children: ReactNode }> = ({
     }
 
     if (Object.keys(updates).length > 0) {
-      setOrganizationPrefferedApplication((previous) => {
+      setOrganizationPreferredApplication((previous) => {
         return {
           ...previous,
           ...updates,

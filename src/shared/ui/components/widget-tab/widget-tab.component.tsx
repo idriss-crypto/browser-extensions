@@ -17,6 +17,10 @@ interface WidgetTabProperties extends WidgetBaseProperties {
   children: ReactNode;
 }
 
+const getHundredsDigit = (number: number) => {
+  return Math.floor((number % 1000) / 100);
+};
+
 export const WidgetTab = ({
   twitterHandle,
   application,
@@ -58,13 +62,19 @@ export const WidgetTab = ({
     };
   }, [addWidgetTab, application, removeWidgetTab, twitterHandle]);
 
+  const topBasedAdditionalIndex = top ? getHundredsDigit(top) * 100 : 0;
+
   return (
     <WidgetBase
       className={classes(
-        'z-10 overflow-visible rounded-lg bg-[#2d2d2d] text-xs leading-tight',
+        'overflow-visible rounded-lg rounded-tl-none bg-[#2d2d2d] text-xs leading-tight',
         className,
-        { 'z-20': handlePreferredApplication === application },
       )}
+      zIndex={
+        handlePreferredApplication === application
+          ? topBasedAdditionalIndex + 20
+          : topBasedAdditionalIndex + 10
+      }
       top={top}
       onClose={() => {
         onClose && onClose();
@@ -76,13 +86,16 @@ export const WidgetTab = ({
         onClick={() => {
           setPreferredApplication(twitterHandle, application);
         }}
-        style={{ left }}
+        style={{
+          left,
+        }}
         className={classes(
-          'border-bottom-[5px] absolute -top-5 flex h-[25px] w-[100px] cursor-pointer flex-row gap-[10px] rounded-tl-[2px] rounded-tr-[20px] border-solid pl-1 pt-1 font-bold',
+          'absolute -top-[25px] flex h-[25px] w-[100px] cursor-pointer flex-row items-center gap-[10px] rounded-tl-[2px] rounded-tr-[20px] pl-1 pt-1 font-bold transition-all duration-75 ease-linear',
           {
-            'border-[#2d2d2d] bg-[#2d2d2d]': application === 'snapshot',
-            'border-white bg-white': application !== 'snapshot',
-            'brightness-75': handlePreferredApplication !== application,
+            'bg-[#2d2d2d]': application === 'snapshot',
+            'bg-white': application !== 'snapshot',
+            '-top-[23px] -translate-x-[3px] scale-95 brightness-75':
+              handlePreferredApplication !== application,
           },
         )}
       >
