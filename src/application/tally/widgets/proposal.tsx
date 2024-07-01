@@ -47,7 +47,7 @@ export const Proposal = ({
       )}
       top={top}
       onClose={onClose}
-      application="tally"
+      tabName="tally"
     >
       <PulsingLoadingBar isLoading={isLoading} />
       <header className="flex items-center justify-between space-x-3">

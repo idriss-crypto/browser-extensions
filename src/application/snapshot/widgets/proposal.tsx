@@ -33,7 +33,7 @@ export const Proposal = ({
   return (
     <WidgetTab
       twitterHandle={twitterHandle}
-      application="snapshot"
+      tabName="snapshot"
       className={classes('bg-[#2d2d2d] text-xs leading-tight', className)}
       top={top}
       onClose={onClose}

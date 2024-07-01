@@ -1,19 +1,15 @@
 import { ReactNode, useEffect, useMemo } from 'react';
 
-import {
-  WidgetBase,
-  WidgetTabCompatibleApplication,
-  classes,
-  useWidgetTabs,
-} from 'shared/ui';
-
 import { WidgetBaseProperties } from '../widget-base/widget-base.types';
+import { useWidgetTabs } from '../../providers/widget-tabs';
+import { WidgetBase } from '../widget-base';
+import { classes } from '../../utils/classes';
 
 import { getProperLogoSource } from './utils';
 
 interface WidgetTabProperties extends WidgetBaseProperties {
   twitterHandle: string;
-  application: WidgetTabCompatibleApplication;
+  tabName: string;
   children: ReactNode;
 }
 
@@ -23,7 +19,7 @@ const getHundredsDigit = (number: number) => {
 
 export const WidgetTab = ({
   twitterHandle,
-  application,
+  tabName,
   children,
   className,
   closeButtonClassName,
@@ -31,36 +27,37 @@ export const WidgetTab = ({
   top,
 }: WidgetTabProperties) => {
   const {
-    organizationTabs,
-    organizationPreferredApplication,
+    tabs,
+    preferredTab,
     addWidgetTab,
     removeWidgetTab,
-    setPreferredApplication,
+    setUserPreferredTab,
   } = useWidgetTabs();
 
-  const handleWidgetTabs = useMemo(() => {
-    return organizationTabs[twitterHandle] ?? [];
-  }, [organizationTabs, twitterHandle]);
+  const tabLogo = getProperLogoSource(tabName);
 
-  const handlePreferredApplication =
-    organizationPreferredApplication[twitterHandle] ?? handleWidgetTabs.at(0);
+  const userTabs = useMemo(() => {
+    return tabs[twitterHandle] ?? [];
+  }, [tabs, twitterHandle]);
+
+  const userPreferredTab = preferredTab[twitterHandle] ?? userTabs.at(0);
 
   const left = useMemo(() => {
-    const index = handleWidgetTabs.indexOf(application) ?? -1;
+    const index = userTabs.indexOf(tabName) ?? -1;
     if (index !== -1) {
       return index * 100;
     }
 
     return 0;
-  }, [application, handleWidgetTabs]);
+  }, [tabName, userTabs]);
 
   useEffect(() => {
-    addWidgetTab(twitterHandle, application);
+    addWidgetTab(twitterHandle, tabName);
 
     return () => {
-      removeWidgetTab(twitterHandle, application);
+      removeWidgetTab(twitterHandle, tabName);
     };
-  }, [addWidgetTab, application, removeWidgetTab, twitterHandle]);
+  }, [addWidgetTab, tabName, removeWidgetTab, twitterHandle]);
 
   const topBasedAdditionalIndex = top ? getHundredsDigit(top) * 100 : 0;
 
@@ -71,20 +68,20 @@ export const WidgetTab = ({
         className,
       )}
       zIndex={
-        handlePreferredApplication === application
+        userPreferredTab === tabName
           ? topBasedAdditionalIndex + 20
           : topBasedAdditionalIndex + 10
       }
       top={top}
       onClose={() => {
         onClose && onClose();
-        removeWidgetTab(twitterHandle, application);
+        removeWidgetTab(twitterHandle, tabName);
       }}
       closeButtonClassName={closeButtonClassName}
     >
       <div
         onClick={() => {
-          setPreferredApplication(twitterHandle, application);
+          setUserPreferredTab(twitterHandle, tabName);
         }}
         style={{
           left,
@@ -92,21 +89,21 @@ export const WidgetTab = ({
         className={classes(
           'absolute -top-[25px] flex h-[25px] w-[100px] cursor-pointer flex-row items-center gap-[10px] rounded-tl-[2px] rounded-tr-[20px] pl-1 pt-1 font-bold transition-all duration-75 ease-linear',
           {
-            'bg-[#2d2d2d]': application === 'snapshot',
-            'bg-white': application !== 'snapshot',
+            'bg-[#2d2d2d]': tabName === 'snapshot',
+            'bg-white': tabName !== 'snapshot',
             '-top-[23px] -translate-x-[3px] scale-95 brightness-75':
-              handlePreferredApplication !== application,
+              userPreferredTab !== tabName,
           },
         )}
       >
-        <img className="h-3/4" src={getProperLogoSource(application)} />
+        {tabLogo && <img className="h-3/4" src={tabLogo} />}
         <span
           className={classes({
-            'text-white': application === 'snapshot',
-            'text-black': application !== 'snapshot',
+            'text-white': tabName === 'snapshot',
+            'text-black': tabName !== 'snapshot',
           })}
         >
-          {application}
+          {tabName}
         </span>
       </div>
       {children}

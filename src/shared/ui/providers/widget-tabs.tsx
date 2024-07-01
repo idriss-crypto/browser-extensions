@@ -8,130 +8,103 @@ import React, {
 } from 'react';
 
 interface WidgetTabsContextType {
-  organizationPreferredApplication: Record<
-    string,
-    WidgetTabCompatibleApplication | undefined
-  >;
-  organizationTabs: Record<string, WidgetTabCompatibleApplication[]>;
-  setPreferredApplication: (
-    organizationId: string,
-    application: WidgetTabCompatibleApplication | undefined,
-  ) => void;
-  addWidgetTab: (
-    organizationId: string,
-    application: WidgetTabCompatibleApplication,
-  ) => void;
-  removeWidgetTab: (
-    organizationId: string,
-    application: WidgetTabCompatibleApplication,
-  ) => void;
+  preferredTab: Record<string, string | undefined>;
+  tabs: Record<string, string[]>;
+  setUserPreferredTab: (userHandle: string, tab: string | undefined) => void;
+  addWidgetTab: (userHandle: string, tab: string) => void;
+  removeWidgetTab: (userHandle: string, tab: string) => void;
 }
 
-export type WidgetTabCompatibleApplication = 'snapshot' | 'tally' | 'agora';
 const WidgetTabsContext = createContext<WidgetTabsContextType | null>(null);
 
 export const WidgetTabsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [organizationTabs, setOrganizationTabs] = useState<
-    Record<string, WidgetTabCompatibleApplication[]>
+  const [tabs, setTabs] = useState<Record<string, string[]>>({});
+
+  const [preferredTab, setPreferredTab] = useState<
+    Record<string, string | undefined>
   >({});
 
-  const [
-    organizationPreferredApplication,
-    setOrganizationPreferredApplication,
-  ] = useState<Record<string, WidgetTabCompatibleApplication | undefined>>({});
-
-  const setPreferredApplication = useCallback(
-    (
-      organizationId: string,
-      application: WidgetTabCompatibleApplication | undefined,
-    ) => {
-      setOrganizationPreferredApplication((previous) => {
+  const setUserPreferredTab = useCallback(
+    (userHandle: string, tab: string | undefined) => {
+      setPreferredTab((previous) => {
         return {
           ...previous,
-          [organizationId]: application,
+          [userHandle]: tab,
         };
       });
     },
     [],
   );
 
-  const addWidgetTab = useCallback(
-    (organizationId: string, application: WidgetTabCompatibleApplication) => {
-      setOrganizationTabs((previous) => {
-        const orgData = previous[organizationId] ?? [];
-        if (orgData.includes(application)) {
-          return previous;
-        }
-
-        return {
-          ...previous,
-          [organizationId]: [...orgData, application].sort(),
-        };
-      });
-    },
-    [],
-  );
-
-  const removeWidgetTab = useCallback(
-    (organizationId: string, application: WidgetTabCompatibleApplication) => {
-      setOrganizationTabs((previous) => {
-        const orgData = previous[organizationId];
-        if (!orgData) {
-          return previous;
-        }
-        return {
-          ...previous,
-          [organizationId]: orgData.filter((w) => {
-            return w !== application;
-          }),
-        };
-      });
-
-      setOrganizationPreferredApplication((previous) => {
-        if (previous[organizationId] === application) {
-          return {
-            ...previous,
-            [organizationId]: undefined,
-          };
-        }
+  const addWidgetTab = useCallback((userHandle: string, tab: string) => {
+    setTabs((previous) => {
+      const givenUserTabs = previous[userHandle] ?? [];
+      if (givenUserTabs.includes(tab)) {
         return previous;
-      });
-    },
-    [],
-  );
+      }
+
+      return {
+        ...previous,
+        [userHandle]: [...givenUserTabs, tab].sort(),
+      };
+    });
+  }, []);
+
+  const removeWidgetTab = useCallback((userHandle: string, tab: string) => {
+    setTabs((previous) => {
+      const givenUserTabs = previous[userHandle];
+      if (!givenUserTabs) {
+        return previous;
+      }
+      return {
+        ...previous,
+        [userHandle]: givenUserTabs.filter((t) => {
+          return t !== tab;
+        }),
+      };
+    });
+
+    setPreferredTab((previous) => {
+      if (previous[userHandle] === tab) {
+        return {
+          ...previous,
+          [userHandle]: undefined,
+        };
+      }
+      return previous;
+    });
+  }, []);
 
   useEffect(() => {
-    const updates: Record<string, WidgetTabCompatibleApplication | undefined> =
-      {};
+    const preferredTabUpdates: Record<string, string | undefined> = {};
 
-    for (const organizationId of Object.keys(organizationTabs)) {
-      const preferredApplication =
-        organizationPreferredApplication[organizationId];
+    for (const userHandle of Object.keys(tabs)) {
+      const userPreferredTab = preferredTab[userHandle];
 
-      const tabs = organizationTabs[organizationId] ?? [];
-      if (!preferredApplication && tabs[0]) {
-        updates[organizationId] = tabs[0];
+      const userTabs = tabs[userHandle] ?? [];
+      if (!userPreferredTab && userTabs[0]) {
+        preferredTabUpdates[userHandle] = userTabs[0];
       }
     }
 
-    if (Object.keys(updates).length > 0) {
-      setOrganizationPreferredApplication((previous) => {
+    if (Object.keys(preferredTabUpdates).length > 0) {
+      setPreferredTab((previous) => {
         return {
           ...previous,
-          ...updates,
+          ...preferredTabUpdates,
         };
       });
     }
-  }, [organizationPreferredApplication, organizationTabs]);
+  }, [preferredTab, tabs]);
 
   return (
     <WidgetTabsContext.Provider
       value={{
-        organizationPreferredApplication,
-        organizationTabs,
-        setPreferredApplication,
+        preferredTab,
+        tabs,
+        setUserPreferredTab,
         addWidgetTab,
         removeWidgetTab,
       }}
