@@ -121,7 +121,7 @@ const Applications = () => {
       <WidgetTabsProvider>
         {applicationsStatus.snapshot ? <SnapshotApp /> : null}
         {applicationsStatus.tally ? <TallyApp /> : null}
-        <AgoraApp />
+        {applicationsStatus.agora ? <AgoraApp /> : null}
       </WidgetTabsProvider>
       {applicationsStatus.polymarket ? <PolymarketApp /> : null}
       {/* {applicationsStatus.gitcoin ? <GitcoinApp /> : null} */}
