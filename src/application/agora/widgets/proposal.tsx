@@ -1,17 +1,19 @@
 import {
   classes,
   Chip,
-  WidgetBase,
   Pagination,
   PaginationComponent,
   PulsingLoadingBar,
+  WidgetTab,
 } from 'shared/ui';
 import { getDifferenceInDays, getEndsInLabel } from 'shared/utils';
 
 import { ProposalData } from '../types';
 import { getProposalUrl } from '../utils';
+import { AGORA_LOGO } from '../constants';
 
 interface Properties {
+  twitterHandle: string;
   data: ProposalData;
   className?: string;
   top?: number;
@@ -21,6 +23,7 @@ interface Properties {
 }
 
 export const Proposal = ({
+  twitterHandle,
   data,
   className,
   top,
@@ -33,13 +36,17 @@ export const Proposal = ({
   ).getTime();
 
   return (
-    <WidgetBase
+    <WidgetTab
+      twitterHandle={twitterHandle}
       className={classes(
-        'overflow-hidden rounded-md bg-white text-xs leading-tight',
+        'overflow-visible bg-white text-xs leading-tight',
         className,
       )}
       top={top}
       onClose={onClose}
+      tabName="agora"
+      tabImage={AGORA_LOGO}
+      theme="bright"
     >
       <PulsingLoadingBar isLoading={isLoading} />
       <header className="flex items-center justify-between space-x-3">
@@ -79,6 +86,6 @@ export const Proposal = ({
         </div>
         <PaginationComponent pagination={pagination} />
       </footer>
-    </WidgetBase>
+    </WidgetTab>
   );
 };

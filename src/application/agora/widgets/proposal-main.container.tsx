@@ -74,13 +74,14 @@ export const ProposalMainContainer = () => {
     return null;
   }
 
-  return visibleAgoraNodes.map(({ top }) => {
+  return visibleAgoraNodes.map(({ top, twitterHandle }) => {
     return (
       <ErrorBoundary
         key={`${currentProposal?.proposalId}at_${top}`}
         exceptionEventName="agora-widget-twitter-main-runtime-error"
       >
         <Proposal
+          twitterHandle={twitterHandle}
           pagination={pagination}
           isLoading={isLoadingProposal}
           data={currentProposal}

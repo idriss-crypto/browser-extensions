@@ -7,6 +7,7 @@ import { Backdrop } from '../backdrop';
 export interface Properties {
   children: ReactNode;
   className?: string;
+  zIndex?: number;
   top?: number;
   left?: number;
   right?: number;
@@ -19,6 +20,7 @@ export interface Properties {
 }
 
 export const Closable = ({
+  zIndex,
   top,
   left,
   right,
@@ -46,6 +48,7 @@ export const Closable = ({
         className={classes('p-5 shadow-lg', className)}
         onClick={onClickInside}
         style={{
+          zIndex,
           top, // TODO: style won't be needed but need to write scoped css variable and read it from tailwind
           left,
           right,

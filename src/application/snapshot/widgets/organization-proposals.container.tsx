@@ -3,38 +3,47 @@ import { useState } from 'react';
 import { useCommandQuery } from 'shared/messaging';
 import { Pagination } from 'shared/ui';
 
-import { getAgoraUsernameFromTwitterUsername } from '../utils';
-import { GetAgoraProposalsCommand } from '../commands';
+import { GetProposalCommand } from '../commands';
 
 import { Proposal } from './proposal';
 
 interface Properties {
-  handle: string;
+  twitterHandle: string;
+  snapshotHandle: string;
+  className?: string;
+  top?: number;
+  onClose?: () => void;
 }
 
-export const ProposalHandleContainer = ({ handle }: Properties) => {
+export const OrganizationProposalsContainer = ({
+  twitterHandle,
+  snapshotHandle,
+  className = 'fixed top-20',
+  top,
+  onClose,
+}: Properties) => {
   const [currentProposalIndex, setCurrentProposalIndex] = useState(0);
 
-  const agoraUsername = getAgoraUsernameFromTwitterUsername(handle);
   const proposalQuery = useCommandQuery({
-    command: new GetAgoraProposalsCommand({
-      limit: 1,
-      offset: currentProposalIndex,
+    command: new GetProposalCommand({
+      snapshotName: snapshotHandle ?? '',
+      pageNumber: currentProposalIndex,
     }),
-    enabled: agoraUsername ? agoraUsername.length > 0 : false,
+    enabled: snapshotHandle ? snapshotHandle.length > 0 : false,
+    staleTime: Number.POSITIVE_INFINITY,
     placeholderData: (previousData) => {
       return previousData;
     },
   });
 
-  const currentProposal = proposalQuery.data?.proposals?.at(0);
+  const currentProposal = proposalQuery.data?.proposal;
+
   const isLoadingProposal =
     proposalQuery.isLoading || proposalQuery.isPlaceholderData;
 
   const isPreviousProposalAvailable = currentProposalIndex > 0;
-  const isNextProposalAvailable = Boolean(
-    proposalQuery.data?.metadata.has_next,
-  );
+  const isNextProposalAvailable =
+    Boolean(proposalQuery.data?.hasNextProposal) && !isLoadingProposal;
 
   const showPreviousProposal = () => {
     if (!isPreviousProposalAvailable || isLoadingProposal) {
@@ -47,7 +56,7 @@ export const ProposalHandleContainer = ({ handle }: Properties) => {
   };
 
   const showNextProposal = () => {
-    if (!isNextProposalAvailable || isLoadingProposal) {
+    if (!isNextProposalAvailable) {
       return;
     }
 
@@ -63,17 +72,19 @@ export const ProposalHandleContainer = ({ handle }: Properties) => {
     onNext: showNextProposal,
   };
 
-  if (!currentProposal || !agoraUsername) {
+  if (!currentProposal || !snapshotHandle) {
     return null;
   }
 
   return (
     <Proposal
-      twitterHandle={handle}
+      twitterHandle={twitterHandle}
       pagination={pagination}
       isLoading={isLoadingProposal}
       data={currentProposal}
-      className="fixed top-20"
+      className={className}
+      top={top}
+      onClose={onClose}
     />
   );
 };
