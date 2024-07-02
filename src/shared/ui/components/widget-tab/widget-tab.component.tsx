@@ -15,10 +15,6 @@ interface WidgetTabProperties extends WidgetBaseProperties {
   theme: 'bright' | 'dark';
 }
 
-const getHundredsDigit = (number: number) => {
-  return Math.floor((number % 1000) / 100);
-};
-
 export const WidgetTab = ({
   theme,
   twitterHandle,
@@ -61,19 +57,16 @@ export const WidgetTab = ({
     };
   }, [addWidgetTab, tabName, removeWidgetTab, twitterHandle]);
 
-  const topBasedAdditionalIndex = top ? getHundredsDigit(top) * 100 : 0;
-
   return (
     <WidgetBase
       className={classes(
-        'overflow-visible rounded-lg rounded-tl-none bg-[#2d2d2d] text-xs leading-tight',
+        'z-10 overflow-visible rounded-lg bg-[#2d2d2d] text-xs leading-tight',
         className,
+        {
+          'z-20': userPreferredTab === tabName,
+          'rounded-tl-none': userTabs.length > 1,
+        },
       )}
-      zIndex={
-        userPreferredTab === tabName
-          ? topBasedAdditionalIndex + 20
-          : topBasedAdditionalIndex + 10
-      }
       top={top}
       onClose={() => {
         onClose && onClose();
@@ -81,16 +74,18 @@ export const WidgetTab = ({
       }}
       closeButtonClassName={closeButtonClassName}
     >
-      <TabHandle
-        imageSrc={tabImage}
-        isActive={userPreferredTab === tabName}
-        left={left}
-        name={tabName}
-        onClick={() => {
-          setUserPreferredTab(twitterHandle, tabName);
-        }}
-        theme={theme}
-      />
+      {userTabs.length > 1 && (
+        <TabHandle
+          imageSrc={tabImage}
+          isActive={userPreferredTab === tabName}
+          left={left}
+          name={tabName}
+          onClick={() => {
+            setUserPreferredTab(twitterHandle, tabName);
+          }}
+          theme={theme}
+        />
+      )}
       {children}
     </WidgetBase>
   );

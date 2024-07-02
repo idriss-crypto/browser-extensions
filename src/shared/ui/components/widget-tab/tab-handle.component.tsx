@@ -24,7 +24,7 @@ export const TabHandle = ({
         left,
       }}
       className={classes(
-        'absolute -top-[25px] flex h-[25px] w-[100px] cursor-pointer flex-row items-center gap-[10px] rounded-tl-[2px] rounded-tr-[20px] pl-1 pt-1 font-bold transition-all duration-75 ease-linear',
+        'absolute -top-[25px] flex h-[25px] w-[100px] cursor-pointer flex-row items-center gap-[10px] rounded-t-lg pl-2 pt-1 font-bold transition-all duration-75 ease-linear',
         {
           'bg-[#2d2d2d]': theme === 'dark',
           'bg-white': theme === 'bright',
