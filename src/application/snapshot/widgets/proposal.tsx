@@ -10,6 +10,7 @@ import { getDifferenceInDays, getEndsInLabel } from 'shared/utils';
 
 import { ProposalData } from '../types';
 import { getProposalAuthor, getProposalUrl, getUserUrl } from '../utils';
+import { SNAPSHOT_LOGO } from '../constants';
 
 interface Properties {
   twitterHandle: string;
@@ -34,9 +35,11 @@ export const Proposal = ({
     <WidgetTab
       twitterHandle={twitterHandle}
       tabName="snapshot"
+      tabImage={SNAPSHOT_LOGO}
       className={classes('bg-[#2d2d2d] text-xs leading-tight', className)}
       top={top}
       onClose={onClose}
+      theme="dark"
     >
       <PulsingLoadingBar isLoading={isLoading} />
       <header className="flex items-center justify-between space-x-3">

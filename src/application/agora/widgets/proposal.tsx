@@ -10,6 +10,7 @@ import { getDifferenceInDays, getEndsInLabel } from 'shared/utils';
 
 import { ProposalData } from '../types';
 import { getProposalUrl } from '../utils';
+import { AGORA_LOGO } from '../constants';
 
 interface Properties {
   twitterHandle: string;
@@ -44,6 +45,8 @@ export const Proposal = ({
       top={top}
       onClose={onClose}
       tabName="agora"
+      tabImage={AGORA_LOGO}
+      theme="bright"
     >
       <PulsingLoadingBar isLoading={isLoading} />
       <header className="flex items-center justify-between space-x-3">

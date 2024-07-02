@@ -5,12 +5,14 @@ import { useWidgetTabs } from '../../providers/widget-tabs';
 import { WidgetBase } from '../widget-base';
 import { classes } from '../../utils/classes';
 
-import { getProperLogoSource } from './utils';
+import { TabHandle } from './tab-handle.component';
 
 interface WidgetTabProperties extends WidgetBaseProperties {
   twitterHandle: string;
   tabName: string;
+  tabImage?: string;
   children: ReactNode;
+  theme: 'bright' | 'dark';
 }
 
 const getHundredsDigit = (number: number) => {
@@ -18,7 +20,9 @@ const getHundredsDigit = (number: number) => {
 };
 
 export const WidgetTab = ({
+  theme,
   twitterHandle,
+  tabImage,
   tabName,
   children,
   className,
@@ -33,8 +37,6 @@ export const WidgetTab = ({
     removeWidgetTab,
     setUserPreferredTab,
   } = useWidgetTabs();
-
-  const tabLogo = getProperLogoSource(tabName);
 
   const userTabs = useMemo(() => {
     return tabs[twitterHandle] ?? [];
@@ -79,33 +81,16 @@ export const WidgetTab = ({
       }}
       closeButtonClassName={closeButtonClassName}
     >
-      <div
+      <TabHandle
+        imageSrc={tabImage}
+        isActive={userPreferredTab === tabName}
+        left={left}
+        name={tabName}
         onClick={() => {
           setUserPreferredTab(twitterHandle, tabName);
         }}
-        style={{
-          left,
-        }}
-        className={classes(
-          'absolute -top-[25px] flex h-[25px] w-[100px] cursor-pointer flex-row items-center gap-[10px] rounded-tl-[2px] rounded-tr-[20px] pl-1 pt-1 font-bold transition-all duration-75 ease-linear',
-          {
-            'bg-[#2d2d2d]': tabName === 'snapshot',
-            'bg-white': tabName !== 'snapshot',
-            '-top-[23px] -translate-x-[3px] scale-95 brightness-75':
-              userPreferredTab !== tabName,
-          },
-        )}
-      >
-        {tabLogo && <img className="h-3/4" src={tabLogo} />}
-        <span
-          className={classes({
-            'text-white': tabName === 'snapshot',
-            'text-black': tabName !== 'snapshot',
-          })}
-        >
-          {tabName}
-        </span>
-      </div>
+        theme={theme}
+      />
       {children}
     </WidgetBase>
   );

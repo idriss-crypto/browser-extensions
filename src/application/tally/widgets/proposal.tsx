@@ -16,6 +16,7 @@ import {
   getProposalStatusLabel,
 } from '../utils';
 import { StatusChip } from '../components';
+import { TALLY_LOGO } from '../constants';
 
 interface Properties {
   twitterHandle: string;
@@ -48,6 +49,8 @@ export const Proposal = ({
       top={top}
       onClose={onClose}
       tabName="tally"
+      tabImage={TALLY_LOGO}
+      theme="bright"
     >
       <PulsingLoadingBar isLoading={isLoading} />
       <header className="flex items-center justify-between space-x-3">
