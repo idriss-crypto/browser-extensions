@@ -13,9 +13,15 @@ import { getProposalsResponseSchema } from '../schema';
 
 interface Payload {
   snapshotName: string;
+  pageNumber: number;
 }
 
-export class GetProposalCommand extends Command<Payload, ProposalData> {
+interface Response {
+  proposal: ProposalData | null;
+  hasNextProposal: boolean;
+}
+
+export class GetProposalCommand extends Command<Payload, Response> {
   public readonly name = 'GetProposalCommand' as const;
 
   constructor(
@@ -27,15 +33,17 @@ export class GetProposalCommand extends Command<Payload, ProposalData> {
 
   async handle() {
     try {
-      const query = generateGetProposalsQuery([this.payload.snapshotName], {
-        first: 1,
-      });
+      const query = generateGetProposalsQuery();
       const response = await fetch(SNAPSHOT_GRAPHQL_API_URL, {
         method: 'POST',
         body: JSON.stringify({
           query: query,
           operationName: 'Proposals',
-          variables: undefined,
+          variables: {
+            first: 2,
+            snapshotNames: this.payload.snapshotName,
+            skip: this.payload.pageNumber,
+          },
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -51,18 +59,24 @@ export class GetProposalCommand extends Command<Payload, ProposalData> {
         throw new HandlerError('Schema validation failed');
       }
       const proposal = validationResult.data.data.proposals[0];
-      if (!proposal) {
-        throw new HandlerError('Proposal not found');
+      let proposalWithResolvedAddress = null;
+
+      if (proposal) {
+        const resolvedProposalAddress = await resolveAddress(proposal.author);
+
+        proposalWithResolvedAddress = {
+          ...proposal,
+          author: {
+            address: proposal.author,
+            resolvedProposalAddress,
+          },
+        };
       }
 
-      const resolvedAddress = await resolveAddress(proposal.author);
       return new OkResult({
-        ...proposal,
-        author: {
-          address: proposal.author,
-          resolvedAddress,
-        },
-      });
+        proposal: proposalWithResolvedAddress,
+        hasNextProposal: !!validationResult.data.data.proposals[1],
+      } as Response);
     } catch (error) {
       await this.logException();
       if (error instanceof HandlerError) {
