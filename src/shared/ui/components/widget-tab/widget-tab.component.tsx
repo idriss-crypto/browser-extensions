@@ -76,7 +76,6 @@ export const WidgetTab = ({
       top={top}
       onClose={() => {
         removeAllUserWidgets(twitterHandle);
-        onClose && onClose();
       }}
       closeButtonClassName={closeButtonClassName}
     >
