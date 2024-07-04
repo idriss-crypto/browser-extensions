@@ -16,6 +16,7 @@ interface WidgetTabProperties extends WidgetBaseProperties {
 }
 
 export const WidgetTab = ({
+  top,
   theme,
   twitterHandle,
   tabImage,
@@ -24,24 +25,23 @@ export const WidgetTab = ({
   className,
   closeButtonClassName,
   onClose,
-  top,
 }: WidgetTabProperties) => {
   const {
     tabs,
     preferredTab,
     addWidgetTab,
-    removeWidgetTab,
     setUserPreferredTab,
+    removeAllUserWidgets,
   } = useWidgetTabs();
 
   const userTabs = useMemo(() => {
-    return tabs[twitterHandle] ?? [];
+    return tabs[twitterHandle];
   }, [tabs, twitterHandle]);
 
-  const userPreferredTab = preferredTab[twitterHandle] ?? userTabs.at(0);
+  const userPreferredTab = preferredTab[twitterHandle] ?? userTabs?.at(0);
 
   const left = useMemo(() => {
-    const index = userTabs.indexOf(tabName) ?? -1;
+    const index = userTabs?.indexOf(tabName) ?? -1;
     if (index !== -1) {
       return index * 100;
     }
@@ -51,16 +51,22 @@ export const WidgetTab = ({
 
   useEffect(() => {
     addWidgetTab(twitterHandle, tabName);
+  }, [addWidgetTab, tabName, twitterHandle]);
 
-    return () => {
-      removeWidgetTab(twitterHandle, tabName);
-    };
-  }, [addWidgetTab, tabName, removeWidgetTab, twitterHandle]);
+  useEffect(() => {
+    if (userTabs === null && onClose) {
+      onClose();
+    }
+  }, [onClose, userTabs]);
+
+  if (!userTabs || userTabs.length === 0) {
+    return;
+  }
 
   return (
     <WidgetBase
       className={classes(
-        'z-10 overflow-visible rounded-lg bg-[#2d2d2d] text-xs leading-tight',
+        'z-10 overflow-visible rounded-[0.375rem] bg-[#2d2d2d] text-xs leading-tight',
         className,
         {
           'z-20': userPreferredTab === tabName,
@@ -69,8 +75,8 @@ export const WidgetTab = ({
       )}
       top={top}
       onClose={() => {
+        removeAllUserWidgets(twitterHandle);
         onClose && onClose();
-        removeWidgetTab(twitterHandle, tabName);
       }}
       closeButtonClassName={closeButtonClassName}
     >

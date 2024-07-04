@@ -4,15 +4,14 @@ import React, {
   useState,
   ReactNode,
   useCallback,
-  useEffect,
 } from 'react';
 
 interface WidgetTabsContextType {
   preferredTab: Record<string, string | undefined>;
-  tabs: Record<string, string[]>;
+  tabs: Record<string, string[] | null>;
   setUserPreferredTab: (userHandle: string, tab: string | undefined) => void;
   addWidgetTab: (userHandle: string, tab: string) => void;
-  removeWidgetTab: (userHandle: string, tab: string) => void;
+  removeAllUserWidgets: (userHandle: string) => void;
 }
 
 const WidgetTabsContext = createContext<WidgetTabsContextType | null>(null);
@@ -20,7 +19,7 @@ const WidgetTabsContext = createContext<WidgetTabsContextType | null>(null);
 export const WidgetTabsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [tabs, setTabs] = useState<Record<string, string[]>>({});
+  const [tabs, setTabs] = useState<Record<string, string[] | null>>({});
 
   const [preferredTab, setPreferredTab] = useState<
     Record<string, string | undefined>
@@ -50,9 +49,19 @@ export const WidgetTabsProvider: React.FC<{ children: ReactNode }> = ({
         [userHandle]: [...givenUserTabs, tab].sort(),
       };
     });
+
+    setPreferredTab((previous) => {
+      if (previous[userHandle] === undefined) {
+        return {
+          ...previous,
+          [userHandle]: tab,
+        };
+      }
+      return previous;
+    });
   }, []);
 
-  const removeWidgetTab = useCallback((userHandle: string, tab: string) => {
+  const removeAllUserWidgets = useCallback((userHandle: string) => {
     setTabs((previous) => {
       const givenUserTabs = previous[userHandle];
       if (!givenUserTabs) {
@@ -60,44 +69,17 @@ export const WidgetTabsProvider: React.FC<{ children: ReactNode }> = ({
       }
       return {
         ...previous,
-        [userHandle]: givenUserTabs.filter((t) => {
-          return t !== tab;
-        }),
+        [userHandle]: null,
       };
     });
 
     setPreferredTab((previous) => {
-      if (previous[userHandle] === tab) {
-        return {
-          ...previous,
-          [userHandle]: undefined,
-        };
-      }
-      return previous;
+      return {
+        ...previous,
+        [userHandle]: undefined,
+      };
     });
   }, []);
-
-  useEffect(() => {
-    const preferredTabUpdates: Record<string, string | undefined> = {};
-
-    for (const userHandle of Object.keys(tabs)) {
-      const userPreferredTab = preferredTab[userHandle];
-
-      const userTabs = tabs[userHandle] ?? [];
-      if (!userPreferredTab && userTabs[0]) {
-        preferredTabUpdates[userHandle] = userTabs[0];
-      }
-    }
-
-    if (Object.keys(preferredTabUpdates).length > 0) {
-      setPreferredTab((previous) => {
-        return {
-          ...previous,
-          ...preferredTabUpdates,
-        };
-      });
-    }
-  }, [preferredTab, tabs]);
 
   return (
     <WidgetTabsContext.Provider
@@ -106,7 +88,7 @@ export const WidgetTabsProvider: React.FC<{ children: ReactNode }> = ({
         tabs,
         setUserPreferredTab,
         addWidgetTab,
-        removeWidgetTab,
+        removeAllUserWidgets,
       }}
     >
       {children}
