@@ -1,13 +1,6 @@
-import { classes } from 'shared/ui/utils';
+import { classes } from '../../utils/classes';
 
-interface TabHandleProperties {
-  left: number;
-  imageSrc?: string;
-  name: string;
-  isActive: boolean;
-  theme: 'bright' | 'dark';
-  onClick: () => void;
-}
+import { TabHandleProperties } from './tab-handle.types';
 
 export const TabHandle = ({
   left,

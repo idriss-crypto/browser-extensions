@@ -1,19 +1,11 @@
-import { ReactNode, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
-import { WidgetBaseProperties } from '../widget-base/widget-base.types';
 import { useWidgetTabs } from '../../providers/widget-tabs';
 import { WidgetBase } from '../widget-base';
 import { classes } from '../../utils/classes';
 
 import { TabHandle } from './tab-handle.component';
-
-interface WidgetTabProperties extends WidgetBaseProperties {
-  twitterHandle: string;
-  tabName: string;
-  tabImage?: string;
-  children: ReactNode;
-  theme: 'bright' | 'dark';
-}
+import { WidgetTabProperties } from './widget-tab.types';
 
 export const WidgetTab = ({
   top,
