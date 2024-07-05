@@ -44,7 +44,7 @@ export const Proposal = ({
       )}
       top={top}
       onClose={onClose}
-      tabName="agora"
+      tabName="Agora"
       tabImage={AGORA_LOGO}
       theme="bright"
     >

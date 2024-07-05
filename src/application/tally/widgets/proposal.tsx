@@ -48,7 +48,7 @@ export const Proposal = ({
       )}
       top={top}
       onClose={onClose}
-      tabName="tally"
+      tabName="Tally"
       tabImage={TALLY_LOGO}
       theme="bright"
     >

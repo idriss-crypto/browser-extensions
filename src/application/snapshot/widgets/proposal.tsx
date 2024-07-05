@@ -34,7 +34,7 @@ export const Proposal = ({
   return (
     <WidgetTab
       twitterHandle={twitterHandle}
-      tabName="snapshot"
+      tabName="Snapshot"
       tabImage={SNAPSHOT_LOGO}
       className={classes('bg-[#2d2d2d] text-xs leading-tight', className)}
       top={top}
