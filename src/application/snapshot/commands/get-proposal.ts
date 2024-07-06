@@ -12,7 +12,7 @@ import { SNAPSHOT_GRAPHQL_API_URL } from '../constants';
 import { getProposalsResponseSchema } from '../schema';
 
 interface Payload {
-  snapshotName: string;
+  snapshotNames: string[];
   pageNumber: number;
 }
 
@@ -41,7 +41,7 @@ export class GetProposalCommand extends Command<Payload, Response> {
           operationName: 'Proposals',
           variables: {
             first: 2,
-            snapshotNames: this.payload.snapshotName,
+            snapshotNames: this.payload.snapshotNames,
             skip: this.payload.pageNumber,
           },
         }),
@@ -58,25 +58,24 @@ export class GetProposalCommand extends Command<Payload, Response> {
       if (!validationResult.success) {
         throw new HandlerError('Schema validation failed');
       }
-      const proposal = validationResult.data.data.proposals[0];
-      let proposalWithResolvedAddress = null;
-
-      if (proposal) {
-        const resolvedProposalAddress = await resolveAddress(proposal.author);
-
-        proposalWithResolvedAddress = {
-          ...proposal,
-          author: {
-            address: proposal.author,
-            resolvedProposalAddress,
-          },
-        };
+      const [currentProposal, nextProposal] =
+        validationResult.data.data.proposals;
+      const hasNextProposal = Boolean(nextProposal);
+      if (!currentProposal) {
+        return new OkResult({
+          proposal: null,
+          hasNextProposal: false,
+        });
       }
 
+      const resolvedAddress = await resolveAddress(currentProposal.author);
       return new OkResult({
-        proposal: proposalWithResolvedAddress,
-        hasNextProposal: !!validationResult.data.data.proposals[1],
-      } as Response);
+        proposal: {
+          ...currentProposal,
+          author: { address: currentProposal.author, resolvedAddress },
+        },
+        hasNextProposal,
+      });
     } catch (error) {
       await this.logException();
       if (error instanceof HandlerError) {

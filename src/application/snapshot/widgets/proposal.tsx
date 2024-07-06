@@ -31,7 +31,7 @@ export const Proposal = ({
   return (
     <WidgetBase
       className={classes(
-        'rounded-[0.375rem] bg-[#2d2d2d] text-xs leading-tight',
+        'rounded-md bg-[#2d2d2d] text-xs leading-tight',
         className,
       )}
       top={top}

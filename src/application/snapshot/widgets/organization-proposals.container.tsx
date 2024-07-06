@@ -24,10 +24,9 @@ export const OrganizationProposalsContainer = ({
 
   const proposalQuery = useCommandQuery({
     command: new GetProposalCommand({
-      snapshotName: snapshotHandle ?? '',
+      snapshotNames: [snapshotHandle] ?? [],
       pageNumber: currentProposalIndex,
     }),
-    enabled: snapshotHandle ? snapshotHandle.length > 0 : false,
     staleTime: Number.POSITIVE_INFINITY,
     placeholderData: (previousData) => {
       return previousData;
@@ -44,7 +43,7 @@ export const OrganizationProposalsContainer = ({
     Boolean(proposalQuery.data?.hasNextProposal) && !isLoadingProposal;
 
   const showPreviousProposal = () => {
-    if (!isPreviousProposalAvailable || isLoadingProposal) {
+    if (!isPreviousProposalAvailable) {
       return;
     }
 

@@ -18,10 +18,9 @@ export const App = () => {
   } = useTwitterLocationInfo();
 
   const { data: daoHandles } = useHandleToUsernameMap('snapshot');
-  const snapshotHandle =
-    isTwitterHandlePage && daoHandles
-      ? daoHandles[twitterHandleFromPathname.toLowerCase()]
-      : undefined;
+  const snapshotHandle = isTwitterHandlePage
+    ? daoHandles?.[twitterHandleFromPathname.toLowerCase()]
+    : undefined;
 
   if (!experimentalFeatures || !isTwitter) {
     return null;
