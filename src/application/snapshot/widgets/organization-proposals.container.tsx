@@ -24,7 +24,7 @@ export const OrganizationProposalsContainer = ({
 
   const proposalQuery = useCommandQuery({
     command: new GetProposalCommand({
-      snapshotNames: [snapshotHandle] ?? [],
+      snapshotNames: [snapshotHandle],
       pageNumber: currentProposalIndex,
     }),
     staleTime: Number.POSITIVE_INFINITY,
