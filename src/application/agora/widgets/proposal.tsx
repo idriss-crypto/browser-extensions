@@ -38,10 +38,7 @@ export const Proposal = ({
   return (
     <WidgetTab
       twitterHandle={twitterHandle}
-      className={classes(
-        'overflow-visible bg-white text-xs leading-tight',
-        className,
-      )}
+      className={classes('overflow-visible text-xs leading-tight', className)}
       top={top}
       onClose={onClose}
       tabName="Agora"
