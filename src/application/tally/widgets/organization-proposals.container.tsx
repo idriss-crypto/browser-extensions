@@ -32,7 +32,7 @@ export const OrganizationProposalsContainer = ({
 
   const proposalQuery = useCommandQuery({
     command: new GetTallyProposalsCommand({
-      twitterHandle: twitterHandle ?? '',
+      twitterHandle: twitterHandle,
       afterCursor: currentProposalCursor,
     }),
     retry: 5,
@@ -97,7 +97,7 @@ export const OrganizationProposalsContainer = ({
     onPrevious: showPreviousProposal,
     onNext: showNextProposal,
   };
-  if (!currentProposal || !twitterHandle) {
+  if (!currentProposal) {
     return null;
   }
 

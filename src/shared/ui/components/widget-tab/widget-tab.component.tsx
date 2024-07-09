@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react';
+import { useEffectOnce } from 'react-use';
 
 import { useWidgetTabs } from '../../providers/widget-tabs';
 import { WidgetBase } from '../widget-base';
@@ -41,9 +42,9 @@ export const WidgetTab = ({
     return 0;
   }, [tabName, userTabs]);
 
-  useEffect(() => {
+  useEffectOnce(() => {
     addWidgetTab(twitterHandle, tabName);
-  }, [addWidgetTab, tabName, twitterHandle]);
+  });
 
   useEffect(() => {
     if (userTabs === null && onClose) {
@@ -52,20 +53,20 @@ export const WidgetTab = ({
   }, [onClose, userTabs]);
 
   if (!userTabs || userTabs.length === 0) {
-    return;
+    return null;
   }
 
   return (
     <WidgetBase
       className={classes(
         'z-10 overflow-visible rounded-[0.375rem] text-xs leading-tight ',
-        className,
         {
           'z-20': userPreferredTab === tabName,
           'rounded-tl-none': userTabs.length > 1,
           'bg-[#2d2d2d]': theme === 'dark',
           'bg-white': theme === 'bright',
         },
+        className,
       )}
       top={top}
       onClose={() => {

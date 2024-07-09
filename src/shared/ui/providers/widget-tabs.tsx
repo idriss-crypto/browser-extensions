@@ -1,10 +1,6 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useCallback,
-} from 'react';
+import React, { createContext, useState, ReactNode, useCallback } from 'react';
+
+import { createContextHook } from '../utils';
 
 interface WidgetTabsContextType {
   preferredTab: Record<string, string | undefined>;
@@ -96,11 +92,4 @@ export const WidgetTabsProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
-export const useWidgetTabs = () => {
-  const context = useContext(WidgetTabsContext);
-  if (!context) {
-    throw new Error('useWidgetTabs must be used within a WidgetTabsProvider');
-  }
-
-  return context;
-};
+export const useWidgetTabs = createContextHook(WidgetTabsContext);
