@@ -8,7 +8,7 @@ import { GetProposalCommand } from '../commands';
 import { Proposal } from './proposal';
 
 interface Properties {
-  twitterHandle: string;
+  userHandle: string;
   snapshotHandle: string;
   className?: string;
   top?: number;
@@ -16,7 +16,7 @@ interface Properties {
 }
 
 export const OrganizationProposalsContainer = ({
-  twitterHandle,
+  userHandle,
   snapshotHandle,
   className = 'fixed top-20',
   top,
@@ -77,7 +77,7 @@ export const OrganizationProposalsContainer = ({
 
   return (
     <Proposal
-      twitterHandle={twitterHandle}
+      userHandle={userHandle}
       pagination={pagination}
       isLoading={isLoadingProposal}
       data={currentProposal}

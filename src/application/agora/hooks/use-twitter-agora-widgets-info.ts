@@ -2,21 +2,21 @@ import { useMemo } from 'react';
 
 import { useTwitterScraping } from 'host/twitter';
 
-import { getAgoraUserNodes } from '../utils';
+import { getAgoraWidgetsInfo } from '../utils';
 
 interface Properties {
   hidden: string[];
 }
 
-export const useTwitterVisibleAgoraNodes = ({ hidden }: Properties) => {
+export const useTwitterAgoraWidgetsInfo = ({ hidden }: Properties) => {
   const { users } = useTwitterScraping();
 
-  const agoraNodes = useMemo(() => {
-    return getAgoraUserNodes(users);
+  const agoraWidgets = useMemo(() => {
+    return getAgoraWidgetsInfo(users);
   }, [users]);
 
-  const visibleAgoraNodes = useMemo(() => {
-    return agoraNodes
+  const visibleAgoraWidgetsInfo = useMemo(() => {
+    return agoraWidgets
       .filter((node) => {
         return !hidden.includes(node.agoraUsername);
       })
@@ -27,7 +27,7 @@ export const useTwitterVisibleAgoraNodes = ({ hidden }: Properties) => {
           twitterHandle: node.value,
         };
       });
-  }, [agoraNodes, hidden]);
+  }, [agoraWidgets, hidden]);
 
-  return { visibleAgoraNodes };
+  return { visibleAgoraWidgetsInfo };
 };

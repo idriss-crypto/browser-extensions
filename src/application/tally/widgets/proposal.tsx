@@ -19,7 +19,7 @@ import { StatusChip } from '../components';
 import { TALLY_LOGO } from '../constants';
 
 interface Properties {
-  twitterHandle: string;
+  userHandle: string;
   proposalDetails: ProposalData;
   className?: string;
   top?: number;
@@ -29,7 +29,7 @@ interface Properties {
 }
 
 export const Proposal = ({
-  twitterHandle,
+  userHandle,
   proposalDetails,
   className,
   top,
@@ -41,7 +41,7 @@ export const Proposal = ({
 
   return (
     <WidgetTab
-      twitterHandle={twitterHandle}
+      userHandle={userHandle}
       className={classes(
         'overflow-visible text-xs leading-tight text-tally-text-primary',
         className,

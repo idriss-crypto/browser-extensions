@@ -4,7 +4,7 @@ import { ErrorBoundary } from 'shared/observability';
 import { useCommandQuery } from 'shared/messaging';
 import { Pagination } from 'shared/ui';
 
-import { useTwitterVisibleAgoraNodes } from '../hooks';
+import { useTwitterAgoraWidgetsInfo } from '../hooks';
 import { GetAgoraProposalsCommand } from '../commands';
 
 import { Proposal } from './proposal';
@@ -13,9 +13,10 @@ export const ProposalMainContainer = () => {
   const [hiddenAgoraUsers, setHiddenAgoraUsers] = useState<string[]>([]);
   const [currentProposalIndex, setCurrentProposalIndex] = useState(0);
 
-  const { visibleAgoraNodes } = useTwitterVisibleAgoraNodes({
-    hidden: hiddenAgoraUsers,
-  });
+  const { visibleAgoraWidgetsInfo: visibleAgoraNodes } =
+    useTwitterAgoraWidgetsInfo({
+      hidden: hiddenAgoraUsers,
+    });
 
   const hideAgoraUser = useCallback((agoraUsername: string) => {
     setHiddenAgoraUsers((previous) => {
@@ -81,7 +82,7 @@ export const ProposalMainContainer = () => {
         exceptionEventName="agora-widget-twitter-main-runtime-error"
       >
         <Proposal
-          twitterHandle={twitterHandle}
+          userHandle={twitterHandle}
           pagination={pagination}
           isLoading={isLoadingProposal}
           data={currentProposal}

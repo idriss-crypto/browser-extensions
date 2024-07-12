@@ -8,14 +8,14 @@ import { GetTallyProposalsCommand } from '../commands';
 import { Proposal } from './proposal';
 
 interface Properties {
-  twitterHandle: string;
+  userHandle: string;
   className?: string;
   top?: number;
   onClose?: () => void;
 }
 
 export const OrganizationProposalsContainer = ({
-  twitterHandle,
+  userHandle,
   className = 'fixed top-20',
   top,
   onClose,
@@ -32,7 +32,7 @@ export const OrganizationProposalsContainer = ({
 
   const proposalQuery = useCommandQuery({
     command: new GetTallyProposalsCommand({
-      twitterHandle: twitterHandle,
+      twitterHandle: userHandle,
       afterCursor: currentProposalCursor,
     }),
     retry: 5,
@@ -103,7 +103,7 @@ export const OrganizationProposalsContainer = ({
 
   return (
     <Proposal
-      twitterHandle={twitterHandle}
+      userHandle={userHandle}
       pagination={pagination}
       isLoading={isLoadingProposal}
       proposalDetails={currentProposal}

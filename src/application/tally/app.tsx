@@ -30,7 +30,7 @@ export const App = () => {
     <ErrorBoundary exceptionEventName="tally-runtime-error">
       {isTallyUser ? (
         <OrganizationProposalsContainer
-          twitterHandle={twitterHandleFromPathname}
+          userHandle={twitterHandleFromPathname}
         />
       ) : null}
       {isTwitterHomePage ? <ProposalMainContainer /> : null}

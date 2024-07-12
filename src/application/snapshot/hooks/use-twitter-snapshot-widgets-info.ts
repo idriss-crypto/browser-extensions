@@ -6,11 +6,11 @@ interface Properties {
   hidden: string[];
 }
 
-export const useTwitterVisibleSnapshots = ({ hidden }: Properties) => {
+export const useTwitterSnapshotWidgetsInfo = ({ hidden }: Properties) => {
   const { tweetAuthors } = useTwitterScraping();
   const { data: daoHandles } = useHandleToUsernameMap('snapshot');
 
-  const snapshotUserNodes = useMemo(() => {
+  const snapshotWidgets = useMemo(() => {
     if (!daoHandles) {
       return [];
     }
@@ -23,8 +23,8 @@ export const useTwitterVisibleSnapshots = ({ hidden }: Properties) => {
       .filter(Boolean);
   }, [daoHandles, tweetAuthors]);
 
-  const visibleSnapshots = useMemo(() => {
-    return snapshotUserNodes
+  const visibleSnapshotWidgetsInfo = useMemo(() => {
+    return snapshotWidgets
       .filter((snapshotNode) => {
         return !hidden.includes(snapshotNode.snapshotName);
       })
@@ -35,13 +35,13 @@ export const useTwitterVisibleSnapshots = ({ hidden }: Properties) => {
           twitterHandle: snapshotNode.value,
         };
       });
-  }, [hidden, snapshotUserNodes]);
+  }, [hidden, snapshotWidgets]);
 
   const visibleSnapshotsNames = useMemo(() => {
-    return visibleSnapshots.map((snapshot) => {
+    return visibleSnapshotWidgetsInfo.map((snapshot) => {
       return snapshot.name;
     });
-  }, [visibleSnapshots]);
+  }, [visibleSnapshotWidgetsInfo]);
 
-  return { visibleSnapshots, visibleSnapshotsNames };
+  return { visibleSnapshotWidgetsInfo, visibleSnapshotsNames };
 };

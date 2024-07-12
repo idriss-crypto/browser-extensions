@@ -69,7 +69,7 @@ export const ProposalHandleContainer = ({ handle }: Properties) => {
 
   return (
     <Proposal
-      twitterHandle={handle}
+      userHandle={handle}
       pagination={pagination}
       isLoading={isLoadingProposal}
       data={currentProposal}

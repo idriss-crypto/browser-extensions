@@ -11,7 +11,7 @@ import { WidgetTabProperties } from './widget-tab.types';
 export const WidgetTab = ({
   top,
   theme,
-  twitterHandle,
+  userHandle,
   tabImage,
   tabName,
   children,
@@ -28,10 +28,10 @@ export const WidgetTab = ({
   } = useWidgetTabs();
 
   const userTabs = useMemo(() => {
-    return tabs[twitterHandle];
-  }, [tabs, twitterHandle]);
+    return tabs[userHandle];
+  }, [tabs, userHandle]);
 
-  const userPreferredTab = preferredTab[twitterHandle] ?? userTabs?.at(0);
+  const userPreferredTab = preferredTab[userHandle] ?? userTabs?.at(0);
 
   const left = useMemo(() => {
     const index = userTabs?.indexOf(tabName) ?? -1;
@@ -43,7 +43,7 @@ export const WidgetTab = ({
   }, [tabName, userTabs]);
 
   useEffectOnce(() => {
-    addWidgetTab(twitterHandle, tabName);
+    addWidgetTab(userHandle, tabName);
   });
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export const WidgetTab = ({
       )}
       top={top}
       onClose={() => {
-        removeAllUserWidgets(twitterHandle);
+        removeAllUserWidgets(userHandle);
       }}
       closeButtonClassName={closeButtonClassName}
     >
@@ -81,7 +81,7 @@ export const WidgetTab = ({
           left={left}
           name={tabName}
           onClick={() => {
-            setUserPreferredTab(twitterHandle, tabName);
+            setUserPreferredTab(userHandle, tabName);
           }}
           theme={theme}
         />

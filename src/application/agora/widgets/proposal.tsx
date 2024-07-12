@@ -13,7 +13,7 @@ import { getProposalUrl } from '../utils';
 import { AGORA_LOGO } from '../constants';
 
 interface Properties {
-  twitterHandle: string;
+  userHandle: string;
   data: ProposalData;
   className?: string;
   top?: number;
@@ -23,7 +23,7 @@ interface Properties {
 }
 
 export const Proposal = ({
-  twitterHandle,
+  userHandle,
   data,
   className,
   top,
@@ -37,7 +37,7 @@ export const Proposal = ({
 
   return (
     <WidgetTab
-      twitterHandle={twitterHandle}
+      userHandle={userHandle}
       className={classes('overflow-visible text-xs leading-tight', className)}
       top={top}
       onClose={onClose}

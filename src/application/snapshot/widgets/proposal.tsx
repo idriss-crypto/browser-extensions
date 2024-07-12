@@ -13,7 +13,7 @@ import { getProposalAuthor, getProposalUrl, getUserUrl } from '../utils';
 import { SNAPSHOT_LOGO } from '../constants';
 
 interface Properties {
-  twitterHandle: string;
+  userHandle: string;
   data: ProposalData;
   className?: string;
   top?: number;
@@ -23,7 +23,7 @@ interface Properties {
 }
 
 export const Proposal = ({
-  twitterHandle,
+  userHandle,
   data,
   className,
   top,
@@ -33,7 +33,7 @@ export const Proposal = ({
 }: Properties) => {
   return (
     <WidgetTab
-      twitterHandle={twitterHandle}
+      userHandle={userHandle}
       tabName="Snapshot"
       tabImage={SNAPSHOT_LOGO}
       className={classes('text-xs leading-tight', className)}
