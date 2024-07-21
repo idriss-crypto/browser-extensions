@@ -34,3 +34,13 @@ export interface DonateParameters {
   application: Application;
   ethPerDollar: number;
 }
+
+export interface CrossChainDonationData {
+  chainId: number;
+  roundId: number;
+  donor: string;
+  voteParams: string;
+  nonce: number;
+  validUntil: number;
+  verifyingContract: string;
+}

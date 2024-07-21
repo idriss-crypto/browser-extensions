@@ -838,16 +838,63 @@ export const DONATION_CONTRACT_ABI = [
     stateMutability: 'nonpayable',
     type: 'constructor',
   },
-  { inputs: [], name: 'InsufficientFunds', type: 'error' },
+  { inputs: [], name: 'EasAlreadySet', type: 'error' },
+  { inputs: [], name: 'InvalidAmount', type: 'error' },
   { inputs: [], name: 'InvalidEAS', type: 'error' },
   { inputs: [], name: 'NoRoundOnDestination', type: 'error' },
+  { inputs: [], name: 'OutputAmountZero', type: 'error' },
   { inputs: [], name: 'Unauthorized', type: 'error' },
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: 'bytes', name: '', type: 'bytes' },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'donor',
+        type: 'address',
+      },
+      { indexed: false, internalType: 'bytes', name: 'message', type: 'bytes' },
     ],
-    name: 'Logger',
+    name: 'Deposit',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'uint256',
+        name: 'roundId',
+        type: 'uint256',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'donor',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'bytes',
+        name: 'voteData',
+        type: 'bytes',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+    ],
+    name: 'Donate',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: 'address', name: 'eas', type: 'address' },
+    ],
+    name: 'InitializeEAS',
     type: 'event',
   },
   {
@@ -869,6 +916,7 @@ export const DONATION_CONTRACT_ABI = [
     name: 'OwnershipTransferred',
     type: 'event',
   },
+  { anonymous: false, inputs: [], name: 'Withdraw', type: 'event' },
   {
     inputs: [],
     name: 'ALLO_ADDRESS',
@@ -944,22 +992,6 @@ export const DONATION_CONTRACT_ABI = [
   },
   {
     inputs: [
-      { internalType: 'bytes32', name: '_messageHash', type: 'bytes32' },
-    ],
-    name: 'getEthSignedMessageHash',
-    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
-    stateMutability: 'pure',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'bytes', name: '_message', type: 'bytes' }],
-    name: 'getMessageHash',
-    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
-    stateMutability: 'pure',
-    type: 'function',
-  },
-  {
-    inputs: [
       { internalType: 'address', name: 'tokenSent', type: 'address' },
       { internalType: 'uint256', name: 'amount', type: 'uint256' },
       { internalType: 'address', name: 'relayer', type: 'address' },
@@ -971,6 +1003,23 @@ export const DONATION_CONTRACT_ABI = [
     type: 'function',
   },
   {
+    inputs: [
+      { internalType: 'address', name: 'eas', type: 'address' },
+      { internalType: 'bytes32', name: 'easSchema', type: 'bytes32' },
+    ],
+    name: 'initializeEAS',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: '', type: 'address' }],
+    name: 'nonces',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [],
     name: 'owner',
     outputs: [{ internalType: 'address', name: '', type: 'address' }],
@@ -979,47 +1028,9 @@ export const DONATION_CONTRACT_ABI = [
   },
   {
     inputs: [],
-    name: 'permit2',
-    outputs: [
-      {
-        internalType: 'contract ISignatureTransfer',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'bytes32',
-        name: '_ethSignedMessageHash',
-        type: 'bytes32',
-      },
-      { internalType: 'bytes', name: '_signature', type: 'bytes' },
-    ],
-    name: 'recoverSigner',
-    outputs: [{ internalType: 'address', name: '', type: 'address' }],
-    stateMutability: 'pure',
-    type: 'function',
-  },
-  {
-    inputs: [],
     name: 'renounceOwnership',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'bytes', name: 'sig', type: 'bytes' }],
-    name: 'splitSignature',
-    outputs: [
-      { internalType: 'bytes32', name: 'r', type: 'bytes32' },
-      { internalType: 'bytes32', name: 's', type: 'bytes32' },
-      { internalType: 'uint8', name: 'v', type: 'uint8' },
-    ],
-    stateMutability: 'pure',
     type: 'function',
   },
   {
@@ -1037,24 +1048,10 @@ export const DONATION_CONTRACT_ABI = [
     type: 'function',
   },
   {
-    inputs: [
-      { internalType: 'address', name: '_signer', type: 'address' },
-      { internalType: 'bytes', name: '_message', type: 'bytes' },
-      { internalType: 'bytes', name: '_signature', type: 'bytes' },
-    ],
-    name: 'verify',
-    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-    stateMutability: 'pure',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'bytes', name: 'donationData', type: 'bytes' },
-      { internalType: 'bytes', name: 'signature', type: 'bytes' },
-    ],
+    inputs: [{ internalType: 'bytes', name: 'encoded', type: 'bytes' }],
     name: 'verifyDonation',
     outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-    stateMutability: 'pure',
+    stateMutability: 'view',
     type: 'function',
   },
   {

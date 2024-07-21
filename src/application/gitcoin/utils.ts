@@ -1,7 +1,18 @@
 import { ethers } from 'ethers';
 
-import { OSS_ROUNDS } from './constants';
-import { Application, DonationPayload, GetApplicationsResponse } from './types';
+import { CHAIN, createContract } from 'shared/web3';
+
+import {
+  OSS_ROUNDS,
+  DONATION_CONTRACT_ABI,
+  DONATION_CONTRACT_ADDRESS_PER_CHAIN_ID,
+} from './constants';
+import {
+  Application,
+  CrossChainDonationData,
+  DonationPayload,
+  GetApplicationsResponse,
+} from './types';
 
 export const selectTwitterApplications = (
   applications: GetApplicationsResponse,
@@ -88,21 +99,93 @@ export const generateVote = (recipientId: string, amount: number) => {
   return abiCoder.encode(types, data);
 };
 
-export const generateDonationData = (
+export const generateDonationData = async (
   roundId: number,
+  destinationChainId: number,
+  destinationContractAddress: string,
   senderAddress: string,
   voteParameters: string,
 ) => {
-  const abiCoder = ethers.utils.defaultAbiCoder;
-  return abiCoder.encode(
-    ['uint256', 'address', 'bytes'],
-    [roundId, senderAddress, voteParameters],
-  );
+  const nonce = await getNonce(senderAddress, destinationChainId);
+  const data: CrossChainDonationData = {
+    chainId: destinationChainId,
+    roundId: roundId,
+    donor: senderAddress,
+    voteParams: voteParameters,
+    nonce: nonce,
+    validUntil: Math.round(Date.now() / 1000) + 3600, // 1 hour
+    verifyingContract: destinationContractAddress,
+  };
+  return data;
 };
 
-export const generateCombinedMessage = (message: string, signature: string) => {
-  const abiCoder = ethers.utils.defaultAbiCoder;
-  return abiCoder.encode(['bytes', 'bytes'], [message, signature]);
+export const generateEIP712Signature = async (
+  signer: ethers.providers.JsonRpcSigner,
+  data: CrossChainDonationData,
+) => {
+  const domain = {
+    name: 'IDrissCrossChainDonations',
+    version: '1',
+  };
+  const types = {
+    Donation: [
+      { name: 'chainId', type: 'uint256' },
+      { name: 'roundId', type: 'uint256' },
+      { name: 'donor', type: 'address' },
+      { name: 'voteParams', type: 'bytes' },
+      { name: 'nonce', type: 'uint256' },
+      { name: 'validUntil', type: 'uint256' },
+      { name: 'verifyingContract', type: 'address' },
+    ],
+  };
+  const signature = await signer._signTypedData(domain, types, data);
+
+  const encoded = encodeDataAndSignature(data, signature);
+  return encoded;
+};
+
+const encodeDataAndSignature = (
+  data: CrossChainDonationData,
+  signature: string,
+) => {
+  const encoded = ethers.utils.defaultAbiCoder.encode(
+    [
+      'uint256',
+      'uint256',
+      'address',
+      'bytes',
+      'uint256',
+      'uint256',
+      'address',
+      'bytes',
+    ],
+    [
+      data.chainId,
+      data.roundId,
+      data.donor,
+      data.voteParams,
+      data.nonce,
+      data.validUntil,
+      data.verifyingContract,
+      signature,
+    ],
+  );
+  return encoded;
+};
+
+const getNonce = async (donor: string, destinationChainId: number) => {
+  const wrapper = createContract({
+    abi: DONATION_CONTRACT_ABI,
+    address: DONATION_CONTRACT_ADDRESS_PER_CHAIN_ID[destinationChainId]!,
+    signerOrProvider: Object.values(CHAIN).find((chain) => {
+      return chain.id === destinationChainId;
+    })?.rpcUrls[0],
+  });
+
+  const chainSpecificNonce = (await wrapper.functions.nonces?.(
+    donor,
+  )) as number;
+  return chainSpecificNonce;
 };
 
 export const getLoadingMessage = (isCrossChain: boolean) => {
