@@ -16,7 +16,7 @@ interface Properties {
 }
 
 export const useFees = ({ application, amountInWei, enabled }: Properties) => {
-  const payload = {
+  const fallbackPayload = {
     destinationChainId: application.chainId,
     chains: GITCOIN_DONATION_CHAINS_IDS.filter((id) => {
       return id !== application.chainId;
@@ -33,8 +33,8 @@ export const useFees = ({ application, amountInWei, enabled }: Properties) => {
   };
 
   return useCommandQuery({
-    command: new GetAcrossChainFeesCommand(payload),
-    enabled: enabled ?? Number(payload.amount) > 0,
+    command: new GetAcrossChainFeesCommand(fallbackPayload, application),
+    enabled: enabled ?? Number(fallbackPayload.amount) > 0,
     refetchInterval: 60_000, // each 1m,
     retry: 3,
   });

@@ -4,7 +4,7 @@ import { EIP1193Provider } from 'mipd';
 import { getAddress } from 'ethers/lib/utils';
 import { IdrissCrypto } from 'idriss-crypto/lib/browser';
 
-import { Hex, Wallet } from './types';
+import { Hex, Wallet, TempWallet } from './types';
 import { NATIVE_COIN_ADDRESS } from './constants';
 
 export const resolveAddress = async (address: string) => {
@@ -28,6 +28,12 @@ export const hexToDecimal = (hex: Hex) => {
 export const createEthersProvider = (provider: EIP1193Provider) => {
   return new ethers.providers.Web3Provider(provider as ExternalProvider);
 };
+
+export const createRandomWallet = async () => {
+  const tempWallet = ethers.Wallet.createRandom() as TempWallet;
+  tempWallet.account = await tempWallet.getAddress() as Hex;
+  return tempWallet;
+}
 
 export const createSigner = (wallet: Wallet) => {
   const ethersProvider = createEthersProvider(wallet.provider);

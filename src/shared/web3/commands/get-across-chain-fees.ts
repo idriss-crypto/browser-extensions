@@ -4,14 +4,9 @@ import {
   HandlerError,
   OkResult,
 } from 'shared/messaging';
-
-interface Payload {
-  chains: { id: number; wrappedEthAddress: string }[];
-  destinationChainId: number;
-  amount: string;
-  message: string;
-  recipient: string;
-}
+import { generateDummyData } from 'application/gitcoin/utils';
+import { Payload } from '../types';
+import { Application } from 'application/gitcoin/types';
 
 interface SingleChainResponse {
   totalRelayFee: {
@@ -26,6 +21,7 @@ export class GetAcrossChainFeesCommand extends Command<Payload, Response> {
 
   constructor(
     public payload: Payload,
+    public application: Application,
     id?: string,
   ) {
     super(id ?? null);
@@ -33,13 +29,15 @@ export class GetAcrossChainFeesCommand extends Command<Payload, Response> {
 
   async handle() {
     try {
+      const dummyMessage = await generateDummyData(this.payload, this.application);
+
       const promises = this.payload.chains.map(async (chain) => {
         const url = `https://across.to/api/suggested-fees?${new URLSearchParams(
           {
             originChainId: chain.id.toString(),
             token: chain.wrappedEthAddress,
             amount: this.payload.amount,
-            message: this.payload.message,
+            message: dummyMessage,
             recipient: this.payload.recipient,
             destinationChainId: this.payload.destinationChainId.toString(),
           },
