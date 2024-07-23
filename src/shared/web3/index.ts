@@ -1,8 +1,9 @@
 export { CHAIN, TOKEN, CHAIN_ID_TO_TOKENS } from './constants';
-export type { Hex, Chain, Wallet, Token, ChainToken } from './types';
+export type { Hex, Chain, Wallet, TempWallet, Token, ChainToken } from './types';
 export { useWallet, WalletContextProvider } from './context';
 export {
   createEthersProvider,
+  createRandomWallet,
   resolveAddress,
   hexToDecimal,
   dollarToWei,

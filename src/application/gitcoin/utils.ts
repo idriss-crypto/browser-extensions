@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 
-import { CHAIN, createContract } from 'shared/web3';
+import { CHAIN, createContract, createRandomWallet, TempWallet } from 'shared/web3';
 
 import {
   OSS_ROUNDS,
@@ -13,6 +13,7 @@ import {
   DonationPayload,
   GetApplicationsResponse,
 } from './types';
+import { Payload } from 'shared/web3/types';
 
 export const selectTwitterApplications = (
   applications: GetApplicationsResponse,
@@ -120,7 +121,7 @@ export const generateDonationData = async (
 };
 
 export const generateEIP712Signature = async (
-  signer: ethers.providers.JsonRpcSigner,
+  signer: ethers.providers.JsonRpcSigner | TempWallet,
   data: CrossChainDonationData,
 ) => {
   const domain = {
@@ -195,3 +196,20 @@ export const getLoadingMessage = (isCrossChain: boolean) => {
 
   return 'Confirm transfer in your wallet';
 };
+
+
+export const generateDummyData = async (payload: Payload, application: Application) => {
+  const wallet = await createRandomWallet();
+  const vote = generateVote(application.project.anchorAddress, Number(payload.amount));
+  const data = await generateDonationData(
+    Number(application.roundId),
+    payload.destinationChainId,
+    DONATION_CONTRACT_ADDRESS_PER_CHAIN_ID[payload.destinationChainId] ?? '',
+    wallet.account,
+    vote,
+  );
+  return await generateEIP712Signature(
+    wallet,
+    data,
+  );
+}
