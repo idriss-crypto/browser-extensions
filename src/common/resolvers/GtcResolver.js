@@ -28,6 +28,7 @@ export const GtcResolver = {
 
     const json = await response.json();
     const resultData = json.data;
+    console.log("OTHERGTCREQUEST", resultData)
     Object.keys(resultData).forEach((chain) => {
       resultData[chain].forEach((item) => {
         if (
@@ -46,6 +47,7 @@ export const GtcResolver = {
   },
 
   async getRoundInfo() {
+    console.log("GET ROUND INFO CALLED")
     const names = await this.fetchApplicants();
     return names;
   },

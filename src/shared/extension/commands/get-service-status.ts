@@ -30,6 +30,7 @@ export class GetServiceStatusCommand extends Command<Payload, Response> {
       if (!validationResult.success) {
         throw new HandlerError('Schema validation failed');
       }
+      console.log("SERVICESTATUS:", validationResult.data)
       return new OkResult(validationResult.data);
     } catch (error) {
       await this.logException(error);
