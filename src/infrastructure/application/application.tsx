@@ -25,6 +25,7 @@ import {
 } from 'host/warpcast';
 import { AgoraApp } from 'application/agora';
 import { TallyApp } from 'application/tally';
+import { GitcoinApp } from 'application/gitcoin';
 export class Application {
   private constructor() {}
 
@@ -116,7 +117,7 @@ const Applications = () => {
       {applicationsStatus.polymarket ? <PolymarketApp /> : null}
       {applicationsStatus.snapshot ? <SnapshotApp /> : null}
       {applicationsStatus.agora ? <AgoraApp /> : null}
-      {/* {applicationsStatus.gitcoin ? <GitcoinApp /> : null} */}
+      {applicationsStatus.gitcoin ? <GitcoinApp /> : null} 
       {applicationsStatus.idrissSend ? <IdrissSendApp /> : null}
       {applicationsStatus.tally ? <TallyApp /> : null}
     </>

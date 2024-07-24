@@ -21,7 +21,7 @@ query Applications ($currentIsoDate: Datetime!) {
 
   optimism: applications(
     filter: {
-      roundId: { in: ["9"] }
+      roundId: { in: ["9", "19"] }
       chainId: { equalTo: 10 }
       status: { equalTo: APPROVED }
       round: {
@@ -55,6 +55,7 @@ fragment Project on Project {
 
 export class Api {
   public static getApplications() {
+    console.log("GETTING APPLICATNS")
     return fetch(GITCOIN_GRAPHQL_API_URL, {
       method: 'POST',
       body: JSON.stringify({

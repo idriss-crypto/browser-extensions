@@ -20,6 +20,7 @@ export class GetApplicationsCommand extends Command<
     public payload: Payload,
     id?: string,
   ) {
+    console.log("INITIATED GITCOIN API")
     super(id ?? null);
   }
 
@@ -33,6 +34,8 @@ export class GetApplicationsCommand extends Command<
 
       // TODO: schema validation
       const json = (await response.json()) as { data: GetApplicationsResponse };
+      console.log("FOUND APPLICATIONS: ", json.data)
+
 
       return new OkResult(json.data);
     } catch (error) {
