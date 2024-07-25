@@ -21,7 +21,6 @@ export class GetAcrossChainFeesCommand extends Command<Payload, Response> {
 
   constructor(
     public payload: Payload,
-    public application: Application,
     id?: string,
   ) {
     super(id ?? null);
@@ -29,7 +28,7 @@ export class GetAcrossChainFeesCommand extends Command<Payload, Response> {
 
   async handle() {
     try {
-      const dummyMessage = await generateDummyData(this.payload, this.application);
+      const dummyMessage = await generateDummyData(this.payload);
 
       const promises = this.payload.chains.map(async (chain) => {
         const url = `https://across.to/api/suggested-fees?${new URLSearchParams(

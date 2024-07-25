@@ -34,8 +34,6 @@ export class GetApplicationsCommand extends Command<
 
       // TODO: schema validation
       const json = (await response.json()) as { data: GetApplicationsResponse };
-      console.log("FOUND APPLICATIONS: ", json.data)
-
 
       return new OkResult(json.data);
     } catch (error) {
