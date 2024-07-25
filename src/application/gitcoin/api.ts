@@ -55,7 +55,6 @@ fragment Project on Project {
 
 export class Api {
   public static getApplications() {
-    console.log("GETTING APPLICATNS")
     return fetch(GITCOIN_GRAPHQL_API_URL, {
       method: 'POST',
       body: JSON.stringify({

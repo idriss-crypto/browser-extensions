@@ -20,7 +20,6 @@ export class GetApplicationsCommand extends Command<
     public payload: Payload,
     id?: string,
   ) {
-    console.log("INITIATED GITCOIN API")
     super(id ?? null);
   }
 
