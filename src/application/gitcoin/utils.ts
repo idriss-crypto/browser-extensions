@@ -183,9 +183,11 @@ const getNonce = async (donor: string, destinationChainId: number) => {
     })?.rpcUrls[0],
   });
 
-  const chainSpecificNonce = (await wrapper.functions.nonces?.(
+  const result = (await wrapper.functions.nonces?.(
     donor,
-  )) as number;
+  ));
+
+  const chainSpecificNonce = result[0]!.toNumber();
   return chainSpecificNonce;
 };
 
@@ -198,11 +200,11 @@ export const getLoadingMessage = (isCrossChain: boolean) => {
 };
 
 
-export const generateDummyData = async (payload: Payload, application: Application) => {
+export const generateDummyData = async (payload: Payload) => {
   const wallet = await createRandomWallet();
-  const vote = generateVote(application.project.anchorAddress, Number(payload.amount));
+  const vote = generateVote(payload.application?.project.anchorAddress!, Number(payload.amount));
   const data = await generateDonationData(
-    Number(application.roundId),
+    Number(payload.application?.roundId!),
     payload.destinationChainId,
     DONATION_CONTRACT_ADDRESS_PER_CHAIN_ID[payload.destinationChainId] ?? '',
     wallet.account,

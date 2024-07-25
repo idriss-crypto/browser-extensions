@@ -30,10 +30,11 @@ export const useFees = ({ application, amountInWei, enabled }: Properties) => {
     message: SMALLEST_AMOUNT_MESSAGE_PER_CHAIN_ID[application.chainId] ?? '',
     recipient:
       DONATION_CONTRACT_ADDRESS_PER_CHAIN_ID[application.chainId] ?? '',
+    application: application
   };
 
   return useCommandQuery({
-    command: new GetAcrossChainFeesCommand(fallbackPayload, application),
+    command: new GetAcrossChainFeesCommand(fallbackPayload),
     enabled: enabled ?? Number(fallbackPayload.amount) > 0,
     refetchInterval: 60_000, // each 1m,
     retry: 3,

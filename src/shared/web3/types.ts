@@ -1,3 +1,4 @@
+import { Application } from 'application/gitcoin/types';
 import { ethers } from 'ethers';
 import { EIP1193Provider } from 'mipd';
 
@@ -48,4 +49,5 @@ export interface Payload {
   amount: string;
   message: string;
   recipient: string;
+  application?: Application
 }
