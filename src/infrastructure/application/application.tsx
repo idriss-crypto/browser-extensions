@@ -17,7 +17,7 @@ import { WalletContextProvider } from 'shared/web3';
 import { ErrorBoundary } from 'shared/observability';
 import { PolymarketApp } from 'application/polymarket';
 import { SnapshotApp } from 'application/snapshot';
-// import { GitcoinApp } from 'application/gitcoin';
+import { GitcoinApp } from 'application/gitcoin';
 import { IdrissSendApp } from 'application/idriss-send';
 import { useCommandQuery } from 'shared/messaging';
 import {
@@ -30,7 +30,6 @@ import {
 } from 'host/warpcast';
 import { AgoraApp } from 'application/agora';
 import { TallyApp } from 'application/tally';
-import { GitcoinApp } from 'application/gitcoin';
 export class Application {
   private constructor() {}
 
