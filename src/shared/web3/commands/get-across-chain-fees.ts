@@ -6,7 +6,6 @@ import {
 } from 'shared/messaging';
 import { generateDummyData } from 'application/gitcoin/utils';
 import { Payload } from '../types';
-import { Application } from 'application/gitcoin/types';
 
 interface SingleChainResponse {
   totalRelayFee: {
