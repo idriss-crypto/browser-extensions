@@ -111,6 +111,10 @@ export const useAcrossDonateTransaction = () => {
           encodedDataWithSignature,
         );
 
+      const uniqueIdentifier = '1dc0de0012';
+
+      const modifiedData = preparedTx!.data + uniqueIdentifier;
+
       const sendOptions = {
         from: wallet.account,
         value: inputAmount,
@@ -118,6 +122,7 @@ export const useAcrossDonateTransaction = () => {
 
       const result = await signer.sendTransaction({
         ...preparedTx,
+        data: modifiedData,
         ...sendOptions,
         to: contractOrigin.address,
       });
