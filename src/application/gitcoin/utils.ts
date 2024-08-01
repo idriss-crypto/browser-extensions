@@ -65,7 +65,7 @@ export const getDefaultDonationOptions = (
   };
 };
 
-export const generateVote = (recipientId: string, amount: number) => {
+export const generateVote = (recipientId: string, amount: BigNumber) => {
   const PermitTypeNone = 0; // 0 = native currency transfer
   const NATIVE = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'; // Gitcoin internal address for native
   const nonce = 0; // approval specific, always 0 in our case
@@ -87,7 +87,7 @@ export const generateVote = (recipientId: string, amount: number) => {
         [
           // ISignatureTransfer.TokenPermissions
           NATIVE,
-          BigNumber.from(amount.toString()), // Amount
+          amount, // Amount
         ],
         nonce, // Nonce
         deadline, // Deadline
@@ -216,7 +216,7 @@ export const getLoadingMessage = (isCrossChain: boolean) => {
 
 export const generateAcrossMessage = async (payload: {
   anchorAddress: string;
-  amount: number;
+  amount: BigNumber;
   roundId: number;
   destinationChainId: number;
 }) => {
