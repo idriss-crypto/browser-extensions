@@ -8,22 +8,12 @@
     "service_worker": "service-worker.js"
   },
   "homepage_url": "https://www.idriss.xyz",
-  "permissions": [
-    "contextMenus",
-    "tabs",
-    "storage"
-  ],
-  "host_permissions": [
-    "<all_urls>"
-  ],
+  "permissions": ["contextMenus", "tabs", "storage"],
+  "host_permissions": ["<all_urls>"],
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "content-script.js"
-      ],
+      "matches": ["<all_urls>"],
+      "js": ["content-script.js"],
       "all_frames": true
     }
   ],
@@ -31,25 +21,18 @@
     "16": "img/icon16.png",
     "48": "img/icon48.png",
     "128": "img/icon128.png",
-    "148": "img/icon148.png",
-    "256": "img/icon256.png"
+    "148": "img/icon148.png"
   },
   "action": {
     "default_popup": "standalone.html",
     "default_icon": {
-      "16": "img/icon16.png",
-      "24": "img/icon24.png",
-      "32": "img/icon32.png"
+      "16": "img/icon16.png"
     }
   },
   "web_accessible_resources": [
     {
-      "resources": [
-        "webpage-script.js"
-      ],
-      "matches": [
-        "<all_urls>"
-      ]
+      "resources": ["webpage-script.js"],
+      "matches": ["<all_urls>"]
     }
   ]
 }
