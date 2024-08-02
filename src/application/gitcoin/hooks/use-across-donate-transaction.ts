@@ -16,6 +16,7 @@ import {
   generateVote,
 } from '../utils';
 import {
+  ACROSS_DONATION_MODIFIER,
   DONATION_CONTRACT_ABI,
   DONATION_CONTRACT_ADDRESS_PER_CHAIN_ID,
   WRAPPED_ETH_ADDRESS_PER_CHAIN_ID,
@@ -115,12 +116,14 @@ export const useAcrossDonateTransaction = () => {
           encodedDataWithSignature,
         );
 
-      const uniqueIdentifier = '1dc0de0012';
+      if (!preparedTx) {
+        throw new Error('Expected preparedTx');
+      }
 
-      const modifiedData = preparedTx!.data + uniqueIdentifier;
+      const modifiedData = preparedTx.data + ACROSS_DONATION_MODIFIER;
 
       const sendOptions = {
-        from: await signer.getAddress(),
+        from: wallet.account,
         value: inputAmount,
       };
 
