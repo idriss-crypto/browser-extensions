@@ -19,6 +19,7 @@ interface Response {
 }
 
 const DISPLAYED_PROPOSAL_STATUS = 'ACTIVE';
+const NUMBER_OF_FETCHED_PROPOSALS = 2;
 
 export class GetAgoraProposalsCommand extends Command<Payload, Response> {
   public readonly name = 'GetAgoraProposalsCommand' as const;
@@ -33,7 +34,7 @@ export class GetAgoraProposalsCommand extends Command<Payload, Response> {
   async handle() {
     try {
       const response = await fetch(
-        `${AGORA_API_URL}?limit=2&offset=${this.payload.offset}`,
+        `${AGORA_API_URL}?limit=${NUMBER_OF_FETCHED_PROPOSALS}&offset=${this.payload.offset}`,
         {
           headers: {
             'Content-Type': 'application/json',
