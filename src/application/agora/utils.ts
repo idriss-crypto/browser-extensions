@@ -1,17 +1,14 @@
 import { ScrapingResult } from 'shared/scraping';
+import { CHAIN } from 'shared/web3';
 
-import {
-  AGORA_ETHERSCAN_WEBSITE_URL,
-  AGORA_WEBSITE_URL,
-  TWITTER_HANDLE_TO_AGORA,
-} from './constants';
+import { AGORA_WEBSITE_URL, TWITTER_HANDLE_TO_AGORA } from './constants';
 
 export const getProposalUrl = (proposalId: string) => {
   return `${AGORA_WEBSITE_URL}/proposals/${proposalId}`;
 };
 
 export const getProposerUrl = (proposerAddress: string) => {
-  return `${AGORA_ETHERSCAN_WEBSITE_URL}/address/${proposerAddress}`;
+  return `${CHAIN.OPTIMISM.blockExplorerUrls[0] ?? '#'}/address/${proposerAddress}`;
 };
 
 export const getAgoraUsernameFromTwitterUsername = (handle: string) => {
