@@ -196,7 +196,8 @@ const encodeDataAndSignature = (
 export const getNonce = async (donor: string, destinationChainId: number) => {
   const wrapper = createContract({
     abi: DONATION_CONTRACT_ABI,
-    address: DONATION_CONTRACT_ADDRESS_PER_CHAIN_ID[destinationChainId]!,
+    address:
+      DONATION_CONTRACT_ADDRESS_PER_CHAIN_ID[destinationChainId] ?? EMPTY_HEX,
     signerOrProvider: getChainById(destinationChainId)?.rpcUrls[0],
   });
 
