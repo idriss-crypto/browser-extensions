@@ -20,10 +20,6 @@ import {
   TwitterScrapingContextProvider,
   useTwitterLocationInfo,
 } from 'host/twitter';
-import {
-  WarpcastScrapingContextProvider,
-  useWarpcastLocationInfo,
-} from 'host/warpcast';
 import { useCommandQuery } from 'shared/messaging';
 import { TallyApp } from 'application/tally';
 import { AgoraApp } from 'application/agora';
@@ -68,9 +64,7 @@ const ApplicationWithProviders = () => {
                   >
                     <ExtensionSettingsProvider>
                       <TwitterScrapingContextProvider>
-                        <WarpcastScrapingContextProvider>
-                          <Applications />
-                        </WarpcastScrapingContextProvider>
+                        <Applications />
                       </TwitterScrapingContextProvider>
                     </ExtensionSettingsProvider>
                   </WalletContextProvider>
@@ -86,7 +80,6 @@ const ApplicationWithProviders = () => {
 
 const Applications = () => {
   const { isTwitter } = useTwitterLocationInfo();
-  const { isWarpcast } = useWarpcastLocationInfo();
   const { enabled } = useExtensionSettings();
 
   useEffect(() => {
@@ -98,12 +91,12 @@ const Applications = () => {
     }
   }, [enabled]);
 
-  const isExpectedPage = isTwitter || isWarpcast;
+  const isExpectedPage = isTwitter;
 
   const serviceStatusQuery = useCommandQuery({
     staleTime: Number.POSITIVE_INFINITY,
     command: new GetServiceStatusCommand({}),
-    enabled: isTwitter || isWarpcast,
+    enabled: isTwitter,
   });
 
   const applicationsStatus = useMemo(() => {
