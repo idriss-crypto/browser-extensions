@@ -16,7 +16,6 @@ interface Properties {
 
 export const useWidgetsData = ({
   scrapedUsers,
-  handle,
   enabled,
 }: Properties) => {
   const getApplicationsQuery = useCommandQuery({
@@ -52,8 +51,7 @@ export const useWidgetsData = ({
           data: { username },
         } = scrapedUser;
 
-        const isHandleUser =
-          handle === username && isHandleNode(node as HTMLElement);
+        const isHandleUser = isHandleNode(node as HTMLElement);
 
         const nodeToInject = getNodeToInjectToUser(node, isHandleUser);
 
@@ -71,7 +69,7 @@ export const useWidgetsData = ({
         };
       })
       .filter(Boolean);
-  }, [getApplicationsQuery.data, handle, scrapedUsers]);
+  }, [getApplicationsQuery.data, scrapedUsers]);
 
   return { widgets };
 };

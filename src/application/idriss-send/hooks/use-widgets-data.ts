@@ -31,11 +31,7 @@ interface Properties {
   enabled: boolean;
 }
 
-export const useWidgetsData = ({
-  scrapedUsers,
-  handle,
-  enabled,
-}: Properties) => {
+export const useWidgetsData = ({ scrapedUsers, enabled }: Properties) => {
   const [digestToWallet, setDigestToWallet] = useState<Record<string, string>>(
     {},
   );
@@ -211,7 +207,7 @@ export const useWidgetsData = ({
         };
       })
       .filter(Boolean);
-  }, [recipientsWithOptionalWallet, handle, digestToWallet]);
+  }, [recipientsWithOptionalWallet, digestToWallet]);
 
   return { widgets };
 };
