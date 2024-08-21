@@ -191,9 +191,7 @@ export const useWidgetsData = ({
 
         const { top, node, username, availableNetworks, widgetOverrides } =
           user;
-
-        const isHandleUser =
-          handle === username && isHandleNode(node as HTMLElement);
+        const isHandleUser = isHandleNode(node as HTMLElement);
 
         const nodeToInject = getNodeToInjectToUser(node, isHandleUser);
 
