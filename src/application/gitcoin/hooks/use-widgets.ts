@@ -14,10 +14,7 @@ interface Properties {
   enabled: boolean;
 }
 
-export const useWidgetsData = ({
-  scrapedUsers,
-  enabled,
-}: Properties) => {
+export const useWidgetsData = ({ scrapedUsers, enabled }: Properties) => {
   const getApplicationsQuery = useCommandQuery({
     command: new GetApplicationsCommand({}),
     select: selectTwitterApplications,
