@@ -50,7 +50,13 @@ const Base = ({ widgetData, onClose, className }: Properties) => {
     widgetData,
   });
 
-  const firstSource = activeSources[0];
+  const userActiveProposalSources = widgetData.proposalsSources.filter(
+    (source) => {
+      return activeSources.includes(source);
+    },
+  );
+
+  const firstSource = userActiveProposalSources[0];
 
   const [activeTab, setActiveTab] = useState<ProposalSource>();
 
@@ -114,7 +120,7 @@ const Base = ({ widgetData, onClose, className }: Properties) => {
       onValueChange={changeTab}
     >
       <Tabs.List className="flex shrink-0">
-        {widgetData.proposalsSources.map((source) => {
+        {userActiveProposalSources.map((source) => {
           const isActive = source === activeTab;
           const imageSource = PROPOSAL_SOURCE_TO_IMG[source];
           const sourceClassnames = PROPOSAL_SOURCE_TO_CLASSES[source];
@@ -138,7 +144,7 @@ const Base = ({ widgetData, onClose, className }: Properties) => {
           );
         })}
       </Tabs.List>
-      {widgetData.proposalsSources.map((source) => {
+      {userActiveProposalSources.map((source) => {
         return (
           <Tabs.Content key={source} value={source}>
             <Component source={source} className="rounded-r-lg rounded-bl-lg" />
