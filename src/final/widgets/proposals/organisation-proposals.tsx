@@ -119,7 +119,7 @@ const Base = ({ widgetData, onClose, className }: Properties) => {
       value={activeTab}
       onValueChange={changeTab}
     >
-      <Tabs.List className="flex shrink-0">
+      <Tabs.List className="relative top-[2px] flex shrink-0 items-end">
         {userActiveProposalSources.map((source) => {
           const isActive = source === activeTab;
           const imageSource = PROPOSAL_SOURCE_TO_IMG[source];
@@ -129,10 +129,10 @@ const Base = ({ widgetData, onClose, className }: Properties) => {
           return (
             <Tabs.Trigger
               className={classes(
-                'relative flex h-[25px] w-[100px] items-center space-x-1.5 rounded-t-lg px-2 pt-1 text-xs font-bold',
-                'transition-all duration-75 ease-linear will-change-transform',
+                'relative flex h-[26px] w-[100px] items-center space-x-1.5 rounded-t-lg px-2 pt-1 text-xs font-bold',
+                'transition-all duration-[85] ease-linear will-change-[transform,top]',
                 !isActive &&
-                  'top-[1px] -translate-x-[3px] scale-95 brightness-75',
+                  'top-[2px] -translate-x-[2px] scale-95 pb-[1px] brightness-[0.85]',
                 sourceClassnames.trigger,
               )}
               key={source}
