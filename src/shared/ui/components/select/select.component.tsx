@@ -47,7 +47,7 @@ export const Select = <T,>({
           <DropdownMenu.Content sideOffset={2} asChild>
             <SelectOptionContainer
               as="div"
-              className="w-[var(--radix-popper-anchor-width)] text-black"
+              className="max-h-64 w-[var(--radix-popper-anchor-width)] overflow-y-auto text-black"
             >
               {options.map((option, index) => {
                 return (
