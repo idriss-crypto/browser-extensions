@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState } from 'react';
 
 import { Select } from './select.component';
