@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Select } from './select.component';
 
@@ -23,10 +22,10 @@ export default meta;
 type Story = StoryObj<typeof Select>;
 
 export const Primary: Story = {
-  render: (arguments_) => {
-    const [value, setValue] = useState(arguments_.value);
+  render: (properties) => {
+    const [value, setValue] = useState(properties.value);
 
-    return <Select {...arguments_} value={value} onChange={setValue} />;
+    return <Select {...properties} value={value} onChange={setValue} />;
   },
   args: {
     options: [
