@@ -7,7 +7,10 @@ import {
   OkResult,
 } from 'shared/messaging';
 
-import { GET_MULTIPLE_IDRISS_REGISTRY_ABI, MULTI_RESOVER_CONTRACT_ADDRESS } from '../constants';
+import {
+  GET_MULTIPLE_IDRISS_REGISTRY_ABI,
+  MULTI_RESOVER_CONTRACT_ADDRESS,
+} from '../constants';
 
 type Payload = {
   digestedMessages: string[];
