@@ -51,6 +51,7 @@ const Base = ({ widgetData, addressResolver, onClose }: BaseProperties) => {
     return CHAIN_ID_TO_TOKENS[chainId] ?? [];
   }, [chainId]);
 
+  // ToDo: use get-handle-to-twitter-id command in combination with get-digested-to-wallet-address-command
   const submit = useCallback(
     async (sendPayload: SendPayload) => {
       const walletAddress = await addressResolver.resolve(widgetData);

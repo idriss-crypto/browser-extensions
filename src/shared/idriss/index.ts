@@ -2,6 +2,8 @@ export {
   COMMAND_MAP as IDRISS_COMMAND_MAP,
   GetHandleToTwitterIdCommand,
   GetDigestToWalletAddressCommand,
+  GetIdToTwitterHandleCommand,
+  GetReverseResolution,
 } from './commands';
 export { Send as IdrissSend } from './components';
 export {

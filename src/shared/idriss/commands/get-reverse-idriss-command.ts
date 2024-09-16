@@ -1,4 +1,4 @@
-import { createPublicClient, http } from 'viem';
+import { createPublicClient, Hex, http } from 'viem';
 
 import {
   Command,
@@ -7,19 +7,19 @@ import {
   OkResult,
 } from 'shared/messaging';
 
-import { GET_MULTIPLE_IDRISS_REGISTRY_ABI, MULTI_RESOVER_CONTRACT_ADDRESS } from '../constants';
+import {
+  GET_MULTIPLE_IDRISS_REGISTRY_ABI,
+  MULTI_RESOVER_CONTRACT_ADDRESS,
+} from '../constants';
 
-type Payload = {
-  digestedMessages: string[];
-};
+interface Payload {
+  addresses: Hex[];
+}
 
-type Response = Record<string, string>;
+type Response = Record<string, string | null>;
 
-export class GetDigestToWalletAddressCommand extends Command<
-  Payload,
-  Response
-> {
-  public readonly name = 'GetDigestToWalletAddressCommand' as const;
+export class GetReverseResolution extends Command<Payload, Response> {
+  public readonly name = 'GetReverseResolution' as const;
 
   constructor(public payload: Payload) {
     super();
@@ -30,17 +30,17 @@ export class GetDigestToWalletAddressCommand extends Command<
       const publicClient = createPublicClient({
         transport: http('https://polygon-rpc.com/'),
       });
-      const results = await publicClient.readContract({
+      const results = (await publicClient.readContract({
         abi: GET_MULTIPLE_IDRISS_REGISTRY_ABI,
         address: MULTI_RESOVER_CONTRACT_ADDRESS,
-        functionName: 'getMultipleIDriss',
-        args: [this.payload.digestedMessages],
-      });
+        functionName: 'getMultipleReverse',
+        args: [this.payload.addresses],
+      })) as { _address: Hex; result: string }[];
 
       return new OkResult(
         Object.fromEntries(
           results.map((result) => {
-            return [result._hash, result.result];
+            return [result._address, result.result];
           }),
         ),
       );
