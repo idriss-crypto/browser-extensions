@@ -1,16 +1,16 @@
 import { GetHandleToTwitterIdCommand } from './get-handle-to-twitter-id';
-import { GetDigestToWalletAddressCommand } from './get-digested-to-wallet-address-command';
+import { GetDigestToWalletAddressCommand } from './get-digest-to-wallet-address';
 import { GetIdToTwitterHandleCommand } from './get-id-to-twitter-handle';
-import { GetReverseResolution } from './get-reverse-idriss-command';
+import { GetReverseIdrissCommand } from './get-reverse-idriss';
 
 export const COMMAND_MAP = {
   [GetHandleToTwitterIdCommand.name]: GetHandleToTwitterIdCommand,
   [GetDigestToWalletAddressCommand.name]: GetDigestToWalletAddressCommand,
   [GetIdToTwitterHandleCommand.name]: GetHandleToTwitterIdCommand,
-  [GetReverseResolution.name]: GetDigestToWalletAddressCommand,
+  [GetReverseIdrissCommand.name]: GetReverseIdrissCommand,
 };
 
 export { GetHandleToTwitterIdCommand } from './get-handle-to-twitter-id';
-export { GetDigestToWalletAddressCommand } from './get-digested-to-wallet-address-command';
+export { GetDigestToWalletAddressCommand } from './get-digest-to-wallet-address';
 export { GetIdToTwitterHandleCommand } from './get-id-to-twitter-handle';
-export { GetReverseResolution } from './get-reverse-idriss-command';
+export { GetReverseIdrissCommand } from './get-reverse-idriss';

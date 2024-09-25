@@ -3,7 +3,7 @@ export {
   GetHandleToTwitterIdCommand,
   GetDigestToWalletAddressCommand,
   GetIdToTwitterHandleCommand,
-  GetReverseResolution,
+  GetReverseIdrissCommand,
 } from './commands';
 export { Send as IdrissSend } from './components';
 export {

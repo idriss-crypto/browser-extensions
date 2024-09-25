@@ -9,7 +9,7 @@ import {
 
 import {
   GET_MULTIPLE_IDRISS_REGISTRY_ABI,
-  MULTI_RESOVER_CONTRACT_ADDRESS,
+  MULTI_RESOLVER_CONTRACT_ADDRESS,
 } from '../constants';
 
 type Payload = {
@@ -35,7 +35,7 @@ export class GetDigestToWalletAddressCommand extends Command<
       });
       const results = await publicClient.readContract({
         abi: GET_MULTIPLE_IDRISS_REGISTRY_ABI,
-        address: MULTI_RESOVER_CONTRACT_ADDRESS,
+        address: MULTI_RESOLVER_CONTRACT_ADDRESS,
         functionName: 'getMultipleIDriss',
         args: [this.payload.digestedMessages],
       });

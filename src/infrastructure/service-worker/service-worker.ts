@@ -23,7 +23,6 @@ import { IDRISS_SEND_COMMAND_MAP } from 'application/idriss-send';
 import { TALLY_COMMAND_MAP } from 'application/tally';
 import { FARCASTER_COMMAND_MAP } from 'shared/farcaster';
 
-import { SbtResolver } from '../../common/resolvers/SbtResolver';
 import { AddressResolver } from '../../common/resolvers/AddressResolver';
 
 const COMMAND_MAP = {
@@ -127,16 +126,6 @@ export class ServiceWorker {
           }
           case 'reverseResolveRequest': {
             AddressResolver.getManyReverse(request.value)
-              .then((x) => {
-                return sendResponse(x);
-              })
-              .catch(() => {
-                return sendResponse({});
-              });
-            return true;
-          }
-          case 'sbtRequest': {
-            SbtResolver.getSBT(request.value)
               .then((x) => {
                 return sendResponse(x);
               })
