@@ -25,6 +25,8 @@ export class Application {
 
 const bootstrap = () => {
   const root = document.createElement('div');
+  root.style.zIndex = '999999';
+  root.style.position = 'relative';
   const shadowRoot = root.attachShadow({ mode: 'open' });
   const reactRoot = createRoot(shadowRoot);
   reactRoot.render(createElement(ApplicationWithProviders));
@@ -45,24 +47,32 @@ const ApplicationWithProviders = () => {
 
   if (!isExpectedPage) {
     return (
-      <WithObservabilityScope>
-        <ErrorBoundary>
-          <QueryProvider>
-            <WalletContextProvider disabledWalletsRdns={disabledWalletRdns}>
+      <StrictMode>
+        <WithObservabilityScope>
+          <ErrorBoundary>
+            <PortalProvider>
               <TailwindProvider>
-                <ExtensionPopupProvider>
-                  <ExtensionSettingsProvider>
-                    <>
-                      <LookUpWalletAddress />
-                      <ExtensionPopup />
-                    </>
-                  </ExtensionSettingsProvider>
-                </ExtensionPopupProvider>
+                <QueryProvider>
+                  <NiceModal.Provider>
+                    <WalletContextProvider
+                      disabledWalletsRdns={disabledWalletRdns}
+                    >
+                      <ExtensionPopupProvider>
+                        <ExtensionSettingsProvider>
+                          <>
+                            <LookUpWalletAddress />
+                            <ExtensionPopup />
+                          </>
+                        </ExtensionSettingsProvider>
+                      </ExtensionPopupProvider>
+                    </WalletContextProvider>
+                  </NiceModal.Provider>
+                </QueryProvider>
               </TailwindProvider>
-            </WalletContextProvider>
-          </QueryProvider>
-        </ErrorBoundary>
-      </WithObservabilityScope>
+            </PortalProvider>
+          </ErrorBoundary>
+        </WithObservabilityScope>
+      </StrictMode>
     );
   }
 
