@@ -192,7 +192,7 @@ export const WalletConnectModal = createModal(
                   wrapperClassName="mb-2 mt-4"
                   value={termsOfUseAccepted}
                   onChange={setTermsOfUseAccepted}
-                  className="mr-2 focus:ring-2 focus:ring-idriss-primary-500"
+                  className="focus:ring-2 focus:ring-idriss-primary-500"
                   label={
                     <p className="text-sm text-gray-500">
                       I agree to the{' '}

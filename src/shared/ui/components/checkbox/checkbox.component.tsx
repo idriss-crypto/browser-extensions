@@ -29,7 +29,7 @@ const Base = forwardRef<HTMLButtonElement, CheckboxProperties>(
           className={classes(
             'flex size-[22px] appearance-none items-center justify-center rounded-[4px] bg-gray-100 shadow-[0_0_0_1px_black] outline-none hover:bg-gray-200 focus:shadow-[0_0_0_1px_gray]',
             'disabled:cursor-not-allowed disabled:opacity-60 disabled:brightness-90 disabled:grayscale',
-            label && 'mr-4',
+            label && 'mr-2',
             className,
           )}
           disabled={disabled}
