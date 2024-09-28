@@ -25,12 +25,6 @@ export class Application {
 
 const bootstrap = () => {
   const root = document.createElement('div');
-  root.style.zIndex = '999999'; // TODO: constants->Z_INDEX.EXTENSION_ROOT
-  root.style.position = 'absolute';
-  root.style.top = '0';
-  root.style.right = '0';
-  root.style.bottom = '0';
-  root.style.left = '0';
   const shadowRoot = root.attachShadow({ mode: 'open' });
   const reactRoot = createRoot(shadowRoot);
   reactRoot.render(createElement(ApplicationWithProviders));

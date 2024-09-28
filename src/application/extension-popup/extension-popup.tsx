@@ -17,7 +17,8 @@ export const ExtensionPopup = () => {
       closeButtonClassName="hidden"
       closeOnClickAway
       onClose={extensionPopup.hide}
-      className="fixed right-2 top-2 z-[9999] flex h-[512px] w-[470px] flex-col overflow-hidden rounded-md bg-white p-0 shadow-lg"
+      // TODO: z-popup
+      className="fixed right-2 top-2 z-[999999] flex h-[512px] w-[470px] flex-col overflow-hidden rounded-md bg-white p-0 shadow-lg"
     >
       <TopBar />
 
