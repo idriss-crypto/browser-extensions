@@ -21,7 +21,6 @@ export const ExtensionPopup = () => {
       className="fixed right-2 top-2 z-[999999] flex h-[512px] w-[470px] flex-col overflow-hidden rounded-md bg-white p-0 shadow-lg"
     >
       <TopBar />
-
       <div className="grow overflow-y-auto bg-gray-100 [scrollbar-color:gray_#b7b7b7] [scrollbar-width:thin]">
         <Routes>
           <Route path={EXTENSION_POPUP_ROUTE.HOME} element={<HomeView />} />
