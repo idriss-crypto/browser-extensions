@@ -49,7 +49,7 @@ export const Select = <T,>({
             <SelectOptionContainer
               as="div"
               className={classes(
-                'max-h-64 w-[var(--radix-popper-anchor-width)] overflow-y-auto text-black [scrollbar-color:gray_#efefef] [scrollbar-width:thin]',
+                'max-h-64 w-[var(--radix-popper-anchor-width)] overflow-y-auto text-black [scrollbar-color:rgba(0,0,0,0.2)_rgba(0,0,0,0.1)] [scrollbar-width:thin]',
                 optionsContainerClassName,
               )}
             >
