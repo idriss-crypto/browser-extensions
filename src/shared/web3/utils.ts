@@ -9,6 +9,7 @@ import { IdrissCrypto } from 'idriss-crypto/lib/browser';
 import { Hex, Wallet } from './types';
 import { CHAIN, NATIVE_COIN_ADDRESS } from './constants';
 
+// TODO: add get-id-to-twitter-handle command in combination with get-reverse-idriss-command
 export const resolveAddress = async (address: string) => {
   const idriss = new IdrissCrypto();
   const idrissResolved: string = await idriss.reverseResolve(address);

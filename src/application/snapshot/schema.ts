@@ -1,11 +1,13 @@
 import { z } from 'zod';
 
+import { hexSchema } from 'shared/web3';
+
 export const proposalSchema = z.object({
   id: z.string(),
   title: z.string(),
   body: z.string(),
   end: z.number(),
-  author: z.string(),
+  author: hexSchema,
   space: z.object({
     id: z.string(),
   }),
