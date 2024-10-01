@@ -6,20 +6,15 @@ import { classes } from 'shared/ui/utils';
 interface ScrollAreaProperties extends RadixScrollArea.ScrollAreaProps {
   children: ReactNode;
   className?: string;
-  rootClassName?: string;
 }
 
 export const ScrollArea = ({
   children,
   className,
-  rootClassName,
   ...properties
 }: ScrollAreaProperties) => {
   return (
-    <RadixScrollArea.Root
-      className={classes('overflow-hidden', rootClassName)}
-      {...properties}
-    >
+    <RadixScrollArea.Root className="overflow-hidden" {...properties}>
       <RadixScrollArea.Viewport
         className={classes('size-full rounded', className)}
       >
