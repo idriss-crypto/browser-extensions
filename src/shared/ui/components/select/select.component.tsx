@@ -61,7 +61,7 @@ export const Select = <T,>({
                       onSelect={() => {
                         onChange(option.value);
                       }}
-                      className='outline-none'
+                      className="outline-none"
                     >
                       <SelectOption
                         option={option}
