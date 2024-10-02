@@ -2,6 +2,7 @@ import { GetApiKeyCommand } from './get-api-key';
 import { GetAvailabilityCommand } from './get-availability';
 import { GetConditionIdCommand } from './get-condition-id';
 import { GetMarketByConditionIdCommand } from './get-market-by-condition-id';
+import { GetNewMarketCommand } from './get-new-markets';
 import { GetFunderAddresCommand } from './get-funder-address';
 import { GetTokenChanceCommand } from './get-token-chance';
 import { GetTokensBooksCommand } from './get-tokens-books';
@@ -18,6 +19,7 @@ export const COMMAND_MAP = {
   [GetFunderAddresCommand.name]: GetFunderAddresCommand,
   [GetTokensPricesCommand.name]: GetTokensPricesCommand,
   [GetMarketByConditionIdCommand.name]: GetMarketByConditionIdCommand,
+  [GetNewMarketCommand.name]: GetNewMarketCommand,
 } as const;
 
 export { PostOrderCommand } from './post-order';
@@ -29,3 +31,4 @@ export { GetTokenChanceCommand } from './get-token-chance';
 export { GetConditionIdCommand } from './get-condition-id';
 export { GetTokensBooksCommand } from './get-tokens-books';
 export { GetAvailabilityCommand } from './get-availability';
+export { GetNewMarketCommand } from './get-new-markets';

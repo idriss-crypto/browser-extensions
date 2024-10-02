@@ -36,6 +36,17 @@ export type MarketData = {
   accepting_orders: boolean;
 };
 
+export type NewMarkets = {
+  id: string;
+  title: string;
+  slug: string;
+  active: boolean;
+  closed: boolean;
+  startDate: string;
+  endDate: string;
+  markets: {conditionId: string}[]
+}[];
+
 export interface GetTokenPriceResponse {
   price: string;
 }
