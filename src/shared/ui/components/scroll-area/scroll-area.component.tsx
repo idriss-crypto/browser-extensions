@@ -14,7 +14,7 @@ export const ScrollArea = ({
   ...properties
 }: ScrollAreaProperties) => {
   return (
-    <RadixScrollArea.Root className="overflow-hidden" {...properties}>
+    <RadixScrollArea.Root className="h-full overflow-hidden" {...properties}>
       <RadixScrollArea.Viewport
         className={classes('size-full rounded', className)}
       >
