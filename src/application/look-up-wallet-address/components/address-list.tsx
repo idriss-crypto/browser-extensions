@@ -1,19 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 
-<<<<<<< HEAD
 import { classes, Icon, ScrollArea } from 'shared/ui';
 
 import { SearchResult } from '../types';
 
 type AddressListProperties = {
   searchResult: SearchResult;
-=======
-import { classes, Icon, ScrollArea } from 'shared/ui';
-interface AddressListProperties {
-  lookupText: string | undefined;
-  foundAddresses: Record<string, string> | undefined;
-  isTwitterLookup: boolean;
->>>>>>> d3edb25 (added scroll-area component)
   onAddressCopied: () => void;
 };
 
@@ -68,11 +60,7 @@ export const AddressList = ({
 
   return (
     <div className="absolute w-full">
-      <ScrollArea
-        className={classes(
-          'absolute max-h-40 w-full overflow-y-auto rounded-md border border-gray-300 bg-white text-black shadow-[inset_0_4px_4px_-6px_rgba(229,231,235,1),_inset_0_-4px_4px_-6px_rgba(229,231,235,1)] transition-all duration-500 [scrollbar-color:gray_#efefef] [scrollbar-width:thin]',
-        )}
-      >
+      <ScrollArea className="max-h-40 w-full overflow-y-auto rounded-md border border-gray-300 bg-white text-black shadow-[inset_0_4px_4px_-6px_rgba(229,231,235,1),_inset_0_-4px_4px_-6px_rgba(229,231,235,1)] transition-all duration-500 [scrollbar-color:gray_#efefef] [scrollbar-width:thin]">
         {Object.entries(searchResult.lookup).map(([chain, address]) => {
           const isCopied = isCopiedAddress({ chain, address });
 
@@ -112,6 +100,7 @@ export const AddressList = ({
             </div>
           );
         })}
-      </div>
+      </ScrollArea>
+    </div>
   );
 };
