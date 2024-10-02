@@ -3,4 +3,4 @@ export {
   GetConditionIdCommand,
 } from './commands';
 export { isEventUrl } from './utils';
-export { MarketWidgetContainer } from './widgets';
+export { MarketWidgetContainer, NewestMarketWidget } from './widgets';
