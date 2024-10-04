@@ -25,3 +25,9 @@ export interface StoredWallet {
   account: Hex;
   providerRdns: string;
 }
+
+export type NewMarketMinified = {
+  conditionId: Hex;
+  startDate: number;
+  endDate: number;
+}

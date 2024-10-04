@@ -42,8 +42,8 @@ export type NewMarkets = {
   slug: string;
   active: boolean;
   closed: boolean;
-  startDate: string;
-  endDate: string;
+  startDate: number;
+  endDate: number;
   markets: {conditionId: string}[]
 }[];
 
