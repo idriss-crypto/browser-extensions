@@ -32,7 +32,6 @@ export class GetNewMarketCommand extends Command<Payload, AdjustedMarket> {
 
       let fetchedMarkets: AdjustedMarket[] = [];
       let latestMarkets: AdjustedMarket[] = [];
-      const displayedMarketIds: string[] = [];
 
       try {
         const response = await fetch(
