@@ -6,11 +6,9 @@ import { useNewestMarket } from '../hooks';
 
 export const NewestMarketWidget = () => {
   const { data: market, error, isLoading } = useNewestMarket();
-  if (!market?.[0]?.markets[0]) {
+  if (!market) {
     return null;
   }
-
-  const newestMarket = market[0].markets[0]
 
   if (isLoading) {
     return <div>Loading newest market...</div>;
@@ -22,9 +20,9 @@ export const NewestMarketWidget = () => {
   return (
     <ErrorBoundary>
       <MarketWidgetContainer
-        key={`${55}-${newestMarket.conditionId}`}
+        key={`${55}-${market.conditionId}`}
         top={55}
-        conditionId={newestMarket.conditionId}
+        conditionId={market.conditionId}
       />
     </ErrorBoundary>
   );

@@ -37,94 +37,122 @@ export const ExtensionSettingsManager = {
       });
     });
   },
-  
-  saveLatestMarkets(markets: NewMarketMinified[]) {
-    const now = new Date();
+
+  async saveLatestMarkets(
+    markets: NewMarketMinified[],
+  ): Promise<{ latestMarkets: NewMarketMinified[] }> {
+    const now = Math.floor(Date.now() / 1000);
     const filteredMarkets = markets.filter((market) => {
-      const startDate = new Date(market.startDate);
-      const endDate = new Date(market.endDate);
+      const startDate = market.startDate;
+      const endDate = market.endDate;
       return startDate <= now && now <= endDate;
     });
 
-    return chrome.storage.local.set({
-      latestMarkets: filteredMarkets,
-    });
-  },
+    const existingMarkets = await this.getLatestMarkets();
+    const displayedMarkets = await this.getDisplayedMarkets();
 
-  chromeStorageGet(keys: string[]): Promise<Record<string, string[] | number | NewMarketMinified[]>> {
-    return new Promise((resolve) => {
-      chrome.storage.local.get(keys, (result) => {
-          resolve(result);
-      });
-    });
-  },
+    const existingConditionIds = new Set(
+      existingMarkets.map((m) => {
+        return m.conditionId;
+      }),
+    );
+    const displayedConditionIds = new Set(displayedMarkets);
 
-  chromeStorageSet(items: Record<string,  string[] | number | NewMarketMinified[]>): Promise<void> {
-    return new Promise((resolve) => {
-      chrome.storage.local.set(items, () => {
-          resolve();
-      });
+    const newUniqueMarkets = filteredMarkets.filter((m) => {
+      return (
+        !existingConditionIds.has(m.conditionId) &&
+        !displayedConditionIds.has(m.conditionId)
+      );
     });
-  },
 
-  async getNextMarketToDisplay(): Promise<NewMarketMinified | undefined> {
-    const lastDisplayed = await this.getLastDisplayedTime();
-    const now = Date.now();
-    const fiveMinutes = 5 * 60 * 1000;
-  
-    if (now - lastDisplayed < fiveMinutes) {
-      return;
+    let mergedMarkets = [...existingMarkets, ...newUniqueMarkets];
+    const maxMarkets = 15;
+    if (mergedMarkets.length > maxMarkets) {
+      mergedMarkets = mergedMarkets.slice(-maxMarkets);
     }
-  
-    const result = await this.chromeStorageGet(['latestMarkets']);
-    const markets: NewMarketMinified[] = result.latestMarkets as NewMarketMinified[];
-  
-    while (markets.length > 0) {
-      const market = markets.shift();
-      if(!market) return;
-  
-      await this.chromeStorageSet({ latestMarkets: markets });
-  
-      const alreadyDisplayed = await this.wasMarketDisplayed(market.conditionId);
-      if (!alreadyDisplayed) {
-        await this.markMarketAsDisplayed(market.conditionId);
-        await this.updateLastDisplayedTime();
-        return market;
-      }
+    await this.saveMarketQueue(mergedMarkets);
+    return {
+      latestMarkets: mergedMarkets,
+    };
+  },
+
+  async getNextMarketToDisplay(
+    latestMarkets?: NewMarketMinified[],
+  ): Promise<NewMarketMinified | undefined> {
+    if (!latestMarkets) {
+      latestMarkets = await this.getLatestMarkets();
     }
-  
-    return;
-  },
+    const displayedMarketIds = await this.getDisplayedMarkets();
 
-  async getDisplayedMarketIds(): Promise<string[]> {
-    const result = await this.chromeStorageGet(['displayedMarketIds']);
-    return result.displayedMarketIds as string[];
-  },
+    if (latestMarkets.length === 0) {
+      return undefined;
+    }
 
-  async markMarketAsDisplayed(marketId: string): Promise<void> {
-    const displayedMarketIds = await this.getDisplayedMarketIds();
-    displayedMarketIds.push(marketId);
+    const nextMarket = latestMarkets[0]!;
+    latestMarkets.shift();
 
-    const maxIds = 30;
+    displayedMarketIds.push(nextMarket.conditionId);
+    const maxIds = 15;
     const updatedDisplayedMarketIds = displayedMarketIds.slice(-maxIds);
-
-    await this.chromeStorageSet({ displayedMarketIds: updatedDisplayedMarketIds });
+    await this.saveDisplayedMarkets(updatedDisplayedMarketIds, latestMarkets);
+    return nextMarket;
   },
 
-  async wasMarketDisplayed(marketId: string): Promise<boolean> {
-    const displayedMarketIds = await this.getDisplayedMarketIds();
-    return displayedMarketIds.includes(marketId);
+  saveDisplayedMarkets(
+    displayedMarkets: string[],
+    latestMarkets: NewMarketMinified[],
+  ) {
+    return chrome.storage.local.set({
+      latestMarkets: JSON.stringify(latestMarkets),
+      displayedMarketIds: JSON.stringify(displayedMarkets),
+      lastDisplayed: Date.now(),
+    });
   },
 
-  async getLastDisplayedTime(): Promise<number> {
-    const result = await this.chromeStorageGet(['lastDisplayed']);
-    const lastDisplayed = result.lastDisplayed as number;
-    return lastDisplayed ?? 0;
+  saveMarketQueue(latestMarkets: NewMarketMinified[]) {
+    return chrome.storage.local.set({
+      latestMarkets: JSON.stringify(latestMarkets),
+    });
   },
 
-  async updateLastDisplayedTime(): Promise<void> {
-    const now = Date.now();
-    await this.chromeStorageSet({ lastDisplayed: now });
-  }
+  getDisplayedMarkets(): Promise<string[]> {
+    return new Promise((resolve) => {
+      void chrome.storage.local
+        .get('displayedMarketIds')
+        .then((displayedMarketIdsRaw) => {
+          const displayedMarketIds = displayedMarketIdsRaw.displayedMarketIds
+            ? (JSON.parse(displayedMarketIdsRaw.displayedMarketIds) as string[])
+            : [];
+          return resolve(displayedMarketIds);
+        });
+    });
+  },
 
+  getLastDisplayed(): Promise<number> {
+    return new Promise((resolve) => {
+      void chrome.storage.local
+        .get('lastDisplayed')
+        .then((lastDisplayedRaw) => {
+          const lastDisplayed = lastDisplayedRaw.lastDisplayed
+            ? (JSON.parse(lastDisplayedRaw.lastDisplayed) as number)
+            : 0;
+          return resolve(lastDisplayed);
+        });
+    });
+  },
+
+  getLatestMarkets(): Promise<NewMarketMinified[]> {
+    return new Promise((resolve) => {
+      void chrome.storage.local
+        .get('latestMarkets')
+        .then((latestMarketsRaw) => {
+          const latestMarkets = latestMarketsRaw.latestMarkets
+            ? (JSON.parse(
+                latestMarketsRaw.latestMarkets,
+              ) as NewMarketMinified[])
+            : [];
+          return resolve(latestMarkets);
+        });
+    });
+  },
 };
