@@ -81,6 +81,7 @@ export const Container = memo(
       injectedWidgetReference.current.src = iconSrc;
 
       node.style.setProperty('display', 'inline-flex', 'important');
+      node.style.setProperty('align-items', 'center', 'important');
       node?.append(injectedWidgetReference.current);
 
       const updatePosition = () => {
