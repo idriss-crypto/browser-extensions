@@ -1,6 +1,5 @@
 import {
   ExternalLinksScrapingResult,
-  PostScrapingResult,
   UserScrapingResult,
 } from 'shared/scraping';
 
@@ -35,18 +34,27 @@ export class Scraper {
       .filter(Boolean);
   }
 
-  public static getPosts(): PostScrapingResult[] {
+  public static getPosts() {
     const selector = '.min-h-screen > .fade-in > div';
     const posts = [...document.querySelectorAll(selector)];
 
     return posts
       .map((post) => {
-        const username = post
-          .querySelector('a')
-          ?.getAttribute('href')
-          ?.replace('/', '');
+        const links = [...post.querySelectorAll('a')];
+        const usernameClasslist = [
+          'relative',
+          'font-semibold',
+          'text-default',
+          'hover:underline',
+        ];
+        const usernameLink = links.find((link) => {
+          return usernameClasslist.every((className) => {
+            return link.classList.contains(className);
+          });
+        });
+        const username = usernameLink?.getAttribute('href')?.replace('/', '');
 
-        if (!username) {
+        if (!username || !usernameLink) {
           return;
         }
 
@@ -57,6 +65,7 @@ export class Scraper {
 
         return {
           node: post,
+          usernameLinkNode: usernameLink,
           top: linkNodeRect.top + window.scrollY,
           data: {
             authorUsername: username,
@@ -147,8 +156,12 @@ export class Scraper {
     const usernameNode = allDivsOfMain.find((div) => {
       return div.textContent === `@${username}`;
     });
+
+    // traversing 2 times via parentElement is required when user is following current user as it changes DOM
     const userFullNameNode =
-      usernameNode?.parentElement?.firstElementChild?.firstElementChild;
+      usernameNode?.parentElement?.firstElementChild?.firstElementChild ??
+      usernameNode?.parentElement?.parentElement?.firstElementChild
+        ?.firstElementChild;
     if (!userFullNameNode?.parentElement) {
       return;
     }
@@ -168,31 +181,18 @@ export class Scraper {
     const posts = Scraper.getPosts();
     const usersFromPosts = posts
       .map((post) => {
-        const links = [...post.node.querySelectorAll('a')];
-        const userFullName = links
-          .map((link) => {
-            const isUserLink = link.href.endsWith(post.data.authorUsername);
-            if (!isUserLink) {
-              return;
-            }
-            const userFullNameNode = link.querySelector(':scope > div > span');
-            if (!userFullNameNode?.parentElement) {
-              return;
-            }
+        const rect = post.usernameLinkNode.getBoundingClientRect();
+        if (!post.usernameLinkNode.parentElement) {
+          return;
+        }
 
-            const rect = userFullNameNode.getBoundingClientRect();
-
-            return {
-              node: userFullNameNode.parentElement,
-              top: rect.top + window.scrollY,
-              data: {
-                username: post.data.authorUsername,
-              },
-            };
-          })
-          .find(Boolean);
-
-        return userFullName;
+        return {
+          node: post.usernameLinkNode.parentElement,
+          top: rect.top + window.scrollY,
+          data: {
+            username: post.data.authorUsername,
+          },
+        };
       })
       .filter(Boolean);
 

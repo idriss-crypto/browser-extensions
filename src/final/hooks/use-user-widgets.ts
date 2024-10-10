@@ -1,6 +1,10 @@
+import { useMemo } from 'react';
+
 import { useGitcoinDonationWidgetsData } from 'application/gitcoin';
 import { useIdrissSendWidgetsData } from 'application/idriss-send';
 import { useExtensionSettings } from 'shared/extension';
+import { useCommandQuery } from 'shared/messaging';
+import { GetFollowersCommand } from 'shared/farcaster';
 
 import { userWidgetDataAdapter } from '../adapters';
 
@@ -15,8 +19,22 @@ export const useUserWidgets = () => {
 
   const { users } = useScraping();
 
+  const usernames = useMemo(() => {
+    return users.map((user) => {
+      return user.data.username;
+    });
+  }, [users]);
+
   const idrissSendEnabled =
     applicationsStatus.idrissSend && extensionSettings['idriss-send-enabled'];
+
+  const followersQuery = useCommandQuery({
+    command: new GetFollowersCommand({ usernames }),
+    enabled: idrissSendEnabled && (isSupercast || isWarpcast),
+    placeholderData: (previousData) => {
+      return previousData;
+    },
+  });
 
   const { widgets: idrissSendWidgets } = useIdrissSendWidgetsData({
     scrapedUsers: users,
@@ -31,17 +49,21 @@ export const useUserWidgets = () => {
     enabled: gitcoinEnabled && isTwitter,
   });
 
-  if (isWarpcast) {
-    return {
-      // widgets: userWidgetDataAdapter.fromScrapedUsers({ users }), // TODO: uncomment to enable user widgets on Warpcast
-      widgets: [],
-    };
-  }
+  if (isWarpcast || isSupercast) {
+    const usersThatFollowIdriss = users
+      .map((user) => {
+        const userWallet = followersQuery.data?.[user.data.username];
+        if (!userWallet) {
+          return;
+        }
+        return { ...user, data: { ...user.data, walletAddress: userWallet } };
+      })
+      .filter(Boolean);
 
-  if (isSupercast) {
     return {
-      // widgets: userWidgetDataAdapter.fromScrapedUsers({ users }), // TODO: uncomment to enable user widgets on Supercast
-      widgets: [],
+      widgets: userWidgetDataAdapter.fromFarcasterUsers({
+        users: usersThatFollowIdriss,
+      }),
     };
   }
 
