@@ -5,6 +5,7 @@ import { useIdrissSendWidgetsData } from 'application/idriss-send';
 import { useExtensionSettings } from 'shared/extension';
 import { useCommandQuery } from 'shared/messaging';
 import { GetFollowersCommand } from 'shared/farcaster';
+import { EMPTY_HEX } from 'shared/web3';
 
 import { userWidgetDataAdapter } from '../adapters';
 
@@ -50,15 +51,16 @@ export const useUserWidgets = () => {
   });
 
   if (isWarpcast || isSupercast) {
-    const usersThatFollowIdriss = users
-      .map((user) => {
-        const userWallet = followersQuery.data?.[user.data.username];
-        if (!userWallet) {
-          return;
-        }
-        return { ...user, data: { ...user.data, walletAddress: userWallet } };
-      })
-      .filter(Boolean);
+    const usersThatFollowIdriss = users.map((user) => {
+      const userWallet = followersQuery.data?.[user.data.username];
+      // if (!userWallet) {
+      //   return;
+      // }
+      return {
+        ...user,
+        data: { ...user.data, walletAddress: userWallet ?? EMPTY_HEX },
+      };
+    });
 
     return {
       widgets: userWidgetDataAdapter.fromFarcasterUsers({
