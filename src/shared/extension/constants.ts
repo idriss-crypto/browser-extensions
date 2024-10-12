@@ -1,3 +1,4 @@
+import { ExtensionPopupRoute } from './context';
 import { ExtensionSettings } from './types';
 
 export const GET_EXTENSION_SETTINGS_REQUEST = 'GET_EXTENSION_SETTINGS_REQUEST';
@@ -8,6 +9,14 @@ export const EXTENSION_POPUP_ROUTE = {
   HOME: '/',
   SETTINGS_HOME: '/settings',
   SETTINGS_CUSTOMIZATION: '/settings/customization',
+  TRADING_COPILOT: '/trading-copilot',
+} as const;
+
+export const ROUTE_TITLE: Record<ExtensionPopupRoute, string> = {
+  [EXTENSION_POPUP_ROUTE.HOME]: 'Home',
+  [EXTENSION_POPUP_ROUTE.SETTINGS_HOME]: 'Settings',
+  [EXTENSION_POPUP_ROUTE.SETTINGS_CUSTOMIZATION]: 'Customization',
+  [EXTENSION_POPUP_ROUTE.TRADING_COPILOT]: 'Trading Copilot'
 };
 
 export const SETTINGS_STORAGE_KEY = 'EXTENSION_SETTINGS';
@@ -23,4 +32,6 @@ export const DEFAULT_EXTENSION_SETTINGS: ExtensionSettings = {
   'idriss-send-enabled': true,
   'wallet-lookup-enabled': true,
   'entire-extension-enabled': true,
+  'trading-copilot-notifications-enabled': true,
+  'trading-copilot-latest-transactions-enabled': true,
 };

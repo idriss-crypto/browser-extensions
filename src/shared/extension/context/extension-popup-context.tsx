@@ -20,12 +20,13 @@ interface Properties {
   children: ReactNode;
 }
 
-type ExtensionPopupRoute =
+export type ExtensionPopupRoute =
   (typeof EXTENSION_POPUP_ROUTE)[keyof typeof EXTENSION_POPUP_ROUTE];
 
 interface ExtensionPopupContextValues {
   isVisible: boolean;
   navigate: (route: ExtensionPopupRoute) => void;
+  navigateBack: () => void;
   currentRoute: ExtensionPopupRoute;
   hide: () => void;
   open: () => void;
@@ -40,6 +41,10 @@ const InnerExtensionPopupProvider = ({ children }: Properties) => {
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const navigateBack = useCallback(() => {
+    navigate(-1);
+  }, [navigate]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const toggleVisibility = useCallback(
@@ -76,8 +81,9 @@ const InnerExtensionPopupProvider = ({ children }: Properties) => {
     <ExtensionPopupContext.Provider
       value={{
         isVisible,
-        currentRoute: location.pathname,
+        currentRoute: location.pathname as ExtensionPopupRoute,
         navigate,
+        navigateBack,
         hide,
         open,
       }}
