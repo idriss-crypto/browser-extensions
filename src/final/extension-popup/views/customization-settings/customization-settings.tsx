@@ -4,12 +4,9 @@ import isEqual from 'lodash/isEqual';
 import { useMemo, useRef } from 'react';
 
 import {
-  EXTENSION_POPUP_ROUTE,
   ExtensionSettings,
-  useExtensionPopup,
   useExtensionSettings,
 } from 'shared/extension';
-import { IconButton } from 'shared/ui';
 
 import { SettingsLayout } from '../../components';
 
@@ -22,7 +19,6 @@ type ExtensionSettingsFormValues = Omit<
 >;
 
 export const CustomizationSettingsView = () => {
-  const extensionPopup = useExtensionPopup();
   const { changeExtensionSetting, extensionSettings } = useExtensionSettings();
 
   const isExtensionEnabled = useMemo(() => {
@@ -70,18 +66,7 @@ export const CustomizationSettingsView = () => {
 
   return (
     <SettingsLayout>
-      <SettingsLayout.Header
-        title="Customization"
-        prefix={
-          <IconButton
-            className="text-black hover:text-green-500"
-            iconProps={{ name: 'ArrowLeftIcon', size: 25 }}
-            onClick={() => {
-              extensionPopup.navigate(EXTENSION_POPUP_ROUTE.SETTINGS_HOME);
-            }}
-          />
-        }
-      />
+      <SettingsLayout.Header />
       <SettingsLayout.Body>
         <FormProvider {...form}>
           {settingListItemGroups.map((group) => {
