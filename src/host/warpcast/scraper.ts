@@ -127,8 +127,12 @@ export class Scraper {
 
         const rect = userFullNameNode.getBoundingClientRect();
 
+        const node = userFullNameNode.parentElement;
+        node.style.setProperty('display', 'flex', 'important');
+        node.style.setProperty('align-items', 'center', 'important');
+
         return {
-          node: userFullNameNode.parentElement,
+          node,
           top: rect.top + window.scrollY,
           data: {
             username,
@@ -167,9 +171,12 @@ export class Scraper {
     }
 
     const rect = userFullNameNode.getBoundingClientRect();
+    const node = userFullNameNode.parentElement;
+    node.style.setProperty('display', 'inline-flex', 'important');
+    node.style.setProperty('align-items', 'center', 'important');
 
     return {
-      node: userFullNameNode.parentElement,
+      node,
       top: rect.top + window.scrollY,
       data: {
         username,
@@ -182,12 +189,16 @@ export class Scraper {
     const usersFromPosts = posts
       .map((post) => {
         const rect = post.usernameLinkNode.getBoundingClientRect();
-        if (!post.usernameLinkNode.parentElement) {
+        const node = post.usernameLinkNode.parentElement;
+        if (!node) {
           return;
         }
 
+        node.style.setProperty('display', 'inline-flex', 'important');
+        node.style.setProperty('align-items', 'center', 'important');
+
         return {
-          node: post.usernameLinkNode.parentElement,
+          node,
           top: rect.top + window.scrollY,
           data: {
             username: post.data.authorUsername,

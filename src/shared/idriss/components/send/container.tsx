@@ -77,11 +77,8 @@ export const Container = memo(
       injectedWidgetReference.current.style.width = `${iconSize}px`;
       injectedWidgetReference.current.style.cursor = 'pointer';
       injectedWidgetReference.current.style.marginLeft = '2px';
-      injectedWidgetReference.current.style.zIndex = '20';
       injectedWidgetReference.current.src = iconSrc;
 
-      node.style.setProperty('display', 'inline-flex', 'important');
-      node.style.setProperty('align-items', 'center', 'important');
       node?.append(injectedWidgetReference.current);
 
       const updatePosition = () => {
@@ -133,39 +130,27 @@ export const Container = memo(
     }
 
     return (
-      <>
-        <div
-          className="absolute z-20"
-          style={{
-            left,
-            right,
-            top: position.y + iconSize,
-            width: WIDGET_WIDTH,
-          }}
+      <div
+        className="absolute z-10"
+        style={{
+          left,
+          right,
+          top: position.y + iconSize,
+          width: WIDGET_WIDTH,
+        }}
+      >
+        <Closable
+          className="w-full rounded-md bg-white text-gray-900 shadow-2xl"
+          closeButtonClassName="hover:enabled:bg-black/20 active:enabled:bg-black/40"
+          closeButtonIconClassName="text-[#000]"
+          onClickInside={disableCloseOnHoverAway}
+          onClose={close}
+          closeOnHoverAway={closeOnHoverAway}
+          closeOnClickAway={closeOnClickAway}
         >
-          <Closable
-            className="w-full rounded-md bg-white text-gray-900 shadow-2xl"
-            closeButtonClassName="hover:enabled:bg-black/20 active:enabled:bg-black/40"
-            closeButtonIconClassName="text-[#000]"
-            onClickInside={disableCloseOnHoverAway}
-            onClose={close}
-            closeOnHoverAway={closeOnHoverAway}
-            closeOnClickAway={closeOnClickAway}
-          >
-            {children({ close })}
-          </Closable>
-        </div>
-        <img
-          className="absolute z-20"
-          style={{
-            left: position.x - iconSize,
-            top: position.y,
-            width: iconSize,
-            height: iconSize,
-          }}
-          src={iconSrc}
-        />
-      </>
+          {children({ close })}
+        </Closable>
+      </div>
     );
   },
 );
