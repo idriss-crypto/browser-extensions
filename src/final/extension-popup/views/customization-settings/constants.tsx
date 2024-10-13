@@ -1,27 +1,24 @@
 import {
-  EXTENSION_POPUP_ROUTE,
   ExtensionAddressBookSettingName,
   ExtensionGovernanceSettingName,
   ExtensionIntegrationSettingName,
   ExtensionSettingsStorageKey,
-  ExtensionTradingCopilotSettingName,
 } from 'shared/extension';
 
-import { NavigateButton } from '../../components';
 
 import { SettingListItem, SettingListItemsGroup } from './types';
 
-const tradingCopilotSettings: SettingListItem<ExtensionTradingCopilotSettingName>[] =
-  [
-    {
-      label: 'Latest transactions',
-      storageKey: 'trading-copilot-latest-transactions-enabled',
-    },
-    {
-      label: 'Notifications',
-      storageKey: 'trading-copilot-notifications-enabled',
-    },
-  ];
+// const tradingCopilotSettings: SettingListItem<ExtensionTradingCopilotSettingName>[] =
+//   [
+//     {
+//       label: 'Latest transactions',
+//       storageKey: 'trading-copilot-latest-transactions-enabled',
+//     },
+//     {
+//       label: 'Notifications',
+//       storageKey: 'trading-copilot-notifications-enabled',
+//     },
+//   ];
 
 const addressBookSettings: SettingListItem<ExtensionAddressBookSettingName>[] =
   [
@@ -64,16 +61,16 @@ const integrationsSettings: SettingListItem<ExtensionIntegrationSettingName>[] =
 
 export const settingListItemGroups: SettingListItemsGroup<ExtensionSettingsStorageKey>[] =
   [
-    {
-      label: 'Trading Copilot',
-      labelSuffixElement: (
-        <NavigateButton
-          iconName="ChevronRightIcon"
-          navigateURL={EXTENSION_POPUP_ROUTE.TRADING_COPILOT}
-        />
-      ),
-      settingListItems: tradingCopilotSettings,
-    },
+    // {
+    //   label: 'Trading Copilot',
+    //   labelSuffixElement: (
+    //     <NavigateButton
+    //       iconName="ChevronRightIcon"
+    //       navigateURL={EXTENSION_POPUP_ROUTE.TRADING_COPILOT}
+    //     />
+    //   ),
+    //   settingListItems: tradingCopilotSettings,
+    // },
     { label: 'Address Book', settingListItems: addressBookSettings },
     { label: 'Governance', settingListItems: governanceSettings },
     { label: 'Integrations', settingListItems: integrationsSettings },
