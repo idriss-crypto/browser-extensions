@@ -61,12 +61,6 @@ export const Container = memo(
       }
     }, [extensionSettings]);
 
-    useUpdateEffect(() => {
-      return () => {
-        injectedWidgetReference.current?.remove();
-      };
-    }, [location.pathname]);
-
     useEffect(() => {
       injectedWidgetReference.current = document.createElement('img');
       injectedWidgetReference.current.setAttribute(
@@ -114,7 +108,7 @@ export const Container = memo(
         window.removeEventListener('resize', updatePosition);
         injectedWidgetReference.current?.remove();
       };
-    }, [iconSize, iconSrc, node, onOpen]);
+    }, [iconSize, iconSrc, node, onOpen, location.pathname]);
 
     const close = useCallback(() => {
       setIsVisible(false);
