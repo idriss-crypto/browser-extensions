@@ -14,14 +14,13 @@ import {
 } from 'shared/messaging';
 import { createContextHook } from 'shared/ui';
 
-import { EXTENSION_POPUP_ROUTE } from '../constants';
+import { ExtensionPopupRoute } from '../constants';
+
+
 
 interface Properties {
   children: ReactNode;
 }
-
-export type ExtensionPopupRoute =
-  (typeof EXTENSION_POPUP_ROUTE)[keyof typeof EXTENSION_POPUP_ROUTE];
 
 interface ExtensionPopupContextValues {
   isVisible: boolean;

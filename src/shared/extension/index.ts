@@ -8,7 +8,7 @@ export {
   DEFAULT_EXTENSION_SETTINGS,
   ROUTE_TITLE
 } from './constants';
-export type { ExtensionPopupRoute } from './context';
+export type { ExtensionPopupRoute } from './constants';
 export { ExtensionSettingsProvider, useExtensionSettings, ExtensionPopupProvider, useExtensionPopup } from './context';
 export {
   COMMAND_MAP as EXTENSION_COMMAND_MAP,
