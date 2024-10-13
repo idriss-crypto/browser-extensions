@@ -1,4 +1,4 @@
-import { createPublicClient, http } from 'viem';
+import { createPublicClient, Hex, http } from 'viem';
 import { mainnet } from 'viem/chains';
 import { normalize } from 'viem/ens';
 
@@ -7,12 +7,10 @@ import { Command, FailureResult, HandlerError, OkResult } from 'shared/messaging
 
 type Payload = {
   ensName: string;
-  infoKey: 'com.discord' | 'email' | 'com.github' | 'com.twitter'
- };
+};
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export class GetEnsInfoCommand extends Command<Payload, string | null> {
-  public readonly name = 'GetEnsDiscordCommand' as const;
+export class GetEnsAddressCommand extends Command<Payload, Hex | null> {
+  public readonly name = 'GetEnsAddressCommand' as const;
 
   constructor(public payload: Payload) {
     super();
@@ -24,15 +22,12 @@ export class GetEnsInfoCommand extends Command<Payload, string | null> {
         chain: { ...mainnet, fees: undefined },
         transport: http(),
       });
-
-      const result = await client.getEnsText({
+      const response = await client.getEnsAddress({
         name: normalize(this.payload.ensName),
-        key: this.payload.infoKey,
       });
 
-      return new OkResult(result)
-    }
-    catch (error) {
+      return new OkResult(response ?? null)
+    } catch (error) {
       this.captureException(error);
       if (error instanceof HandlerError) {
         return new FailureResult(error.message);

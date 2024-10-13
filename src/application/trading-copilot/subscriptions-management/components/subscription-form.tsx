@@ -2,9 +2,7 @@ import { useCallback } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useCommandMutation } from 'shared/messaging';
-
-import { Subscription } from '../types';
-import { GetEnsAddressCommand } from '../../commands';
+import { GetEnsAddressCommand, Subscription } from 'shared/trading-copilot';
 
 type SubscriberForm = {
   ensName: string;
@@ -27,19 +25,19 @@ export const SubscriptionForm = ({ onSubmit }: Properties) => {
 
   const addSubscriber: SubmitHandler<SubscriberForm> = useCallback(
     async (data) => {
-      console.log('addSubscriber 🙆🙆', data);
       const address = await getEnsAddressMutation.mutateAsync({
         ensName: data.ensName,
       });
       if (!address) {
+        console.error('address not found')
         return;
       }
       onSubmit({
         ensName: data.ensName,
-        avatarSrc: 'ENS_TO_AVATAR[data.ensName]',
+        avatarSrc: undefined,
         walletAddress: address,
-        twitterUsername: 'ENS_TO_TWITTER[data.ensName]',
-        farcasterUsername: 'ENS_TO_FARCASTER[data.ensName]',
+        twitterUsername: undefined,
+        farcasterUsername: undefined,
       });
       form.reset(EMPTY_FORM);
     },

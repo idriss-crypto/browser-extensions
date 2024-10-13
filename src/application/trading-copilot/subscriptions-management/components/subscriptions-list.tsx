@@ -1,4 +1,4 @@
-import { Subscription } from '../types';
+import { Subscription } from 'shared/trading-copilot';
 
 import { SubscriptionItem } from './subscription-item';
 
