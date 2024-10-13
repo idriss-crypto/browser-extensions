@@ -6,9 +6,8 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useLocation, useUpdateEffect, useWindowSize } from 'react-use';
+import { useWindowSize } from 'react-use';
 
-import { useExtensionSettings } from 'shared/extension';
 import { Closable } from 'shared/ui';
 
 import { WIDGET_WIDTH } from '../../constants';
@@ -50,23 +49,9 @@ export const Container = memo(
     const right = isMobile || spaceLeft < 0 ? 0 : undefined;
 
     const injectedWidgetReference = useRef<HTMLImageElement | null>(null);
-    const location = useLocation();
-    const { extensionSettings } = useExtensionSettings();
-    useEffect(() => {
-      if (!extensionSettings['entire-extension-enabled']) {
-        for (const element of document.querySelectorAll(
-          '[data-idriss-widget="true"]',
-        ))
-          element.remove();
-      }
-    }, [extensionSettings]);
 
     useEffect(() => {
       injectedWidgetReference.current = document.createElement('img');
-      injectedWidgetReference.current.setAttribute(
-        `data-idriss-widget`,
-        'true',
-      );
       injectedWidgetReference.current.style.height = `${iconSize}px`;
       injectedWidgetReference.current.style.width = `${iconSize}px`;
       injectedWidgetReference.current.style.cursor = 'pointer';
@@ -107,8 +92,9 @@ export const Container = memo(
         );
         window.removeEventListener('resize', updatePosition);
         injectedWidgetReference.current?.remove();
+        injectedWidgetReference.current = null;
       };
-    }, [iconSize, iconSrc, node, onOpen, location.pathname]);
+    }, [iconSize, iconSrc, node, onOpen]);
 
     const close = useCallback(() => {
       setIsVisible(false);

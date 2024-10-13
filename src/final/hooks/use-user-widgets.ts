@@ -53,6 +53,7 @@ export const useUserWidgets = () => {
   if (isWarpcast || isSupercast) {
     const usersThatFollowIdriss = users.map((user) => {
       const userWallet = followersQuery.data?.[user.data.username];
+      // TODO: uncomment that and remove ?? EMPTY_HEX fallback to only inject for followers on farcaster socials
       // if (!userWallet) {
       //   return;
       // }
