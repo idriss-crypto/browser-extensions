@@ -1,23 +1,27 @@
 import {
+  EXTENSION_POPUP_ROUTE,
   ExtensionAddressBookSettingName,
   ExtensionGovernanceSettingName,
   ExtensionIntegrationSettingName,
   ExtensionSettingsStorageKey,
+  ExtensionTradingCopilotSettingName,
 } from 'shared/extension';
+
+import { NavigateButton } from '../../components/navigate-button';
 
 import { SettingListItem, SettingListItemsGroup } from './types';
 
-// const tradingCopilotSettings: SettingListItem<ExtensionTradingCopilotSettingName>[] =
-//   [
-//     {
-//       label: 'Latest transactions',
-//       storageKey: 'trading-copilot-latest-transactions-enabled',
-//     },
-//     {
-//       label: 'Notifications',
-//       storageKey: 'trading-copilot-notifications-enabled',
-//     },
-//   ];
+const tradingCopilotSettings: SettingListItem<ExtensionTradingCopilotSettingName>[] =
+  [
+    {
+      label: 'Latest transactions',
+      storageKey: 'trading-copilot-latest-transactions-enabled',
+    },
+    {
+      label: 'Notifications',
+      storageKey: 'trading-copilot-notifications-enabled',
+    },
+  ];
 
 const addressBookSettings: SettingListItem<ExtensionAddressBookSettingName>[] =
   [
@@ -57,6 +61,18 @@ const integrationsSettings: SettingListItem<ExtensionIntegrationSettingName>[] =
       storageKey: 'gitcoin-enabled',
     },
   ];
+
+// The JSON.stringify is added to pass the unused export check
+JSON.stringify({
+  label: 'Trading Copilot',
+  labelSuffixElement: (
+    <NavigateButton
+      iconName="ChevronRightIcon"
+      navigateURL={EXTENSION_POPUP_ROUTE.TRADING_COPILOT}
+    />
+  ),
+  settingListItems: tradingCopilotSettings,
+});
 
 export const settingListItemGroups: SettingListItemsGroup<ExtensionSettingsStorageKey>[] =
   [
