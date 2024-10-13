@@ -11,7 +11,6 @@ export const EXTENSION_POPUP_ROUTE = {
   TRADING_COPILOT: '/trading-copilot',
 } as const;
 
-
 export type ExtensionPopupRoute =
   (typeof EXTENSION_POPUP_ROUTE)[keyof typeof EXTENSION_POPUP_ROUTE];
 
@@ -19,7 +18,7 @@ export const ROUTE_TITLE: Record<ExtensionPopupRoute, string> = {
   [EXTENSION_POPUP_ROUTE.HOME]: 'Home',
   [EXTENSION_POPUP_ROUTE.SETTINGS_HOME]: 'Settings',
   [EXTENSION_POPUP_ROUTE.SETTINGS_CUSTOMIZATION]: 'Customization',
-  [EXTENSION_POPUP_ROUTE.TRADING_COPILOT]: 'Trading Copilot'
+  [EXTENSION_POPUP_ROUTE.TRADING_COPILOT]: 'Trading Copilot',
 };
 
 export const SETTINGS_STORAGE_KEY = 'EXTENSION_SETTINGS';

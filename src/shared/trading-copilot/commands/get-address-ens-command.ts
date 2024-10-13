@@ -2,8 +2,12 @@ import { createPublicClient, Hex, http } from 'viem';
 import { mainnet } from 'viem/chains';
 import { normalize } from 'viem/ens';
 
-import { Command, FailureResult, HandlerError, OkResult } from 'shared/messaging';
-
+import {
+  Command,
+  FailureResult,
+  HandlerError,
+  OkResult,
+} from 'shared/messaging';
 
 type Payload = {
   ensName: string;
@@ -26,7 +30,7 @@ export class GetEnsAddressCommand extends Command<Payload, Hex | null> {
         name: normalize(this.payload.ensName),
       });
 
-      return new OkResult(response ?? null)
+      return new OkResult(response ?? null);
     } catch (error) {
       this.captureException(error);
       if (error instanceof HandlerError) {

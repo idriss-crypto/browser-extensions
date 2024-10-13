@@ -111,7 +111,7 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
               <img
                 src={FARCASTER_LOGO}
                 alt="Farcaster logo"
-                className="size-4 rounded-full mt-1"
+                className="mt-1 size-4 rounded-full"
               />
             </a>
           )}

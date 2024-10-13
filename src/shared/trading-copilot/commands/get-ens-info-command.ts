@@ -2,13 +2,17 @@ import { createPublicClient, http } from 'viem';
 import { mainnet } from 'viem/chains';
 import { normalize } from 'viem/ens';
 
-import { Command, FailureResult, HandlerError, OkResult } from 'shared/messaging';
-
+import {
+  Command,
+  FailureResult,
+  HandlerError,
+  OkResult,
+} from 'shared/messaging';
 
 type Payload = {
   ensName: string;
-  infoKey: 'com.discord' | 'email' | 'com.github' | 'com.twitter'
- };
+  infoKey: 'com.discord' | 'email' | 'com.github' | 'com.twitter';
+};
 
 export class GetEnsInfoCommand extends Command<Payload, string | null> {
   public readonly name = 'GetEnsInfoCommand' as const;
@@ -29,9 +33,8 @@ export class GetEnsInfoCommand extends Command<Payload, string | null> {
         key: this.payload.infoKey,
       });
 
-      return new OkResult(result)
-    }
-    catch (error) {
+      return new OkResult(result);
+    } catch (error) {
       this.captureException(error);
       if (error instanceof HandlerError) {
         return new FailureResult(error.message);

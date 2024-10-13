@@ -16,8 +16,6 @@ import { createContextHook } from 'shared/ui';
 
 import { ExtensionPopupRoute } from '../constants';
 
-
-
 interface Properties {
   children: ReactNode;
 }
