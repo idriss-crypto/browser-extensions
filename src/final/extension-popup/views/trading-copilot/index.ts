@@ -1,1 +1,1 @@
-export { TradingCopilotView } from './trading-copilot'
+export { TradingCopilotView } from './trading-copilot';

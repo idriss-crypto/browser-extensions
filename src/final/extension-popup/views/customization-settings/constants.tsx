@@ -5,7 +5,6 @@ import {
   ExtensionSettingsStorageKey,
 } from 'shared/extension';
 
-
 import { SettingListItem, SettingListItemsGroup } from './types';
 
 // const tradingCopilotSettings: SettingListItem<ExtensionTradingCopilotSettingName>[] =

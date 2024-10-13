@@ -1,8 +1,12 @@
-import { Command, FailureResult, HandlerError, OkResult } from "shared/messaging";
+import {
+  Command,
+  FailureResult,
+  HandlerError,
+  OkResult,
+} from 'shared/messaging';
 
-import { Subscription } from "../types";
-import { TradingCopilotSettingsManager } from "../tranding-copilot-settings-manager";
-
+import { Subscription } from '../types';
+import { TradingCopilotSettingsManager } from '../tranding-copilot-settings-manager';
 
 interface Payload {
   subscription: Subscription;
@@ -10,7 +14,10 @@ interface Payload {
 
 type Response = boolean;
 
-export class RemoveTradingCopilotSubscription extends Command<Payload, Response> {
+export class RemoveTradingCopilotSubscription extends Command<
+  Payload,
+  Response
+> {
   public readonly name = 'RemoveTradingCopilotSubscription' as const;
 
   constructor(public payload: Payload) {
@@ -19,11 +26,12 @@ export class RemoveTradingCopilotSubscription extends Command<Payload, Response>
 
   async handle() {
     try {
-      await TradingCopilotSettingsManager.unsubscribe(this.payload.subscription);
+      await TradingCopilotSettingsManager.unsubscribe(
+        this.payload.subscription,
+      );
 
       return new OkResult(true);
-    }
-    catch (error) {
+    } catch (error) {
       this.captureException(error);
       if (error instanceof HandlerError) {
         return new FailureResult(error.message);

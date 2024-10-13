@@ -6,10 +6,15 @@ export {
   ACTIVE_TAB_CHANGED,
   EXTENSION_BUTTON_CLICKED,
   DEFAULT_EXTENSION_SETTINGS,
-  ROUTE_TITLE
+  ROUTE_TITLE,
 } from './constants';
 export type { ExtensionPopupRoute } from './constants';
-export { ExtensionSettingsProvider, useExtensionSettings, ExtensionPopupProvider, useExtensionPopup } from './context';
+export {
+  ExtensionSettingsProvider,
+  useExtensionSettings,
+  ExtensionPopupProvider,
+  useExtensionPopup,
+} from './context';
 export {
   COMMAND_MAP as EXTENSION_COMMAND_MAP,
   GetServiceStatusCommand,
@@ -19,7 +24,7 @@ export type {
   ExtensionAddressBookSettingName,
   ExtensionGovernanceSettingName,
   ExtensionIntegrationSettingName,
-  ExtensionTradingCopilotSettingName
+  ExtensionTradingCopilotSettingName,
 } from './types';
 export { ExtensionSettingsManager } from './extension-settings-manager';
 export type { ExtensionSettings } from './types';
