@@ -1,10 +1,14 @@
-import { Command, FailureResult, HandlerError, OkResult } from "shared/messaging";
+import {
+  Command,
+  FailureResult,
+  HandlerError,
+  OkResult,
+} from 'shared/messaging';
 
-import { TradingCopilotSettingsManager } from "../tranding-copilot-settings-manager";
-import { Subscription } from "../types";
+import { TradingCopilotSettingsManager } from '../tranding-copilot-settings-manager';
+import { Subscription } from '../types';
 
-
-type Payload = Record<string, never>
+type Payload = Record<string, never>;
 type Response = Subscription[];
 
 export class GetTradingCopilotSubscriptions extends Command<Payload, Response> {
@@ -16,11 +20,11 @@ export class GetTradingCopilotSubscriptions extends Command<Payload, Response> {
 
   async handle() {
     try {
-      const subscriptions = await TradingCopilotSettingsManager.getAllSubscriptions();
+      const subscriptions =
+        await TradingCopilotSettingsManager.getAllSubscriptions();
 
       return new OkResult(subscriptions);
-    }
-    catch (error) {
+    } catch (error) {
       this.captureException(error);
       if (error instanceof HandlerError) {
         return new FailureResult(error.message);
