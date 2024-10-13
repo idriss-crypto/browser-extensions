@@ -1,21 +1,29 @@
+import {
+  AddTradingCopilotSubscription,
+  GetTradingCopilotSubscriptions,
+  RemoveTradingCopilotSubscription,
+  Subscription,
+} from 'shared/trading-copilot';
+import { useCommandMutation, useCommandQuery } from 'shared/messaging';
+
 import { SubscriptionForm, SubscriptionsList } from './components';
-import { SubscriptionsManager } from './subscriptions-manager';
-import { Subscription } from './types';
-import { useSubscriptions } from './utils';
 
 export const SubscriptionsManagement = () => {
-  const { data: subscriptions, refetch: refetchSubscriptions } =
-    useSubscriptions();
+  const subscriptionsQuery = useCommandQuery({
+    command: new GetTradingCopilotSubscriptions({}),
+  });
+
+  const subscribe = useCommandMutation(AddTradingCopilotSubscription);
+  const unsubscribe = useCommandMutation(RemoveTradingCopilotSubscription);
 
   const handleAddNewSubscription = async (subscription: Subscription) => {
-    console.log('adding ➕➕', subscription);
-    await SubscriptionsManager.addNewSubscription(subscription);
-    void refetchSubscriptions();
+    await subscribe.mutateAsync({ subscription });
+    void subscriptionsQuery.refetch();
   };
 
   const handleUnsubscribe = async (subscription: Subscription) => {
-    await SubscriptionsManager.unsubscribe(subscription);
-    void refetchSubscriptions();
+    await unsubscribe.mutateAsync({ subscription });
+    void subscriptionsQuery.refetch();
   };
 
   return (
@@ -23,7 +31,7 @@ export const SubscriptionsManagement = () => {
       <SubscriptionForm onSubmit={handleAddNewSubscription} />
       <SubscriptionsList
         className="mt-4"
-        subscriptions={subscriptions ?? []}
+        subscriptions={subscriptionsQuery.data ?? []}
         onRemove={handleUnsubscribe}
       />
     </>

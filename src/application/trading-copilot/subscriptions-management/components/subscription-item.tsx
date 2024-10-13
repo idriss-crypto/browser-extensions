@@ -3,9 +3,7 @@ import { useCallback } from 'react';
 import { useCommandQuery } from 'shared/messaging';
 import { Icon, IconButton } from 'shared/ui';
 import { FARCASTER_LOGO } from 'assets/images';
-
-import { Subscription } from '../types';
-import { GetEnsInfoCommand } from '../../commands';
+import { GetEnsInfoCommand, Subscription } from 'shared/trading-copilot';
 
 type Properties = {
   subscription: Subscription;
@@ -113,7 +111,7 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
               <img
                 src={FARCASTER_LOGO}
                 alt="Farcaster logo"
-                className="size-4 rounded-full"
+                className="size-4 rounded-full mt-1"
               />
             </a>
           )}
