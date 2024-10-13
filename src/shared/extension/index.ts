@@ -24,6 +24,7 @@ export type {
   ExtensionAddressBookSettingName,
   ExtensionGovernanceSettingName,
   ExtensionIntegrationSettingName,
+  ExtensionTradingCopilotSettingName,
 } from './types';
 export { ExtensionSettingsManager } from './extension-settings-manager';
 export type { ExtensionSettings } from './types';
