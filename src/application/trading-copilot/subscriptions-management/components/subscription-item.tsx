@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 
 import { useCommandQuery } from 'shared/messaging';
 import { Icon, IconButton } from 'shared/ui';
-import { FARCASTER_LOGO } from 'assets/images';
 import { GetEnsInfoCommand, Subscription } from 'shared/trading-copilot';
 
 type Properties = {
@@ -54,9 +53,9 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
         <p className="ml-2 flex items-center gap-1 text-sm text-gray-700">
           {subscription.ensName}
 
-          {(subscription.twitterUsername ?? twitterQuery.data) && (
+          {(twitterQuery.data) && (
             <a
-              href={`https://x.com/${subscription.twitterUsername ?? twitterQuery.data}`}
+              href={`https://x.com/${twitterQuery.data}`}
               target="_blank"
               rel="noreferrer noopener"
             >
@@ -99,19 +98,6 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
                 size={16}
                 name="EnvelopeClosedIcon"
                 className="text-twitter-primary [&>path]:fill-rule-non-zero"
-              />
-            </a>
-          )}
-          {subscription.farcasterUsername && (
-            <a
-              href={`https://warpcast.com/${subscription.farcasterUsername}`}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              <img
-                src={FARCASTER_LOGO}
-                alt="Farcaster logo"
-                className="mt-1 size-4 rounded-full"
               />
             </a>
           )}

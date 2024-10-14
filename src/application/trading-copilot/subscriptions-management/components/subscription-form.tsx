@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { useCommandMutation } from 'shared/messaging';
 import { GetEnsAddressCommand, Subscription } from 'shared/trading-copilot';
 
-type SubscriberForm = {
+type SubscriptionFormValues = {
   ensName: string;
 };
 
@@ -12,18 +12,18 @@ type Properties = {
   onSubmit: (subscription: Subscription) => void;
 };
 
-const EMPTY_FORM: SubscriberForm = {
+const EMPTY_FORM: SubscriptionFormValues = {
   ensName: '',
 };
 
 export const SubscriptionForm = ({ onSubmit }: Properties) => {
-  const form = useForm<SubscriberForm>({
+  const form = useForm<SubscriptionFormValues>({
     defaultValues: EMPTY_FORM,
   });
 
   const getEnsAddressMutation = useCommandMutation(GetEnsAddressCommand);
 
-  const addSubscriber: SubmitHandler<SubscriberForm> = useCallback(
+  const addSubscriber: SubmitHandler<SubscriptionFormValues> = useCallback(
     async (data) => {
       const address = await getEnsAddressMutation.mutateAsync({
         ensName: data.ensName,
@@ -34,10 +34,7 @@ export const SubscriptionForm = ({ onSubmit }: Properties) => {
       }
       onSubmit({
         ensName: data.ensName,
-        avatarSrc: undefined,
         walletAddress: address,
-        twitterUsername: undefined,
-        farcasterUsername: undefined,
       });
       form.reset(EMPTY_FORM);
     },
@@ -52,12 +49,20 @@ export const SubscriptionForm = ({ onSubmit }: Properties) => {
       >
         Subscribe to Wallet
       </label>
-      <input
-        {...form.register('ensName')}
-        type="text"
-        id="subscriptionName"
-        className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-black shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-        placeholder="e.g., vitalik.eth"
+      <Controller
+        control={form.control}
+        name="ensName"
+        render={({ field }) => {
+          return (
+            <input
+              {...field}
+              type="text"
+              id="subscriptionName"
+              className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-black shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              placeholder="e.g., vitalik.eth"
+            />
+          );
+        }}
       />
     </form>
   );
