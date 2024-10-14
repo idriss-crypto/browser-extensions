@@ -2,17 +2,17 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { useCommandMutation } from 'shared/messaging';
+import { NewMarketMinified } from 'shared/extension';
 
 import { GetNewMarketCommand } from '../commands';
-import { AdjustedMarket } from '../types';
 
 export const useNewestMarket = () => {
   const getNewMarketCommandMutation = useCommandMutation(GetNewMarketCommand);
 
-  return useQuery<AdjustedMarket, Error>({
+  return useQuery<NewMarketMinified, Error>({
     queryKey: ['newestMarket'],
     queryFn: async () => {
-      const data = await getNewMarketCommandMutation.mutateAsync({ limit: 1 });
+      const data = await getNewMarketCommandMutation.mutateAsync({ limit: 5 });
       return data;
     },
   });

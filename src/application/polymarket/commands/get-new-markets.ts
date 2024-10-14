@@ -5,15 +5,15 @@ import {
   HandlerResponseError,
   OkResult,
 } from 'shared/messaging';
-import { ExtensionSettingsManager } from 'shared/extension';
+import { ExtensionSettingsManager, NewMarketMinified } from 'shared/extension';
 
-import { AdjustedMarket, NewMarketResponse } from '../types';
+import { NewMarketResponse } from '../types';
 
 type Payload = {
   limit: number;
 };
 
-export class GetNewMarketCommand extends Command<Payload, AdjustedMarket> {
+export class GetNewMarketCommand extends Command<Payload, NewMarketMinified> {
   public readonly name = 'GetNewMarketCommand' as const;
 
   constructor(public payload: Payload) {
@@ -24,14 +24,13 @@ export class GetNewMarketCommand extends Command<Payload, AdjustedMarket> {
     try {
       const lastDisplayed = await ExtensionSettingsManager.getLastDisplayed();
       const now = Date.now();
-      const fiveMinutes = 1 * 60 * 1000;
+      const cooldown = 3 * 60 * 1000;
 
-      if (now - lastDisplayed < fiveMinutes) {
+      if (now - lastDisplayed < cooldown) {
         return new FailureResult('Not time to request new markets.');
       }
 
-      let fetchedMarkets: AdjustedMarket[] = [];
-      let latestMarkets: AdjustedMarket[] = [];
+      let latestMarkets: NewMarketMinified[] = [];
 
       try {
         const response = await fetch(
@@ -41,7 +40,7 @@ export class GetNewMarketCommand extends Command<Payload, AdjustedMarket> {
         if (response.ok) {
           const json = (await response.json()) as NewMarketResponse[];
 
-          fetchedMarkets = json
+          const fetchedMarkets = json
             .flatMap((item) => {
               return item.markets;
             })
@@ -54,9 +53,12 @@ export class GetNewMarketCommand extends Command<Payload, AdjustedMarket> {
             });
 
           if (fetchedMarkets.length > 0) {
-            const saveResult =
+            const saveMarkets =
               await ExtensionSettingsManager.saveLatestMarkets(fetchedMarkets);
-            latestMarkets = saveResult.latestMarkets;
+
+            latestMarkets = saveMarkets.latestMarkets;
+          } else {
+            latestMarkets = await ExtensionSettingsManager.getLatestMarkets();
           }
         } else {
           const responseText = await response.text();
@@ -69,10 +71,10 @@ export class GetNewMarketCommand extends Command<Payload, AdjustedMarket> {
       } catch (error) {
         this.captureException(error);
       }
-      const latestMarket =
+      const marketToDisplay =
         await ExtensionSettingsManager.getNextMarketToDisplay(latestMarkets);
-      return latestMarket
-        ? new OkResult(latestMarket as AdjustedMarket)
+      return marketToDisplay
+        ? new OkResult(marketToDisplay)
         : new FailureResult('No new market to display');
     } catch (error) {
       this.captureException(error);

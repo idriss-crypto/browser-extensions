@@ -22,6 +22,7 @@ export type {
   ExtensionAddressBookSettingName,
   ExtensionGovernanceSettingName,
   ExtensionIntegrationSettingName,
+  NewMarketMinified,
 } from './types';
 export { ExtensionSettingsManager } from './extension-settings-manager';
 export type { ExtensionSettings } from './types';

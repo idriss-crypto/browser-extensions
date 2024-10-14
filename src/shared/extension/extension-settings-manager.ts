@@ -43,13 +43,13 @@ export const ExtensionSettingsManager = {
   ): Promise<{ latestMarkets: NewMarketMinified[] }> {
     const now = Math.floor(Date.now() / 1000);
     const filteredMarkets = markets.filter((market) => {
-      const startDate = market.startDate;
-      const endDate = market.endDate;
-      return startDate <= now && now <= endDate;
+      return market.startDate <= now && now <= market.endDate;
     });
 
-    const existingMarkets = await this.getLatestMarkets();
-    const displayedMarkets = await this.getDisplayedMarkets();
+    const [existingMarkets, displayedMarkets] = await Promise.all([
+      this.getLatestMarkets(),
+      this.getDisplayedMarkets(),
+    ]);
 
     const existingConditionIds = new Set(
       existingMarkets.map((m) => {
@@ -66,36 +66,55 @@ export const ExtensionSettingsManager = {
     });
 
     let mergedMarkets = [...existingMarkets, ...newUniqueMarkets];
+
     const maxMarkets = 15;
     if (mergedMarkets.length > maxMarkets) {
       mergedMarkets = mergedMarkets.slice(-maxMarkets);
     }
+
     await this.saveMarketQueue(mergedMarkets);
     return {
       latestMarkets: mergedMarkets,
     };
   },
 
-  async getNextMarketToDisplay(
+  getNextMarketToDisplay(
     latestMarkets?: NewMarketMinified[],
   ): Promise<NewMarketMinified | undefined> {
-    if (!latestMarkets) {
-      latestMarkets = await this.getLatestMarkets();
-    }
-    const displayedMarketIds = await this.getDisplayedMarkets();
+    return new Promise((resolve, reject) => {
+      const proceed = (markets: NewMarketMinified[]) => {
+        this.getDisplayedMarkets()
+          .then((displayedMarketIds) => {
+            if (markets.length === 0) {
+              return;
+            }
 
-    if (latestMarkets.length === 0) {
-      return undefined;
-    }
+            const nextMarket = markets[0]!;
+            markets.shift();
 
-    const nextMarket = latestMarkets[0]!;
-    latestMarkets.shift();
+            displayedMarketIds.push(nextMarket.conditionId);
+            const maxIds = 15;
+            const updatedDisplayedMarketIds = displayedMarketIds.slice(-maxIds);
 
-    displayedMarketIds.push(nextMarket.conditionId);
-    const maxIds = 15;
-    const updatedDisplayedMarketIds = displayedMarketIds.slice(-maxIds);
-    await this.saveDisplayedMarkets(updatedDisplayedMarketIds, latestMarkets);
-    return nextMarket;
+            this.saveDisplayedMarkets(updatedDisplayedMarketIds, markets)
+              .then(() => {
+                return resolve(nextMarket);
+              })
+              .catch(reject);
+          })
+          .catch(reject);
+      };
+
+      if (latestMarkets) {
+        proceed(latestMarkets);
+      } else {
+        this.getLatestMarkets()
+          .then((markets) => {
+            return proceed(markets);
+          })
+          .catch(reject);
+      }
+    });
   },
 
   saveDisplayedMarkets(

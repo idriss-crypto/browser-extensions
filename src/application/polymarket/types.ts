@@ -44,18 +44,12 @@ export type NewMarket = {
   closed: boolean;
   startDate: string;
   endDate: string;
-  markets: {conditionId: string}[]
+  markets: { conditionId: string }[];
 };
 
 export type NewMarketResponse = {
   markets: NewMarket[];
 };
-
-export type AdjustedMarket = {
-  conditionId: string;
-  startDate: number;
-  endDate: number;
-}
 
 export interface GetTokenPriceResponse {
   price: string;
