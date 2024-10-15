@@ -24,7 +24,7 @@ export const SettingsLayoutHeader = ({ title, prefix }: Properties) => {
       {prefix ?? (
         <IconButton
           className="text-black hover:text-green-500"
-          iconProps={{ name: 'ArrowLeftIcon', size: 25 }}
+          iconProps={{ name: 'ArrowLeftIcon', size: 24 }}
           onClick={() => {
             extensionPopup.navigateBack();
           }}

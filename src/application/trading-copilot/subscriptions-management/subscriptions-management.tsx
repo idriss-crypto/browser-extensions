@@ -1,28 +1,31 @@
-import {
-  AddTradingCopilotSubscription,
-  GetTradingCopilotSubscriptions,
-  RemoveTradingCopilotSubscription,
-  Subscription,
-} from 'shared/trading-copilot';
 import { useCommandMutation, useCommandQuery } from 'shared/messaging';
+
+import {
+  AddTradingCopilotSubscriptionCommand,
+  GetTradingCopilotSubscriptionsCommand,
+  RemoveTradingCopilotSubscriptionCommand,
+} from '../commands';
+import { Subscription } from '../types';
 
 import { SubscriptionForm, SubscriptionsList } from './components';
 
 export const SubscriptionsManagement = () => {
   const subscriptionsQuery = useCommandQuery({
-    command: new GetTradingCopilotSubscriptions({}),
+    command: new GetTradingCopilotSubscriptionsCommand({}),
   });
 
-  const subscribe = useCommandMutation(AddTradingCopilotSubscription);
-  const unsubscribe = useCommandMutation(RemoveTradingCopilotSubscription);
+  const subscribe = useCommandMutation(AddTradingCopilotSubscriptionCommand);
+  const unsubscribe = useCommandMutation(
+    RemoveTradingCopilotSubscriptionCommand,
+  );
 
   const handleAddNewSubscription = async (subscription: Subscription) => {
     await subscribe.mutateAsync({ subscription });
     void subscriptionsQuery.refetch();
   };
 
-  const handleUnsubscribe = async (subscription: Subscription) => {
-    await unsubscribe.mutateAsync({ subscription });
+  const handleUnsubscribe = async (ensName: Subscription['ensName']) => {
+    await unsubscribe.mutateAsync({ ensName });
     void subscriptionsQuery.refetch();
   };
 
@@ -33,7 +36,9 @@ export const SubscriptionsManagement = () => {
         className="mt-4"
         subscriptions={subscriptionsQuery.data ?? []}
         subscriptionsLoading={subscriptionsQuery.isLoading}
-        subscriptionsUpdatePending={subscribe.isPending || unsubscribe.isPending}
+        subscriptionsUpdatePending={
+          subscribe.isPending || unsubscribe.isPending || subscriptionsQuery.isRefetching
+        }
         onRemove={handleUnsubscribe}
       />
     </>

@@ -27,7 +27,7 @@ import { IDRISS_COMMAND_MAP } from 'shared/idriss';
 import { IDRISS_SEND_COMMAND_MAP } from 'application/idriss-send';
 import { TALLY_COMMAND_MAP } from 'application/tally';
 import { FARCASTER_COMMAND_MAP } from 'shared/farcaster';
-import { TRADING_COPILOT_COMMAND_MAP } from 'shared/trading-copilot';
+import { TRADING_COPILOT_COMMAND_MAP } from 'application/trading-copilot';
 
 import { SbtResolver } from '../../common/resolvers/SbtResolver';
 import { AddressResolver } from '../../common/resolvers/AddressResolver';
@@ -52,7 +52,7 @@ const COMMAND_MAP = {
 export class ServiceWorker {
   private observabilityScope: ObservabilityScope =
     createObservabilityScope('service-worker');
-  private constructor(private environment: typeof chrome) {}
+  private constructor(private environment: typeof chrome) { }
 
   static run(environment: typeof chrome) {
     const serviceWorker = new ServiceWorker(environment);
@@ -260,10 +260,10 @@ export class ServiceWorker {
   ): tab is chrome.tabs.Tab & { id: number } => {
     return Boolean(
       tab?.id &&
-        tab.url &&
-        tab.url?.length > 0 &&
-        !tab.url?.startsWith('chrome') &&
-        !tab.url?.startsWith('about'),
+      tab.url &&
+      tab.url?.length > 0 &&
+      !tab.url?.startsWith('chrome') &&
+      !tab.url?.startsWith('about'),
     );
   };
 }
