@@ -5,14 +5,14 @@ import {
   OkResult,
 } from 'shared/messaging';
 
-import { TradingCopilotSettingsManager } from '../tranding-copilot-settings-manager';
+import { TradingCopilotSettingsManager } from '../subscriptions-manager';
 import { Subscription } from '../types';
 
 type Payload = Record<string, never>;
 type Response = Subscription[];
 
-export class GetTradingCopilotSubscriptions extends Command<Payload, Response> {
-  public readonly name = 'GetTradingCopilotSubscriptions' as const;
+export class GetTradingCopilotSubscriptionsCommand extends Command<Payload, Response> {
+  public readonly name = 'GetTradingCopilotSubscriptionsCommand' as const;
 
   constructor(public payload: Payload) {
     super();

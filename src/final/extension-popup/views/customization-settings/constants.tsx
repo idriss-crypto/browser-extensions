@@ -1,17 +1,13 @@
 import {
-  EXTENSION_POPUP_ROUTE,
   ExtensionAddressBookSettingName,
   ExtensionGovernanceSettingName,
   ExtensionIntegrationSettingName,
-  ExtensionSettingsStorageKey,
   ExtensionTradingCopilotSettingName,
 } from 'shared/extension';
 
-import { NavigateButton } from '../../components/navigate-button';
+import { SettingListItem } from './types';
 
-import { SettingListItem, SettingListItemsGroup } from './types';
-
-const tradingCopilotSettings: SettingListItem<ExtensionTradingCopilotSettingName>[] =
+export const tradingCopilotSettings: SettingListItem<ExtensionTradingCopilotSettingName>[] =
   [
     {
       label: 'Latest transactions',
@@ -23,7 +19,7 @@ const tradingCopilotSettings: SettingListItem<ExtensionTradingCopilotSettingName
     },
   ];
 
-const addressBookSettings: SettingListItem<ExtensionAddressBookSettingName>[] =
+export const addressBookSettings: SettingListItem<ExtensionAddressBookSettingName>[] =
   [
     {
       label: 'Tipping',
@@ -35,22 +31,23 @@ const addressBookSettings: SettingListItem<ExtensionAddressBookSettingName>[] =
     },
   ];
 
-const governanceSettings: SettingListItem<ExtensionGovernanceSettingName>[] = [
-  {
-    label: 'Agora',
-    storageKey: 'agora-enabled',
-  },
-  {
-    label: 'Snapshot',
-    storageKey: 'snapshot-enabled',
-  },
-  {
-    label: 'Tally',
-    storageKey: 'tally-enabled',
-  },
-];
+export const governanceSettings: SettingListItem<ExtensionGovernanceSettingName>[] =
+  [
+    {
+      label: 'Agora',
+      storageKey: 'agora-enabled',
+    },
+    {
+      label: 'Snapshot',
+      storageKey: 'snapshot-enabled',
+    },
+    {
+      label: 'Tally',
+      storageKey: 'tally-enabled',
+    },
+  ];
 
-const integrationsSettings: SettingListItem<ExtensionIntegrationSettingName>[] =
+export const integrationsSettings: SettingListItem<ExtensionIntegrationSettingName>[] =
   [
     {
       label: 'Polymarket',
@@ -60,33 +57,4 @@ const integrationsSettings: SettingListItem<ExtensionIntegrationSettingName>[] =
       label: 'Gitcoin',
       storageKey: 'gitcoin-enabled',
     },
-  ];
-
-// The JSON.stringify is added to pass the unused export check
-JSON.stringify({
-  label: 'Trading Copilot',
-  labelSuffixElement: (
-    <NavigateButton
-      iconName="ChevronRightIcon"
-      navigateURL={EXTENSION_POPUP_ROUTE.TRADING_COPILOT}
-    />
-  ),
-  settingListItems: tradingCopilotSettings,
-});
-
-export const settingListItemGroups: SettingListItemsGroup<ExtensionSettingsStorageKey>[] =
-  [
-    // {
-    //   label: 'Trading Copilot',
-    //   labelSuffixElement: (
-    //     <NavigateButton
-    //       iconName="ChevronRightIcon"
-    //       navigateURL={EXTENSION_POPUP_ROUTE.TRADING_COPILOT}
-    //     />
-    //   ),
-    //   settingListItems: tradingCopilotSettings,
-    // },
-    { label: 'Address Book', settingListItems: addressBookSettings },
-    { label: 'Governance', settingListItems: governanceSettings },
-    { label: 'Integrations', settingListItems: integrationsSettings },
   ];

@@ -59,7 +59,6 @@ export const CustomizationSettingsGroup = ({
           label={
             <>
               <Checkbox.Label>{group.label}</Checkbox.Label>{' '}
-              {group.labelSuffixElement}
             </>
           }
           value={everyGroupSettingsEnabled}
@@ -78,6 +77,7 @@ export const CustomizationSettingsGroup = ({
               : undefined
           }
         />
+        {group.labelSuffixElement}
       </div>
       <div className="flex flex-col pb-3 last:pb-0">
         {group.settingListItems.map((settingListItem) => {
