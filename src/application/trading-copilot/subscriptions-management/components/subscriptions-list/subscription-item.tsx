@@ -1,18 +1,18 @@
 import { useCallback } from 'react';
 
+import { GetEnsInfoCommand, Subscription } from 'application/trading-copilot';
 import { useCommandQuery } from 'shared/messaging';
 import { Icon, IconButton, FetchedImage, getGithubUserLink } from 'shared/ui';
-import { GetEnsInfoCommand, Subscription } from 'shared/trading-copilot';
 import { getTwitterUserLink } from 'host/twitter';
 
 type Properties = {
   subscription: Subscription;
-  onRemove: (subscription: Subscription) => void;
+  onRemove: (ensName: Subscription['ensName']) => void;
 };
 
 export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
   const remove = useCallback(() => {
-    onRemove(subscription);
+    onRemove(subscription.ensName);
   }, [onRemove, subscription]);
 
   const emailQuery = useCommandQuery({

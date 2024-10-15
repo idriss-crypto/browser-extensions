@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Subscription } from 'shared/trading-copilot';
+import { Subscription } from 'application/trading-copilot';
 import { Empty, Spinner } from 'shared/ui';
 
 import { SubscriptionItem } from './subscription-item';
@@ -10,7 +10,7 @@ type Properties = {
   subscriptionsLoading: boolean;
   subscriptionsUpdatePending: boolean;
   className?: string;
-  onRemove: (subscription: Subscription) => void;
+  onRemove: (ensName: Subscription['ensName']) => void;
 };
 
 export const SubscriptionsList = ({

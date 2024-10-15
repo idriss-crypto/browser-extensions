@@ -3,12 +3,24 @@ import { useUpdateEffect } from 'react-use';
 import isEqual from 'lodash/isEqual';
 import { useMemo, useRef } from 'react';
 
-import { ExtensionSettings, useExtensionSettings } from 'shared/extension';
+import {
+  EXTENSION_POPUP_ROUTE,
+  ExtensionSettings,
+  ExtensionSettingsStorageKey,
+  useExtensionSettings,
+} from 'shared/extension';
 
 import { SettingsLayout } from '../../components';
+import { NavigateButton } from '../../components/navigate-button';
 
-import { settingListItemGroups } from './constants';
+import {
+  addressBookSettings,
+  governanceSettings,
+  integrationsSettings,
+  tradingCopilotSettings,
+} from './constants';
 import { CustomizationSettingsGroup } from './customization-settings-group';
+import { SettingListItemsGroup } from './types';
 
 type ExtensionSettingsFormValues = Omit<
   ExtensionSettings,
@@ -42,6 +54,25 @@ export const CustomizationSettingsView = () => {
   });
 
   const formValues = form.watch();
+
+  const settingListItemGroups: SettingListItemsGroup<ExtensionSettingsStorageKey>[] =
+    useMemo(() => {
+      return [
+        {
+          label: 'Trading Copilot',
+          labelSuffixElement: (
+            <NavigateButton
+              iconName="ChevronRightIcon"
+              navigateURL={EXTENSION_POPUP_ROUTE.TRADING_COPILOT}
+            />
+          ),
+          settingListItems: tradingCopilotSettings,
+        },
+        { label: 'Address Book', settingListItems: addressBookSettings },
+        { label: 'Governance', settingListItems: governanceSettings },
+        { label: 'Integrations', settingListItems: integrationsSettings },
+      ];
+    }, []);
 
   useUpdateEffect(() => {
     //if the formValues has changed

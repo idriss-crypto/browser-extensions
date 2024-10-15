@@ -6,16 +6,19 @@ import {
 } from 'shared/messaging';
 
 import { Subscription } from '../types';
-import { TradingCopilotSettingsManager } from '../tranding-copilot-settings-manager';
+import { TradingCopilotSettingsManager } from '../subscriptions-manager';
 
 interface Payload {
-  subscription: Subscription;
+  ensName: Subscription['ensName'];
 }
 
 type Response = boolean;
 
-export class AddTradingCopilotSubscription extends Command<Payload, Response> {
-  public readonly name = 'AddTradingCopilotSubscription' as const;
+export class RemoveTradingCopilotSubscriptionCommand extends Command<
+  Payload,
+  Response
+> {
+  public readonly name = 'RemoveTradingCopilotSubscriptionCommand' as const;
 
   constructor(public payload: Payload) {
     super();
@@ -23,8 +26,8 @@ export class AddTradingCopilotSubscription extends Command<Payload, Response> {
 
   async handle() {
     try {
-      await TradingCopilotSettingsManager.addNewSubscription(
-        this.payload.subscription,
+      await TradingCopilotSettingsManager.unsubscribe(
+        this.payload.ensName,
       );
 
       return new OkResult(true);

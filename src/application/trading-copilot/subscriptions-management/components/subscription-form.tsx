@@ -2,7 +2,10 @@ import { useCallback } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { useCommandMutation } from 'shared/messaging';
-import { GetEnsAddressCommand, Subscription } from 'shared/trading-copilot';
+import {
+  GetEnsAddressCommand,
+  Subscription,
+} from 'application/trading-copilot';
 
 type SubscriptionFormValues = {
   ensName: string;

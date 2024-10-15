@@ -6,7 +6,7 @@ import {
 } from 'shared/messaging';
 
 import { Subscription } from '../types';
-import { TradingCopilotSettingsManager } from '../tranding-copilot-settings-manager';
+import { TradingCopilotSettingsManager } from '../subscriptions-manager';
 
 interface Payload {
   subscription: Subscription;
@@ -14,11 +14,8 @@ interface Payload {
 
 type Response = boolean;
 
-export class RemoveTradingCopilotSubscription extends Command<
-  Payload,
-  Response
-> {
-  public readonly name = 'RemoveTradingCopilotSubscription' as const;
+export class AddTradingCopilotSubscriptionCommand extends Command<Payload, Response> {
+  public readonly name = 'AddTradingCopilotSubscriptionCommand' as const;
 
   constructor(public payload: Payload) {
     super();
@@ -26,7 +23,7 @@ export class RemoveTradingCopilotSubscription extends Command<
 
   async handle() {
     try {
-      await TradingCopilotSettingsManager.unsubscribe(
+      await TradingCopilotSettingsManager.subscribe(
         this.payload.subscription,
       );
 
