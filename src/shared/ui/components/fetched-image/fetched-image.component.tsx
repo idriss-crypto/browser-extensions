@@ -5,6 +5,7 @@ import { GetImageCommand } from 'shared/utils';
 
 interface ImageProperties {
   src: string | null | undefined;
+  /** The fallback component will be displayed during image loading and as a fallback if fetching the image fails */
   fallbackComponent?: ReactElement;
   className?: string;
 }
