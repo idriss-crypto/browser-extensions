@@ -1,9 +1,11 @@
 import { useCallback } from 'react';
 
-import { GetEnsInfoCommand, Subscription } from 'application/trading-copilot';
 import { useCommandQuery } from 'shared/messaging';
 import { Icon, IconButton, FetchedImage, getGithubUserLink } from 'shared/ui';
 import { getTwitterUserLink } from 'host/twitter';
+
+import { GetEnsInfoCommand } from '../../../commands';
+import { Subscription } from '../../../types';
 
 type Properties = {
   subscription: Subscription;
