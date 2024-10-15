@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 
-import { Subscription } from 'application/trading-copilot';
 import { Empty, Spinner } from 'shared/ui';
+
+import { Subscription } from '../../../types';
 
 import { SubscriptionItem } from './subscription-item';
 
