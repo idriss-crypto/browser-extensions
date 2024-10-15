@@ -16,6 +16,7 @@ export {
   IdrissLogo,
   WidgetBase,
   ScrollArea,
+  FetchedImage,
   ErrorMessage,
   CurrencyInput,
   IdrissMoneyInput,

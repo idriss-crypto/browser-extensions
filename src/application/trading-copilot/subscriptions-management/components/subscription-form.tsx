@@ -29,7 +29,6 @@ export const SubscriptionForm = ({ onSubmit }: Properties) => {
         ensName: data.ensName,
       });
       if (!address) {
-        console.error('address not found');
         return;
       }
       onSubmit({
