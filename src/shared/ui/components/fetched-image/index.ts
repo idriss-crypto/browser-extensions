@@ -1,1 +1,1 @@
-export { FetchedImage } from './fetched-image.component'
+export { FetchedImage } from './fetched-image.component';

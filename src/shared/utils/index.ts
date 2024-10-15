@@ -1,7 +1,7 @@
 export {
   COMMAND_MAP as UTILS_COMMAND_MAP,
   GetImageAsBase64Command,
-  GetImageCommand
+  GetImageCommand,
 } from './commands';
 
 export { getDifferenceInDays, getEndsInLabel } from './date-utils';

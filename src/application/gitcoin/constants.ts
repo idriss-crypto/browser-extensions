@@ -1,4 +1,3 @@
-
 import { CHAIN, Hex } from 'shared/web3';
 
 export const ACROSS_DONATION_MODIFIER = '1dc0de0012';

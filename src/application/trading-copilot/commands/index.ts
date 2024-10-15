@@ -5,9 +5,12 @@ import { GetEnsInfoCommand } from './get-ens-info';
 import { GetEnsAddressCommand } from './get-ens-address';
 
 export const COMMAND_MAP = {
-  [AddTradingCopilotSubscriptionCommand.name]: AddTradingCopilotSubscriptionCommand,
-  [GetTradingCopilotSubscriptionsCommand.name]: GetTradingCopilotSubscriptionsCommand,
-  [RemoveTradingCopilotSubscriptionCommand.name]: RemoveTradingCopilotSubscriptionCommand,
+  [AddTradingCopilotSubscriptionCommand.name]:
+    AddTradingCopilotSubscriptionCommand,
+  [GetTradingCopilotSubscriptionsCommand.name]:
+    GetTradingCopilotSubscriptionsCommand,
+  [RemoveTradingCopilotSubscriptionCommand.name]:
+    RemoveTradingCopilotSubscriptionCommand,
   [GetEnsInfoCommand.name]: GetEnsInfoCommand,
   [GetEnsAddressCommand.name]: GetEnsAddressCommand,
 };

@@ -1,1 +1,1 @@
-export { SubscriptionsList } from './subscriptions-list'
+export { SubscriptionsList } from './subscriptions-list';

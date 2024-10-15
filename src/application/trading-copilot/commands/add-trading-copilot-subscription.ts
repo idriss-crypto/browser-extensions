@@ -14,7 +14,10 @@ interface Payload {
 
 type Response = boolean;
 
-export class AddTradingCopilotSubscriptionCommand extends Command<Payload, Response> {
+export class AddTradingCopilotSubscriptionCommand extends Command<
+  Payload,
+  Response
+> {
   public readonly name = 'AddTradingCopilotSubscriptionCommand' as const;
 
   constructor(public payload: Payload) {
@@ -23,9 +26,7 @@ export class AddTradingCopilotSubscriptionCommand extends Command<Payload, Respo
 
   async handle() {
     try {
-      await TradingCopilotSettingsManager.subscribe(
-        this.payload.subscription,
-      );
+      await TradingCopilotSettingsManager.subscribe(this.payload.subscription);
 
       return new OkResult(true);
     } catch (error) {

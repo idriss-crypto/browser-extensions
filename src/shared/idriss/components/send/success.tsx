@@ -1,4 +1,3 @@
-
 import { Button, Icon } from 'shared/ui';
 import { getTransactionUrl, Hex } from 'shared/web3';
 

@@ -19,7 +19,9 @@ export class GetImageCommand extends Command<Payload, string | null> {
   blobToDataUri(blob: Blob): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.addEventListener('load', () => { resolve(reader.result as string) });
+      reader.addEventListener('load', () => {
+        resolve(reader.result as string);
+      });
       reader.addEventListener('error', reject);
       reader.readAsDataURL(blob);
     });
@@ -29,7 +31,9 @@ export class GetImageCommand extends Command<Payload, string | null> {
     try {
       const response = await fetch(this.payload.src);
       if (!response.ok) {
-        throw new HandlerError(`Unable to fetch image, response: ${JSON.stringify(response)} `);
+        throw new HandlerError(
+          `Unable to fetch image, response: ${JSON.stringify(response)} `,
+        );
       }
       const blob = await response.blob();
       const dataUri = await this.blobToDataUri(blob);

@@ -37,7 +37,9 @@ export const SubscriptionsManagement = () => {
         subscriptions={subscriptionsQuery.data ?? []}
         subscriptionsLoading={subscriptionsQuery.isLoading}
         subscriptionsUpdatePending={
-          subscribe.isPending || unsubscribe.isPending || subscriptionsQuery.isRefetching
+          subscribe.isPending ||
+          unsubscribe.isPending ||
+          subscriptionsQuery.isRefetching
         }
         onRemove={handleUnsubscribe}
       />

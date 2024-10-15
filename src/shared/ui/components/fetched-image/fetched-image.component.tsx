@@ -39,6 +39,6 @@ export const FetchedImage = ({
   return imageQuery.data && imageLoaded ? (
     <img src={imageQuery.data} className={className} alt="" />
   ) : (
-    fallbackComponent ?? null
+    (fallbackComponent ?? null)
   );
 };
