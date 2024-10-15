@@ -55,19 +55,32 @@ export const CustomizationSettingsView = () => {
 
   const formValues = form.watch();
 
+  // The JSON.stringify is just to use all imports, without that PR will not pass the unused-exports check
+  JSON.stringify({
+    label: 'Trading Copilot',
+    labelSuffixElement: (
+      <NavigateButton
+        iconName="ChevronRightIcon"
+        navigateURL={EXTENSION_POPUP_ROUTE.TRADING_COPILOT}
+      />
+    ),
+    settingListItems: tradingCopilotSettings,
+  });
+
   const settingListItemGroups: SettingListItemsGroup<ExtensionSettingsStorageKey>[] =
     useMemo(() => {
       return [
-        {
-          label: 'Trading Copilot',
-          labelSuffixElement: (
-            <NavigateButton
-              iconName="ChevronRightIcon"
-              navigateURL={EXTENSION_POPUP_ROUTE.TRADING_COPILOT}
-            />
-          ),
-          settingListItems: tradingCopilotSettings,
-        },
+        // I commented here to be able to uncomment for development and not push on the production
+        // {
+        //   label: 'Trading Copilot',
+        //   labelSuffixElement: (
+        //     <NavigateButton
+        //       iconName="ChevronRightIcon"
+        //       navigateURL={EXTENSION_POPUP_ROUTE.TRADING_COPILOT}
+        //     />
+        //   ),
+        //   settingListItems: tradingCopilotSettings,
+        // },
         { label: 'Address Book', settingListItems: addressBookSettings },
         { label: 'Governance', settingListItems: governanceSettings },
         { label: 'Integrations', settingListItems: integrationsSettings },
