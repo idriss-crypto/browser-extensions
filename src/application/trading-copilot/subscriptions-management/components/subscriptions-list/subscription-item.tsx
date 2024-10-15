@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
 
 import { useCommandQuery } from 'shared/messaging';
-import { Icon, IconButton, FetchedImage } from 'shared/ui';
+import { Icon, IconButton, FetchedImage, getGithubUserLink } from 'shared/ui';
 import { GetEnsInfoCommand, Subscription } from 'shared/trading-copilot';
+import { getTwitterUserLink } from 'host/twitter';
 
 type Properties = {
   subscription: Subscription;
@@ -70,7 +71,7 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
 
           {twitterQuery.data && (
             <a
-              href={`https://x.com/${twitterQuery.data}`}
+              href={getTwitterUserLink(twitterQuery.data)}
               target="_blank"
               rel="noreferrer noopener"
             >
@@ -83,14 +84,14 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
           )}
           {githubQuery.data && (
             <a
-              href={`https://github.com/${githubQuery.data}`}
+              href={getGithubUserLink(githubQuery.data)}
               target="_blank"
               rel="noreferrer noopener"
             >
               <Icon
                 size={16}
                 name="GitHubLogoIcon"
-                className="text-twitter-primary [&>path]:fill-rule-non-zero"
+                className="text-twitter-primary"
               />
             </a>
           )}
@@ -99,7 +100,7 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
               <Icon
                 size={16}
                 name="DiscordLogoIcon"
-                className="text-twitter-primary [&>path]:fill-rule-non-zero"
+                className="text-twitter-primary"
               />
             </span>
           )}
@@ -112,7 +113,7 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
               <Icon
                 size={16}
                 name="EnvelopeClosedIcon"
-                className="text-twitter-primary [&>path]:fill-rule-non-zero"
+                className="text-twitter-primary"
               />
             </a>
           )}
