@@ -11,7 +11,10 @@ import { Subscription } from '../types';
 type Payload = Record<string, never>;
 type Response = Subscription[];
 
-export class GetTradingCopilotSubscriptionsCommand extends Command<Payload, Response> {
+export class GetTradingCopilotSubscriptionsCommand extends Command<
+  Payload,
+  Response
+> {
   public readonly name = 'GetTradingCopilotSubscriptionsCommand' as const;
 
   constructor(public payload: Payload) {

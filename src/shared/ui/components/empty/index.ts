@@ -1,1 +1,1 @@
-export { Empty } from './empty.component'
+export { Empty } from './empty.component';
