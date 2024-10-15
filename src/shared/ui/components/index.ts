@@ -22,5 +22,5 @@ export { PaginationComponent } from './pagination';
 export { PulsingLoadingBar } from './pulsing-loading-bar';
 export { Toggle } from './toggle';
 export { ScrollArea } from './scroll-area';
-export { FetchedImage } from './fetched-image'
-export { Empty } from './empty'
+export { FetchedImage } from './fetched-image';
+export { Empty } from './empty';

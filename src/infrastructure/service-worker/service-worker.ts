@@ -52,7 +52,7 @@ const COMMAND_MAP = {
 export class ServiceWorker {
   private observabilityScope: ObservabilityScope =
     createObservabilityScope('service-worker');
-  private constructor(private environment: typeof chrome) { }
+  private constructor(private environment: typeof chrome) {}
 
   static run(environment: typeof chrome) {
     const serviceWorker = new ServiceWorker(environment);
@@ -260,10 +260,10 @@ export class ServiceWorker {
   ): tab is chrome.tabs.Tab & { id: number } => {
     return Boolean(
       tab?.id &&
-      tab.url &&
-      tab.url?.length > 0 &&
-      !tab.url?.startsWith('chrome') &&
-      !tab.url?.startsWith('about'),
+        tab.url &&
+        tab.url?.length > 0 &&
+        !tab.url?.startsWith('chrome') &&
+        !tab.url?.startsWith('about'),
     );
   };
 }

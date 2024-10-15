@@ -26,9 +26,7 @@ export class RemoveTradingCopilotSubscriptionCommand extends Command<
 
   async handle() {
     try {
-      await TradingCopilotSettingsManager.unsubscribe(
-        this.payload.ensName,
-      );
+      await TradingCopilotSettingsManager.unsubscribe(this.payload.ensName);
 
       return new OkResult(true);
     } catch (error) {
