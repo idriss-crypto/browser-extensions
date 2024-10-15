@@ -11,7 +11,7 @@ import {
 
 type Payload = {
   ensName: string;
-  infoKey: 'com.discord' | 'email' | 'com.github' | 'com.twitter';
+  infoKey: 'com.discord' | 'email' | 'com.github' | 'com.twitter' | 'avatar';
 };
 
 export class GetEnsInfoCommand extends Command<Payload, string | null> {
