@@ -7,4 +7,4 @@ export {
   useLocationInfo as useTwitterLocationInfo,
   useHandleToUsernameMap as useTwitterHandleToUsernameMap,
 } from './hooks';
-export { isHandleNode, getNodeToInjectToUser } from './utils';
+export { isHandleNode, getNodeToInjectToUser, getTwitterUserLink } from './utils';

@@ -32,6 +32,8 @@ export const SubscriptionsManagement = () => {
       <SubscriptionsList
         className="mt-4"
         subscriptions={subscriptionsQuery.data ?? []}
+        subscriptionsLoading={subscriptionsQuery.isLoading}
+        subscriptionsUpdatePending={subscribe.isPending || unsubscribe.isPending}
         onRemove={handleUnsubscribe}
       />
     </>
