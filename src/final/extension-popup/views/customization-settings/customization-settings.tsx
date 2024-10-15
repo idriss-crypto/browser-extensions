@@ -55,8 +55,11 @@ export const CustomizationSettingsView = () => {
 
   const formValues = form.watch();
 
-  // The JSON.stringify is just to use all imports, without that PR will not pass the unused-exports check
-  JSON.stringify({
+  //TODO: remove below when trading copilot feature is ready
+  // The _tradingCopilotListGroup is just assigned to use all imports,
+  // without that PR will not pass the unused-exports check
+  //@ts-expect-error-unused-declaration
+  const _tradingCopilotListGroup = {
     label: 'Trading Copilot',
     labelSuffixElement: (
       <NavigateButton
@@ -65,12 +68,13 @@ export const CustomizationSettingsView = () => {
       />
     ),
     settingListItems: tradingCopilotSettings,
-  });
+  };
 
   const settingListItemGroups: SettingListItemsGroup<ExtensionSettingsStorageKey>[] =
     useMemo(() => {
       return [
-        // I commented here to be able to uncomment for development and not push on the production
+        //TODO: uncomment below when trading copilot feature is ready
+        // Below part is commented to quickly get back to it's development and to hide it on production
         // {
         //   label: 'Trading Copilot',
         //   labelSuffixElement: (
