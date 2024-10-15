@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { useCommandQuery } from 'shared/messaging';
-import { Icon, IconButton } from 'shared/ui';
+import { Icon, IconButton, FetchedImage } from 'shared/ui';
 import { GetEnsInfoCommand, Subscription } from 'shared/trading-copilot';
 
 type Properties = {
@@ -46,14 +46,29 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
     staleTime: Number.POSITIVE_INFINITY,
   });
 
+  const avatarQuery = useCommandQuery({
+    command: new GetEnsInfoCommand({
+      ensName: subscription.ensName,
+      infoKey: 'avatar',
+    }),
+    staleTime: Number.POSITIVE_INFINITY,
+  });
+
   return (
     <li className="flex items-center justify-between">
       <div className="flex items-center">
-        <Icon size={16} name="PersonIcon" className="rounded-full" />
+        <FetchedImage
+          src={avatarQuery.data}
+          className="size-5 rounded-full"
+          fallbackComponent={
+            <Icon size={20} name="PersonIcon" className="rounded-full" />
+          }
+        />
+
         <p className="ml-2 flex items-center gap-1 text-sm text-gray-700">
           {subscription.ensName}
 
-          {(twitterQuery.data) && (
+          {twitterQuery.data && (
             <a
               href={`https://x.com/${twitterQuery.data}`}
               target="_blank"

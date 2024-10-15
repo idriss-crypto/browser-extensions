@@ -23,3 +23,4 @@ export { PulsingLoadingBar } from './pulsing-loading-bar';
 export { Toggle } from './toggle';
 export { ScrollArea } from './scroll-area';
 export { PortalWithTailwind } from './portal-with-tailwind';
+export { FetchedImage } from './image'
