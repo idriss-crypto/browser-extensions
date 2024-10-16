@@ -1,4 +1,5 @@
 import { useCommandMutation, useCommandQuery } from 'shared/messaging';
+import { useNotification } from 'shared/ui';
 
 import {
   AddTradingCopilotSubscriptionCommand,
@@ -10,6 +11,8 @@ import { Subscription } from '../types';
 import { SubscriptionForm, SubscriptionsList } from './components';
 
 export const SubscriptionsManagement = () => {
+  const notification = useNotification()
+
   const subscriptionsQuery = useCommandQuery({
     command: new GetTradingCopilotSubscriptionsCommand({}),
   });
@@ -22,6 +25,7 @@ export const SubscriptionsManagement = () => {
   const handleAddNewSubscription = async (subscription: Subscription) => {
     await subscribe.mutateAsync({ subscription });
     void subscriptionsQuery.refetch();
+    notification.success(`Congrats! We will keep you updated on that user's actions`)
   };
 
   const handleUnsubscribe = async (ensName: Subscription['ensName']) => {

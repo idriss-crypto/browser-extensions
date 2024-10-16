@@ -24,6 +24,6 @@ export {
   PulsingLoadingBar,
   PaginationComponent,
 } from './components';
-export { QueryProvider, PortalProvider, TailwindProvider } from './providers';
+export { QueryProvider, PortalProvider, TailwindProvider, NotificationsProvider, useNotification } from './providers';
 export { classes, createContextHook, getGithubUserLink } from './utils';
 export { usePooling } from './hooks';

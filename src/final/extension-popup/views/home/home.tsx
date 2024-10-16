@@ -80,13 +80,21 @@ export const HomeView = () => {
           />
         </a>
 
-        <SectionTile
-          icons={[{ iconSrc: TRADING_COPILOT_LOGO, iconAlt: 'Trading Icon' }]}
-          title="Trading Copilot"
-          subtitle="Coming soon"
-          className="cursor-not-allowed bg-gray-200 opacity-50"
-          hideExternalLinkIcon
-        />
+        <div
+          onClick={() => {
+            extensionPopup.showNotification(
+              `This great feature is coming soon 🤓`,
+            );
+          }}
+        >
+          <SectionTile
+            icons={[{ iconSrc: TRADING_COPILOT_LOGO, iconAlt: 'Trading Icon' }]}
+            title="Trading Copilot"
+            subtitle="Coming soon"
+            className="cursor-not-allowed bg-gray-200 opacity-50"
+            hideExternalLinkIcon
+          />
+        </div>
       </div>
 
       <div className="mt-4">

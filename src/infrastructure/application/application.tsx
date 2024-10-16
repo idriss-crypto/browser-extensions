@@ -7,7 +7,12 @@ import {
   ExtensionPopupProvider,
   ExtensionSettingsProvider,
 } from 'shared/extension';
-import { PortalProvider, QueryProvider, TailwindProvider } from 'shared/ui';
+import {
+  NotificationsProvider,
+  PortalProvider,
+  QueryProvider,
+  TailwindProvider,
+} from 'shared/ui';
 import { WalletContextProvider } from 'shared/web3';
 import {
   ErrorBoundary,
@@ -88,18 +93,20 @@ const ApplicationWithProviders = () => {
                 <TailwindProvider>
                   <QueryProvider>
                     <NiceModal.Provider>
-                      <WalletContextProvider
-                        disabledWalletsRdns={disabledWalletRdns}
-                      >
-                        <ExtensionPopupProvider>
-                          <ExtensionSettingsProvider>
-                            <>
-                              <LookUpWalletAddress />
-                              <ExtensionPopup />
-                            </>
-                          </ExtensionSettingsProvider>
-                        </ExtensionPopupProvider>
-                      </WalletContextProvider>
+                      <NotificationsProvider>
+                        <WalletContextProvider
+                          disabledWalletsRdns={disabledWalletRdns}
+                        >
+                          <ExtensionPopupProvider>
+                            <ExtensionSettingsProvider>
+                              <>
+                                <LookUpWalletAddress />
+                                <ExtensionPopup />
+                              </>
+                            </ExtensionSettingsProvider>
+                          </ExtensionPopupProvider>
+                        </WalletContextProvider>
+                      </NotificationsProvider>
                     </NiceModal.Provider>
                   </QueryProvider>
                 </TailwindProvider>
@@ -120,24 +127,26 @@ const ApplicationWithProviders = () => {
               <TailwindProvider>
                 <QueryProvider>
                   <NiceModal.Provider>
-                    <WalletContextProvider
-                      disabledWalletsRdns={disabledWalletRdns}
-                    >
-                      <ExtensionPopupProvider>
-                        <ExtensionSettingsProvider>
-                          <TwitterScrapingContextProvider>
-                            <WarpcastScrapingContextProvider>
-                              <SupercastScrapingContextProvider>
-                                <>
-                                  <ExtensionPopup />
-                                  <Final />
-                                </>
-                              </SupercastScrapingContextProvider>
-                            </WarpcastScrapingContextProvider>
-                          </TwitterScrapingContextProvider>
-                        </ExtensionSettingsProvider>
-                      </ExtensionPopupProvider>
-                    </WalletContextProvider>
+                    <NotificationsProvider>
+                      <WalletContextProvider
+                        disabledWalletsRdns={disabledWalletRdns}
+                      >
+                        <ExtensionPopupProvider>
+                          <ExtensionSettingsProvider>
+                            <TwitterScrapingContextProvider>
+                              <WarpcastScrapingContextProvider>
+                                <SupercastScrapingContextProvider>
+                                  <>
+                                    <ExtensionPopup />
+                                    <Final />
+                                  </>
+                                </SupercastScrapingContextProvider>
+                              </WarpcastScrapingContextProvider>
+                            </TwitterScrapingContextProvider>
+                          </ExtensionSettingsProvider>
+                        </ExtensionPopupProvider>
+                      </WalletContextProvider>
+                    </NotificationsProvider>
                   </NiceModal.Provider>
                 </QueryProvider>
               </TailwindProvider>
