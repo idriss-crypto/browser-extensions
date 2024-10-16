@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { useCommandQuery } from 'shared/messaging';
-import { Icon, IconButton, FetchedImage, getGithubUserLink } from 'shared/ui';
+import { Icon, IconButton, LazyImage, getGithubUserLink } from 'shared/ui';
 import { getTwitterUserLink } from 'host/twitter';
 
 import { GetEnsInfoCommand } from '../../../commands';
@@ -60,7 +60,7 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
   return (
     <li className="flex items-center justify-between">
       <div className="flex items-center">
-        <FetchedImage
+        <LazyImage
           src={avatarQuery.data}
           className="size-5 rounded-full"
           fallbackComponent={
