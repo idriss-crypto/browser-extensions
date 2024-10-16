@@ -56,7 +56,11 @@ export const CustomizationSettingsGroup = ({
     <>
       <div className="flex flex-row items-center space-x-2 pb-3 pt-2 font-bold">
         <Checkbox
-          label={<Checkbox.Label>{group.label}</Checkbox.Label>}
+          label={
+            <>
+              <Checkbox.Label>{group.label}</Checkbox.Label>{' '}
+            </>
+          }
           value={everyGroupSettingsEnabled}
           indicator={
             disabled ? (
@@ -73,6 +77,7 @@ export const CustomizationSettingsGroup = ({
               : undefined
           }
         />
+        {group.labelSuffixElement}
       </div>
       <div className="flex flex-col pb-3 last:pb-0">
         {group.settingListItems.map((settingListItem) => {

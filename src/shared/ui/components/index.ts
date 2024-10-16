@@ -22,3 +22,5 @@ export { PaginationComponent } from './pagination';
 export { PulsingLoadingBar } from './pulsing-loading-bar';
 export { Toggle } from './toggle';
 export { ScrollArea } from './scroll-area';
+export { LazyImage } from './lazy-image';
+export { Empty } from './empty';
