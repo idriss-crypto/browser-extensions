@@ -11,7 +11,7 @@ import { getFollowers } from '../api';
 type Payload = {
   usernames: string[];
 };
-type Response = Record<string, Hex>;
+type Response = Record<string, { address: Hex }>;
 
 export class GetFollowersCommand extends Command<Payload, Response> {
   public readonly name = 'GetFollowersCommand' as const;

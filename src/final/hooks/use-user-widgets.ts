@@ -5,7 +5,6 @@ import { useIdrissSendWidgetsData } from 'application/idriss-send';
 import { useExtensionSettings } from 'shared/extension';
 import { useCommandQuery } from 'shared/messaging';
 import { GetFollowersCommand } from 'shared/farcaster';
-import { EMPTY_HEX } from 'shared/web3';
 
 import { userWidgetDataAdapter } from '../adapters';
 
@@ -51,17 +50,21 @@ export const useUserWidgets = () => {
   });
 
   if (isWarpcast || isSupercast) {
-    const usersThatFollowIdriss = users.map((user) => {
-      const userWallet = followersQuery.data?.[user.data.username];
-      // TODO: uncomment that and remove ?? EMPTY_HEX fallback to only inject for followers on farcaster socials
-      // if (!userWallet) {
-      //   return;
-      // }
-      return {
-        ...user,
-        data: { ...user.data, walletAddress: userWallet ?? EMPTY_HEX },
-      };
-    });
+    const usersThatFollowIdriss = users
+      .map((user) => {
+        const followerData = followersQuery.data?.[user.data.username];
+        if (!followerData) {
+          return;
+        }
+        return {
+          ...user,
+          data: {
+            ...user.data,
+            walletAddress: followerData.address,
+          },
+        };
+      })
+      .filter(Boolean);
 
     return {
       widgets: userWidgetDataAdapter.fromFarcasterUsers({
