@@ -1,6 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react';
 
 import { useCommandQuery } from 'shared/messaging';
+import { classes } from 'shared/ui/utils';
 import { GetImageCommand } from 'shared/utils';
 
 interface ImageProperties {
@@ -10,7 +11,7 @@ interface ImageProperties {
   className?: string;
 }
 
-export const FetchedImage = ({
+export const LazyImage = ({
   src,
   className,
   fallbackComponent,
@@ -39,6 +40,6 @@ export const FetchedImage = ({
   return imageQuery.data && imageLoaded ? (
     <img src={imageQuery.data} className={className} alt="" />
   ) : (
-    (fallbackComponent ?? null)
+    (fallbackComponent ?? <div className={classes(className, 'bg-[linear-gradient(135deg,_#ffffff_0%,_#d0d0d0_100%)]')} />)
   );
 };
