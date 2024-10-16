@@ -40,6 +40,13 @@ export const LazyImage = ({
   return imageQuery.data && imageLoaded ? (
     <img src={imageQuery.data} className={className} alt="" />
   ) : (
-    (fallbackComponent ?? <div className={classes(className, 'bg-[linear-gradient(135deg,_#ffffff_0%,_#d0d0d0_100%)]')} />)
+    (fallbackComponent ?? (
+      <div
+        className={classes(
+          className,
+          'bg-[linear-gradient(135deg,_#ffffff_0%,_#d0d0d0_100%)]',
+        )}
+      />
+    ))
   );
 };
