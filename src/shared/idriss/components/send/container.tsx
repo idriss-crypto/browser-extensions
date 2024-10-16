@@ -56,6 +56,7 @@ export const Container = memo(
       injectedWidgetReference.current.style.width = `${iconSize}px`;
       injectedWidgetReference.current.style.cursor = 'pointer';
       injectedWidgetReference.current.style.marginLeft = '2px';
+      injectedWidgetReference.current.style.zIndex = '1';
       injectedWidgetReference.current.src = iconSrc;
 
       node?.append(injectedWidgetReference.current);
