@@ -462,31 +462,6 @@ export class Scraper {
     };
   }
 
-  // private static getUserFromHoverCardContent() {
-  //   const hoverCard = document.querySelector('.HoverCardContent');
-  //   const links = [...(hoverCard?.querySelectorAll('a') ?? [])];
-  //   const userFullNameNode = links.find((link) => {
-  //     return link.title === link.textContent;
-  //   });
-  //   const username = userFullNameNode?.getAttribute('href')?.replace('/', '');
-  //
-  //   if (!userFullNameNode || !username) {
-  //     return;
-  //   }
-  //
-  //   const rect = userFullNameNode.getBoundingClientRect();
-  //   userFullNameNode.style.setProperty('display', 'flex', 'important');
-  //   userFullNameNode.style.setProperty('align-items', 'center', 'important');
-  //
-  //   return {
-  //     node: userFullNameNode,
-  //     top: rect.top + window.scrollY,
-  //     data: {
-  //       username,
-  //     },
-  //   };
-  // }
-
   public static getUsers(): UserScrapingResult[] {
     const usersFromPosts = Scraper.getUsersFromPosts();
     const usersFromReposts = Scraper.getUsersFromRePosts();
@@ -503,8 +478,6 @@ export class Scraper {
     const usersFromDirectCastConversation = userFromDirectCastConversation
       ? [userFromDirectCastConversation]
       : [];
-    // const userFromHoverCard = Scraper.getUserFromHoverCardContent();
-    // const usersFromHoverCard = userFromHoverCard ? [userFromHoverCard] : [];
 
     return [
       ...usersFromPosts,
@@ -517,7 +490,6 @@ export class Scraper {
       ...usersFromDirectCastsList,
       ...usersFromDirectCastConversation,
       ...handleUsers,
-      // ...usersFromHoverCard,
     ];
   }
 }

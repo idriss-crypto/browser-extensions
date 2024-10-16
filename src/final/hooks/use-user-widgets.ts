@@ -15,6 +15,7 @@ import { useLocationInfo } from './use-location-info';
 export const useUserWidgets = () => {
   const applicationsStatus = useApplicationStatus();
   const { isTwitter, isWarpcast, isSupercast } = useLocationInfo();
+  const isFarcaster = isSupercast || isWarpcast;
   const { extensionSettings } = useExtensionSettings();
 
   const { users } = useScraping();
@@ -30,7 +31,7 @@ export const useUserWidgets = () => {
 
   const followersQuery = useCommandQuery({
     command: new GetFollowersCommand({ usernames }),
-    enabled: idrissSendEnabled && (isSupercast || isWarpcast),
+    enabled: idrissSendEnabled && isFarcaster,
     placeholderData: (previousData) => {
       return previousData;
     },
@@ -49,7 +50,7 @@ export const useUserWidgets = () => {
     enabled: gitcoinEnabled && isTwitter,
   });
 
-  if (isWarpcast || isSupercast) {
+  if (isFarcaster) {
     const usersThatFollowIdriss = users
       .map((user) => {
         const followerData = followersQuery.data?.[user.data.username];
