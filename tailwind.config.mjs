@@ -9,6 +9,9 @@ export default {
         polymarket: {
           gray: '#1D2B39',
         },
+        farcaster: {
+          primary: '#8A63D2',
+        },
         idriss: {
           primary: {
             500: '#11dd74',
