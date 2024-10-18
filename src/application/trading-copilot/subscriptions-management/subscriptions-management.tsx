@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { useCommandMutation, useCommandQuery } from 'shared/messaging';
 
 import {
@@ -19,6 +21,26 @@ export const SubscriptionsManagement = () => {
     RemoveTradingCopilotSubscriptionCommand,
   );
 
+  const subscriptionsUpdatePending = useMemo(() => {
+    return (
+      subscribe.isPending ||
+      unsubscribe.isPending ||
+      subscriptionsQuery.isRefetching
+    );
+  }, [
+    subscribe.isPending,
+    subscriptionsQuery.isRefetching,
+    unsubscribe.isPending,
+  ]);
+
+  const subscriptions = useMemo(() => {
+    return subscriptionsQuery.data ?? [];
+  }, [subscriptionsQuery.data]);
+
+  const hasSubscriptions = useMemo(() => {
+    return subscriptions.length > 0;
+  }, [subscriptions.length]);
+
   const handleAddNewSubscription = async (subscription: Subscription) => {
     await subscribe.mutateAsync({ subscription });
     void subscriptionsQuery.refetch();
@@ -32,17 +54,18 @@ export const SubscriptionsManagement = () => {
   return (
     <>
       <SubscriptionForm onSubmit={handleAddNewSubscription} />
-      <SubscriptionsList
-        className="mt-4"
-        subscriptions={subscriptionsQuery.data ?? []}
-        subscriptionsLoading={subscriptionsQuery.isLoading}
-        subscriptionsUpdatePending={
-          subscribe.isPending ||
-          unsubscribe.isPending ||
-          subscriptionsQuery.isRefetching
-        }
-        onRemove={handleUnsubscribe}
-      />
+      <div className="mt-4">
+        <SubscriptionsList.Header />
+        {subscriptionsQuery.isLoading && <SubscriptionsList.Loading />}
+        {!hasSubscriptions && <SubscriptionsList.Empty />}
+        {hasSubscriptions && (
+          <SubscriptionsList
+            subscriptions={subscriptions}
+            onRemove={handleUnsubscribe}
+            subscriptionsUpdatePending={subscriptionsUpdatePending}
+          />
+        )}
+      </div>
     </>
   );
 };
