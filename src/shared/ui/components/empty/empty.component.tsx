@@ -9,7 +9,7 @@ export const Empty = ({ text, className }: EmptyProperties) => {
   return (
     <div
       className={classes(
-        'pointer-events-none flex flex-col items-center justify-center opacity-30',
+        'select-none flex flex-col items-center justify-center opacity-30',
         className,
       )}
     >
