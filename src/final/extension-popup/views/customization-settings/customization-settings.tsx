@@ -75,16 +75,16 @@ export const CustomizationSettingsView = () => {
       return [
         //TODO: uncomment below when trading copilot feature is ready
         // Below part is commented to quickly get back to it's development and to hide it on production
-        // {
-        //   label: 'Trading Copilot',
-        //   labelSuffixElement: (
-        //     <NavigateButton
-        //       iconName="ChevronRightIcon"
-        //       navigateURL={EXTENSION_POPUP_ROUTE.TRADING_COPILOT}
-        //     />
-        //   ),
-        //   settingListItems: tradingCopilotSettings,
-        // },
+        {
+          label: 'Trading Copilot',
+          labelSuffixElement: (
+            <NavigateButton
+              iconName="ChevronRightIcon"
+              navigateURL={EXTENSION_POPUP_ROUTE.TRADING_COPILOT}
+            />
+          ),
+          settingListItems: tradingCopilotSettings,
+        },
         { label: 'Address Book', settingListItems: addressBookSettings },
         { label: 'Governance', settingListItems: governanceSettings },
         { label: 'Integrations', settingListItems: integrationsSettings },

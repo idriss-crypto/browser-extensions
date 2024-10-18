@@ -14,7 +14,6 @@ import {
 } from 'shared/messaging';
 import {
   createContextHook,
-  NotificationsProvider,
   useNotification,
 } from 'shared/ui';
 
@@ -46,7 +45,7 @@ const InnerExtensionPopupProvider = ({ children }: Properties) => {
   const location = useLocation();
 
   const showNotification = (message: string) => {
-    notification.success(message);
+    notification.show(<span>{message}</span>, 'top-right');
   };
 
   const navigateBack = useCallback(() => {
@@ -104,9 +103,7 @@ const InnerExtensionPopupProvider = ({ children }: Properties) => {
 export const ExtensionPopupProvider = ({ children }: Properties) => {
   return (
     <MemoryRouter>
-      <NotificationsProvider >
-        <InnerExtensionPopupProvider>{children}</InnerExtensionPopupProvider>
-      </NotificationsProvider>
+      <InnerExtensionPopupProvider>{children}</InnerExtensionPopupProvider>
     </MemoryRouter>
   );
 };

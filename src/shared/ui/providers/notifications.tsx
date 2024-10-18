@@ -1,131 +1,170 @@
+import groupBy from 'lodash/groupBy';
 import React, {
   createContext,
   useState,
   useCallback,
   useMemo,
   useContext,
+  ReactElement,
 } from 'react';
 import * as ToastPrimitive from '@radix-ui/react-toast';
 import { Cross2Icon } from '@radix-ui/react-icons';
 
 import { classes } from '../utils';
 
+type Position = 'top-right' | 'bottom-right';
+
 interface NotificationContextType {
-  success: (message: string) => void;
-  error: (message: string) => void;
+  show: (body: ReactElement, position?: Position) => void;
 }
 
 interface NotificationProperties {
-  message: string;
-  type: 'success' | 'error';
+  body: ReactElement;
+  position: Position;
+  timestamp: number;
 }
 
 interface NotificationsProperties {
   className?: string;
-  children: React.ReactNode;
+  children: React.ReactElement;
+  defaultPosition?: Position;
 }
 
 const NotificationContext = createContext<NotificationContextType | undefined>(
   undefined,
 );
 
+const getPositionClasses = (position: Position) => {
+  switch (position) {
+    case 'top-right': {
+      return 'top-0 right-0';
+    }
+    case 'bottom-right': {
+      return 'bottom-0 right-0';
+    }
+  }
+};
+
+const NotificationViewport = ({
+  position,
+  notifications,
+  onRemove,
+  className,
+}: {
+  position: Position;
+  notifications: NotificationProperties[];
+  onRemove: (timestamp: number) => void;
+  className?: string;
+}) => {
+  if (notifications.length === 0) return null;
+
+  return (
+    <ToastPrimitive.Provider>
+      {notifications.map((notification) => {
+        return (
+          <ToastPrimitive.Root
+            duration={Infinity}
+            key={notification.timestamp}
+            onOpenChange={(open) => {
+              if (!open) {
+                onRemove(notification.timestamp);
+              }
+            }}
+            className="flex w-80 items-center justify-between rounded-lg bg-[#11dd74] p-4 shadow-lg"
+          >
+            <div className="flex items-center gap-4">
+              <div>
+                <ToastPrimitive.Title className="text-sm font-medium text-white">
+                  {notification.body}
+                </ToastPrimitive.Title>
+                <ToastPrimitive.Description className="text-sm text-gray-500" />
+              </div>
+            </div>
+            <ToastPrimitive.Close className="flex size-6 items-center justify-center rounded-full bg-gray-200 text-gray-500 hover:bg-gray-300">
+              <Cross2Icon />
+            </ToastPrimitive.Close>
+          </ToastPrimitive.Root>
+        );
+      })}
+      <ToastPrimitive.Viewport
+        className={classes(
+          'fixed z-[9999999] flex flex-col gap-4 p-6 outline-none',
+          getPositionClasses(position),
+          className,
+        )}
+      />
+    </ToastPrimitive.Provider>
+  );
+};
+
 const NotificationsProvider = ({
   className: positionClassName,
   children,
+  defaultPosition = 'bottom-right',
 }: NotificationsProperties) => {
-  const [notifications, setNotifications] = useState<
-    Map<string, NotificationProperties>
-  >(new Map());
-  const handleAddToast = useCallback((toast: NotificationProperties) => {
-    setNotifications((previous) => {
-      const newMap = new Map(previous);
-      newMap.set(String(Date.now()), { ...toast });
-      return newMap;
-    });
-  }, []);
-
-  const handleRemoveToast = useCallback((key: string) => {
-    setNotifications((previous) => {
-      const newMap = new Map(previous);
-      newMap.delete(key);
-      return newMap;
-    });
-  }, []);
-
-  const handleDispatchSuccess = useCallback(
-    (message: string) => {
-      return handleAddToast({ message, type: 'success' });
-    },
-    [handleAddToast],
+  const [notifications, setNotifications] = useState<NotificationProperties[]>(
+    [],
   );
 
-  const handleDispatchError = useCallback(
-    (message: string) => {
-      return handleAddToast({ message, type: 'error' });
+  const handleAddToast = useCallback((toast: NotificationProperties) => {
+    setNotifications((previous) => {
+      return [...previous, toast];
+    });
+  }, []);
+
+  const handleRemoveToast = useCallback((timestamp: number) => {
+    setNotifications((previous) => {
+      return previous.filter((existingToast) => {
+        return existingToast.timestamp !== timestamp;
+      });
+    });
+  }, []);
+
+  const handleDispatchNotification = useCallback(
+    (body: ReactElement, position: Position = defaultPosition) => {
+      return handleAddToast({ body, position, timestamp: Date.now() });
     },
-    [handleAddToast],
+    [handleAddToast, defaultPosition],
   );
 
   const contextValue = useMemo(() => {
     return {
-      success: handleDispatchSuccess,
-      error: handleDispatchError,
+      show: handleDispatchNotification,
     };
-  }, [handleDispatchSuccess, handleDispatchError]);
+  }, [handleDispatchNotification]);
+
+  const notificationsByPosition = useMemo(() => {
+    return groupBy<NotificationProperties>(notifications, (notification) => {
+      return notification.position;
+    });
+  }, [notifications]);
 
   return (
     <NotificationContext.Provider value={contextValue}>
-      <ToastPrimitive.Provider>
+      <ToastPrimitive.Provider swipeDirection="right">
         {children}
-        {[...notifications].map(([key, notification]) => {
-          return (
-            <ToastPrimitive.Root
-              duration={3000}
-              key={key}
-              onOpenChange={(open) => {
-                if (!open) {
-                  handleRemoveToast(key);
-                }
-              }}
-              className={`flex w-80 items-center  justify-between rounded-lg p-4 shadow-lg ${
-                notification.type === 'success' ? 'bg-[#11dd74]' : 'bg-red-100'
-              }`}
-            >
-              <div className="flex items-center gap-4">
-                {/* <div
-                  className={`flex size-6 items-center justify-center rounded-full ${
-                    notification.type === 'success'
-                      ? 'bg-green-500 text-white'
-                      : 'bg-red-500 text-white'
-                  }`}
-                >
-                  {notification.type === 'success' ? (
-                    <CheckIcon />
-                  ) : (
-                    <Cross2Icon />
+        <>
+          {(Object.keys(notificationsByPosition) as Position[]).map(
+            (position) => {
+              return (
+                <div
+                  key={position}
+                  className={classes(
+                    'absolute flex flex-col gap-4',
+                    getPositionClasses(position),
                   )}
-                </div> */}
-                <div>
-                  <ToastPrimitive.Title className="text-sm font-medium text-white">
-                    {notification.message}
-                  </ToastPrimitive.Title>
-                  <ToastPrimitive.Description className="text-sm text-gray-500">
-                    {/* Monday, July 11, 9:55 AM */}
-                  </ToastPrimitive.Description>
+                >
+                  <NotificationViewport
+                    position={position}
+                    notifications={notificationsByPosition[position] ?? []}
+                    onRemove={handleRemoveToast}
+                    className={positionClassName}
+                  />
                 </div>
-              </div>
-              <ToastPrimitive.Close className="flex size-6 items-center justify-center rounded-full bg-gray-200 text-gray-500 hover:bg-gray-300">
-                <Cross2Icon />
-              </ToastPrimitive.Close>
-            </ToastPrimitive.Root>
-          );
-        })}
-        <ToastPrimitive.Viewport
-          className={classes(
-            'fixed bottom-0 right-0 flex flex-col gap-4 p-6 outline-none z-[9999999]',
-            positionClassName,
+              );
+            },
           )}
-        />
+        </>
       </ToastPrimitive.Provider>
     </NotificationContext.Provider>
   );
