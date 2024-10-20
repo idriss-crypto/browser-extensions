@@ -9,6 +9,7 @@ import { Hex } from 'shared/web3';
 import { reverseObject } from 'shared/utils';
 import { UserScrapingResult } from 'shared/scraping';
 import { getNodeToInjectToUser, isHandleNode } from 'host/twitter';
+import { GetFollowersCommand } from 'shared/farcaster';
 
 import { GetCustomRecipientsCommand } from '../commands';
 import { PUBLIC_ETH_TAG_NAME } from '../constants';
@@ -51,6 +52,14 @@ export const useWidgetsData = ({ scrapedUsers, enabled }: Properties) => {
     });
   }, [usernameToTwitterId, scrapedUsers]);
 
+  const followersQuery = useCommandQuery({
+    command: new GetFollowersCommand({}),
+    enabled: enabled,
+    placeholderData: (previousData) => {
+      return previousData;
+    },
+  });
+
   const customRecipientsQuery = useCommandQuery({
     command: new GetCustomRecipientsCommand({}),
     placeholderData: (previousData) => {
@@ -68,7 +77,7 @@ export const useWidgetsData = ({ scrapedUsers, enabled }: Properties) => {
   });
 
   const recipientsWithOptionalWallet: RecipientCandidate[] = useMemo(() => {
-    if (!customRecipientsQuery.data) {
+    if (!customRecipientsQuery.data || !followersQuery.data) {
       return [];
     }
 
@@ -90,18 +99,33 @@ export const useWidgetsData = ({ scrapedUsers, enabled }: Properties) => {
           digestedMessageToWalletTag,
         );
 
+        const addressFromFollowersList = Object.values(
+          followersQuery.data ?? {},
+        ).find((follower) => {
+          return (
+            follower.twitter.toLowerCase() ===
+            scrapedUser.data.username.toLowerCase()
+          );
+        })?.address;
+
         return {
           ...scrapedUser,
           username: scrapedUser.data.username,
           digestedMessageToWalletTag,
           walletTagToDigestedMessage,
-          walletAddress: customRecipientData?.walletAddress,
+          walletAddress:
+            customRecipientData?.walletAddress ?? addressFromFollowersList,
           availableNetworks: customRecipientData?.availableNetworks,
           widgetOverrides: customRecipientData?.sendWidgetOverrides,
         };
       })
       .filter(Boolean);
-  }, [customRecipientsQuery.data, usernameToTwitterId, scrapedUsers]);
+  }, [
+    customRecipientsQuery.data,
+    followersQuery.data,
+    scrapedUsers,
+    usernameToTwitterId,
+  ]);
 
   const usersWithoutWalletYet = useMemo(() => {
     return recipientsWithOptionalWallet.filter((user) => {
