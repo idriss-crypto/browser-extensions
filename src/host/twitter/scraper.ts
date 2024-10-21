@@ -46,7 +46,7 @@ export class Scraper {
 
         const username = post
           .querySelectorAll('a')
-        [indexOfAnchor]?.getAttribute('href')
+          [indexOfAnchor]?.getAttribute('href')
           ?.replace('/', '');
 
         if (!username) {

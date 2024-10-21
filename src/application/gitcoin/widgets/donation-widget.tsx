@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { IdrissSend } from 'shared/idriss';
 import {
@@ -12,7 +12,6 @@ import {
 } from 'shared/web3';
 import { ErrorMessage, GasIcon, Spinner } from 'shared/ui';
 import { useCommandQuery } from 'shared/messaging';
-import { ErrorBoundary } from 'shared/observability';
 
 import { DonationPayload, WidgetData } from '../types';
 import {
@@ -24,25 +23,16 @@ import { getLoadingMessage } from '../utils';
 import { SomethingWentWrongMessage } from '../components';
 import { useDonationMaker, useFees, useDonationForm } from '../hooks';
 
-interface Properties {
+type Properties = {
   widgetData: WidgetData;
-}
+};
 
-interface BaseProperties extends Properties {
-  onClose: () => void;
-}
-
-const Base = ({ widgetData, onClose }: BaseProperties) => {
+export const DonationWidget = ({ widgetData }: Properties) => {
   const [isOpened, setIsOpened] = useState(false);
 
   const handleOpen = useCallback(() => {
     setIsOpened(true);
   }, []);
-
-  const handleClose = useCallback(() => {
-    setIsOpened(false);
-    onClose();
-  }, [onClose]);
 
   const getEthPerDollarQuery = useCommandQuery({
     command: new GetTokenPriceCommand(GET_ETH_PER_DOLLAR_COMMAND_DETAILS),
@@ -143,6 +133,16 @@ const Base = ({ widgetData, onClose }: BaseProperties) => {
   const iconSize = isHandleUser ? 22 : 16;
   const iconSource = GITCOIN_ICON;
 
+  const reset = useCallback(() => {
+    formMethods.reset();
+    donationMaker.reset();
+  }, [donationMaker, formMethods]);
+
+  const handleClose = useCallback(() => {
+    setIsOpened(false);
+    reset();
+  }, [reset]);
+
   return (
     <IdrissSend.Container
       node={node}
@@ -224,20 +224,3 @@ const Base = ({ widgetData, onClose }: BaseProperties) => {
     </IdrissSend.Container>
   );
 };
-
-export const DonationWidget = memo((properties: Properties) => {
-  const [closeCount, setCloseCount] = useState(0);
-
-  const handleClose = useCallback(() => {
-    setCloseCount((previous) => {
-      return previous + 1;
-    });
-  }, []);
-
-  return (
-    <ErrorBoundary>
-      <Base {...properties} key={closeCount} onClose={handleClose} />
-    </ErrorBoundary>
-  );
-});
-DonationWidget.displayName = 'DonationWidget';
