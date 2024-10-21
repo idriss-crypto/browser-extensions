@@ -24,7 +24,7 @@ type Properties = {
 
 export const SendWidget = ({ widgetData }: Properties) => {
   const {
-    nodeToInject,
+    node,
     username,
     availableNetworks,
     widgetOverrides,
@@ -79,7 +79,7 @@ export const SendWidget = ({ widgetData }: Properties) => {
 
   return (
     <IdrissSend.Container
-      node={nodeToInject}
+      node={node}
       iconSize={iconSize}
       iconSrc={iconSource}
       recipientName={username}

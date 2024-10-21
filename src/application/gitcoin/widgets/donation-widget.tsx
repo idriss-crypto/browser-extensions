@@ -56,7 +56,7 @@ const Base = ({ widgetData, onClose }: BaseProperties) => {
 
   const ethPerDollar = getEthPerDollarQuery.data ?? 0;
 
-  const { nodeToInject, username, isHandleUser, application } = widgetData;
+  const { node, username, isHandleUser, application } = widgetData;
 
   const { wallet } = useWallet();
 
@@ -145,7 +145,7 @@ const Base = ({ widgetData, onClose }: BaseProperties) => {
 
   return (
     <IdrissSend.Container
-      node={nodeToInject}
+      node={node}
       iconSrc={iconSource}
       iconSize={iconSize}
       recipientName={username}

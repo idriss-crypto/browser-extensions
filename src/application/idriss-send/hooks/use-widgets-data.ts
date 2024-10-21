@@ -110,6 +110,7 @@ export const useWidgetsData = ({ scrapedUsers, enabled }: Properties) => {
 
         return {
           ...scrapedUser,
+          node: scrapedUser.node as HTMLElement,
           username: scrapedUser.data.username,
           digestedMessageToWalletTag,
           walletTagToDigestedMessage,
@@ -207,8 +208,14 @@ export const useWidgetsData = ({ scrapedUsers, enabled }: Properties) => {
           return;
         }
 
-        const { top, node, username, availableNetworks, widgetOverrides } =
-          user;
+        const {
+          top,
+          node,
+          nodeId,
+          username,
+          availableNetworks,
+          widgetOverrides,
+        } = user;
         const isHandleUser = isHandleNode(node as HTMLElement);
 
         const nodeToInject = getNodeToInjectToUser(node, isHandleUser);
@@ -223,7 +230,8 @@ export const useWidgetsData = ({ scrapedUsers, enabled }: Properties) => {
           availableNetworks,
           widgetOverrides,
           walletAddress,
-          nodeToInject,
+          node: nodeToInject,
+          nodeId,
           isHandleUser,
           type: 'idrissSend' as const,
         };
