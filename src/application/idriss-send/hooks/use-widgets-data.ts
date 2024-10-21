@@ -77,7 +77,7 @@ export const useWidgetsData = ({ scrapedUsers, enabled }: Properties) => {
   });
 
   const recipientsWithOptionalWallet: RecipientCandidate[] = useMemo(() => {
-    if (!customRecipientsQuery.data || !followersQuery.data) {
+    if (!customRecipientsQuery.data) {
       return [];
     }
 
@@ -99,34 +99,19 @@ export const useWidgetsData = ({ scrapedUsers, enabled }: Properties) => {
           digestedMessageToWalletTag,
         );
 
-        const addressFromFollowersList = Object.values(
-          followersQuery.data ?? {},
-        ).find((follower) => {
-          return (
-            follower.twitter.toLowerCase() ===
-            scrapedUser.data.username.toLowerCase()
-          );
-        })?.address;
-
         return {
           ...scrapedUser,
           node: scrapedUser.node as HTMLElement,
           username: scrapedUser.data.username,
           digestedMessageToWalletTag,
           walletTagToDigestedMessage,
-          walletAddress:
-            customRecipientData?.walletAddress ?? addressFromFollowersList,
+          walletAddress: customRecipientData?.walletAddress,
           availableNetworks: customRecipientData?.availableNetworks,
           widgetOverrides: customRecipientData?.sendWidgetOverrides,
         };
       })
       .filter(Boolean);
-  }, [
-    customRecipientsQuery.data,
-    followersQuery.data,
-    scrapedUsers,
-    usernameToTwitterId,
-  ]);
+  }, [customRecipientsQuery.data, scrapedUsers, usernameToTwitterId]);
 
   const usersWithoutWalletYet = useMemo(() => {
     return recipientsWithOptionalWallet.filter((user) => {
@@ -199,9 +184,18 @@ export const useWidgetsData = ({ scrapedUsers, enabled }: Properties) => {
           const publicEthDigestedMessage =
             user.walletTagToDigestedMessage[PUBLIC_ETH_TAG_NAME] ?? '';
 
+          const addressFromFollowersList = Object.values(
+            followersQuery.data ?? {},
+          ).find((follower) => {
+            return (
+              follower.twitter.toLowerCase() === user.username.toLowerCase()
+            );
+          })?.address;
+
           walletAddress =
             userDigestToWallet[publicEthDigestedMessage] ??
-            Object.values(userDigestToWallet)[0];
+            Object.values(userDigestToWallet)[0] ??
+            addressFromFollowersList;
         }
 
         if (!walletAddress) {
@@ -237,7 +231,7 @@ export const useWidgetsData = ({ scrapedUsers, enabled }: Properties) => {
         };
       })
       .filter(Boolean);
-  }, [recipientsWithOptionalWallet, digestToWallet]);
+  }, [recipientsWithOptionalWallet, digestToWallet, followersQuery.data]);
 
   return { widgets };
 };
