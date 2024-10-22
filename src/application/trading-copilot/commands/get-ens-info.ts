@@ -24,7 +24,7 @@ export class GetEnsInfoCommand extends Command<Payload, string | null> {
   async handle() {
     try {
       const client = createPublicClient({
-        chain: { ...mainnet, fees: undefined },
+        chain: { ...mainnet },
         transport: http(),
       });
 
