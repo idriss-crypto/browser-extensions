@@ -3,18 +3,17 @@ const project = resolve(process.cwd(), 'tsconfig.eslint.json');
 
 /** @type {import("eslint").ESLint.ConfigData} */
 module.exports = {
-  root: true,
-  env: {
-    browser: true,
-    es2022: true,
-    node: true,
-  },
-  parser: '@typescript-eslint/parser',
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     project: project,
     tsconfigRootDir: __dirname,
     sourceType: 'module',
     ecmaVersion: 2022,
+  },
+  env: {
+    browser: true,
+    es2022: true,
+    node: true,
   },
   extends: [
     'eslint:recommended',
@@ -47,46 +46,6 @@ module.exports = {
         alwaysTryTypes: true,
       },
     },
-    'boundaries/elements': [
-      {
-        type: 'runtime',
-        pattern: 'src/runtime/*',
-      },
-      {
-        type: 'final',
-        pattern: ['src/final/index.ts', 'src/final', 'src/final/*'],
-      },
-      {
-        type: 'infrastructure',
-        pattern: 'src/infrastructure/*',
-        capture: ['infrastructureElement'],
-      },
-      ,
-      {
-        type: 'application',
-        pattern: ['src/application/*'],
-        capture: ['applicationName'],
-      },
-      {
-        type: 'host',
-        pattern: 'src/host/*',
-        capture: ['hostName'],
-      },
-      {
-        type: 'shared',
-        pattern: 'src/shared/*',
-        capture: ['moduleName'],
-      },
-      {
-        type: 'types',
-        pattern: 'src/types',
-      },
-      {
-        type: 'asset',
-        pattern: 'src/assets/*',
-      },
-    ],
-    'boundaries/include': ['src/**/*.ts', 'src/**/*.tsx'],
   },
   overrides: [
     {
@@ -107,68 +66,6 @@ module.exports = {
   rules: {
     'unicorn/prefer-global-this': 'off',
     'tailwindcss/classnames-order': 'off',
-    'boundaries/no-unknown-files': [2],
-    'boundaries/entry-point': [
-      2,
-      {
-        default: 'disallow',
-        rules: [
-          {
-            target: [
-              'shared',
-              'host',
-              'application',
-              'infrastructure',
-              'final',
-              'asset',
-            ],
-            allow: 'index.(ts|tsx)',
-          },
-        ],
-      },
-    ],
-    'boundaries/element-types': [
-      2,
-      {
-        // disallow importing any element by default
-        default: 'disallow',
-        rules: [
-          {
-            from: ['*'],
-            allow: ['asset'],
-          },
-          {
-            from: ['runtime'],
-            allow: ['infrastructure', 'shared'],
-          },
-          {
-            from: ['host'],
-            allow: ['shared'],
-          },
-          {
-            from: ['shared'],
-            allow: ['shared'],
-          },
-          {
-            from: ['infrastructure'],
-            allow: ['application', 'host', 'shared', 'final'],
-          },
-          {
-            from: ['final'],
-            allow: ['application', 'shared', 'host'],
-          },
-          {
-            from: ['application'],
-            allow: [
-              ['application', { applicationName: '${this.applicationName}' }],
-              'shared',
-              'host',
-            ],
-          },
-        ],
-      },
-    ],
-
     'arrow-body-style': ['error', 'always'],
     'react/prop-types': 'off',
     'unicorn/no-null': 'off',

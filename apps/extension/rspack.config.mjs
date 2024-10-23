@@ -1,7 +1,5 @@
-import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
-import webpack from 'webpack';
+import rspack from '@rspack/core';
 import path from 'path';
-import CopyPlugin from 'copy-webpack-plugin';
 import NodePolyfillPlugin from 'node-polyfill-webpack-plugin';
 import { sentryWebpackPlugin } from '@sentry/webpack-plugin';
 import * as url from 'url';
@@ -11,8 +9,8 @@ import { config as loadEnvironmentVariables } from 'dotenv-safe';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const webpackModeToEnvFilePath = {
-  production: '.env.production',
-  development: '.env.development',
+  production: path.resolve(__dirname, '.env.production'),
+  development: path.resolve(__dirname, '.env.development'),
 };
 
 export default (_env, argv) => {
@@ -32,17 +30,17 @@ export default (_env, argv) => {
     },
     devtool: 'source-map',
     output: {
-      path: path.resolve(__dirname, 'buildResults'),
+      path: path.resolve(__dirname, 'build'),
       filename: '[name].js',
       publicPath: '',
-      chunkFormat: false
+      chunkFormat: false,
     },
     performance: {
       maxAssetSize: 9999999999,
       maxEntrypointSize: 9999999999,
     },
     plugins: [
-      new CopyPlugin({
+      new rspack.CopyRspackPlugin({
         patterns: [
           { from: './src/runtime/chromium/manifest.json', to: 'chromium' },
           { from: './src/common/img', to: 'chromium/img' },
@@ -51,15 +49,15 @@ export default (_env, argv) => {
         ],
       }),
       new NodePolyfillPlugin(),
-      new webpack.ProvidePlugin({
+      new rspack.ProvidePlugin({
         process: 'process/browser.js',
       }),
-      new webpack.DefinePlugin({
+      new rspack.DefinePlugin({
         'process.env': JSON.stringify({
           SENTRY_ENVIRONMENT: process.env.SENTRY_ENVIRONMENT,
           SENTRY_DSN: process.env.SENTRY_DSN,
           AMPLITUDE_API_KEY: process.env.AMPLITUDE_API_KEY,
-          ENVIRONMENT: process.env.ENVIRONMENT
+          ENVIRONMENT: process.env.ENVIRONMENT,
         }),
       }),
       sentryWebpackPlugin({
@@ -73,14 +71,50 @@ export default (_env, argv) => {
     ],
     resolve: {
       extensions: ['.ts', '.tsx', '...'],
-      plugins: [new TsconfigPathsPlugin()],
+      tsConfig: path.resolve(__dirname, './tsconfig.json'),
     },
     module: {
       rules: [
         {
-          test: /\.(ts|tsx)$/,
-          exclude: /node_modules/,
-          use: 'babel-loader',
+          test: /\.(j|t)s$/,
+          exclude: [/[\\/]node_modules[\\/]/],
+          loader: 'builtin:swc-loader',
+          options: {
+            jsc: {
+              parser: {
+                syntax: 'typescript',
+              },
+              externalHelpers: true,
+              transform: {
+                react: {
+                  runtime: 'automatic',
+                  development: argv.mode !== 'production',
+                  refresh: false
+                }
+              },
+            }
+          }
+        },
+        {
+          test: /\.(j|t)sx$/,
+          exclude: [/[\\/]node_modules[\\/]/],
+          loader: 'builtin:swc-loader',
+          options: {
+            jsc: {
+              parser: {
+                syntax: 'typescript',
+                tsx: true,
+              },
+              externalHelpers: true,
+              transform: {
+                react: {
+                  runtime: 'automatic',
+                  development: argv.mode !== 'production',
+                  refresh: false
+                }
+              },
+            }
+          }
         },
         {
           test: /tailwind\.build\.css$/i,
@@ -94,19 +128,8 @@ export default (_env, argv) => {
           ],
         },
         {
-          test: /\.mpts$/,
-          use: ['mpts-loader'],
-        },
-        {
           test: /\.(png|jpg|gif|svg)$/i,
-          use: [
-            {
-              loader: 'url-loader',
-              options: {
-                limit: true,
-              },
-            },
-          ],
+          type: 'asset/inline',
         },
       ],
     },

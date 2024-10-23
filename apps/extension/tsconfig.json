@@ -1,0 +1,18 @@
+{
+  "extends": "@idriss-xyz/typescript-config/react-library.json",
+  "compilerOptions": {
+    "outDir": "./build",
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "final": ["src/final"],
+      "infrastructure/*": ["src/infrastructure/*"],
+      "application/*": ["src/application/*"],
+      "host/*": ["src/host/*"],
+      "shared/*": ["src/shared/*"],
+      "assets/*": ["src/assets/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

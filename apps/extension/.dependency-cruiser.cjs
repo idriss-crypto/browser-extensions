@@ -276,9 +276,9 @@ module.exports = {
       for compilation (and whatever other naughty things babel plugins do to
       source code).
      */
-    babelConfig: {
-      fileName: '.babelrc',
-    },
+    // babelConfig: {
+    //   fileName: '.babelrc',
+    // },
 
     /* List of strings you have in use in addition to cjs/ es6 requires
        & imports to declare module dependencies. Use this e.g. if you've
