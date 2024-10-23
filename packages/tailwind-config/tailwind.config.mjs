@@ -13,10 +13,22 @@ export default {
   ],
   theme: {
     extend: {
+      zIndex: {
+        1: '1',
+      },
+      fontFamily: {
+        sans: ['var(--font-aeonikpro)'],
+      },
       spacing: {
         4.5: '18px',
       },
+      fontSize: {
+        button1: ['1rem', { lineHeight: '1.25em' }],
+      },
       colors: {
+        borderfocus: '#4C3DF2',
+        lime: { 400: '#C8F041' },
+        mint: { 600: '#05AB13' },
         brand: {
           primary: '#5FEB3C',
           secondary: '#2AD012',
@@ -25,7 +37,7 @@ export default {
         onsurface: {
           primary: '#000A05',
         },
-        // legacy colors
+        // LEGACY COLORS
         polymarket: {
           gray: '#1D2B39',
         },
