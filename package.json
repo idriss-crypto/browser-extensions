@@ -3,7 +3,8 @@
   "scripts": {
     "extension:dev": "turbo watch dev --filter=@idriss-xyz/extension",
     "extension:prod": "turbo run build --filter=@idriss-xyz/extension",
-    "landing-page:dev": "turbo watch dev --filter=@idriss-xyz/landing-page",
+    "landing-page:dev": "turbo dev --filter=@idriss-xyz/landing-page",
+    "dev": "turbo dev",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "format": "turbo run format",

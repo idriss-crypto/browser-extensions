@@ -1,7 +1,13 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
-    "dev": {},
+    "@idriss-xyz/landing-page#dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "@idriss-xyz/extension#dev": {
+      "cache": false
+    },
     "lint": {},
     "lint:fix": {},
     "format": {},
