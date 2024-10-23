@@ -1,3 +1,4 @@
+import { FullyRequired } from '@idriss-xyz/utils';
 import { cva, VariantProps } from 'class-variance-authority';
 
 export const variants = cva(['rounded-xl tracking-wider'], {
@@ -13,8 +14,4 @@ export const variants = cva(['rounded-xl tracking-wider'], {
   },
 });
 
-// TODO: move this to new package @idriss-xyz/utils since it is a generic reusable type util
-type RequiredProperty<T extends object> = {
-  [P in keyof T]-?: Required<NonNullable<T[P]>>;
-};
-export type Variants = RequiredProperty<VariantProps<typeof variants>>;
+export type Variants = FullyRequired<VariantProps<typeof variants>>;
