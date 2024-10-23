@@ -3,7 +3,7 @@ const project = resolve(process.cwd(), 'tsconfig.eslint.json');
 
 /** @type {import("eslint").ESLint.ConfigData} */
 module.exports = {
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     project: project,
     tsconfigRootDir: __dirname,
@@ -24,10 +24,8 @@ module.exports = {
     'plugin:@typescript-eslint/stylistic-type-checked',
     'plugin:import/recommended',
     'plugin:import/typescript',
-    'plugin:boundaries/recommended',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
-    'plugin:react-hooks/recommended',
     'plugin:tailwindcss/recommended',
     'plugin:@tanstack/eslint-plugin-query/recommended',
     'plugin:storybook/recommended',
@@ -79,7 +77,7 @@ module.exports = {
     '@typescript-eslint/unbound-method': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/consistent-type-exports': 'error',
-    "@typescript-eslint/consistent-type-definitions": 'off', // TODO: ['error', 'type']
+    '@typescript-eslint/consistent-type-definitions': 'off', // TODO: ['error', 'type']
     '@typescript-eslint/no-misused-promises': [
       'error',
       {

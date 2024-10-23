@@ -3,6 +3,10 @@
   "tasks": {
     "dev": {
       "outputs": ["build"]
-    }
+    },
+    "lint": {},
+    "lint:fix": {},
+    "format": {},
+    "format:fix": {}
   }
 }

@@ -19,7 +19,7 @@ export const StatusChip = ({ status }: { status: string }) => {
   return (
     <Chip
       className={classes(
-        'rounded-sm border-tally-border-primary px-[4px] py-0.5 font-bold uppercase tracking-wide',
+        'border-tally-border-primary rounded-sm px-[4px] py-0.5 font-bold uppercase tracking-wide',
         {
           'bg-tally-purple-100 text-tally-purple-500':
             chipVariant === 'positive',

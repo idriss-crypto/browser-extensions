@@ -1,10 +1,11 @@
-const { resolve } = require('node:path');
-const project = resolve(process.cwd(), 'tsconfig.eslint.json');
-
 /** @type {import("eslint").ESLint.ConfigData} */
 module.exports = {
   root: true,
-  extends: ["@idriss-xyz/eslint-config/base"],
+  extends: [
+    '@idriss-xyz/eslint-config/base',
+    'plugin:boundaries/recommended',
+    'plugin:react-hooks/recommended',
+  ],
   settings: {
     'boundaries/elements': [
       {
@@ -109,5 +110,5 @@ module.exports = {
         ],
       },
     ],
-  }
+  },
 };

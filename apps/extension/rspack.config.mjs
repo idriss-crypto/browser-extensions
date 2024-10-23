@@ -89,11 +89,11 @@ export default (_env, argv) => {
                 react: {
                   runtime: 'automatic',
                   development: argv.mode !== 'production',
-                  refresh: false
-                }
+                  refresh: false,
+                },
               },
-            }
-          }
+            },
+          },
         },
         {
           test: /\.(j|t)sx$/,
@@ -110,11 +110,11 @@ export default (_env, argv) => {
                 react: {
                   runtime: 'automatic',
                   development: argv.mode !== 'production',
-                  refresh: false
-                }
+                  refresh: false,
+                },
               },
-            }
-          }
+            },
+          },
         },
         {
           test: /tailwind\.build\.css$/i,

@@ -23,6 +23,7 @@ type Story = StoryObj<typeof Select>;
 
 export const Primary: Story = {
   render: (properties) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [value, setValue] = useState(properties.value);
 
     return <Select {...properties} value={value} onChange={setValue} />;
