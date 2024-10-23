@@ -1,7 +1,6 @@
 {
   "extends": "@idriss-xyz/typescript-config/react-library.json",
   "compilerOptions": {
-    "outDir": "./build",
     "allowJs": true,
     "baseUrl": ".",
     "paths": {

@@ -1,3 +1,9 @@
+import { Button } from '@idriss-xyz/ui';
+
 export default function Home() {
-  return <div className="p-[21px]">hello world123</div>;
+  return (
+    <Button intent="primary" size="large">
+      HELLO LANDING
+    </Button>
+  );
 }

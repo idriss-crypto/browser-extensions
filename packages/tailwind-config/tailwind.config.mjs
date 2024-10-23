@@ -13,7 +13,19 @@ export default {
   ],
   theme: {
     extend: {
+      spacing: {
+        4.5: '18px',
+      },
       colors: {
+        brand: {
+          primary: '#5FEB3C',
+          secondary: '#2AD012',
+          tertiary: '#05AB13',
+        },
+        onsurface: {
+          primary: '#000A05',
+        },
+        // legacy colors
         polymarket: {
           gray: '#1D2B39',
         },
