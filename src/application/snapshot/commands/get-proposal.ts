@@ -5,7 +5,10 @@ import {
   HandlerResponseError,
   OkResult,
 } from 'shared/messaging';
-import { resolveAddress } from 'shared/web3';
+import {
+  GetIdToTwitterHandleCommand,
+  GetReverseIdrissCommand,
+} from 'shared/idriss';
 
 import { ProposalData } from '../types';
 import { generateGetProposalsQuery } from '../utils';
@@ -71,11 +74,41 @@ export class GetProposalCommand extends Command<Payload, Response> {
         });
       }
 
-      const resolvedAddress = await resolveAddress(currentProposal.author);
+      const author = '0xcCE9A28b570946123f392Cf1DbfA6D2D5e636a1f'; // currentProposal.author
+
+      const reverseIdrissCommand = new GetReverseIdrissCommand({
+        addresses: [author],
+      });
+      const reverseIdrissResult = await reverseIdrissCommand.handle();
+      let resolvedAddress: string | undefined;
+      let twitterId: string | undefined;
+      if (!('reason' in reverseIdrissResult)) {
+        const lookup = (
+          reverseIdrissResult as OkResult<Record<string, string | undefined>>
+        ).data;
+        twitterId = lookup[author] ?? undefined;
+      }
+
+      if (twitterId) {
+        const idToTwitterCommand = new GetIdToTwitterHandleCommand({
+          ids: [twitterId],
+        });
+        const idToTwitterResult = await idToTwitterCommand.handle();
+
+        if (!('reason' in idToTwitterResult)) {
+          const lookup = (idToTwitterResult as OkResult<Record<string, string>>)
+            .data;
+          resolvedAddress = lookup[twitterId];
+        }
+      }
+
       return new OkResult({
         proposal: {
           ...currentProposal,
-          author: { address: currentProposal.author, resolvedAddress },
+          author: {
+            address: currentProposal.author,
+            resolvedAddress,
+          },
         },
         hasNextProposal,
       });

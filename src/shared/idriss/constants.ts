@@ -115,6 +115,31 @@ export const GET_MULTIPLE_IDRISS_REGISTRY_ABI = [
   },
 ] as const;
 
+export const GET_REVERSE_IDRISS_ABI = [
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    name: 'reverseIDriss',
+    outputs: [
+      {
+        internalType: 'string',
+        name: '',
+        type: 'string',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+];
+
+export const MULTI_RESOLVER_CONTRACT_ADDRESS =
+  '0xa179BF6f32483A82d4BD726068EfD93E29f3c930';
+
 export const WIDGET_WIDTH = 256;
 
 export const IDRISS_DISCORD_URL = 'https://www.idriss.xyz/discord';
