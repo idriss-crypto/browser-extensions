@@ -9,7 +9,7 @@ export default {
   content: [
     path.resolve(__dirname, '../ui/src/**/*.{ts,tsx}'),
     path.resolve(__dirname, '../../apps/extension/src/**/*.{ts,tsx}'),
-    path.resolve(__dirname, '../../apps/landing-page/src/**/*.{ts,tsx}'),
+    path.resolve(__dirname, '../../apps/main-landing/src/**/*.{ts,tsx}'),
   ],
   theme: {
     extend: {
