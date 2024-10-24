@@ -10,7 +10,7 @@ export const button = cva(
     variants: {
       intent: {
         primary: [
-          'bg-brand-primary text-onsurface-primary',
+          'bg-brand-primary text-onsurface-primary shadow-input',
           'hover:bg-brand-secondary',
           'active:bg-brand-tertiary',
         ],

@@ -13,6 +13,9 @@ export default {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        input: 'box-shadow: 0px 0px 0px 4px #F2F2F224',
+      },
       blur: {
         md: '10px',
       },
