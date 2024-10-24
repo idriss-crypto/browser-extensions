@@ -1,5 +1,7 @@
 import { ButtonHTMLAttributes } from 'react';
 
+import { classes } from '../../utils';
+
 import { button, ButtonVariants } from './variants';
 import { Glow } from './glow';
 
@@ -14,9 +16,12 @@ export const Button = ({
   ...properties
 }: Properties) => {
   return (
-    <button {...properties} className={button({ intent, size, className })}>
+    <button
+      {...properties}
+      className={classes(button({ intent, size, className }))}
+    >
       {children}
-      <Glow intent={intent} />
+      <Glow intent={intent} size={size} />
     </button>
   );
 };

@@ -13,6 +13,9 @@ export default {
   ],
   theme: {
     extend: {
+      blur: {
+        md: '10px',
+      },
       zIndex: {
         1: '1',
       },
