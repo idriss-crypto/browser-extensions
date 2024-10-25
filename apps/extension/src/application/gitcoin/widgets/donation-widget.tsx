@@ -160,7 +160,7 @@ export const DonationWidget = ({ widgetData }: Properties) => {
               heading={
                 <>
                   Sending{' '}
-                  <span className="text-idriss-primary-500 font-bold">
+                  <span className="font-bold text-idriss-primary-500">
                     ${amount}
                   </span>{' '}
                   ({roundToSignificantFigures(userAmountInWei / 10 ** 18, 2)}{' '}

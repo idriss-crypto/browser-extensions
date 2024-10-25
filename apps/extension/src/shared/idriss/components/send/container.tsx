@@ -117,7 +117,7 @@ export const Container = memo(
             src={iconSrc}
             width={iconSize}
             height={iconSize}
-            className="z-1 relative ml-0.5 cursor-pointer"
+            className="relative z-1 ml-0.5 cursor-pointer"
             onMouseOver={open}
           />
         </PortalWithTailwind>

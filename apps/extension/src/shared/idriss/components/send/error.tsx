@@ -18,7 +18,7 @@ export const Error = ({ heading, children, onClose }: Properties) => {
       {children}
       <Button
         onClick={onClose}
-        className="bg-idriss-primary-500 hover:bg-idriss-primary-400 mt-5 w-full rounded-md py-2 text-base font-medium text-white shadow-sm"
+        className="mt-5 w-full rounded-md bg-idriss-primary-500 py-2 text-base font-medium text-white shadow-sm hover:bg-idriss-primary-400"
       >
         Close
       </Button>

@@ -92,7 +92,7 @@ export const AddressList = ({
                     <Icon
                       size={16}
                       name="TwitterLogoIcon"
-                      className="text-twitter-primary [&>path]:fill-rule-non-zero mt-1"
+                      className="mt-1 text-twitter-primary [&>path]:fill-rule-non-zero"
                     />
                   )}
                 </>

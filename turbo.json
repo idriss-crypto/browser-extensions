@@ -8,10 +8,30 @@
     "@idriss-xyz/extension#dev": {
       "cache": false
     },
-    "lint": {},
-    "lint:fix": {},
-    "format": {},
-    "format:fix": {},
+    "lint": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "../../packages/eslint-config/.eslintrc.cjs"
+      ]
+    },
+    "lint:fix": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "../../packages/eslint-config/.eslintrc.cjs"
+      ]
+    },
+    "format": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "../../prettier.config.mjs"
+      ]
+    },
+    "format:fix": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "../../prettier.config.mjs"
+      ]
+    },
     "type-check": {}
   }
 }

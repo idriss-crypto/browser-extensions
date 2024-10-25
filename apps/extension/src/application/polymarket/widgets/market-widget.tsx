@@ -198,7 +198,7 @@ export const Market = ({
   return (
     <div className="absolute right-4" style={{ top }}>
       <WidgetBase
-        className="bg-polymarket-gray z-10 w-96 rounded-xl font-sans text-white"
+        className="z-10 w-96 rounded-xl bg-polymarket-gray font-sans text-white"
         closeButtonClassName="hover:enabled:bg-[#5f7282]"
       >
         <form ref={formReference} onSubmit={marketForm.handleSubmit(submit)}>

@@ -192,7 +192,7 @@ export const WalletConnectModal = createModal(
                   wrapperClassName="mb-2 mt-4"
                   value={termsOfUseAccepted}
                   onChange={setTermsOfUseAccepted}
-                  className="focus:ring-idriss-primary-500 focus:ring-2"
+                  className="focus:ring-2 focus:ring-idriss-primary-500"
                   label={
                     <p className="text-sm text-gray-500">
                       I agree to the{' '}
@@ -200,7 +200,7 @@ export const WalletConnectModal = createModal(
                         href="https://www.idriss.xyz/tos"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-idriss-primary-500 font-semibold"
+                        className="font-semibold text-idriss-primary-500"
                       >
                         Terms of Use
                       </a>
@@ -209,7 +209,7 @@ export const WalletConnectModal = createModal(
                 />
               </div>
               <Button
-                className="bg-idriss-primary-500 hover:bg-idriss-primary-400 rounded font-medium text-white disabled:bg-green-200 disabled:text-white"
+                className="rounded bg-idriss-primary-500 font-medium text-white hover:bg-idriss-primary-400 disabled:bg-green-200 disabled:text-white"
                 onClick={() => {
                   const providerToConnect =
                     chosenProviderRdns === 'browser'

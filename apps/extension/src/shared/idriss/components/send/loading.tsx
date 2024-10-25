@@ -11,7 +11,7 @@ interface Properties {
 export const Loading = ({ recipient, heading, children }: Properties) => {
   return (
     <div className="flex flex-col items-center text-center">
-      <Spinner className="text-idriss-primary-500 size-24" />
+      <Spinner className="size-24 text-idriss-primary-500" />
       <p className="mt-8 text-lg font-medium leading-6 text-gray-900">
         Waiting for Confirmation
       </p>

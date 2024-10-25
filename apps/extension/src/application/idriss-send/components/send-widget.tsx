@@ -93,7 +93,7 @@ export const SendWidget = ({ widgetData }: Properties) => {
               heading={
                 <>
                   Sending{' '}
-                  <span className="text-idriss-primary-500 font-bold">
+                  <span className="font-bold text-idriss-primary-500">
                     ${amount}
                   </span>{' '}
                   {amountInSelectedToken
