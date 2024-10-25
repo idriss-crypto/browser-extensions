@@ -31,7 +31,7 @@ export const Backdrop = ({
 
   return (
     <div
-      className="bg-transparent fixed inset-0"
+      className="fixed inset-0 bg-transparent"
       onClick={onClick}
       onMouseEnter={startHover}
       onMouseOut={stopHover}

@@ -44,7 +44,7 @@ export const Closable = ({
         <IconButton
           onClick={onClose}
           className={classes(
-            'bg-transparent absolute right-1 top-1 flex items-center justify-center p-0.5',
+            'absolute right-1 top-1 flex items-center justify-center bg-transparent p-0.5',
             closeButtonClassName,
           )}
           iconProps={{
