@@ -4,15 +4,15 @@ import { cva, VariantProps } from 'class-variance-authority';
 export const button = cva(
   [
     'rounded-xl tracking-wider relative overflow-hidden group z-1 font-medium',
-    'focus-visible:ring-borderfocus focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+    'focus-visible:ring-indigo-500 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
   ],
   {
     variants: {
       intent: {
         primary: [
-          'bg-brand-primary text-onsurface-primary shadow-input',
-          'hover:bg-brand-secondary',
-          'active:bg-brand-tertiary',
+          'bg-mint-400 text-onsurface-primary shadow-input',
+          'hover:bg-mint-500',
+          'active:bg-mint-600',
         ],
       },
       size: {

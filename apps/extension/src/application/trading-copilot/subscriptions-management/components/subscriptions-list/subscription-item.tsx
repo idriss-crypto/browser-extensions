@@ -68,7 +68,7 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
           }
         />
 
-        <p className="ml-2 flex items-center gap-1 text-sm text-gray-700">
+        <p className="text-gray-700 ml-2 flex items-center gap-1 text-sm">
           {subscription.ensName}
 
           {twitterQuery.data && (
@@ -123,7 +123,7 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
       </div>
       <IconButton
         iconProps={{ name: 'Cross1Icon' }}
-        className="text-red-700"
+        className="text-[#b91c1c]"
         onClick={remove}
       />
     </li>
