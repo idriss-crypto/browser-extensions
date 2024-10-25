@@ -84,7 +84,7 @@ export const HomeView = () => {
           icons={[{ iconSrc: TRADING_COPILOT_LOGO, iconAlt: 'Trading Icon' }]}
           title="Trading Copilot"
           subtitle="Coming soon"
-          className="cursor-not-allowed bg-gray-200 opacity-50"
+          className="bg-gray-200 cursor-not-allowed opacity-50"
           hideExternalLinkIcon
         />
       </div>

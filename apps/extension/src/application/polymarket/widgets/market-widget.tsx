@@ -218,7 +218,7 @@ export const Market = ({
             <div className="mb-1.5 mt-8 flex items-center justify-between">
               <InputBase.Label label="Outcome" />
               <IconButton
-                className="border border-[#2c3f4f] bg-transparent hover:enabled:bg-[#53535a] active:enabled:bg-[#92a5b5]"
+                className="bg-transparent border border-[#2c3f4f] hover:enabled:bg-[#53535a] active:enabled:bg-[#92a5b5]"
                 iconProps={{ name: 'SymbolIcon', size: 16 }}
                 onClick={onRefresh}
               />
@@ -288,7 +288,7 @@ export const Market = ({
             <div className="mt-4">{scenarioToActionButton[scenario]}</div>
             <div className="mt-4 flex items-center justify-between text-base font-normal">
               <span className="text-[#858D92]">Potential return</span>
-              <span className="font-semibold text-green-400">
+              <span className="text-green-400 font-semibold">
                 ${potentialReturn} ({potentialReturnPercentage}%)
               </span>
             </div>

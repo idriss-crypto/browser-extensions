@@ -13,7 +13,7 @@ export const PaginationComponent = ({
     return;
   }
   return (
-    <div className="flex justify-end gap-[10px] text-gray-700">
+    <div className="text-gray-700 flex justify-end gap-[10px]">
       <IconButton
         disabled={!hasPrevious}
         onClick={onPrevious}

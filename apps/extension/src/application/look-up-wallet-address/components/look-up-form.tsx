@@ -22,7 +22,7 @@ export const LookupForm = ({
     <form onSubmit={form.handleSubmit(onSubmit)} className={className}>
       <label
         htmlFor="identifier"
-        className="mb-2 block text-base font-bold text-gray-700"
+        className="text-gray-700 mb-2 block text-base font-bold"
       >
         Look up an address
       </label>

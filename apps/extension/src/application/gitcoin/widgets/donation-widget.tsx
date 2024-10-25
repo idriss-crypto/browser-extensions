@@ -118,7 +118,7 @@ export const DonationWidget = ({ widgetData }: Properties) => {
       return (
         <>
           {feeInDollars > 0 ? (
-            <p className="flex w-full items-center justify-end space-x-1 text-xs text-gray-500">
+            <p className="text-gray-500 flex w-full items-center justify-end space-x-1 text-xs">
               <span>{`$${feeInDollars}`}</span>
               <span>+</span>
               <GasIcon />

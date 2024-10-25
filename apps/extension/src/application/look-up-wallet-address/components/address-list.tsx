@@ -60,7 +60,7 @@ export const AddressList = ({
 
   return (
     <div className="absolute w-full">
-      <ScrollArea className="max-h-40 w-full overflow-y-auto rounded-md border border-gray-300 bg-white text-black shadow-[inset_0_4px_4px_-6px_rgba(229,231,235,1),_inset_0_-4px_4px_-6px_rgba(229,231,235,1)] transition-all duration-500 [scrollbar-color:gray_#efefef] [scrollbar-width:thin]">
+      <ScrollArea className="border-gray-300 max-h-40 w-full overflow-y-auto rounded-md border bg-white text-black shadow-[inset_0_4px_4px_-6px_rgba(229,231,235,1),_inset_0_-4px_4px_-6px_rgba(229,231,235,1)] transition-all duration-500 [scrollbar-color:gray_#efefef] [scrollbar-width:thin]">
         {Object.entries(searchResult.lookup).map(([chain, address]) => {
           const isCopied = isCopiedAddress({ chain, address });
 
@@ -71,7 +71,7 @@ export const AddressList = ({
               }}
               key={chain + address}
               className={classes(
-                'flex h-11 cursor-pointer select-none items-center justify-between border-b border-b-stone-100 bg-white px-2 hover:bg-gray-200',
+                'border-b-stone-100 hover:bg-gray-200 flex h-11 cursor-pointer select-none items-center justify-between border-b bg-white px-2',
                 isCopied && 'bg-green-100 hover:bg-green-200',
               )}
             >

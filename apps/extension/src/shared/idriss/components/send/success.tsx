@@ -20,7 +20,7 @@ export const Success = ({
         className="text-idriss-primary-500"
         size={124}
       />
-      <p className="mt-4 text-lg font-medium leading-6 text-gray-900">
+      <p className="text-gray-900 mt-4 text-lg font-medium leading-6">
         Transaction Submitted 🥳
       </p>
       <a
@@ -29,7 +29,7 @@ export const Success = ({
         rel="noopener noreferrer"
         className="mt-1 flex items-center space-x-1"
       >
-        <span className="text-base font-normal leading-6 text-gray-500">
+        <span className="text-gray-500 text-base font-normal leading-6">
           View on Explorer
         </span>
         <Icon name="ExternalLinkIcon" size={16} className="text-gray-500" />

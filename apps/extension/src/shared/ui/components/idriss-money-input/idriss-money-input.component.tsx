@@ -56,7 +56,7 @@ export const IdrissMoneyInput = ({
               value={value}
               decimalScale={3}
               prefix="$"
-              className="w-full bg-transparent text-center outline-none placeholder:text-black"
+              className="bg-transparent w-full text-center outline-none placeholder:text-black"
               autoFocus
             />
           ) : (

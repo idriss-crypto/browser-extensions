@@ -132,12 +132,12 @@ export const LookUpWalletAddress = () => {
             <AddressList onAddressCopied={closeWidget} searchResult={result} />
           )}
           {!form.formState.isDirty && hasFoundNothing && (
-            <div className="absolute w-full rounded-lg border border-gray-300 bg-white p-4 shadow-md">
+            <div className="border-gray-300 absolute w-full rounded-lg border bg-white p-4 shadow-md">
               <span className="text-gray-800">Nothing found.</span>
               <a
                 href={IDRISS_URL}
                 target="_blank"
-                className="ml-2 text-blue-600 hover:underline"
+                className="text-blue-600 ml-2 hover:underline"
                 rel="noreferrer"
               >
                 Sign up for IDriss now!

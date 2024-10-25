@@ -20,10 +20,10 @@ export const SettingsLayoutHeader = ({ title, prefix }: Properties) => {
   }, [extensionPopup]);
 
   return (
-    <div className="sticky top-0 flex items-center justify-between bg-gray-100 px-6 py-4 text-lg font-bold">
+    <div className="bg-gray-100 sticky top-0 flex items-center justify-between px-6 py-4 text-lg font-bold">
       {prefix ?? (
         <IconButton
-          className="text-black hover:text-green-500"
+          className="hover:text-green-500 text-black"
           iconProps={{ name: 'ArrowLeftIcon', size: 24 }}
           onClick={() => {
             extensionPopup.navigateBack();
@@ -36,7 +36,7 @@ export const SettingsLayoutHeader = ({ title, prefix }: Properties) => {
       </span>
 
       <IconButton
-        className="text-black hover:text-green-500"
+        className="hover:text-green-500 text-black"
         iconProps={{ name: 'Cross1Icon', size: 24 }}
         onClick={goHome}
       />

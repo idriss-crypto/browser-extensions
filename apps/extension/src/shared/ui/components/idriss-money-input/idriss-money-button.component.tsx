@@ -11,7 +11,7 @@ export const IdrissMoneyButton = ({
   return (
     <button
       className={classes(
-        'flex items-center justify-center rounded-md bg-green-100 px-4 py-2 text-base font-medium shadow-sm hover:bg-idriss-primary-400',
+        'bg-green-100 flex items-center justify-center rounded-md px-4 py-2 text-base font-medium shadow-sm hover:bg-idriss-primary-400',
         isActive && 'bg-idriss-primary-400',
         className,
       )}

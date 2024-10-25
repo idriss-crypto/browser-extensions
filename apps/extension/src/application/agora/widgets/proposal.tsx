@@ -46,11 +46,11 @@ export const Proposal = ({
           href={getProposerUrl(data.proposer)}
           target="_blank"
           rel="noopener noreferrer"
-          className="line-clamp-[1] text-xs text-gray-700"
+          className="text-gray-700 line-clamp-[1] text-xs"
         >
           By {formatProposalAddress(data.proposer)}
         </a>
-        <Chip className="rounded-sm bg-green-200 px-1 py-0.5 font-semibold uppercase text-green-600">
+        <Chip className="bg-green-200 text-green-600 rounded-sm px-1 py-0.5 font-semibold uppercase">
           {data.status}
         </Chip>
       </header>
@@ -64,7 +64,7 @@ export const Proposal = ({
       </main>
       <footer className="mt-3.5 flex items-center justify-between">
         <div className="flex justify-start gap-1.5">
-          <div className="flex items-center text-xs text-gray-700">
+          <div className="text-gray-700 flex items-center text-xs">
             {getEndsInLabel(getDifferenceInDays(proposalEndDateInMs))}
           </div>
           <a

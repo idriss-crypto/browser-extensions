@@ -156,7 +156,7 @@ export const WalletConnectModal = createModal(
                 return (
                   <button
                     className={classes(
-                      'flex items-center space-x-4 rounded bg-transparent px-4 py-2.5 shadow-md hover:bg-black/10 disabled:opacity-50',
+                      'bg-transparent flex items-center space-x-4 rounded px-4 py-2.5 shadow-md hover:bg-black/10 disabled:opacity-50',
                       chosenProviderRdns === info.rdns && 'bg-black/10',
                     )}
                     key={info.uuid}
@@ -173,7 +173,7 @@ export const WalletConnectModal = createModal(
               {window.ethereum ? (
                 <button
                   className={classes(
-                    'flex items-center space-x-4 rounded bg-transparent px-4 py-2.5 shadow-md hover:bg-black/10 disabled:opacity-50',
+                    'bg-transparent flex items-center space-x-4 rounded px-4 py-2.5 shadow-md hover:bg-black/10 disabled:opacity-50',
                     chosenProviderRdns === 'browser' && 'bg-black/10',
                   )}
                   onClick={() => {
@@ -194,7 +194,7 @@ export const WalletConnectModal = createModal(
                   onChange={setTermsOfUseAccepted}
                   className="focus:ring-2 focus:ring-idriss-primary-500"
                   label={
-                    <p className="text-sm text-gray-500">
+                    <p className="text-gray-500 text-sm">
                       I agree to the{' '}
                       <a
                         href="https://www.idriss.xyz/tos"
@@ -209,7 +209,7 @@ export const WalletConnectModal = createModal(
                 />
               </div>
               <Button
-                className="rounded bg-idriss-primary-500 font-medium text-white hover:bg-idriss-primary-400 disabled:bg-green-200 disabled:text-white"
+                className="disabled:bg-green-200 rounded bg-idriss-primary-500 font-medium text-white hover:bg-idriss-primary-400 disabled:text-white"
                 onClick={() => {
                   const providerToConnect =
                     chosenProviderRdns === 'browser'
