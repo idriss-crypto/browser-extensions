@@ -15,6 +15,8 @@ export default {
     colors: {
       white: '#FFFFFF',
       black: '#000000',
+      transparent: 'transparent',
+      current: 'currentColor',
       neutral: {
         100: '#F6F7F8',
         200: '#EBECEE',
@@ -99,57 +101,6 @@ export default {
       },
       fontSize: {
         button1: ['1rem', { lineHeight: '1.25em' }],
-      },
-      colors: {
-        onsurface: {
-          primary: '#000A05',
-        },
-        // LEGACY COLORS
-        polymarket: {
-          gray: '#1D2B39',
-        },
-        farcaster: {
-          primary: {
-            400: '#8A63D2',
-            500: '#7554B3',
-          },
-        },
-        idriss: {
-          primary: {
-            500: '#11dd74',
-            400: '#11cc74',
-          },
-        },
-        twitter: {
-          primary: '#1D9BF0',
-        },
-        tally: {
-          purple: {
-            100: '#EBE5FF',
-            500: '#725BFF',
-          },
-          gray: {
-            500: '#667085',
-            600: '#475467',
-            700: '#344054',
-            900: '#101828',
-          },
-          teal: {
-            50: '#D9FFFB',
-            600: '#00BFAF',
-          },
-          red: {
-            500: '#F44061',
-            100: '#FFE6E7',
-          },
-          border: {
-            primary: '#EAECF0',
-            gray: { 700: '#2D3748' },
-          },
-          text: {
-            primary: '#1D2939',
-          },
-        },
       },
     },
   },

@@ -198,7 +198,7 @@ export const Market = ({
   return (
     <div className="absolute right-4" style={{ top }}>
       <WidgetBase
-        className="z-10 w-96 rounded-xl bg-polymarket-gray font-sans text-white"
+        className="z-10 w-96 rounded-xl bg-[#1D2B39] font-sans text-white"
         closeButtonClassName="hover:enabled:bg-[#5f7282]"
       >
         <form ref={formReference} onSubmit={marketForm.handleSubmit(submit)}>
@@ -218,7 +218,7 @@ export const Market = ({
             <div className="mb-1.5 mt-8 flex items-center justify-between">
               <InputBase.Label label="Outcome" />
               <IconButton
-                className="bg-transparent border border-[#2c3f4f] hover:enabled:bg-[#53535a] active:enabled:bg-[#92a5b5]"
+                className="border border-[#2c3f4f] bg-transparent hover:enabled:bg-[#53535a] active:enabled:bg-[#92a5b5]"
                 iconProps={{ name: 'SymbolIcon', size: 16 }}
                 onClick={onRefresh}
               />
@@ -288,7 +288,7 @@ export const Market = ({
             <div className="mt-4">{scenarioToActionButton[scenario]}</div>
             <div className="mt-4 flex items-center justify-between text-base font-normal">
               <span className="text-[#858D92]">Potential return</span>
-              <span className="text-green-400 font-semibold">
+              <span className="font-semibold text-[#4ADE80]">
                 ${potentialReturn} ({potentialReturnPercentage}%)
               </span>
             </div>

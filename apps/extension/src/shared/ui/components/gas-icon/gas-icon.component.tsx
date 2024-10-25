@@ -5,7 +5,7 @@ export const GasIcon = () => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="none"
-      className="text-gray-500 size-3"
+      className="size-3 text-[#64748B]"
     >
       <path
         fillRule="evenodd"

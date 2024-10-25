@@ -84,14 +84,14 @@ export const HomeView = () => {
           icons={[{ iconSrc: TRADING_COPILOT_LOGO, iconAlt: 'Trading Icon' }]}
           title="Trading Copilot"
           subtitle="Coming soon"
-          className="bg-gray-200 cursor-not-allowed opacity-50"
+          className="cursor-not-allowed bg-[#E5E7EB] opacity-50"
           hideExternalLinkIcon
         />
       </div>
 
       <div className="mt-4">
         <button
-          className="rounded-lg bg-[#11dd74] px-5 py-2 text-sm font-medium text-white shadow-lg transition-transform duration-300 hover:scale-105 hover:bg-[#11cc74]"
+          className="rounded-lg bg-[#11DD74] px-5 py-2 text-sm font-medium text-white shadow-lg transition-transform duration-300 hover:scale-105 hover:bg-[#11DD74]"
           onClick={() => {
             extensionPopup.navigate(
               EXTENSION_POPUP_ROUTE.SETTINGS_CUSTOMIZATION,

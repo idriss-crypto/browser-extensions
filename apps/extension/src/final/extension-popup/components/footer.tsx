@@ -12,7 +12,7 @@ export const Footer = () => {
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-900 flex items-center justify-center gap-x-2 p-3 font-medium hover:bg-[#f9fafb]"
+            className="flex items-center justify-center gap-x-2 p-3 font-medium text-[#111827] hover:bg-[#f9fafb]"
           >
             <Icon name={link.iconName} className="text-[#9fa2ae]" />
             {link.text}
