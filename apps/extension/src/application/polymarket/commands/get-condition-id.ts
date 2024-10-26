@@ -88,8 +88,13 @@ export class GetConditionIdCommand extends Command<Payload, string> {
   private extractSlugFromHtml(htmlString: string) {
     const regex =
       /<meta\s+name="twitter:image"\s+content="[^"]*mslug=([^"&]+)"/i;
+    const regex2 =
+      /<meta\s+property="og:image"\s+content="[^"]*mslug=([^"&]+)(?:&|&amp;)?/i;
 
-    const match = regex.exec(htmlString);
+    let match = regex.exec(htmlString);
+    if (!match || match.length === 0) {
+      match = regex2.exec(htmlString);
+    }
     return match?.[1];
   }
 
