@@ -115,6 +115,9 @@ export default {
       },
       spacing: {
         4.5: '18px',
+        26: '104px',
+        30: '120px',
+        46: '184px',
       },
       fontSize: {
         display1: [
@@ -261,6 +264,8 @@ export default {
           '0.875rem',
           { lineHeight: '1rem', letterSpacing: '0.05em', fontWeight: '500' },
         ],
+        display1: ['7.25rem', { lineHeight: '1em' }],
+        display4: ['2.375rem', { lineHeight: '1em' }],
       },
     },
   },
@@ -270,6 +275,13 @@ export default {
       const newUtilities = {
         '.fill-rule-non-zero': {
           'fill-rule': 'nonzero',
+        },
+        '.gradient-text': {
+          'background':
+            'linear-gradient(161deg, theme(colors.mint.700) 0%, theme(colors.mint.700) 20%, theme(colors.neutralGreen.900) 50%, theme(colors.mint.700) 60%, theme(colors.mint.700) 100%)',
+          '-webkit-background-clip': 'text',
+          'background-clip': 'text',
+          '-webkit-text-fill-color': 'transparent',
         },
       };
       addUtilities(newUtilities);

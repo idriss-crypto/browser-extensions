@@ -1,4 +1,5 @@
-// ts-unused-exports:disable-next-line
+import { HeroSection } from '@/components';
+
 export default function Home() {
-  return <></>;
+  return <HeroSection />;
 }
