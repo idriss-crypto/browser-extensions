@@ -228,9 +228,6 @@ importers:
 
   apps/main-landing:
     dependencies:
-      lucide-react:
-        specifier: ^0.453.0
-        version: 0.453.0(react@18.3.1)
       next:
         specifier: 15.0.1
         version: 15.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.80.3)
@@ -351,9 +348,18 @@ importers:
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      lucide-react:
+        specifier: ^0.453.0
+        version: 0.453.0(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
+      tailwind-merge:
+        specifier: ^2.5.2
+        version: 2.5.4
     devDependencies:
       '@idriss-xyz/eslint-config':
         specifier: workspace:*
@@ -373,12 +379,9 @@ importers:
       '@types/react':
         specifier: 18.3.1
         version: 18.3.1
-      clsx:
-        specifier: ^2.1.1
-        version: 2.1.1
-      tailwind-merge:
-        specifier: ^2.5.2
-        version: 2.5.4
+      dependency-cruiser:
+        specifier: ^16.4.2
+        version: 16.4.2
       typescript:
         specifier: ^5.6.2
         version: 5.6.3

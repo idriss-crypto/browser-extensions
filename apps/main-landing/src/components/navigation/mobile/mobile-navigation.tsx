@@ -1,7 +1,9 @@
 'use client';
-import { Button, Dialog, IconButton, VisuallyHidden } from '@idriss-xyz/ui';
-import { MenuIcon, XIcon } from 'lucide-react';
 import Image from 'next/image';
+import { Dialog } from '@idriss-xyz/ui/dialog';
+import { IconButton } from '@idriss-xyz/ui/icon-button';
+import { VisuallyHidden } from '@idriss-xyz/ui/visually-hidden';
+import { Button } from '@idriss-xyz/ui/button';
 
 import { APPS_SECTION_NAVIGATION_ITEMS } from '../constants';
 
@@ -21,14 +23,13 @@ export const MobileNavigation = () => {
       <Dialog
         className="fixed inset-x-4 bottom-3 top-[76px] flex flex-col rounded-[36px] border border-mint-400 px-4 py-6 text-neutralGreen-900 backdrop-blur-[90px]" // top-[76px] is 64px height of navbar + 12px spacing, ideally it should be ref attached to nav to read component height in case it changes in future
         trigger={({ isOpened }) => {
-          const iconSize = 20;
-          const icon = isOpened ? (
-            <XIcon size={iconSize} />
-          ) : (
-            <MenuIcon size={iconSize} />
+          return (
+            <IconButton
+              iconName={isOpened ? 'X' : 'Menu'}
+              intent="tertiary"
+              size="large"
+            />
           );
-
-          return <IconButton icon={icon} intent="tertiary" size="large" />;
         }}
       >
         {({ close }) => {

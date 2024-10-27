@@ -1,14 +1,6 @@
-import {
-  classes,
-  DiscordSocialIcon,
-  FarcasterSocialIcon,
-  IconButton,
-  InstagramSocialIcon,
-  TiktokSocialIcon,
-  XSocialIcon,
-  YoutubeSocialIcon,
-} from '@idriss-xyz/ui';
 import { SOCIAL_LINK } from '@idriss-xyz/constants';
+import { IconButton } from '@idriss-xyz/ui/icon-button';
+import { classes } from '@idriss-xyz/ui/utils';
 
 type Properties = {
   className?: string;
@@ -23,7 +15,7 @@ export const Socials = ({ className }: Properties) => {
       )}
     >
       <IconButton
-        icon={<XSocialIcon />}
+        iconName="TwitterX"
         intent="tertiary"
         size="large"
         onClick={() => {
@@ -32,7 +24,7 @@ export const Socials = ({ className }: Properties) => {
         }}
       />
       <IconButton
-        icon={<FarcasterSocialIcon />}
+        iconName="Farcaster"
         intent="tertiary"
         size="large"
         onClick={() => {
@@ -42,7 +34,7 @@ export const Socials = ({ className }: Properties) => {
       />
 
       <IconButton
-        icon={<DiscordSocialIcon />}
+        iconName="Discord"
         intent="tertiary"
         size="large"
         onClick={() => {
@@ -52,7 +44,7 @@ export const Socials = ({ className }: Properties) => {
       />
 
       <IconButton
-        icon={<InstagramSocialIcon />}
+        iconName="Instagram"
         intent="tertiary"
         size="large"
         onClick={() => {
@@ -61,7 +53,7 @@ export const Socials = ({ className }: Properties) => {
         }}
       />
       <IconButton
-        icon={<TiktokSocialIcon />}
+        iconName="Tiktok"
         intent="tertiary"
         size="large"
         onClick={() => {
@@ -71,7 +63,7 @@ export const Socials = ({ className }: Properties) => {
       />
 
       <IconButton
-        icon={<YoutubeSocialIcon />}
+        iconName="Youtube"
         intent="tertiary"
         size="large"
         onClick={() => {
