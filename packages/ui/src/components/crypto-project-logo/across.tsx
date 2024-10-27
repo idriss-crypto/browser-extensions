@@ -5,6 +5,7 @@ export const AcrossLogo = () => (
     viewBox="0 0 184 40"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    className="h-full w-fit"
   >
     <g id="Images/partners/across">
       <path
@@ -39,8 +40,8 @@ export const AcrossLogo = () => (
       />
       <path
         id="Vector_7"
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M35.9735 0L40 4.02645L26.5393 17.4871C25.8339 15.6356 24.3644 14.166 22.5129 13.4607L35.9735 0ZM17.4871 13.4607L4.02645 0L0 4.02645L13.4607 17.4871C14.1954 15.6356 15.665 14.166 17.4871 13.4607ZM13.4607 22.5129L0 35.9735L4.02645 40L17.4871 26.5393C15.665 25.8339 14.1954 24.3644 13.4607 22.5129ZM22.5129 26.5393L35.9735 40L40 35.9735L26.5393 22.5129C25.8339 24.3644 24.3644 25.8339 22.5129 26.5393Z"
         fill="#656D69"
       />
