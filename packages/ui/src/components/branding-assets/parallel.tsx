@@ -1,13 +1,17 @@
-export const ParallelLogo = () => {
+type Properties = {
+  className?: string;
+};
+
+export const ParallelLogo = ({ className }: Properties) => {
   return (
     <svg
+      className={className}
       width="142"
       height="40"
       viewBox="0 0 142 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      className="h-full w-fit"
     >
       <mask
         id="mask0_807_1057"
@@ -21,7 +25,7 @@ export const ParallelLogo = () => {
         <rect width="141.176" height="40" fill="url(#pattern0_807_1057)" />
       </mask>
       <g mask="url(#mask0_807_1057)">
-        <rect width="141.176" height="40" fill="#656D69" />
+        <rect width="141.176" height="40" fill="currentColor" />
       </g>
       <defs>
         <pattern

@@ -1,25 +1,37 @@
 import {
   AavegotchiLogo,
   AcrossLogo,
+  classes,
   GitcoinLogo,
   ParallelLogo,
   PolymarketLogo,
   TallyLogo,
 } from '@idriss-xyz/ui';
 
-export const CollaborationsShowcase = () => {
+type CollaborationsShowcaseProperties = {
+  className?: string;
+};
+
+export const CollaborationsShowcase = ({
+  className,
+}: CollaborationsShowcaseProperties) => {
   return (
-    <div className="z-1 flex flex-col items-center justify-center gap-4 lg:my-20 lg:gap-8">
-      <span className="text-button1 font-medium uppercase text-neutralGreen-500">
-        Worked with top crypto projects
+    <div
+      className={classes(
+        'z-1 flex flex-col items-center justify-center gap-4 lg:gap-8',
+        className,
+      )}
+    >
+      <span className="text-button1 text-neutralGreen-500">
+        WORKED WITH TOP CRYPTO PROJECTS
       </span>
-      <div className="flex h-5.5 items-center gap-10 lg:h-10">
-        <ParallelLogo />
-        <AcrossLogo />
-        <PolymarketLogo />
-        <GitcoinLogo />
-        <AavegotchiLogo />
-        <TallyLogo />
+      <div className="flex items-center gap-10 text-neutralGreen-500">
+        <ParallelLogo className="h-5.5 w-fit lg:h-10" />
+        <AcrossLogo className="h-5.5 w-fit lg:h-10" />
+        <PolymarketLogo className="h-5.5 w-fit lg:h-10" />
+        <GitcoinLogo className="h-5.5 w-fit lg:h-10" />
+        <AavegotchiLogo className="h-5.5 w-fit lg:h-10" />
+        <TallyLogo className="h-5.5 w-fit lg:h-10" />
       </div>
     </div>
   );

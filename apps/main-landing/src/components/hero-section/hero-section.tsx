@@ -1,8 +1,7 @@
 'use client';
 import { Button } from '@idriss-xyz/ui';
 
-import { BackgroundLines, Header, TokensFlowImage } from './components';
-import { CollaborationsShowcase } from './components/collaborations-showcase';
+import { BackgroundLines, Header, TokensFlowImage, CollaborationsShowcase } from './components';
 
 export const HeroSection = () => {
   return (
@@ -13,7 +12,7 @@ export const HeroSection = () => {
         EXPLORE →
       </Button>
       <TokensFlowImage />
-      <CollaborationsShowcase />
+      <CollaborationsShowcase className='lg:my-20' />
     </header>
   );
 };

@@ -9,12 +9,10 @@ export {
   InstagramSocialIcon,
   TiktokSocialIcon,
   YoutubeSocialIcon,
-} from './social-icon';
-export {
   AavegotchiLogo,
   AcrossLogo,
   GitcoinLogo,
   ParallelLogo,
   PolymarketLogo,
   TallyLogo,
-} from './crypto-project-logo';
+} from './branding-assets';

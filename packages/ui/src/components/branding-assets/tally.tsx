@@ -1,13 +1,17 @@
-export const TallyLogo = () => {
+type Properties = {
+  className?: string;
+};
+
+export const TallyLogo = ({ className }: Properties) => {
   return (
     <svg
+      className={className}
       width="90"
       height="40"
       viewBox="0 0 90 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      className="h-full w-fit"
     >
       <mask
         id="mask0_807_1062"
@@ -26,7 +30,7 @@ export const TallyLogo = () => {
         />
       </mask>
       <g mask="url(#mask0_807_1062)">
-        <rect x="0.716797" width="88.3333" height="40" fill="#656D69" />
+        <rect x="0.716797" width="88.3333" height="40" fill="currentColor" />
       </g>
       <defs>
         <pattern
