@@ -115,9 +115,10 @@ export default {
       },
       spacing: {
         4.5: '18px',
+        5.5: '22px',
         26: '104px',
         30: '120px',
-        46: '184px',
+        50: '200px',
       },
       fontSize: {
         display1: [

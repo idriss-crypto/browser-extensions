@@ -5,6 +5,7 @@ export const PolymarketLogo = () => (
     viewBox="0 0 170 40"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    className="h-full w-fit"
   >
     <g id="logo">
       <path
