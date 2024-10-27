@@ -14,6 +14,6 @@ export {
   GitcoinLogo,
   ParallelLogo,
   PolymarketLogo,
-  TallyLogo
+  TallyLogo,
 } from './components';
 export { classes } from './utils';
