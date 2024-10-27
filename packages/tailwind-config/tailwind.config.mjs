@@ -277,13 +277,6 @@ export default {
         '.fill-rule-non-zero': {
           'fill-rule': 'nonzero',
         },
-        '.gradient-text': {
-          'background':
-            'linear-gradient(161deg, theme(colors.mint.700) 0%, theme(colors.mint.700) 20%, theme(colors.neutralGreen.900) 50%, theme(colors.mint.700) 60%, theme(colors.mint.700) 100%)',
-          '-webkit-background-clip': 'text',
-          'background-clip': 'text',
-          '-webkit-text-fill-color': 'transparent',
-        },
       };
       addUtilities(newUtilities);
     }),

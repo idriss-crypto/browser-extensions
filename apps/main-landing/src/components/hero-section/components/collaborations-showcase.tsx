@@ -9,7 +9,7 @@ import {
 
 export const CollaborationsShowcase = () => {
   return (
-    <div className='flex flex-col gap-4 lg:gap-8 items-center justify-center z-1'>
+    <div className='flex flex-col gap-4 lg:gap-8 items-center justify-center z-1 my-20'>
       <span className="text-button1 font-medium uppercase text-neutralGreen-500">
         Worked with top crypto projects
       </span>
