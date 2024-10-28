@@ -42,8 +42,13 @@ export const MobileNavigation = () => {
                 <Section
                   items={APPS_SECTION_NAVIGATION_ITEMS}
                   title={
-                    // TODO: we need to create isomorphic button component so it will be as="a" href="/#..."
-                    <Button intent="tertiary" size="large" onClick={close}>
+                    <Button
+                      intent="tertiary"
+                      size="large"
+                      onClick={close}
+                      href="/#"
+                      asLink
+                    >
                       APPS
                     </Button>
                   }
@@ -51,16 +56,26 @@ export const MobileNavigation = () => {
                 />
                 <Section
                   title={
-                    // TODO: we need to create isomorphic button component so it will be as="a" href="/#..."
-                    <Button intent="tertiary" size="large" onClick={close}>
+                    <Button
+                      intent="tertiary"
+                      size="large"
+                      onClick={close}
+                      href="/#"
+                      asLink
+                    >
                       TOKEN
                     </Button>
                   }
                 />
                 <Section
                   title={
-                    // TODO: we need to create isomorphic button component so it will be as="a" href="/#..."
-                    <Button intent="tertiary" size="large" onClick={close}>
+                    <Button
+                      intent="tertiary"
+                      size="large"
+                      onClick={close}
+                      href="/#"
+                      asLink
+                    >
                       DOCS
                     </Button>
                   }
