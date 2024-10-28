@@ -1,4 +1,9 @@
-import { ButtonHTMLAttributes, AnchorHTMLAttributes } from 'react';
+import {
+  ButtonHTMLAttributes,
+  AnchorHTMLAttributes,
+  forwardRef,
+  ForwardedRef,
+} from 'react';
 
 import { classes } from '../../utils';
 import { Icon, IconName } from '../icon';
@@ -11,7 +16,7 @@ type ButtonOrAnchorProperties =
   | (ButtonHTMLAttributes<HTMLButtonElement> & { asLink?: false })
   | (AnchorHTMLAttributes<HTMLAnchorElement> & {
     asLink: true;
-    href: string;
+    href?: string;
     target?: string;
     rel?: string;
   });
@@ -22,56 +27,65 @@ type Properties = ButtonOrAnchorProperties &
     suffixIconName?: IconName;
   };
 
-export const Button = ({
-  children,
-  className,
-  intent,
-  size,
-  prefixIconName,
-  suffixIconName,
-  asLink = false,
-  ...properties
-}: Properties) => {
-  const variantClassName = classes(
-    button({
+export const Button = forwardRef(
+  (
+    {
+      children,
+      className,
       intent,
       size,
-      className,
-      withPrefixIcon: Boolean(prefixIconName),
-      withSuffixIcon: Boolean(suffixIconName),
-    }),
-  );
+      prefixIconName,
+      suffixIconName,
+      asLink = false,
+      ...properties
+    }: Properties,
+    reference,
+  ) => {
+    const variantClassName = classes(
+      button({
+        intent,
+        size,
+        className,
+        withPrefixIcon: Boolean(prefixIconName),
+        withSuffixIcon: Boolean(suffixIconName),
+      }),
+    );
 
-  const content = (
-    <>
-      {prefixIconName && (
-        <Icon name={prefixIconName} size={BUTTON_SIZE_TO_ICON_SIZE[size]} />
-      )}
-      <span>{children}</span>
-      {suffixIconName && (
-        <Icon name={suffixIconName} size={BUTTON_SIZE_TO_ICON_SIZE[size]} />
-      )}
-      <Glow intent={intent} size={size} />
-    </>
-  );
+    const content = (
+      <>
+        {prefixIconName && (
+          <Icon name={prefixIconName} size={BUTTON_SIZE_TO_ICON_SIZE[size]} />
+        )}
+        <span>{children}</span>
+        {suffixIconName && (
+          <Icon name={suffixIconName} size={BUTTON_SIZE_TO_ICON_SIZE[size]} />
+        )}
+        <Glow intent={intent} size={size} />
+      </>
+    );
 
-  if (asLink) {
+    if (asLink) {
+      return (
+        <a
+          {...(properties as AnchorHTMLAttributes<HTMLAnchorElement>)}
+          ref={reference as ForwardedRef<HTMLAnchorElement>}
+          className={variantClassName}
+        >
+          {content}
+        </a>
+      );
+    }
+
     return (
-      <a
-        {...(properties as AnchorHTMLAttributes<HTMLAnchorElement>)}
+      <button
+        {...(properties as ButtonHTMLAttributes<HTMLButtonElement>)}
+        ref={reference as ForwardedRef<HTMLButtonElement>}
         className={variantClassName}
       >
         {content}
-      </a>
+      </button>
     );
-  }
+  },
+);
 
-  return (
-    <button
-      {...(properties as ButtonHTMLAttributes<HTMLButtonElement>)}
-      className={variantClassName}
-    >
-      {content}
-    </button>
-  );
-};
+Button.displayName = 'Button';

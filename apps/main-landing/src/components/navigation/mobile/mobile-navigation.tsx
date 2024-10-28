@@ -4,6 +4,7 @@ import { Dialog } from '@idriss-xyz/ui/dialog';
 import { IconButton } from '@idriss-xyz/ui/icon-button';
 import { VisuallyHidden } from '@idriss-xyz/ui/visually-hidden';
 import { Button } from '@idriss-xyz/ui/button';
+import Link from 'next/link';
 
 import { APPS_SECTION_NAVIGATION_ITEMS } from '../constants';
 
@@ -25,6 +26,9 @@ export const MobileNavigation = () => {
         trigger={({ isOpened }) => {
           return (
             <IconButton
+              aria-label={
+                isOpened ? 'Hide navigation menu' : 'Open navigation menu'
+              }
               iconName={isOpened ? 'X' : 'Menu'}
               intent="tertiary"
               size="large"
@@ -42,42 +46,45 @@ export const MobileNavigation = () => {
                 <Section
                   items={APPS_SECTION_NAVIGATION_ITEMS}
                   title={
-                    <Button
-                      intent="tertiary"
-                      size="large"
-                      onClick={close}
-                      href="/#"
-                      asLink
-                    >
-                      APPS
-                    </Button>
+                    <Link href="/#" passHref legacyBehavior>
+                      <Button
+                        intent="tertiary"
+                        size="large"
+                        onClick={close}
+                        asLink
+                      >
+                        APPS
+                      </Button>
+                    </Link>
                   }
                   onItemClick={close}
                 />
                 <Section
                   title={
-                    <Button
-                      intent="tertiary"
-                      size="large"
-                      onClick={close}
-                      href="/#"
-                      asLink
-                    >
-                      TOKEN
-                    </Button>
+                    <Link href="/#" passHref legacyBehavior>
+                      <Button
+                        intent="tertiary"
+                        size="large"
+                        onClick={close}
+                        asLink
+                      >
+                        TOKEN
+                      </Button>
+                    </Link>
                   }
                 />
                 <Section
                   title={
-                    <Button
-                      intent="tertiary"
-                      size="large"
-                      onClick={close}
-                      href="/#"
-                      asLink
-                    >
-                      DOCS
-                    </Button>
+                    <Link href="/#" passHref legacyBehavior>
+                      <Button
+                        intent="tertiary"
+                        size="large"
+                        onClick={close}
+                        asLink
+                      >
+                        DOCS
+                      </Button>
+                    </Link>
                   }
                 />
               </div>
