@@ -277,6 +277,28 @@ export default {
         '.fill-rule-non-zero': {
           'fill-rule': 'nonzero',
         },
+        '.gradient-text': {
+          'z-index': '1',
+          'margin-left': 'auto',
+          'margin-right': 'auto',
+          'margin-top': '0',
+          'max-width': '300px',
+          'background-image':
+            `linear-gradient(130deg, ${theme('colors.mint.700')} 0%, ${theme('colors.mint.700')} 20%, ${theme('colors.neutralGreen.900')} 45%, ${theme('colors.mint.700')} 65%, ${theme('colors.mint.700')} 100%)`,
+          'background-clip': 'text',
+          'text-align': 'center',
+          'font-weight': 'normal',
+          'text-transform': 'uppercase',
+          'color': 'transparent',
+          '@screen md': {
+            'max-width': '550px',
+          },
+          '@screen lg': {
+            'max-width': '1400px',
+            'background-image':
+              `linear-gradient(160deg, ${theme('colors.mint.700')} 0%, ${theme('colors.mint.700')} 20%, ${theme('colors.neutralGreen.900')} 45%, ${theme('colors.mint.700')} 60%, ${theme('colors.mint.700')} 100%)`,
+          },
+        },
       };
       addUtilities(newUtilities);
     }),
