@@ -1,12 +1,12 @@
 import {
   AavegotchiLogo,
   AcrossLogo,
-  classes,
   GitcoinLogo,
   ParallelLogo,
   PolymarketLogo,
   TallyLogo,
-} from '@idriss-xyz/ui';
+} from '@idriss-xyz/ui/branding-assets';
+import { classes } from '@idriss-xyz/ui/utils';
 
 type CollaborationsShowcaseProperties = {
   className?: string;

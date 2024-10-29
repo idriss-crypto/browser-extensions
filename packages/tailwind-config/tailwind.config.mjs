@@ -117,7 +117,6 @@ export default {
         4.5: '18px',
         5.5: '22px',
         26: '104px',
-        30: '120px',
         50: '200px',
       },
       fontSize: {
@@ -265,8 +264,8 @@ export default {
           '0.875rem',
           { lineHeight: '1rem', letterSpacing: '0.05em', fontWeight: '500' },
         ],
-        display1: ['7.25rem', { lineHeight: '1em' }],
-        display4: ['2.375rem', { lineHeight: '1em' }],
+        display1: ['7.25rem', { lineHeight: '1em', letterSpacing: '0', fontWeight: '400' }],
+        display4: ['2.375rem', { lineHeight: '1em', letterSpacing: '0', fontWeight: '400' }],
       },
     },
   },
@@ -277,7 +276,7 @@ export default {
         '.fill-rule-non-zero': {
           'fill-rule': 'nonzero',
         },
-        '.gradient-text3': {
+        '.gradient-text': {
           'background-image':
             'linear-gradient(130deg, theme(colors.mint.700) 0%, theme(colors.mint.700) 20%, theme(colors.neutralGreen.900) 45%, theme(colors.mint.700) 65%, theme(colors.mint.700) 100%)',
           'background-clip': 'text',
