@@ -1,11 +1,14 @@
 import {
   AavegotchiLogo,
   AcrossLogo,
+  AgoraFullLogo,
   GitcoinLogo,
   ParallelLogo,
   PolymarketLogo,
+  SnapshotFullLogo,
   TallyLogo,
 } from '@idriss-xyz/ui/branding-assets';
+import { Marquee } from '@idriss-xyz/ui/marquee';
 import { classes } from '@idriss-xyz/ui/utils';
 
 type CollaborationsShowcaseProperties = {
@@ -15,6 +18,7 @@ type CollaborationsShowcaseProperties = {
 export const CollaborationsShowcase = ({
   className,
 }: CollaborationsShowcaseProperties) => {
+  const logoClassName = 'mx-2.5 h-5.5 w-fit text-neutralGreen-500 lg:h-10';
   return (
     <div
       className={classes(
@@ -25,14 +29,16 @@ export const CollaborationsShowcase = ({
       <span className="text-button1 text-neutralGreen-500">
         WORKED WITH TOP CRYPTO PROJECTS
       </span>
-      <div className="flex items-center gap-10 text-neutralGreen-500">
-        <ParallelLogo className="h-5.5 w-fit lg:h-10" />
-        <AcrossLogo className="h-5.5 w-fit lg:h-10" />
-        <PolymarketLogo className="h-5.5 w-fit lg:h-10" />
-        <GitcoinLogo className="h-5.5 w-fit lg:h-10" />
-        <AavegotchiLogo className="h-5.5 w-fit lg:h-10" />
-        <TallyLogo className="h-5.5 w-fit lg:h-10" />
-      </div>
+      <Marquee>
+        <ParallelLogo className={logoClassName} />
+        <AcrossLogo className={logoClassName} />
+        <PolymarketLogo className={logoClassName} />
+        <GitcoinLogo className={logoClassName} />
+        <AavegotchiLogo className={logoClassName} />
+        <TallyLogo className={logoClassName} />
+        <AgoraFullLogo className={logoClassName} />
+        <SnapshotFullLogo className={logoClassName} />
+      </Marquee>
     </div>
   );
 };

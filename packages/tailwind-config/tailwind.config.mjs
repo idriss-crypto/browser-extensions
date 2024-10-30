@@ -264,8 +264,24 @@ export default {
           '0.875rem',
           { lineHeight: '1rem', letterSpacing: '0.05em', fontWeight: '500' },
         ],
-        display1: ['7.25rem', { lineHeight: '1em', letterSpacing: '0', fontWeight: '400' }],
-        display4: ['2.375rem', { lineHeight: '1em', letterSpacing: '0', fontWeight: '400' }],
+        display1: [
+          '7.25rem',
+          { lineHeight: '1em', letterSpacing: '0', fontWeight: '400' },
+        ],
+        display4: [
+          '2.375rem',
+          { lineHeight: '1em', letterSpacing: '0', fontWeight: '400' },
+        ],
+      },
+      animation: {
+        marquee: 'marquee 15s linear infinite',
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(100%)' },
+          '50%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
       },
     },
   },
@@ -286,6 +302,9 @@ export default {
               'linear-gradient(160deg, theme(colors.mint.700) 0%, theme(colors.mint.700) 20%, theme(colors.neutralGreen.900) 45%, theme(colors.mint.700) 60%, theme(colors.mint.700) 100%)',
           },
         },
+        '.paused-animation': {
+          'animation-play-state': 'paused'
+        }
       };
       addUtilities(newUtilities);
     }),

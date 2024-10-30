@@ -11,9 +11,9 @@
     "./navigation-menu": "./src/components/navigation-menu/index.ts",
     "./visually-hidden": "./src/components/visually-hidden/index.ts",
     "./branding-assets": "./src/components/branding-assets/index.ts",
+    "./marquee": "./src/components/marquee/index.ts",
     "./utils": "./src/utils/index.ts",
     "./hooks": "./src/hooks/index.ts"
-
   },
   "scripts": {
     "format": "prettier --check --config ../../prettier.config.mjs --ignore-path .prettierignore .",
