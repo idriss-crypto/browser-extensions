@@ -1,5 +1,4 @@
 import { Icon } from '@idriss-xyz/ui/icon';
-import test from './test.svg';
 
 type ProductTitleProperties = {
   productName: string;
@@ -13,38 +12,55 @@ export const ProductTile = ({
   tileListPoints,
 }: ProductTitleProperties) => {
   return (
-    <div className="relative flex flex-[1_0_0] self-stretch">
-      <div
-        className="absolute z-[9999] size-full"
+    <div className="flex-start flex flex-1 flex-col gap-4 self-stretch rounded-[24px] bg-white/80 px-4 py-6 backdrop-blur-[7px] lg:gap-6 lg:px-10 lg:py-11">
+      <span className="text-label5 text-neutralGreen-700 lg:text-label4">
+        {productName}
+      </span>
+      <span className="text-heading5 text-neutral-900 lg:text-heading4">
+        {tileTitle}
+      </span>
+      <ul className="flex flex-col gap-4 text-neutralGreen-700">
+        {tileListPoints.map((point) => (
+          <li className="flex flex-row gap-3">
+            <div>
+              <Icon name="Check" size={20} />
+            </div>
+            <div className="text-body5 lg:text-body4" key={point}>
+              {point}
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
         style={{
-          background:
-            'linear-gradient(0deg, #5FEB3C 0%, #FFFFFF 80%, transparent 100%)',
-          borderRadius: '20px',
-          mask: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect x="0.5" y="0.5" width="99" height="99" rx="4" ry="4" fill="none" stroke="rgba(0, 0, 0, 1)" stroke-width="1"/></svg>'), linear-gradient(#000 0 0)`,
-          maskSize: '100% 100%',
-          maskPosition: 'center',
+          overflow: 'visible',
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          width: ' 100%',
+          height: '100%',
         }}
-      ></div>
-      <div className="border-icon-stroke flex flex-col gap-4 rounded-[24px] border-solid bg-white/80 px-4 py-6 backdrop-blur-[7px] lg:gap-6 lg:px-10 lg:py-11">
-        <span className="text-label5 lg:text-label4 text-neutralGreen-700">
-          {productName}
-        </span>
-        <span className="text-heading5 lg:text-heading4 text-neutral-900">
-          {tileTitle}
-        </span>
-        <ul className="flex flex-col gap-4 text-neutralGreen-700">
-          {tileListPoints.map((point) => (
-            <li className="flex flex-row gap-3">
-              <div>
-                <Icon name="Check" size={20} />
-              </div>
-              <div className="text-body5 lg:text-body4" key={point}>
-                {point}
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      >
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stopColor="#5FEB3C" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+          </linearGradient>
+        </defs>
+        <rect
+          x="0"
+          y="0"
+          width="100%"
+          height="100%"
+          rx="24"
+          ry="24"
+          fill="none"
+          stroke="url('#gradient')"
+          stroke-width="2"
+        />
+      </svg>
     </div>
   );
 };
