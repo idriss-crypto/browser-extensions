@@ -84,9 +84,25 @@ export default {
     },
     container: {
       center: true,
-      padding: '16px',
+      screens: {
+        '2xl': '1608px',
+      },
+      padding: {
+        'DEFAULT': '1rem',
+        'sm': 0,
+        'lg': 0,
+        'xl': 0,
+        '2xl': 0,
+      },
     },
     extend: {
+      screens: {
+        // 'sm': '640px',
+        // 'md': '768px',
+        // 'lg': '1024px',
+        // 'xl': '1280px',
+        '2xl': '1608px',
+      },
       boxShadow: {
         input: '0px 0px 0px 4px #F2F2F224',
       },
@@ -95,6 +111,8 @@ export default {
       },
       zIndex: {
         1: '1',
+        navigationMenu: '10',
+        dialog: '20',
       },
       fontFamily: {
         sans: ['var(--font-aeonikpro)'],
@@ -234,6 +252,10 @@ export default {
         label8: [
           '0.625rem',
           { lineHeight: '0.75rem', letterSpacing: '0', fontWeight: '500' },
+        ],
+        body5: [
+          '0.875rem',
+          { lineHeight: '1.25em', letterSpacing: '0', fontWeight: '400' },
         ],
         button1: [
           '1rem',
