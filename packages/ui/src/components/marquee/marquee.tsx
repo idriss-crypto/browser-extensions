@@ -3,7 +3,6 @@ import { classes } from '../../utils';
 
 interface MarqueeProps {
   children: ReactNode;
-  direction?: 'left' | 'right';
   pauseOnHover?: boolean;
   /** Time for one loop in seconds */
   speed?: number;
@@ -12,7 +11,6 @@ interface MarqueeProps {
 
 export const Marquee = ({
   children,
-  direction = 'left',
   pauseOnHover = true,
   speed = 35,
   className,
@@ -20,7 +18,7 @@ export const Marquee = ({
   return (
     <div
       className={classes(
-        'group relative mt-4 flex items-center justify-start overflow-hidden',
+        'group relative mt-4 flex items-center justify-start overflow-hidden side-blur',
         className,
       )}
     >
@@ -29,9 +27,7 @@ export const Marquee = ({
         <div
           key={duplicate}
           className={classes(
-            'inset-0 flex flex-none gap-x-12 whitespace-nowrap',
-            direction === 'left' && 'animate-marquee-left',
-            direction === 'right' && 'animate-marquee-right',
+            'inset-0 flex flex-none animate-marquee gap-x-12 whitespace-nowrap',
             pauseOnHover && 'group-hover:paused-animation',
           )}
           style={{

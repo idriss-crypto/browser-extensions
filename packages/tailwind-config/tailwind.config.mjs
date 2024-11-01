@@ -274,17 +274,12 @@ export default {
         ],
       },
       animation: {
-        'marquee-left': 'marquee-left 15s linear infinite',
-        'marquee-right': 'marquee-right 15s linear infinite',
+        'marquee': 'marquee 15s linear infinite',
       },
       keyframes: {
-        'marquee-left': {
+        'marquee': {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-100%)' },
-        },
-        'marquee-right': {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(100%)' },
         },
       },
     },
@@ -305,6 +300,9 @@ export default {
             'background-image':
               'linear-gradient(160deg, theme(colors.mint.700) 0%, theme(colors.mint.700) 20%, theme(colors.neutralGreen.900) 45%, theme(colors.mint.700) 60%, theme(colors.mint.700) 100%)',
           },
+        },
+        '.side-blur': {
+          'mask-image': 'linear-gradient(to right, transparent, black 60px, black calc(100% - 60px), transparent)'
         },
         '.paused-animation': {
           'animation-play-state': 'paused'
