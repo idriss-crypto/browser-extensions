@@ -1,6 +1,7 @@
-import { useMemo } from 'react';
+import { useState } from 'react';
 
 import { useCommandMutation, useCommandQuery } from 'shared/messaging';
+import { Button, LazyImage, useNotification } from 'shared/ui';
 
 import {
   AddTradingCopilotSubscriptionCommand,
@@ -11,7 +12,29 @@ import { Subscription } from '../types';
 
 import { SubscriptionForm, SubscriptionsList } from './components';
 
+const TestComponent = () => {
+  const [clicked, setClicked] = useState(false);
+
+  return (
+    <div>
+      <h1>Hey, you</h1>
+      <h3>I have a pleasure to notify you about a new feature</h3>
+      <LazyImage src="https://www.lego.com/cdn/cs/set/assets/blt42e887277e9ae38b/60399_alt1.png?fit=bounds&format=png&width=1500&height=1500&dpr=1" />
+      <Button
+        onClick={() => {
+          setClicked(true);
+          console.log('clicked 🎉🎉');
+        }}
+      >
+        {clicked ? 'Click to see more' : 'More coming soon!'}
+      </Button>
+    </div>
+  );
+};
+
 export const SubscriptionsManagement = () => {
+  const notification = useNotification();
+
   const subscriptionsQuery = useCommandQuery({
     command: new GetTradingCopilotSubscriptionsCommand({}),
   });
@@ -21,29 +44,10 @@ export const SubscriptionsManagement = () => {
     RemoveTradingCopilotSubscriptionCommand,
   );
 
-  const subscriptionsUpdatePending = useMemo(() => {
-    return (
-      subscribe.isPending ||
-      unsubscribe.isPending ||
-      subscriptionsQuery.isRefetching
-    );
-  }, [
-    subscribe.isPending,
-    subscriptionsQuery.isRefetching,
-    unsubscribe.isPending,
-  ]);
-
-  const subscriptions = useMemo(() => {
-    return subscriptionsQuery.data ?? [];
-  }, [subscriptionsQuery.data]);
-
-  const hasSubscriptions = useMemo(() => {
-    return subscriptions.length > 0;
-  }, [subscriptions.length]);
-
   const handleAddNewSubscription = async (subscription: Subscription) => {
     await subscribe.mutateAsync({ subscription });
     void subscriptionsQuery.refetch();
+    notification.show(<TestComponent />, 'bottom-right');
   };
 
   const handleUnsubscribe = async (ensName: Subscription['ensName']) => {
@@ -54,18 +58,17 @@ export const SubscriptionsManagement = () => {
   return (
     <>
       <SubscriptionForm onSubmit={handleAddNewSubscription} />
-      <div className="mt-4">
-        <SubscriptionsList.Header />
-        {subscriptionsQuery.isLoading && <SubscriptionsList.Loading />}
-        {!hasSubscriptions && <SubscriptionsList.Empty />}
-        {hasSubscriptions && (
-          <SubscriptionsList
-            subscriptions={subscriptions}
-            onRemove={handleUnsubscribe}
-            subscriptionsUpdatePending={subscriptionsUpdatePending}
-          />
-        )}
-      </div>
+      <SubscriptionsList
+        className="mt-4"
+        subscriptions={subscriptionsQuery.data ?? []}
+        subscriptionsLoading={subscriptionsQuery.isLoading}
+        subscriptionsUpdatePending={
+          subscribe.isPending ||
+          unsubscribe.isPending ||
+          subscriptionsQuery.isRefetching
+        }
+        onRemove={handleUnsubscribe}
+      />
     </>
   );
 };
