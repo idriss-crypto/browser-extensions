@@ -12,7 +12,7 @@ export const AgoraFullLogo = ({ className }: Properties) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_355_201)">
+      <g clipPath="url(#clip0_355_201)">
         <mask
           id="mask0_355_201"
           style={{maskType:"luminance"}}

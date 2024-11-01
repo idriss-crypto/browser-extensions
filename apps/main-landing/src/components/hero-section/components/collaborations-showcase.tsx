@@ -29,7 +29,7 @@ export const CollaborationsShowcase = ({
       <span className="text-button1 text-neutralGreen-500">
         WORKED WITH TOP CRYPTO PROJECTS
       </span>
-      <Marquee>
+      <Marquee className='container'>
         <ParallelLogo className={logoClassName} />
         <AcrossLogo className={logoClassName} />
         <PolymarketLogo className={logoClassName} />

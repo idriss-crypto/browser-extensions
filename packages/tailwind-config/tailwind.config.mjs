@@ -274,13 +274,17 @@ export default {
         ],
       },
       animation: {
-        marquee: 'marquee 15s linear infinite',
+        'marquee-left': 'marquee-left 15s linear infinite',
+        'marquee-right': 'marquee-right 15s linear infinite',
       },
       keyframes: {
-        marquee: {
-          '0%': { transform: 'translateX(100%)' },
-          '50%': { transform: 'translateX(0%)' },
+        'marquee-left': {
+          '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-100%)' },
+        },
+        'marquee-right': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(100%)' },
         },
       },
     },
