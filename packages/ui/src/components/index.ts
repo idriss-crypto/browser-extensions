@@ -10,4 +10,4 @@ export {
   PolymarketLogo,
   TallyLogo,
 } from './branding-assets';
-export { Marquee } from './marquee'
+export { Marquee } from './marquee';

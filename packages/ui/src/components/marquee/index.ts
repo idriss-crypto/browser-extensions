@@ -1,1 +1,1 @@
-export { Marquee } from './marquee'
+export { Marquee } from './marquee';

@@ -15,7 +15,7 @@ export const AgoraFullLogo = ({ className }: Properties) => {
       <g clipPath="url(#clip0_355_201)">
         <mask
           id="mask0_355_201"
-          style={{maskType:"luminance"}}
+          style={{ maskType: 'luminance' }}
           maskUnits="userSpaceOnUse"
           x="0"
           y="0"

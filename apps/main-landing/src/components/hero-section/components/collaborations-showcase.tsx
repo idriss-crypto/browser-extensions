@@ -36,7 +36,11 @@ const collaborationLinks = [
     link: 'https://x.com/gitcoin/status/1786121984105144501',
   },
   {
-    logo: <AavegotchiLogo className={classes(logoClassName, 'h-[17.42px] lg:h-[31.7px]')} />,
+    logo: (
+      <AavegotchiLogo
+        className={classes(logoClassName, 'h-[17.42px] lg:h-[31.7px]')}
+      />
+    ),
     link: 'https://x.com/IDriss_xyz/status/1750851248121930167',
   },
   {
@@ -44,11 +48,19 @@ const collaborationLinks = [
     link: 'https://x.com/IDriss_xyz/status/1807798872930202007',
   },
   {
-    logo: <AgoraFullLogo className={classes(logoClassName, 'h-[17.42px] lg:h-[31.7px]')} />,
+    logo: (
+      <AgoraFullLogo
+        className={classes(logoClassName, 'h-[17.42px] lg:h-[31.7px]')}
+      />
+    ),
     link: 'https://x.com/AgoraGovernance/status/1820834836770329005',
   },
   {
-    logo: <SnapshotFullLogo className={classes(logoClassName, 'h-[17.42px] lg:h-[31.7px]')} />,
+    logo: (
+      <SnapshotFullLogo
+        className={classes(logoClassName, 'h-[17.42px] lg:h-[31.7px]')}
+      />
+    ),
     link: 'https://x.com/IDriss_xyz/status/1761049574691819798',
   },
 ];
@@ -67,18 +79,20 @@ export const CollaborationsShowcase = ({
         WORKED WITH TOP CRYPTO PROJECTS
       </span>
       <Marquee className="container py-1">
-        {collaborationLinks.map((collaborationLink) => (
-          <Button
-            key={collaborationLink.link}
-            intent="tertiary"
-            size="large"
-            asLink
-            target="_blank"
-            href={collaborationLink.link}
-          >
-            {collaborationLink.logo}
-          </Button>
-        ))}
+        {collaborationLinks.map((collaborationLink) => {
+          return (
+            <Button
+              key={collaborationLink.link}
+              intent="tertiary"
+              size="large"
+              asLink
+              target="_blank"
+              href={collaborationLink.link}
+            >
+              {collaborationLink.logo}
+            </Button>
+          );
+        })}
       </Marquee>
     </div>
   );
