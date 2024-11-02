@@ -18,7 +18,7 @@ export const Marquee = ({
   return (
     <div
       className={classes(
-        'group relative mt-4 flex items-center justify-start overflow-hidden side-blur',
+        'group relative mt-4 flex items-center justify-start overflow-clip side-blur',
         className,
       )}
     >
@@ -27,8 +27,8 @@ export const Marquee = ({
         <div
           key={duplicate}
           className={classes(
-            'inset-0 flex flex-none animate-marquee gap-x-12 whitespace-nowrap',
-            pauseOnHover && 'group-hover:paused-animation',
+            'inset-0 flex flex-none animate-marquee gap-x-10 whitespace-nowrap mx-5',
+            pauseOnHover && 'group-hover:paused-animation group-focus-within:paused-animation',
           )}
           style={{
             animationDuration: `${speed}s`,
@@ -39,7 +39,7 @@ export const Marquee = ({
           {React.Children.map(children, (child, index) => (
             <div
               key={`${duplicate}-${index}`}
-              className="mx-4 flex cursor-pointer items-center space-x-2"
+              className="flex cursor-pointer items-center space-x-2"
             >
               {child}
             </div>

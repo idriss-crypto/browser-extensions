@@ -384,9 +384,6 @@ importers:
       react:
         specifier: ^18.3.1
         version: 18.3.1
-      react-fast-marquee:
-        specifier: ^1.6.5
-        version: 1.6.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tailwind-merge:
         specifier: ^2.5.2
         version: 2.5.4
@@ -5530,12 +5527,6 @@ packages:
     resolution: {integrity: sha512-GQDxZ5Jd+Aq/qUxbCm1UtzmL/s++V7zKgE8yMktJiCQXCCFZnMZh9ng+6/Ne6PjNSXH0L9CjeOEREfRnq6Duag==}
     peerDependencies:
       react: '>=16.13.1'
-
-  react-fast-marquee@1.6.5:
-    resolution: {integrity: sha512-swDnPqrT2XISAih0o74zQVE2wQJFMvkx+9VZXYYNSLb/CUcAzU9pNj637Ar2+hyRw6b4tP6xh4GQZip2ZCpQpg==}
-    peerDependencies:
-      react: '>= 16.8.0 || ^18.0.0'
-      react-dom: '>= 16.8.0 || ^18.0.0'
 
   react-hook-form@7.53.1:
     resolution: {integrity: sha512-6aiQeBda4zjcuaugWvim9WsGqisoUk+etmFEsSUMm451/Ic8L/UAb7sRtMj3V+Hdzm6mMjU1VhiSzYUZeBm0Vg==}
@@ -13090,11 +13081,6 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.25.9
       react: 18.3.1
-
-  react-fast-marquee@1.6.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
 
   react-hook-form@7.53.1(react@18.3.1):
     dependencies:
