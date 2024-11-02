@@ -27,7 +27,7 @@ export const Marquee = ({
         <div
           key={duplicate}
           className={classes(
-            'inset-0 flex flex-none animate-marquee gap-x-10 whitespace-nowrap mx-5',
+            'inset-0 flex flex-none animate-marquee gap-x-5 lg:gap-x-10 whitespace-nowrap mx-2.5 lg:mx-5',
             pauseOnHover && 'group-hover:paused-animation group-focus-within:paused-animation',
           )}
           style={{
