@@ -1,18 +1,18 @@
-import { Children, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import { classes } from '../../utils';
 
-interface MarqueeProperties {
-  children: ReactNode;
+type Properties = {
+  items: ReactNode[];
   pauseOnHover?: boolean;
   className?: string;
-}
+};
 
 export const Marquee = ({
-  children,
+  items,
   pauseOnHover = true,
   className,
-}: MarqueeProperties) => {
+}: Properties) => {
   return (
     <div
       className={classes(
@@ -20,45 +20,43 @@ export const Marquee = ({
         className,
       )}
     >
-      <div
+      <ul
         className={classes(
-          'mx-0 flex flex-none animate-marquee gap-x-0 whitespace-nowrap lg:mx-5 lg:gap-x-10',
+          'flex animate-marquee list-none gap-x-0 whitespace-nowrap lg:mx-5 lg:gap-x-10 lg:pl-5',
           pauseOnHover &&
             'group-focus-within:paused-animation group-hover:paused-animation',
         )}
-        role="list"
       >
-        {Children.map(children, (child, index) => {
+        {items.map((item, index) => {
           return (
-            <div
+            <li
               key={index}
               className="flex cursor-pointer items-center space-x-2"
             >
-              {child}
-            </div>
+              {item}
+            </li>
           );
         })}
-      </div>
+      </ul>
 
-      <div
+      <ul
         className={classes(
-          'absolute mx-0 flex flex-none animate-marquee2 gap-x-0 whitespace-nowrap lg:mx-5 lg:gap-x-10 lg:pl-5',
+          'absolute flex animate-marquee2 list-none gap-x-0 whitespace-nowrap lg:mx-5 lg:gap-x-10 lg:pl-5',
           pauseOnHover &&
             'group-focus-within:paused-animation group-hover:paused-animation',
         )}
-        role="list"
       >
-        {Children.map(children, (child, index) => {
+        {items.map((item, index) => {
           return (
-            <div
+            <li
               key={index}
               className="flex cursor-pointer items-center space-x-2"
             >
-              {child}
-            </div>
+              {item}
+            </li>
           );
         })}
-      </div>
+      </ul>
     </div>
   );
 };

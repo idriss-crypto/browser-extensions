@@ -12,7 +12,7 @@ import { Button } from '@idriss-xyz/ui/button';
 import { Marquee } from '@idriss-xyz/ui/marquee';
 import { classes } from '@idriss-xyz/ui/utils';
 
-type CollaborationsShowcaseProperties = {
+type Properties = {
   className?: string;
 };
 
@@ -66,9 +66,7 @@ const collaborationLinks = [
   },
 ];
 
-export const CollaborationsShowcase = ({
-  className,
-}: CollaborationsShowcaseProperties) => {
+export const CollaborationsShowcase = ({ className }: Properties) => {
   return (
     <div
       className={classes(
@@ -79,8 +77,9 @@ export const CollaborationsShowcase = ({
       <span className="text-button1 text-neutralGreen-500">
         WORKED WITH TOP CRYPTO PROJECTS
       </span>
-      <Marquee className="container py-1">
-        {collaborationLinks.map((collaborationLink) => {
+      <Marquee
+        className="container py-1"
+        items={collaborationLinks.map((collaborationLink) => {
           return (
             <Button
               key={collaborationLink.link}
@@ -94,7 +93,7 @@ export const CollaborationsShowcase = ({
             </Button>
           );
         })}
-      </Marquee>
+      />
     </div>
   );
 };

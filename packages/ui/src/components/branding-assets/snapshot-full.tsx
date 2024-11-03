@@ -6,8 +6,8 @@ export const SnapshotFullLogo = ({ className }: Properties) => {
   return (
     <svg
       className={className}
-      width="590px"
-      height="126px"
+      width="590"
+      height="126"
       viewBox="0 0 590 126"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"

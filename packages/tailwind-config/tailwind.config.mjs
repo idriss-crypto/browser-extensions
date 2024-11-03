@@ -116,8 +116,6 @@ export default {
       spacing: {
         4.5: '18px',
         5.5: '22px',
-        26: '104px',
-        50: '200px',
       },
       fontSize: {
         display1: [
@@ -274,8 +272,8 @@ export default {
         ],
       },
       animation: {
-        marquee: 'marquee 15s linear infinite',
-        marquee2: 'marquee2 15s linear infinite',
+        marquee: 'marquee 35s linear infinite',
+        marquee2: 'marquee2 35s linear infinite',
       },
       keyframes: {
         marquee: {
