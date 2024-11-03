@@ -39,7 +39,7 @@ const collaborationLinks = [
   {
     logo: (
       <AavegotchiLogo
-        className={classes(logoClassName, 'h-[17.42px] lg:h-[31.7px]')}
+        className={classes(logoClassName, 'h-[17px] lg:h-[32px]')}
       />
     ),
     link: 'https://x.com/IDriss_xyz/status/1750851248121930167',
@@ -51,7 +51,7 @@ const collaborationLinks = [
   {
     logo: (
       <AgoraFullLogo
-        className={classes(logoClassName, 'h-[17.42px] lg:h-[31.7px]')}
+        className={classes(logoClassName, 'h-[17px] lg:h-[32px]')}
       />
     ),
     link: 'https://x.com/AgoraGovernance/status/1820834836770329005',
@@ -59,7 +59,7 @@ const collaborationLinks = [
   {
     logo: (
       <SnapshotFullLogo
-        className={classes(logoClassName, 'h-[17.42px] lg:h-[31.7px]')}
+        className={classes(logoClassName, 'h-[17px] lg:h-[32px]')}
       />
     ),
     link: 'https://x.com/IDriss_xyz/status/1761049574691819798',
