@@ -28,7 +28,7 @@ export const HeroSection = () => {
       <Image
         priority
         src={tokensFlow}
-        className="z-0 -mt-[22%] w-full min-w-[500px] md:-mt-[18%] lg:mt-[-15%]"
+        className="z-0 mt-[-22%] w-full min-w-[500px] md:mt-[-18%] lg:mt-[-15%]"
         alt=""
       />
       <CollaborationsShowcase className="container mt-9 text-center lg:my-20" />
