@@ -18,7 +18,7 @@ export const ProductTile = ({
       <span className="text-label5 text-neutralGreen-700 lg:text-label4">
         {productName}
       </span>
-      <span className="text-heading5 text-neutral-900 lg:text-heading4">
+      <span className="text-heading5 text-neutral-900 lg:text-heading4 text-balance">
         {tileTitle}
       </span>
       <ul className="flex flex-col gap-4 text-neutralGreen-700">
