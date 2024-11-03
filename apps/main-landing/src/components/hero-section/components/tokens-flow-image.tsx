@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { tokensFlow } from '../assets';
+import  tokensFlow  from '../assets/tokens-flow.png';
 
 export const TokensFlowImage = () => {
   return (
