@@ -274,12 +274,17 @@ export default {
         ],
       },
       animation: {
-        'marquee': 'marquee 15s linear infinite',
+        marquee: 'marquee 15s linear infinite',
+        marquee2: 'marquee2 15s linear infinite',
       },
       keyframes: {
-        'marquee': {
+        marquee: {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-100%)' },
+        },
+        marquee2: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0%)' },
         },
       },
     },
@@ -302,11 +307,12 @@ export default {
           },
         },
         '.side-blur': {
-          'mask-image': 'linear-gradient(to right, transparent, black 60px, black calc(100% - 60px), transparent)'
+          'mask-image':
+            'linear-gradient(to right, transparent, black 60px, black calc(100% - 60px), transparent)',
         },
         '.paused-animation': {
-          'animation-play-state': 'paused'
-        }
+          'animation-play-state': 'paused',
+        },
       };
       addUtilities(newUtilities);
     }),
