@@ -78,7 +78,7 @@ export const CollaborationsShowcase = ({ className }: Properties) => {
         WORKED WITH TOP CRYPTO PROJECTS
       </span>
       <Marquee
-        className="container py-1"
+        className="container"
         items={collaborationLinks.map((collaborationLink) => {
           return (
             <Button

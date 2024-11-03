@@ -16,7 +16,7 @@ export const Marquee = ({
   return (
     <div
       className={classes(
-        'group relative mt-4 flex items-center justify-start overflow-clip side-blur',
+        'group relative flex items-center justify-start overflow-clip side-blur',
         className,
       )}
     >
