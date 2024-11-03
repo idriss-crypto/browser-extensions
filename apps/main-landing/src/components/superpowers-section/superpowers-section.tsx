@@ -10,7 +10,7 @@ export const SuperpowersSection = () => {
       <StackedHex className="absolute bottom-0 right-0 hidden translate-x-[-5%] lg:block" />
       <div className="container relative z-1 lg:flex lg:flex-col lg:items-center">
         <div className="mb-10 flex w-full flex-col items-center gap-4 lg:mb-20">
-          <h2 className="mt-20 text-center text-display5 lg:mt-10 lg:text-display2 gradient-text">
+          <h2 className="mt-20 text-center text-display5 gradient-text lg:mt-10 lg:text-display2">
             SUPERPOWERS FOR YOUR INTERNET
           </h2>
           <p className="max-w-[940px] text-center text-body3 text-neutralGreen-900 opacity-70 lg:text-body1">
