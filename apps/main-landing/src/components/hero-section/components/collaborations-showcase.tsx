@@ -16,7 +16,7 @@ type CollaborationsShowcaseProperties = {
   className?: string;
 };
 
-const logoClassName = 'mx-2.5 h-5.5 w-fit text-neutralGreen-500 lg:h-10';
+const logoClassName = 'mx-2.5 h-5.5 w-fit text-neutralGreen-500 lg:h-10 hover:text-neutralGreen-700';
 
 const collaborationLinks = [
   {
