@@ -17,7 +17,7 @@ type Properties = {
 };
 
 const logoClassName =
-  'mx-2.5 h-5.5 w-fit text-neutralGreen-500 lg:h-10 hover:text-neutralGreen-700';
+  'mx-2.5 h-5.5 w-auto text-neutralGreen-500 lg:h-10 hover:text-neutralGreen-700';
 
 const collaborationLinks = [
   {
