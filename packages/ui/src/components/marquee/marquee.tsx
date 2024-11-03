@@ -29,7 +29,7 @@ export const Marquee = ({
           <div
             key={duplicate}
             className={classes(
-              'inset-0 mx-2.5 flex flex-none animate-marquee gap-x-5 whitespace-nowrap lg:mx-5 lg:gap-x-10',
+              'inset-0 mx-0 flex flex-none animate-marquee gap-x-0 whitespace-nowrap lg:mx-5 lg:gap-x-10',
               pauseOnHover &&
                 'group-focus-within:paused-animation group-hover:paused-animation',
             )}
