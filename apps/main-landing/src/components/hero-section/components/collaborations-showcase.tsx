@@ -74,7 +74,7 @@ export const CollaborationsShowcase = ({ className }: Properties) => {
         className,
       )}
     >
-      <span className="text-button1 text-neutralGreen-500">
+      <span className="text-button2 text-neutralGreen-500 lg:text-button1">
         WORKED WITH TOP CRYPTO PROJECTS
       </span>
       <Marquee
@@ -82,6 +82,7 @@ export const CollaborationsShowcase = ({ className }: Properties) => {
         items={collaborationLinks.map((collaborationLink) => {
           return (
             <Button
+              className="p-0"
               key={collaborationLink.link}
               intent="tertiary"
               size="large"
