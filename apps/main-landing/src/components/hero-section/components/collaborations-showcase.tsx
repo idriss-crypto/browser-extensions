@@ -17,7 +17,7 @@ type Properties = {
 };
 
 const logoClassName =
-  'mx-2.5 h-5.5 w-auto text-neutralGreen-500 lg:h-10 hover:text-neutralGreen-700';
+  'h-5.5 w-auto text-neutralGreen-500 lg:h-10 hover:text-neutralGreen-700';
 
 const collaborationLinks = [
   {
@@ -82,7 +82,7 @@ export const CollaborationsShowcase = ({ className }: Properties) => {
         items={collaborationLinks.map((collaborationLink) => {
           return (
             <Button
-              className="p-0"
+              className="rounded-none p-0"
               key={collaborationLink.link}
               intent="tertiary"
               size="large"
