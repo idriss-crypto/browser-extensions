@@ -13,7 +13,7 @@ export const Marquee = ({
   pauseOnHover = true,
   className,
 }: Properties) => {
-  const spaceClassName = 'space-x-10 lg:space-x-[60px]'
+  const spaceClassName = 'space-x-10 lg:space-x-[60px]';
 
   return (
     <div
@@ -24,7 +24,7 @@ export const Marquee = ({
     >
       <ul
         className={classes(
-          'pl-10 flex animate-marquee list-none whitespace-nowrap lg:pl-[60px]',
+          'flex animate-marquee list-none whitespace-nowrap pl-10 lg:pl-[60px]',
           spaceClassName,
           pauseOnHover &&
             'group-focus-within:paused-animation group-hover:paused-animation',
@@ -44,7 +44,7 @@ export const Marquee = ({
 
       <ul
         className={classes(
-          'pl-10 absolute flex animate-marquee2 list-none whitespace-nowrap lg:pl-[60px]',
+          'absolute flex animate-marquee2 list-none whitespace-nowrap pl-10 lg:pl-[60px]',
           spaceClassName,
           pauseOnHover &&
             'group-focus-within:paused-animation group-hover:paused-animation',
