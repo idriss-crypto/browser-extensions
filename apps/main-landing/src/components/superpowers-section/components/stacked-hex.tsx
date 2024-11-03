@@ -1,7 +1,7 @@
 type Properties = {
   className?: string;
 };
-export const StacketHex = ({ className }: Properties) => {
+export const StackedHex = ({ className }: Properties) => {
   return (
     <svg
       className={className}

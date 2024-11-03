@@ -1,1 +1,1 @@
-export { SuperpowersSection } from './superpowers-section'
+export { SuperpowersSection } from './superpowers-section';

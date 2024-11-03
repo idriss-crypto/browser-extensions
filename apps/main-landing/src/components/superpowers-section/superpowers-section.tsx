@@ -1,5 +1,5 @@
 import { ProductTile } from './components/product-tile';
-import { StacketHex } from './components/stacket-hex';
+import { StackedHex } from './components/stacked-hex';
 import { TopWave } from './components/top-wave';
 import { productTilesContent } from './constans';
 
@@ -7,7 +7,7 @@ export const SuperpowersSection = () => {
   return (
     <section className="relative bg-mint-100 pb-20">
       <TopWave className="absolute left-0 top-0 z-0 w-full translate-y-[-15%] text-white" />
-      <StacketHex className="absolute bottom-0 right-0 hidden translate-x-[-5%] lg:block" />
+      <StackedHex className="absolute bottom-0 right-0 hidden translate-x-[-5%] lg:block" />
       <div className="container relative z-1 lg:flex lg:flex-col lg:items-center">
         <div className="mb-10 flex w-full flex-col items-center gap-4 lg:mb-20">
           <h2 className="mt-20 text-center text-display5 lg:mt-10 lg:text-display2">
@@ -20,14 +20,16 @@ export const SuperpowersSection = () => {
           </p>
         </div>
         <div className="flex flex-col items-start justify-center gap-6 lg:max-w-[1342px] lg:flex-row">
-          {productTilesContent.map((point) => (
-            <ProductTile
-              key={point.productName}
-              productName={point.productName}
-              tileTitle={point.tileTitle}
-              tileListPoints={point.tilePoints}
-            ></ProductTile>
-          ))}
+          {productTilesContent.map((point) => {
+            return (
+              <ProductTile
+                key={point.productName}
+                productName={point.productName}
+                tileTitle={point.tileTitle}
+                tileListPoints={point.tilePoints}
+              />
+            );
+          })}
         </div>
       </div>
     </section>
