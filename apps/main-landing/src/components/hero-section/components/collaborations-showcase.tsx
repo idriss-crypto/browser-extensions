@@ -88,6 +88,7 @@ export const CollaborationsShowcase = ({ className }: Properties) => {
               asLink
               target="_blank"
               href={collaborationLink.link}
+              tabIndex={-1}
             >
               {collaborationLink.logo}
             </Button>
