@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import  lines  from '../assets/lines.png';
+import { lines } from '../assets';
 
 export const BackgroundLines = () => {
   return (
