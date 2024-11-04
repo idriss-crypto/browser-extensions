@@ -1,4 +1,4 @@
-import { classes } from "@idriss-xyz/ui/utils";
+import { classes } from '@idriss-xyz/ui/utils';
 
 type TopWaveProperties = {
   className?: string;
@@ -7,7 +7,7 @@ type TopWaveProperties = {
 export const TopWave = ({ className }: TopWaveProperties) => {
   return (
     <svg
-      className={classes("pointer-events-none", className)}
+      className={classes('pointer-events-none', className)}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1980 818"
       fill="none"
