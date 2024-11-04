@@ -1,10 +1,12 @@
+import { classes } from '@idriss-xyz/ui/utils';
+
 type Properties = {
   className?: string;
 };
 export const StackedHex = ({ className }: Properties) => {
   return (
     <svg
-      className={className}
+      className={classes('pointer-events-none', className)}
       width="562"
       height="611"
       viewBox="0 0 562 611"

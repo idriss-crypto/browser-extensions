@@ -1,6 +1,5 @@
 import { Icon } from '@idriss-xyz/ui/icon';
-
-import { GradientBorder } from '@/components/gradient-border';
+import { GradientBorder } from '@idriss-xyz/ui/gradient-border';
 
 type ProductTitleProperties = {
   productName: string;

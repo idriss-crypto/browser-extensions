@@ -19,7 +19,7 @@ export const SuperpowersSection = () => {
             find what’s true on the internet.
           </p>
         </div>
-        <div className="flex flex-col items-start justify-center gap-6 lg:max-w-[1342px] lg:flex-row">
+        <div className="flex flex-col items-start justify-center gap-6 lg:grid lg:grid-cols-[repeat(3,_minmax(auto,_431px))] lg:flex-row">
           {productTilesContent.map((point) => {
             return (
               <ProductTile

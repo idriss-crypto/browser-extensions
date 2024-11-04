@@ -14,7 +14,7 @@ export const GradientBorder = ({
     <svg
       xmlns="http://www.w3.org/2000/svg"
       className={classes(
-        'absolute left-0 top-0 h-full w-full overflow-visible',
+        'pointer-events-none absolute left-0 top-0 h-full w-full overflow-visible',
         className,
       )}
     >

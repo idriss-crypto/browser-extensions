@@ -10,7 +10,7 @@ export const HeroSection = () => {
       <Image
         priority
         src={backgroundLines}
-        className="absolute top-0 hidden opacity-40 lg:block"
+        className="pointer-events-none absolute top-0 hidden opacity-40 lg:block"
         alt=""
       />
       <h1 className="container z-1 my-0 text-balance text-center text-display4 font-normal gradient-text lg:text-display1">
@@ -28,7 +28,7 @@ export const HeroSection = () => {
       <Image
         priority
         src={tokensFlow}
-        className="z-0 mt-[-22%] w-full min-w-[500px] md:mt-[-18%] lg:mt-[-15%]"
+        className="pointer-events-none z-0 mt-[-22%] w-full min-w-[500px] md:mt-[-18%] lg:mt-[-15%]"
         alt=""
       />
       <CollaborationsShowcase className="container mt-9 text-center lg:my-20" />
