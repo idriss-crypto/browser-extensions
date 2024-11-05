@@ -8,7 +8,7 @@ export const TokenSection = () => {
   return (
     <div className="relative z-1" id="dao">
       <div className="container flex justify-center py-10 lg:py-[169px]">
-        <div className="flex flex-col items-center rounded-[36px] border border-mint-300 bg-white/50 px-4 py-10 backdrop-blur-[90px] lg:w-max lg:px-16 lg:py-20">
+        <div className="flex flex-col items-center rounded-[36px] border border-mint-300 bg-white/50 px-4 py-10 backdrop-blur-[45px] lg:w-max lg:px-16 lg:py-20">
           <video muted loop autoPlay className="size-[88px] lg:size-[200px]">
             <source type="video/webm" src="/coin.webm" />
           </video>
