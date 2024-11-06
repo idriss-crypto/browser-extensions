@@ -1,7 +1,7 @@
 import { Button } from '@idriss-xyz/ui/button';
-import { ProductTile } from './components/product-tile';
 import Image from 'next/image';
 
+import { ProductTile } from './components/product-tile';
 import { TopWave } from './components/top-wave';
 import {
   CREATORS_INFO,
@@ -19,7 +19,7 @@ export const SuperpowersSection = () => {
         src={stackedHex}
         alt=""
         className="absolute bottom-0 right-0 hidden translate-x-[-5%] lg:block"
-      ></Image>
+      />
       <div className="container relative z-1 lg:flex lg:flex-col lg:items-center">
         <div className="mb-10 flex w-full flex-col items-center gap-4 lg:mb-20">
           <h2 className="mt-20 text-center text-display5 gradient-text lg:mt-10 lg:text-display2">
