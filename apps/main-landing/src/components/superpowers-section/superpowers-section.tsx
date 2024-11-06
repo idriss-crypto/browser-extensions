@@ -43,10 +43,23 @@ export const SuperpowersSection = () => {
                   intent="primary"
                   size="large"
                   suffixIconName="IdrissArrowRight"
+                  className="text-button2 lg:text-button1"
+                  asLink
+                  href="https://chromewebstore.google.com/detail/idriss/fghhpjoffbgecjikiipbkpdakfmkbmig"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   Download
                 </Button>
-                <Button intent="secondary" size="large">
+                <Button
+                  intent="secondary"
+                  size="large"
+                  className="text-button2 lg:text-button1"
+                  asLink
+                  href="https://docs.idriss.xyz/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   LEARN MORE
                 </Button>
               </>
@@ -63,7 +76,11 @@ export const SuperpowersSection = () => {
                   intent="primary"
                   size="large"
                   suffixIconName="IdrissArrowRight"
-                  className="w-full"
+                  className="w-full text-button2 lg:text-button1"
+                  asLink
+                  href="https://idriss.xyz/creators"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   CREATE DONATION LINK
                 </Button>
@@ -77,7 +94,11 @@ export const SuperpowersSection = () => {
             features={PREDICTION_MARKETS_INFO.features}
             actions={
               <>
-                <Button intent="disabled" size="large" className="w-full">
+                <Button
+                  intent="disabled"
+                  size="large"
+                  className="w-full text-button2 lg:text-button1"
+                >
                   COMING SOON
                 </Button>
               </>
