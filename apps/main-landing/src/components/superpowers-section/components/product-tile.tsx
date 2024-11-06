@@ -30,7 +30,7 @@ export const ProductTile = ({ name, title, features, actions }: Properties) => {
           );
         })}
       </ul>
-      <div className="absolute bottom-[2px] right-[1.667px] flex w-full justify-center gap-4 rounded-[15px] bg-[linear-gradient(180deg,_rgba(255,255,255,0)_0%,_rgba(255,255,255,0.96)_24.58%)] px-10 pb-6 pt-10 opacity-0 transition-opacity group-hover:opacity-100">
+      <div className="flex w-full justify-center gap-4 rounded-[15px] transition-opacity lg:absolute lg:bottom-[2px] lg:right-[1.667px] lg:bg-[linear-gradient(180deg,_rgba(255,255,255,0)_0%,_rgba(255,255,255,0.96)_24.58%)] lg:px-10 lg:pb-6 lg:pt-10 lg:opacity-0 lg:group-hover:opacity-100">
         {actions}
       </div>
 
