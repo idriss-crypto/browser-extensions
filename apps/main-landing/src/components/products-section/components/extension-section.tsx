@@ -3,7 +3,11 @@ import { Button } from '@idriss-xyz/ui/button';
 import { ProductSection } from './product-section';
 import { BROWSER_EXTENSION_INFO } from '../constants';
 
-export const ExtensionSection = () => {
+type Properties = {
+  onOptionChange: (option: string) => void
+}
+
+export const ExtensionSection = ({onOptionChange}: Properties) => {
   return (
     <ProductSection
       actions={
@@ -36,7 +40,7 @@ export const ExtensionSection = () => {
       description={BROWSER_EXTENSION_INFO.describtion}
       title={BROWSER_EXTENSION_INFO.title}
       features={BROWSER_EXTENSION_INFO.features}
-      onOptionChange={() => {}}
+      onOptionChange={onOptionChange}
       readOnly={false}
     />
   );

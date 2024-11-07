@@ -3,7 +3,11 @@ import { Button } from '@idriss-xyz/ui/button';
 import { ProductSection } from './product-section';
 import { PREDICTION_MARKETS_INFO } from '../constants';
 
-export const PredictionMarketsSection = () => {
+type Properties = {
+  onOptionChange: (option: string) => void
+}
+
+export const PredictionMarketsSection = ({onOptionChange}: Properties) => {
   return (
     <ProductSection
       actions={
@@ -29,7 +33,7 @@ export const PredictionMarketsSection = () => {
       description={PREDICTION_MARKETS_INFO.describtion}
       title={PREDICTION_MARKETS_INFO.title}
       features={PREDICTION_MARKETS_INFO.features}
-      onOptionChange={() => {}}
+      onOptionChange={onOptionChange}
       readOnly={false}
     />
   );

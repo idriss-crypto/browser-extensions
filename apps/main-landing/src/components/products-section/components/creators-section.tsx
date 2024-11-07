@@ -3,7 +3,11 @@ import { Button } from '@idriss-xyz/ui/button';
 import { ProductSection } from './product-section';
 import { CREATORS_INFO } from '../constants';
 
-export const CreatorsSection = () => {
+type Properties = {
+  onOptionChange: (option: string) => void
+}
+
+export const CreatorsSection = ({onOptionChange}: Properties) => {
   return (
     <ProductSection
       actions={
@@ -23,7 +27,7 @@ export const CreatorsSection = () => {
       description={CREATORS_INFO.describtion}
       title={CREATORS_INFO.title}
       features={CREATORS_INFO.features}
-      onOptionChange={() => {}}
+      onOptionChange={onOptionChange}
       readOnly={false}
     />
   );

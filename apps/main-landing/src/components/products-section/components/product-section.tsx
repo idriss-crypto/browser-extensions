@@ -36,8 +36,8 @@ export const ProductSection = ({
   readOnly,
 }: ProductSectionProperties) => {
   return (
-    <div className="relative flex size-full flex-col items-center gap-[120px] bg-mint-100 p-[50px]">
-      <div className="flex size-full flex-col items-start gap-[10px] rounded-[40px] bg-[linear-gradient(114deg,_#022B1E_34.81%,_#079165_123.57%)] px-[120px] py-[80px]">
+    <div className="relative flex size-full flex-col items-center gap-[120px] bg-mint-100 //p-[50px]">
+      <div className="flex size-full flex-col items-start gap-[10px] //rounded-[40px] bg-[linear-gradient(114deg,_#022B1E_34.81%,_#079165_123.57%)] px-[120px] py-[80px]">
         <div className="container flex flex-col items-start gap-[104px]">
           <div className="flex flex-col items-start gap-[64px]">
             <Tabs
@@ -56,7 +56,7 @@ export const ProductSection = ({
             </div>
             <div className="flex items-start gap-4">{actions}</div>
           </div>
-          <div className="flex flex-col items-start justify-end gap-3 self-stretch">
+          <div className="flex items-start gap-3 self-stretch flex-wrap max-w-[1000px]">
             {features.map((feature) => {
               return (
                 <ProductInfo
