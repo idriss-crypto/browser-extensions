@@ -38,7 +38,7 @@ export const ProductTile = ({ name, title, features, actions }: Properties) => {
         {actions}
       </div>
 
-      <GradientBorder borderRadius={24} />
+      <GradientBorder gradientDirection="toTop" borderRadius={24} />
     </div>
   );
 };

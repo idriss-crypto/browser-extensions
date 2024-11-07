@@ -25,12 +25,7 @@ export const HeroSection = () => {
       >
         EXPLORE
       </Button>
-      {/* <Image
-        priority
-        src={tokensFlow}
-        className="pointer-events-none z-0 mt-[-22%] w-full min-w-[500px] md:mt-[-18%] lg:mt-[-15%]"
-        alt=""
-      /> */}
+
       <video
         muted
         loop
