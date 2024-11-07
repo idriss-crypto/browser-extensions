@@ -7,6 +7,7 @@ import {
   TokenSection,
   TopBar,
 } from '@/components';
+import { ProductsSection } from '@/components/products-section/products-section';
 
 // ts-unused-exports:disable-next-line
 export default async function Home() {
@@ -27,6 +28,7 @@ export default async function Home() {
       <main>
         <HeroSection />
         <SuperpowersSection />
+        <ProductsSection />
         <TokenSection />
       </main>
       <Footer />
