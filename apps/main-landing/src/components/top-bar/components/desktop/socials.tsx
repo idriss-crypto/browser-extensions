@@ -29,8 +29,7 @@ export const Socials = ({ className }: Properties) => {
             intent="tertiary"
             iconName={social.iconName}
             href={social.link}
-            target="_blank"
-            rel="noopener noreferrer"
+            isExternal
             asLink
           />
         );

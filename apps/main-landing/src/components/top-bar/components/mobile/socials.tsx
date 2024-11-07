@@ -52,8 +52,7 @@ export const Socials = ({ className }: Properties) => {
                 intent="tertiary"
                 size="large"
                 href={social.link}
-                rel="noopener noreferrer"
-                target="_blank"
+                isExternal
                 asLink
               />
             </NavigationMenu.Link>

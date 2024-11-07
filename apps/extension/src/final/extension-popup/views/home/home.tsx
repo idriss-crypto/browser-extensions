@@ -1,3 +1,5 @@
+import { ExternalLink } from '@idriss-xyz/ui/external-link';
+
 import {
   AGORA_LOGO,
   POLYMARKET_LOGO,
@@ -26,23 +28,15 @@ export const HomeView = () => {
       </header>
 
       <div className="grid w-full grid-cols-2 gap-3 px-3">
-        <a
-          href="https://x.com/IDriss_xyz/status/1729258820441170160"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <ExternalLink href="https://x.com/IDriss_xyz/status/1729258820441170160">
           <SectionTile
             icons={[{ iconSrc: IDRISS_ICON, iconAlt: 'Tipping Icon' }]}
             title="Tipping Badges"
             subtitle="Send crypto on X and Farcaster"
             className="transition-transform duration-[600ms] hover:scale-105 hover:bg-[#f9fafb]"
           />
-        </a>
-        <a
-          href="https://x.com/IDriss_xyz/status/1761049574691819798"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        </ExternalLink>
+        <ExternalLink href="https://x.com/IDriss_xyz/status/1761049574691819798">
           <SectionTile
             icons={[
               {
@@ -66,19 +60,15 @@ export const HomeView = () => {
             iconContainerClassName="mt-2"
             className="transition-transform duration-[600ms] hover:scale-105 hover:bg-[#f9fafb]"
           />
-        </a>
-        <a
-          href="https://x.com/IDriss_xyz/status/1780582103396266085"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        </ExternalLink>
+        <ExternalLink href="https://x.com/IDriss_xyz/status/1780582103396266085">
           <SectionTile
             icons={[{ iconSrc: POLYMARKET_LOGO, iconAlt: 'Polymarket Logo' }]}
             title="Polymarket Widget"
             subtitle="Trade directly from your X feed"
             className="transition-transform duration-[600ms] hover:scale-105 hover:bg-[#f9fafb]"
           />
-        </a>
+        </ExternalLink>
 
         <SectionTile
           icons={[{ iconSrc: TRADING_COPILOT_LOGO, iconAlt: 'Trading Icon' }]}

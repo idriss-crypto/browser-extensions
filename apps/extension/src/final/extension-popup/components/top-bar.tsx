@@ -1,3 +1,5 @@
+import { ExternalLink } from '@idriss-xyz/ui/external-link';
+
 import { IDRISS_URL } from 'shared/idriss';
 import { IDRISS_FULL_LOGO } from 'assets/images';
 import { IconButton, Toggle } from 'shared/ui';
@@ -16,14 +18,12 @@ export const TopBar = () => {
 
   return (
     <nav className="flex items-center justify-between bg-white p-2 drop-shadow-sm">
-      <a
+      <ExternalLink
         href={IDRISS_URL}
         className="flex items-center justify-center"
-        target="_blank"
-        rel="noopener noreferrer"
       >
         <img className="h-12" src={IDRISS_FULL_LOGO} alt="IDriss Logo" />
-      </a>
+      </ExternalLink>
       <div className="flex items-center">
         {showSettingsButton && (
           <IconButton

@@ -86,10 +86,10 @@ export const CollaborationsShowcase = ({ className }: Properties) => {
               key={collaborationLink.link}
               intent="tertiary"
               size="large"
-              asLink
-              target="_blank"
               href={collaborationLink.link}
               tabIndex={-1}
+              isExternal
+              asLink
             >
               {collaborationLink.logo}
             </Button>

@@ -3,7 +3,7 @@ import { bytesToHex } from '@noble/hashes/utils';
 
 import { CHAIN_ID_TO_TOKENS, EMPTY_HEX } from 'shared/web3';
 
-import { IconType, SendPayload } from './schema';
+import { SendPayload } from './schema';
 import { ICON_TYPE_TO_SRC, WALLET_TAGS } from './constants';
 
 export const getDefaultTokenForChainId = (chainId: number) => {
@@ -18,10 +18,6 @@ export const getDefaultTokenForChainId = (chainId: number) => {
   }
 
   return defaultChainToken;
-};
-
-export const getIconSource = (iconType: IconType) => {
-  return ICON_TYPE_TO_SRC[iconType];
 };
 
 export const getSafeNumber = (

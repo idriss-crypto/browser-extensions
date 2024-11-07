@@ -694,11 +694,6 @@ export const CHAIN_TO_IDRISS_TIPPING_ADDRESS = {
   [CHAIN.ALEPH.id]: '0xcA6742d2d6B9dBFFD841DF25C15cFf45FBbB98f4',
 } as const;
 
-export const ICON_TYPE_TO_SRC: Record<IconType, string> = {
-  redBadge: IDRISS_RED_ICON,
-  default: IDRISS_ICON,
-};
-
 export const PUBLIC_ETH_TAG_NAME = 'Public ETH';
 
 export const WALLET_TAGS = [

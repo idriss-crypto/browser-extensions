@@ -14,9 +14,10 @@ import { ErrorMessage } from 'shared/ui';
 
 import { useSendForm, useSender } from '../hooks';
 import { SendPayload } from '../schema';
-import { getIconSource, getLoadingMessage } from '../utils';
+import { getLoadingMessage } from '../utils';
 import { WidgetData } from '../types';
 import { DEFAULT_ALLOWED_CHAINS_IDS } from '../constants';
+import { IDRISS_ICON_CIRCLE } from 'assets/images';
 
 type Properties = {
   widgetData: WidgetData;
@@ -69,8 +70,7 @@ export const SendWidget = ({ widgetData }: Properties) => {
     );
   }, [selectedToken?.decimals, sender.tokensToSend]);
 
-  const iconSize = isHandleUser ? 20 : 16;
-  const iconSource = getIconSource(widgetOverrides?.iconType ?? 'default');
+  const iconSize = isHandleUser ? 16 : 14;
 
   const reset = useCallback(() => {
     sender.reset();
@@ -81,7 +81,7 @@ export const SendWidget = ({ widgetData }: Properties) => {
     <IdrissSend.Container
       node={node}
       iconSize={iconSize}
-      iconSrc={iconSource}
+      iconSrc={IDRISS_ICON_CIRCLE}
       recipientName={username}
       closeOnClickAway={sender.isIdle}
       onClose={reset}
