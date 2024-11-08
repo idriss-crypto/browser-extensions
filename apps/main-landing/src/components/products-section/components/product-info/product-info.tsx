@@ -11,13 +11,17 @@ type Properties = {
 
 export const ProductInfo = ({ icon, title, description }: Properties) => {
   return (
-    <div className="relative flex w-[384px] items-center gap-4 rounded-[24px] bg-[rgba(255,255,255,0.10)] px-5 py-[34px]">
+    <div className="relative flex max-w-[384px] items-center gap-4 rounded-[24px] bg-[rgba(255,255,255,0.10)] px-5 py-4 lg:py-[34px]">
       <div className="flex items-center justify-center gap-2 rounded-[24px] border-[0.765px] border-[rgba(85,235,60,0.30)] bg-[radial-gradient(50%_50%_at_50%_50%,_rgba(252,_255,_242,_0)_0%,_rgba(23,_255,_74,_0.18)_100%)] p-6">
         {icon}
       </div>
       <div className="flex flex-1 flex-col items-start justify-center gap-2">
-        <span className="text-heading5 text-midnightGreen-100">{title}</span>
-        <span className="text-body4 text-mint-200">{description}</span>
+        <span className="text-heading-6 text-midnightGreen-100 lg:text-heading5">
+          {title}
+        </span>
+        <span className="text-body5 text-mint-200 lg:text-body4">
+          {description}
+        </span>
       </div>
       <GradientBorder
         borderRadius={24}

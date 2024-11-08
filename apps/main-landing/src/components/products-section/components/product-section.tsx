@@ -43,10 +43,10 @@ export const ProductSection = ({
   fadeOut,
 }: ProductSectionProperties) => {
   return (
-    <div className={classes("relative flex size-full bg-mint-100", className)}>
-      <div className="flex size-full flex-col bg-[linear-gradient(114deg,_#022B1E_34.81%,_#079165_123.57%)] px-[120px] py-[80px] padding-1100">
-        <div className="container flex flex-col gap-[104px] gap-1100">
-          <div className="flex flex-col items-start gap-[64px] gap-1100">
+    <div className={classes('relative flex size-full bg-mint-100', className)}>
+      <div className="flex size-full flex-col bg-[linear-gradient(114deg,_#022B1E_34.81%,_#079165_123.57%)] px-4 py-10 lg:px-[120px] lg:py-[80px] [@media(max-height:1100px)]:py-[30px]">
+        <div className="container flex flex-col gap-10 p-0 lg:gap-[104px] lg:[@media(max-height:1100px)]:gap-[50px]">
+          <div className="flex flex-col items-start gap-[64px] lg:[@media(max-height:1100px)]:gap-[50px]">
             <Tabs
               options={tabOptions}
               activeOptionKey={activeOptionKey}
@@ -67,7 +67,7 @@ export const ProductSection = ({
               <div className="overflow-hidden">
                 <p
                   className={classes(
-                    'w-[60%] text-balance text-body3 text-midnightGreen-200 transition-transform duration-1000 lg:text-body2',
+                    'text-balance text-body3 text-midnightGreen-200 transition-transform duration-1000 lg:w-[60%] lg:text-body2',
                     fadeOut && 'translate-y-[-110%]',
                   )}
                 >
@@ -75,16 +75,22 @@ export const ProductSection = ({
                 </p>
               </div>
             </div>
-            <div className="overflow-hidden">
+            <div className="w-full overflow-hidden px-1 py-1 lg:w-fit">
               <div
                 className={classes(
-                  'flex flex-col items-center gap-2 transition-transform duration-1000 lg:flex-row',
+                  'flex flex-col items-center gap-3 transition-transform duration-1000 lg:flex-row lg:gap-2',
                   fadeOut && 'translate-y-[-110%]',
                 )}
               >
                 {actions}
               </div>
             </div>
+            <Image
+              priority
+              src={circleWithScreen}
+              alt=""
+              className="bottom-0 right-0 top-[50%] lg:absolute lg:max-w-[45%] lg:translate-y-[-50%]"
+            />
           </div>
           <div className="overflow-hidden">
             <div
@@ -97,7 +103,13 @@ export const ProductSection = ({
                 return (
                   <ProductInfo
                     key={feature.title}
-                    icon={<Icon name={feature.icon} size={65} className="" />}
+                    icon={
+                      <Icon
+                        name={feature.icon}
+                        size={65}
+                        className="size-10 lg:size-[65px]"
+                      />
+                    }
                     title={feature.title}
                     description={feature.describtion}
                   />
@@ -107,13 +119,6 @@ export const ProductSection = ({
           </div>
         </div>
       </div>
-
-      <Image
-        priority
-        src={circleWithScreen}
-        alt=""
-        className="absolute bottom-0 right-0 top-[50%] max-w-[45%] translate-y-[-50%]"
-      />
     </div>
   );
 };

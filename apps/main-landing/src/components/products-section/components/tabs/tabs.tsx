@@ -17,12 +17,12 @@ type Properties = {
 
 export const Tabs = (properties: Properties) => {
   return (
-    <div className="flex items-start gap-1 rounded-[50px] bg-[#022218] p-1 text-label4">
+    <div className="flex items-start gap-1 rounded-[50px] bg-[#022218] p-1 text-label5 lg:text-label4">
       {properties.options.map((option) => {
         return properties.readOnly ? (
           <span
             className={classes(
-              'flex items-start rounded-[100px] bg-[#17ff4a1a] px-4 py-2 text-midnightGreen-100',
+              'flex items-start rounded-[100px] bg-[#17ff4a1a] px-[9.5px] py-2 text-midnightGreen-100 lg:px-4',
               properties.activeOptionKey === option.key &&
                 'bg-mint-400 text-neutralGreen-900',
             )}
@@ -38,7 +38,7 @@ export const Tabs = (properties: Properties) => {
           >
             <a
               className={classes(
-                'flex cursor-pointer items-start rounded-[100px] bg-[#17ff4a1a] px-4 py-2 text-midnightGreen-100 transition-colors duration-1000',
+                'flex cursor-pointer items-start rounded-[100px] bg-[#17ff4a1a] px-[9.5px] py-2 text-midnightGreen-100 transition-colors duration-1000 lg:px-4',
                 properties.activeOptionKey === option.key &&
                   'bg-mint-400 text-neutralGreen-900',
               )}
