@@ -4,7 +4,7 @@ export const CreatorsSectionActions = () => {
     <Button
       intent="secondary"
       size="large"
-      className="w-full text-button2 lg:w-fit lg:text-button1"
+      className="w-full text-button2 md:w-fit lg:w-fit lg:text-button1"
       asLink
       href="https://chromewebstore.google.com/detail/idriss/fghhpjoffbgecjikiipbkpdakfmkbmig"
       target="_blank"
