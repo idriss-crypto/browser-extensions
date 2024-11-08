@@ -32,6 +32,7 @@ export const Tabs = ({ activeOptionKey, options, asLink }: Properties) => {
           </Link>
         ) : (
           <span
+            key={option.key}
             className={classes(
               'flex items-start rounded-[100px] bg-[#17ff4a1a] px-[9.5px] py-2 text-midnightGreen-100 lg:px-4',
               activeOptionKey === option.key &&
