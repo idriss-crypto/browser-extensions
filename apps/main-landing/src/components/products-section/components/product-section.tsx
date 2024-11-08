@@ -45,8 +45,8 @@ export const ProductSection = ({
   return (
     <div className={classes('relative flex size-full bg-mint-100', className)}>
       <div className="flex size-full flex-col bg-[linear-gradient(114deg,_#022B1E_34.81%,_#079165_123.57%)] px-4 py-10 lg:px-[120px] lg:py-[80px] [@media(max-height:1100px)]:py-[30px]">
-        <div className="container flex flex-col gap-10 p-0 lg:gap-[104px] lg:[@media(max-height:1100px)]:gap-[50px] lg:[@media(max-height:770px)]:gap-[30px]">
-          <div className="flex flex-col items-start gap-[64px] lg:[@media(max-height:1100px)]:gap-[50px] lg:[@media(max-height:770px)]:gap-[30px]">
+        <div className="container flex flex-col gap-10 p-0 lg:gap-[104px] lg:[@media(max-height:1100px)]:gap-[50px] lg:[@media(max-height:770px)]:gap-[24px]">
+          <div className="flex flex-col items-start gap-[64px] lg:[@media(max-height:1100px)]:gap-[50px] lg:[@media(max-height:770px)]:gap-[24px]">
             <Tabs
               options={tabOptions}
               activeOptionKey={activeOptionKey}
@@ -58,7 +58,7 @@ export const ProductSection = ({
                 <h2
                   className={classes(
                     'text-balance text-display5 text-midnightGreen-100 transition-transform duration-1000 [@media(min-width:1181px)]:text-display2',
-                    fadeOut && 'translate-y-[-110%]',
+                    fadeOut && 'translate-y-[-120%]',
                   )}
                 >
                   {title}
@@ -68,7 +68,7 @@ export const ProductSection = ({
                 <p
                   className={classes(
                     'text-balance text-body3 text-midnightGreen-200 transition-transform duration-1000 lg:w-[60%] [@media(min-width:1181px)]:text-body2',
-                    fadeOut && 'translate-y-[-110%]',
+                    fadeOut && 'translate-y-[-120%]',
                   )}
                 >
                   {description}
@@ -79,7 +79,7 @@ export const ProductSection = ({
               <div
                 className={classes(
                   'flex flex-col items-center gap-3 transition-transform duration-1000 md:flex-row lg:flex-row lg:gap-2',
-                  fadeOut && 'translate-y-[-110%]',
+                  fadeOut && 'translate-y-[-120%]',
                 )}
               >
                 {actions}
@@ -95,8 +95,8 @@ export const ProductSection = ({
           <div className="overflow-hidden">
             <div
               className={classes(
-                'grid size-fit flex-wrap items-start gap-3 transition-transform duration-1000 md:grid-cols-2 lg:grid-cols-2',
-                fadeOut && 'translate-y-[-110%]',
+                'grid size-fit flex-wrap items-start p-1.5 gap-6 transition-transform duration-1000 md:grid-cols-2 lg:grid-cols-2',
+                fadeOut && 'translate-y-[-120%]',
               )}
             >
               {features.map((feature) => {
