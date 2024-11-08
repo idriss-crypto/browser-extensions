@@ -56,9 +56,6 @@ export const DesktopProductsSection = ({ className }: Properties) => {
     };
   }, []);
 
-  console.log('currentSectionIndex', currentSectionIndex);
-  console.log('debouncedCurrentSectionIndex', debouncedCurrentSectionIndex);
-
   const sectionMeta = [
     {
       actions: <ExtensionSectionActions />,
