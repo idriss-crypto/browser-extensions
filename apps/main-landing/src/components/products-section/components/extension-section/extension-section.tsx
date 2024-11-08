@@ -1,6 +1,7 @@
 'use client';
 
 import { ProductSection } from '../product-section';
+
 import { ExtensionSectionData } from './extension-section-data';
 
 type Properties = {
@@ -8,10 +9,7 @@ type Properties = {
   fadeOut: boolean;
 };
 
-export const ExtensionSection = ({
-  className,
-  fadeOut,
-}: Properties) => {
+export const ExtensionSection = ({ className, fadeOut }: Properties) => {
   return (
     <ProductSection
       fadeOut={fadeOut}

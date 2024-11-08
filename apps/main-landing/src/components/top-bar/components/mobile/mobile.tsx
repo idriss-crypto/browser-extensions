@@ -6,6 +6,7 @@ import { Button } from '@idriss-xyz/ui/button';
 import Link from 'next/link';
 import { NavigationMenu } from '@idriss-xyz/ui/navigation-menu';
 import { DOCUMENTATION_LINK } from '@idriss-xyz/constants';
+import { GradientBorder } from '@idriss-xyz/ui/gradient-border';
 
 import { INTERNAL_LINK } from '@/constants';
 
@@ -13,7 +14,6 @@ import { APPS_SECTION_NAVIGATION_ITEMS } from '../../constants';
 import { Section } from '../section';
 
 import { Socials } from './socials';
-import { GradientBorder } from '@idriss-xyz/ui/gradient-border';
 
 export const Mobile = () => {
   return (

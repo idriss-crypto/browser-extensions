@@ -1,9 +1,9 @@
 import { Button } from '@idriss-xyz/ui/button';
 import Image from 'next/image';
 import { SOCIAL_LINK } from '@idriss-xyz/constants';
+import { GradientBorder } from '@idriss-xyz/ui/gradient-border';
 
 import background from './background.png';
-import { GradientBorder } from '@idriss-xyz/ui/gradient-border';
 
 export const TokenSection = () => {
   return (

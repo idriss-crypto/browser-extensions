@@ -1,5 +1,6 @@
-import { ProductSectionInfo } from "../product-section";
-import { PredictionMarketsSectionActions } from "./prediction-markets-section-actions";
+import { ProductSectionInfo } from '../product-section';
+
+import { PredictionMarketsSectionActions } from './prediction-markets-section-actions';
 
 const PREDICTION_MARKETS_INFO: ProductSectionInfo = {
   title: 'EXPLORE THE FULL POTENTIAL OF PREDICTION MARKETS',

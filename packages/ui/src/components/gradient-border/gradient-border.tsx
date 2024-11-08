@@ -1,5 +1,6 @@
-import { classes } from '@idriss-xyz/ui/utils';
 import { useId } from 'react';
+
+import { classes } from '@idriss-xyz/ui/utils';
 
 type GradientBorderProperties = {
   /** value in px */

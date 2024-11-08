@@ -1,4 +1,5 @@
 import { ProductSectionInfo } from '../product-section';
+
 import { CreatorsSectionActions } from './creators-section-actions';
 
 const CREATORS_INFO: ProductSectionInfo = {

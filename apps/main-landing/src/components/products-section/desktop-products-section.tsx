@@ -1,7 +1,8 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useDebounce } from 'react-use';
-import { ProductSection } from './components/product-section';
 import { classes } from '@idriss-xyz/ui/utils';
+
+import { ProductSection } from './components/product-section';
 import { ExtensionSectionData } from './components/extension-section';
 import { CreatorsSectionData } from './components/creators-section';
 import { PredictionMarketsSectionData } from './components/prediction-markets-section';
@@ -13,39 +14,39 @@ type Properties = {
 const numberOfSections = 3;
 
 export const DesktopProductsSection = ({ className }: Properties) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerReference = useRef<HTMLDivElement>(null);
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [debouncedCurrentSectionIndex, setDebouncedCurrentSectionIndex] =
     useState(0);
 
   const [_] = useDebounce(
-    () => setDebouncedCurrentSectionIndex(currentSectionIndex),
+    () => {
+      return setDebouncedCurrentSectionIndex(currentSectionIndex);
+    },
     1000,
     [currentSectionIndex],
   );
 
-  const sectionsData = useMemo(
-    () => [
+  const sectionsData = useMemo(() => {
+    return [
       ExtensionSectionData,
       CreatorsSectionData,
       PredictionMarketsSectionData,
-    ],
-    [],
-  );
+    ];
+  }, []);
 
-  const selectedSectionData = useMemo(
-    () => sectionsData[debouncedCurrentSectionIndex] ?? ExtensionSectionData,
-    [debouncedCurrentSectionIndex],
-  );
+  const selectedSectionData = useMemo(() => {
+    return sectionsData[debouncedCurrentSectionIndex] ?? ExtensionSectionData;
+  }, [debouncedCurrentSectionIndex]);
 
   useLayoutEffect(() => {
     const handleScroll = () => {
-      if (!containerRef.current) {
+      if (!containerReference.current) {
         setCurrentSectionIndex(0);
         return;
       }
 
-      const { top } = containerRef.current.getBoundingClientRect();
+      const { top } = containerReference.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
       const amountAboveViewport = Math.max(0, -top);
       const normalizedPercentAbove =
@@ -71,7 +72,7 @@ export const DesktopProductsSection = ({ className }: Properties) => {
   return (
     <div
       className={classes('relative flex bg-neutral-700', className)}
-      ref={containerRef}
+      ref={containerReference}
     >
       <div className="sticky left-0 top-0 z-[99999] h-screen w-[calc(100vw-0.01px)]">
         <ProductSection
@@ -80,7 +81,7 @@ export const DesktopProductsSection = ({ className }: Properties) => {
           description={selectedSectionData.info.description}
           title={selectedSectionData.info.title}
           features={selectedSectionData.info.features}
-          tabsAsLinks={true}
+          tabsAsLinks
           fadeOut={currentSectionIndex !== debouncedCurrentSectionIndex}
         />
       </div>

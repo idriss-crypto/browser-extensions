@@ -1,4 +1,5 @@
 import { classes } from '@idriss-xyz/ui/utils';
+
 import { CreatorsSection } from './components/creators-section/creators-section';
 import { ExtensionSection } from './components/extension-section/extension-section';
 import { PredictionMarketsSection } from './components/prediction-markets-section/prediction-markets-section';

@@ -1,12 +1,14 @@
 'use client';
 import Image from 'next/image';
-import { Tabs } from './tabs';
-import { ProductInfo } from './product-info';
-import { circleWithScreen } from '../assets';
 import { Icon, IconName } from '@idriss-xyz/ui/icon';
 import { ReactElement } from 'react';
-import { tabOptions } from '../constants';
 import { classes } from '@idriss-xyz/ui/utils';
+
+import { tabOptions } from '../constants';
+import { circleWithScreen } from '../assets';
+
+import { ProductInfo } from './product-info';
+import { Tabs } from './tabs';
 
 type ProductSectionProperties = {
   activeOptionKey: string;
@@ -71,7 +73,7 @@ export const ProductSection = ({
                 </p>
               </div>
             </div>
-            <div className="w-full overflow-hidden px-1 py-1 md:w-fit lg:w-fit">
+            <div className="w-full overflow-hidden p-1 md:w-fit lg:w-fit">
               <div
                 className={classes(
                   'flex flex-col items-center gap-3 transition-transform duration-1000 md:flex-row lg:flex-row lg:gap-2',
@@ -85,13 +87,13 @@ export const ProductSection = ({
               priority
               src={circleWithScreen}
               alt=""
-              className="bottom-0 right-0 top-[50%] lg:absolute lg:max-w-[45%] lg:translate-y-[-50%] lg:[@media(max-width:1400px)]:translate-y-[-40%] lg:[@media(min-height:1300px)]:translate-y-[-100%]"
+              className="bottom-0 right-0 top-[50%] lg:absolute lg:max-w-[45%] lg:translate-y-[-50%] lg:[@media(max-width:1400px)]:translate-y-[-40%] lg:[@media(min-height:1300px)]:-translate-y-full"
             />
           </div>
           <div className="overflow-hidden">
             <div
               className={classes(
-                'grid size-fit flex-wrap items-start p-1.5 gap-6 transition-transform duration-1000 md:grid-cols-2 lg:grid-cols-2',
+                'grid size-fit flex-wrap items-start gap-6 p-1.5 transition-transform duration-1000 md:grid-cols-2 lg:grid-cols-2',
                 fadeOut && 'translate-y-[-120%]',
               )}
             >
@@ -103,7 +105,7 @@ export const ProductSection = ({
                       <Icon
                         name={feature.icon}
                         size={65}
-                        className="size-10 lg:size-[65px] text-[#55EB3C]"
+                        className="size-10 text-[#55EB3C] lg:size-[65px]"
                       />
                     }
                     title={feature.title}

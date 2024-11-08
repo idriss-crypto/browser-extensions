@@ -1,6 +1,7 @@
 import { classes } from '@idriss-xyz/ui/utils';
-import { TabOption } from '../../types';
 import Link from 'next/link';
+
+import { TabOption } from '../../types';
 
 type Properties = {
   options: TabOption[];

@@ -1,4 +1,5 @@
 import { ProductSectionInfo } from '../product-section';
+
 import { ExtensionSectionActions } from './extension-section-actions';
 
 const BROWSER_EXTENSION_INFO: ProductSectionInfo = {
