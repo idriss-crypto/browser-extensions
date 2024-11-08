@@ -103,7 +103,7 @@ export const ProductSection = ({
                       <Icon
                         name={feature.icon}
                         size={65}
-                        className="size-10 lg:size-[65px]"
+                        className="size-10 lg:size-[65px] text-[#55EB3C]"
                       />
                     }
                     title={feature.title}

@@ -16,7 +16,7 @@ export const Verifying = ({ className }: Properties) => {
           <path
             id="Path"
             d="M52.1627 19.8506L32.0134 40L21.9414 29.9253"
-            stroke="#55EB3C"
+            stroke="currentColor"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -24,7 +24,7 @@ export const Verifying = ({ className }: Properties) => {
           <path
             id="Path_2"
             d="M56 32C56 45.256 45.256 56 32 56C18.744 56 8 45.256 8 32C8 18.744 18.744 8 32 8C35.8747 8 39.5227 8.94133 42.7627 10.5707"
-            stroke="#55EB3C"
+            stroke="currentColor"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
