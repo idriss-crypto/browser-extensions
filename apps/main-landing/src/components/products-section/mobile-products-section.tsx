@@ -1,7 +1,7 @@
 import { classes } from '@idriss-xyz/ui/utils';
-import { CreatorsSection } from './components/creators-section';
-import { ExtensionSection } from './components/extension-section';
-import { PredictionMarketsSection } from './components/prediction-markets-section';
+import { CreatorsSection } from './components/creators-section/creators-section';
+import { ExtensionSection } from './components/extension-section/extension-section';
+import { PredictionMarketsSection } from './components/prediction-markets-section/prediction-markets-section';
 
 type Properties = {
   className?: string;
@@ -10,9 +10,9 @@ type Properties = {
 export const MobileProductsSection = ({ className }: Properties) => {
   return (
     <div className={classes('flex flex-col', className)}>
-      <ExtensionSection fadeOut={false} onOptionChange={() => {}} />
-      <CreatorsSection fadeOut={false} onOptionChange={() => {}} />
-      <PredictionMarketsSection fadeOut={false} onOptionChange={() => {}} />
+      <ExtensionSection fadeOut={false} />
+      <CreatorsSection fadeOut={false} />
+      <PredictionMarketsSection fadeOut={false} />
     </div>
   );
 };

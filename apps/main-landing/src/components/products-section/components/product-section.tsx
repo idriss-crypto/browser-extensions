@@ -6,40 +6,37 @@ import { circleWithScreen } from '../assets';
 import { Icon, IconName } from '@idriss-xyz/ui/icon';
 import { ReactElement } from 'react';
 import { tabOptions } from '../constants';
-import { TabOption } from '../types';
 import { classes } from '@idriss-xyz/ui/utils';
 
 type ProductSectionProperties = {
   activeOptionKey: string;
-  onOptionChange: (option: TabOption) => void;
   title: string;
   description: string;
   actions: ReactElement;
   features: ProductSectionFeature[];
-  readOnly: boolean;
+  tabsAsLinks: boolean;
   className?: string;
   fadeOut: boolean;
 };
 type ProductSectionFeature = {
   icon: IconName;
   title: string;
-  describtion?: string;
+  description?: string;
 };
 export type ProductSectionInfo = {
   title: string;
-  describtion: string;
+  description: string;
   features: ProductSectionFeature[];
 };
 
 export const ProductSection = ({
   className,
   activeOptionKey,
-  onOptionChange,
   title,
   description,
   actions,
   features,
-  readOnly,
+  tabsAsLinks,
   fadeOut,
 }: ProductSectionProperties) => {
   return (
@@ -50,8 +47,7 @@ export const ProductSection = ({
             <Tabs
               options={tabOptions}
               activeOptionKey={activeOptionKey}
-              readOnly={readOnly}
-              onChange={onOptionChange}
+              asLink={tabsAsLinks}
             />
             <div className="flex flex-col gap-4">
               <div className="overflow-hidden">
@@ -111,7 +107,7 @@ export const ProductSection = ({
                       />
                     }
                     title={feature.title}
-                    description={feature.describtion}
+                    description={feature.description}
                   />
                 );
               })}
