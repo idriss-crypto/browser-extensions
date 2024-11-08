@@ -1,4 +1,5 @@
 import { ProductSectionInfo } from './components/product-section';
+import { TabOption } from './types';
 
 export const BROWSER_EXTENSION_INFO: ProductSectionInfo = {
   title: 'CRYPTO AND AI EXPANSION PACK FOR YOUR BROWSER',
@@ -68,3 +69,9 @@ export const PREDICTION_MARKETS_INFO: ProductSectionInfo = {
     },
   ],
 };
+
+  export const tabOptions: TabOption[] = [
+    { name: 'Extension', key: 'extension-product' },
+    { name: 'Creators', key: 'creators-product' },
+    { name: 'Prediction Markets', key: 'prediction-markets-product' },
+  ] as const

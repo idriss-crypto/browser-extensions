@@ -2,14 +2,23 @@
 import { Button } from '@idriss-xyz/ui/button';
 import { ProductSection } from './product-section';
 import { BROWSER_EXTENSION_INFO } from '../constants';
+import { TabOption } from '../types';
 
 type Properties = {
-  onOptionChange: (option: string) => void;
+  onOptionChange: (option: TabOption) => void;
+  className?: string;
+  fadeOut: boolean;
 };
 
-export const ExtensionSection = ({ onOptionChange }: Properties) => {
+export const ExtensionSection = ({
+  onOptionChange,
+  className,
+  fadeOut,
+}: Properties) => {
   return (
     <ProductSection
+      fadeOut={fadeOut}
+      className={className}
       actions={
         <>
           <Button
@@ -36,7 +45,7 @@ export const ExtensionSection = ({ onOptionChange }: Properties) => {
           </Button>
         </>
       }
-      defaultOption="Extension"
+      defaultOptionKey="extension-product"
       description={BROWSER_EXTENSION_INFO.describtion}
       title={BROWSER_EXTENSION_INFO.title}
       features={BROWSER_EXTENSION_INFO.features}

@@ -18,7 +18,7 @@ export const Section = ({ onItemClick, className, items = [] }: Properties) => {
           <li key={index} className="group">
             <NavigationMenu.Link asChild>
               <span>
-                <Link href="/#" passHref legacyBehavior>
+                <Link href={`/${item.url}`} passHref legacyBehavior>
                   <a onClick={onItemClick} className="block">
                     <span className="block text-button2 group-hover:text-mint-600">
                       {item.title}

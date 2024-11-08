@@ -2,14 +2,23 @@
 import { Button } from '@idriss-xyz/ui/button';
 import { ProductSection } from './product-section';
 import { CREATORS_INFO } from '../constants';
+import { TabOption } from '../types';
 
 type Properties = {
-  onOptionChange: (option: string) => void
-}
+  onOptionChange: (option: TabOption) => void;
+  className?: string;
+  fadeOut: boolean;
+};
 
-export const CreatorsSection = ({onOptionChange}: Properties) => {
+export const CreatorsSection = ({
+  onOptionChange,
+  className,
+  fadeOut,
+}: Properties) => {
   return (
     <ProductSection
+      fadeOut={fadeOut}
+      className={className}
       actions={
         <Button
           intent="secondary"
@@ -23,7 +32,7 @@ export const CreatorsSection = ({onOptionChange}: Properties) => {
           CREATE DONATION LINK
         </Button>
       }
-      defaultOption="Creators"
+      defaultOptionKey="creators-product"
       description={CREATORS_INFO.describtion}
       title={CREATORS_INFO.title}
       features={CREATORS_INFO.features}

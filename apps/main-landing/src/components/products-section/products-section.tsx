@@ -1,46 +1,19 @@
 import { useLayoutEffect, useRef, useState } from 'react';
-import { ExtensionSection } from './components/extension-section';
-import { CreatorsSection } from './components/creators-section';
-import { PredictionMarketsSection } from './components/prediction-markets-section';
+import { useDebounce } from 'react-use';
+import { ProductSection } from './components/product-section';
+import { Button } from '@idriss-xyz/ui/button';
+import {
+  BROWSER_EXTENSION_INFO,
+  CREATORS_INFO,
+  PREDICTION_MARKETS_INFO,
+} from './constants';
 
 export const ProductsSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
+  const [debouncedCurrentSectionIndex, setDebouncedCurrentSectionIndex] = useState(0);
+  const [_] = useDebounce(() => setDebouncedCurrentSectionIndex(currentSectionIndex), 1000, [currentSectionIndex]);
   const numberOfSections = 3;
-
-  const scrollToNextSection = () => {
-    if (!containerRef.current) {
-      return;
-    }
-
-    const offsetTop = containerRef.current.offsetTop;
-    const viewportHeight = window.innerHeight;
-
-    const targetScrollPosition =
-      offsetTop + (currentSectionIndex + 1) * viewportHeight;
-
-    window.scrollTo({
-      top: targetScrollPosition,
-      behavior: 'instant',
-    });
-  };
-
-  const scrollToPrevSection = () => {
-    if (!containerRef.current) {
-      return;
-    }
-
-    const offsetTop = containerRef.current.offsetTop;
-    const viewportHeight = window.innerHeight;
-
-    const targetScrollPosition =
-      offsetTop + (currentSectionIndex - 1) * viewportHeight;
-
-    window.scrollTo({
-      top: targetScrollPosition,
-      behavior: 'instant',
-    });
-  };
 
   useLayoutEffect(() => {
     const handleScroll = () => {
@@ -72,25 +45,106 @@ export const ProductsSection = () => {
     };
   }, []);
 
-  const sections = [
-    <ExtensionSection onOptionChange={() => scrollToNextSection()} />,
-    <CreatorsSection
-      onOptionChange={(option) =>
-        option === 'Extension' ? scrollToPrevSection() : scrollToNextSection()
-      }
-    />,
-    <PredictionMarketsSection onOptionChange={() => scrollToPrevSection()} />,
+  console.log('currentSectionIndex', currentSectionIndex);
+  console.log('debouncedCurrentSectionIndex', debouncedCurrentSectionIndex);
+
+  const sectionMeta = [
+    {
+      actions: (
+        <>
+          <Button
+            intent="secondary"
+            size="large"
+            className="text-button2 lg:text-button1"
+            asLink
+            href="https://chromewebstore.google.com/detail/idriss/fghhpjoffbgecjikiipbkpdakfmkbmig"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            DOWNLOAD EXTENSION
+          </Button>
+          <Button
+            intent="tertiary"
+            size="large"
+            className="text-button2 text-[#E2E2E2] lg:text-button1"
+            asLink
+            href="https://docs.idriss.xyz/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            LEARN MORE
+          </Button>
+        </>
+      ),
+      info: BROWSER_EXTENSION_INFO,
+      defaultOptionKey: 'extension-product',
+    },
+    {
+      actions: (
+        <Button
+          intent="secondary"
+          size="large"
+          className="text-button2 lg:text-button1"
+          asLink
+          href="https://chromewebstore.google.com/detail/idriss/fghhpjoffbgecjikiipbkpdakfmkbmig"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          CREATE DONATION LINK
+        </Button>
+      ),
+      info: CREATORS_INFO,
+      defaultOptionKey: 'creators-product',
+    },
+    {
+      actions: (
+        <>
+          <input
+            className="flex h-11 w-[290px] flex-[1_0_0] items-center gap-[2px] rounded-md border border-neutral-200 bg-white p-[8px_12px]"
+            placeholder="Your email"
+          />
+          <Button
+            intent="secondary"
+            size="medium"
+            className="text-button2 lg:text-button1"
+            asLink
+            href="https://chromewebstore.google.com/detail/idriss/fghhpjoffbgecjikiipbkpdakfmkbmig"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GET EARLY ACCESS
+          </Button>
+        </>
+      ),
+      info: PREDICTION_MARKETS_INFO,
+      defaultOptionKey: 'prediction-markets-product',
+    },
   ];
 
+  const selectedSectionMeta =
+    sectionMeta[debouncedCurrentSectionIndex] ?? sectionMeta[0];
+
   return (
-    <div className="relative flex bg-neutral-700" ref={containerRef}>
+    <div className="relative flex bg-neutral-700 [@media(max-height:425px)]:hidden" ref={containerRef}>
       <div className="sticky left-0 top-0 z-[99999] h-screen w-[calc(100vw-0.01px)]">
-        {sections[currentSectionIndex]}
+        <ProductSection
+          actions={selectedSectionMeta!.actions}
+          activeOptionKey={selectedSectionMeta!.defaultOptionKey}
+          description={selectedSectionMeta!.info.describtion}
+          title={selectedSectionMeta!.info.title}
+          features={selectedSectionMeta!.info.features}
+          onOptionChange={() => {}}
+          readOnly={false}
+          fadeOut={currentSectionIndex !== debouncedCurrentSectionIndex}
+        />
       </div>
-      <div className="w-[0.01px]">
-        <div id="products-section1" className="h-screen bg-lime-700" />
-        <div id="products-section2" className="h-screen bg-midnightGreen-500" />
-        <div id="products-section3" className="h-screen bg-indigo-500" />
+      <div className="w-[0.01px] py-5">
+        <div id="extension-product" className="h-screen bg-lime-700" />
+        <div id="creators-product" className="h-screen bg-midnightGreen-500" />
+        <div
+          id="prediction-markets-product"
+          className="h-screen bg-indigo-500"
+        />
       </div>
     </div>
   );

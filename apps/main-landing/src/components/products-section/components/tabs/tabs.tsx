@@ -1,14 +1,14 @@
-'use client';
 import { classes } from '@idriss-xyz/ui/utils';
-import { useState } from 'react';
+import { TabOption } from '../../types';
+import Link from 'next/link';
 
 type Properties = {
-  options: string[];
-  defaultOption?: string;
+  options: TabOption[];
+  activeOptionKey: string;
 } & (
   | {
       readOnly?: false;
-      onChange: (option: string) => void;
+      onChange: (option: TabOption) => void;
     }
   | {
       readOnly: true;
@@ -16,28 +16,39 @@ type Properties = {
 );
 
 export const Tabs = (properties: Properties) => {
-  const [activeOption, setActiveOption] = useState(
-    properties.defaultOption ?? properties.options[0],
-  );
   return (
     <div className="flex items-start gap-1 rounded-[50px] bg-[#022218] p-1 text-label4">
       {properties.options.map((option) => {
-        return (
-          <div
-            key={option}
+        return properties.readOnly ? (
+          <span
             className={classes(
-              'bg-mi flex cursor-pointer items-start rounded-[100px] bg-[#17ff4a1a] px-4 py-2 text-midnightGreen-100',
-              activeOption === option && 'bg-mint-400 text-neutralGreen-900',
+              'flex items-start rounded-[100px] bg-[#17ff4a1a] px-4 py-2 text-midnightGreen-100',
+              properties.activeOptionKey === option.key &&
+                'bg-mint-400 text-neutralGreen-900',
             )}
-            onClick={() => {
-              setActiveOption(option);
-              if (!properties.readOnly) {
-                properties.onChange(option);
-              }
-            }}
           >
-            {option}
-          </div>
+            {option.name}
+          </span>
+        ) : (
+          <Link
+            href={`/#${option.key}`}
+            passHref
+            legacyBehavior
+            key={option.key}
+          >
+            <a
+              className={classes(
+                'flex cursor-pointer items-start rounded-[100px] bg-[#17ff4a1a] px-4 py-2 text-midnightGreen-100 transition-colors duration-1000',
+                properties.activeOptionKey === option.key &&
+                  'bg-mint-400 text-neutralGreen-900',
+              )}
+              onClick={() => {
+                properties.onChange(option);
+              }}
+            >
+              {option.name}
+            </a>
+          </Link>
         );
       })}
     </div>

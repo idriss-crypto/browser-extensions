@@ -2,14 +2,23 @@
 import { Button } from '@idriss-xyz/ui/button';
 import { ProductSection } from './product-section';
 import { PREDICTION_MARKETS_INFO } from '../constants';
+import { TabOption } from '../types';
 
 type Properties = {
-  onOptionChange: (option: string) => void;
+  onOptionChange: (option: TabOption) => void;
+  className?: string;
+  fadeOut: boolean;
 };
 
-export const PredictionMarketsSection = ({ onOptionChange }: Properties) => {
+export const PredictionMarketsSection = ({
+  onOptionChange,
+  className,
+  fadeOut,
+}: Properties) => {
   return (
     <ProductSection
+      fadeOut={fadeOut}
+      className={className}
       actions={
         <>
           <input
@@ -29,7 +38,7 @@ export const PredictionMarketsSection = ({ onOptionChange }: Properties) => {
           </Button>
         </>
       }
-      defaultOption="Prediction Market"
+      defaultOptionKey="prediction-markets-product"
       description={PREDICTION_MARKETS_INFO.describtion}
       title={PREDICTION_MARKETS_INFO.title}
       features={PREDICTION_MARKETS_INFO.features}
