@@ -11,6 +11,7 @@ import { ProductInfo } from './product-info';
 import { Tabs } from './tabs';
 
 type ProductSectionProperties = {
+  id?: string;
   activeOptionKey: string;
   title: string;
   description: string;
@@ -32,6 +33,7 @@ export type ProductSectionInfo = {
 };
 
 export const ProductSection = ({
+  id,
   className,
   activeOptionKey,
   title,
@@ -42,7 +44,10 @@ export const ProductSection = ({
   fadeOut,
 }: ProductSectionProperties) => {
   return (
-    <div className={classes('relative flex size-full bg-mint-100', className)}>
+    <div
+      className={classes('relative flex size-full bg-mint-100', className)}
+      id={id}
+    >
       <div className="flex size-full flex-col bg-[linear-gradient(114deg,_#022B1E_34.81%,_#079165_123.57%)] px-4 py-10 lg:px-[120px] lg:py-[80px] [@media(max-height:1100px)]:py-[30px]">
         <div className="container flex flex-col gap-10 p-0 lg:gap-[104px] lg:[@media(max-height:1100px)]:gap-[50px] lg:[@media(max-height:770px)]:gap-[24px]">
           <div className="flex flex-col items-start gap-[64px] lg:[@media(max-height:1100px)]:gap-[50px] lg:[@media(max-height:770px)]:gap-[24px]">

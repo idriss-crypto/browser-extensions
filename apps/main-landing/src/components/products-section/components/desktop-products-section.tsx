@@ -87,12 +87,9 @@ export const DesktopProductsSection = ({ className }: Properties) => {
         />
       </div>
       <div className="w-[0.01px] py-5">
-        <div id="extension-product" className="h-screen bg-lime-700" />
-        <div id="creators-product" className="h-screen bg-midnightGreen-500" />
-        <div
-          id="prediction-markets-product"
-          className="h-screen bg-indigo-500"
-        />
+        <div id="extension-product" className="h-screen" />
+        <div id="creators-product" className="h-screen" />
+        <div id="prediction-markets-product" className="h-screen" />
       </div>
     </div>
   );

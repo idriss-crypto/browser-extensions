@@ -1,5 +1,3 @@
-'use client';
-
 import { ProductSection } from '../product-section';
 
 import { CreatorsSectionData } from './creators-section-data';
@@ -12,6 +10,7 @@ type Properties = {
 export const CreatorsSection = ({ className, fadeOut }: Properties) => {
   return (
     <ProductSection
+      id="creators-product"
       fadeOut={fadeOut}
       className={className}
       actions={CreatorsSectionData.actions}
