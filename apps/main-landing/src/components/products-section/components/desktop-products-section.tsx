@@ -1,3 +1,4 @@
+'use client'
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useDebounce } from 'react-use';
 import { classes } from '@idriss-xyz/ui/utils';
