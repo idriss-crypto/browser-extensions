@@ -1,1 +1,1 @@
-export { ProductSection } from './components/product-section';
+export { ProductsSection } from './products-section';

@@ -4,10 +4,10 @@ import {
   Footer,
   HeroSection,
   SuperpowersSection,
+  ProductsSection,
   TokenSection,
   TopBar,
 } from '@/components';
-import { ProductsSection } from '@/components/products-section/products-section';
 
 // ts-unused-exports:disable-next-line
 export default async function Home() {

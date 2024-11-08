@@ -1,5 +1,4 @@
-import { DesktopProductsSection } from './desktop-products-section';
-import { MobileProductsSection } from './mobile-products-section';
+import { DesktopProductsSection, MobileProductsSection } from './components';
 
 export const ProductsSection = () => {
   return (

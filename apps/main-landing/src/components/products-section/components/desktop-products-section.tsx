@@ -2,10 +2,10 @@ import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useDebounce } from 'react-use';
 import { classes } from '@idriss-xyz/ui/utils';
 
-import { ProductSection } from './components/product-section';
-import { ExtensionSectionData } from './components/extension-section';
-import { CreatorsSectionData } from './components/creators-section';
-import { PredictionMarketsSectionData } from './components/prediction-markets-section';
+import { ProductSection } from './product-section';
+import { ExtensionSectionData } from './extension-section';
+import { CreatorsSectionData } from './creators-section';
+import { PredictionMarketsSectionData } from './prediction-markets-section';
 
 type Properties = {
   className?: string;
