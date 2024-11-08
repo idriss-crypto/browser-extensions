@@ -319,6 +319,16 @@ export default {
         '.paused-animation': {
           'animation-play-state': 'paused',
         },
+
+        '@media (max-height: 1100px)': {
+          '.gap-1100': {
+            gap: '50px', // Gap na wysokości <= 1100px
+          },
+          '.padding-1100': {
+            'padding-top': '30px',
+            'padding-bottom': '30px',
+          },
+        },
       };
       addUtilities(newUtilities);
     }),

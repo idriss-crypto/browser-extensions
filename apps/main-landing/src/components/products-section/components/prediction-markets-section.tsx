@@ -4,16 +4,16 @@ import { ProductSection } from './product-section';
 import { PREDICTION_MARKETS_INFO } from '../constants';
 
 type Properties = {
-  onOptionChange: (option: string) => void
-}
+  onOptionChange: (option: string) => void;
+};
 
-export const PredictionMarketsSection = ({onOptionChange}: Properties) => {
+export const PredictionMarketsSection = ({ onOptionChange }: Properties) => {
   return (
     <ProductSection
       actions={
         <>
           <input
-            className="flex h-11 w-[290px] flex-[1_0_0] items-center gap-[2px] rounded-md border border-neutral-200 bg-white p-[8px_12px]"
+            className="flex h-12 w-[290px] flex-[1_0_0] items-center rounded-[12px] border px-3 py-2 shadow-[0_0_0_4px_rgba(242,242,242,0.14)]"
             placeholder="Your email"
           />
           <Button

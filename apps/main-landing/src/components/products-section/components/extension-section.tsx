@@ -4,10 +4,10 @@ import { ProductSection } from './product-section';
 import { BROWSER_EXTENSION_INFO } from '../constants';
 
 type Properties = {
-  onOptionChange: (option: string) => void
-}
+  onOptionChange: (option: string) => void;
+};
 
-export const ExtensionSection = ({onOptionChange}: Properties) => {
+export const ExtensionSection = ({ onOptionChange }: Properties) => {
   return (
     <ProductSection
       actions={
@@ -26,7 +26,7 @@ export const ExtensionSection = ({onOptionChange}: Properties) => {
           <Button
             intent="tertiary"
             size="large"
-            className="text-button2 text-[#E2E2E2] lg:text-button1"
+            className="pl-[28px] text-button2 text-[#E2E2E2] lg:text-button1"
             asLink
             href="https://docs.idriss.xyz/"
             target="_blank"

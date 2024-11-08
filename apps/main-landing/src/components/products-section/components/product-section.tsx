@@ -36,27 +36,29 @@ export const ProductSection = ({
   readOnly,
 }: ProductSectionProperties) => {
   return (
-    <div className="relative flex size-full flex-col items-center gap-[120px] bg-mint-100 //p-[50px]">
-      <div className="flex size-full flex-col items-start gap-[10px] //rounded-[40px] bg-[linear-gradient(114deg,_#022B1E_34.81%,_#079165_123.57%)] px-[120px] py-[80px]">
-        <div className="container flex flex-col items-start gap-[104px]">
-          <div className="flex flex-col items-start gap-[64px]">
+    <div className="relative flex size-full bg-mint-100">
+      <div className="padding-1100 flex size-full flex-col bg-[linear-gradient(114deg,_#022B1E_34.81%,_#079165_123.57%)] px-[120px] py-[80px]">
+        <div className="gap-1100 container flex max-h-[670px] flex-col gap-[104px]">
+          <div className="gap-1100 flex flex-col items-start gap-[64px]">
             <Tabs
               options={['Extension', 'Creators', 'Prediction Market']}
               defaultOption={defaultOption}
               readOnly={readOnly}
               onChange={onOptionChange}
             />
-            <div className="flex flex-col items-start gap-4">
-              <h2 className="text-balance text-display2 text-midnightGreen-100">
+            <div className="flex flex-col gap-4">
+              <h2 className="text-balance text-display5 text-midnightGreen-100 lg:text-display2">
                 {title}
               </h2>
-              <p className="w-[50%] text-balance text-body2 text-midnightGreen-200">
+              <p className="w-[60%] text-balance text-body3 text-midnightGreen-200 lg:text-body2">
                 {description}
               </p>
             </div>
-            <div className="flex items-start gap-4">{actions}</div>
+            <div className="flex flex-col items-center gap-2 lg:flex-row">
+              {actions}
+            </div>
           </div>
-          <div className="flex items-start gap-3 self-stretch flex-wrap max-w-[1000px]">
+          <div className="grid size-fit flex-wrap items-start gap-3 lg:grid-cols-2">
             {features.map((feature) => {
               return (
                 <ProductInfo
@@ -75,7 +77,7 @@ export const ProductSection = ({
         priority
         src={circleWithScreen}
         alt=""
-        className="absolute bottom-0 right-0 max-w-[45%] translate-x-[-6%] translate-y-[-18%]"
+        className="absolute bottom-0 right-0 top-[50%] max-w-[45%] translate-y-[-50%]"
       />
     </div>
   );
