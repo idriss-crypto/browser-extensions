@@ -3,6 +3,7 @@ import { useKey } from 'react-use';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { lowerFirst } from 'lodash';
 import { ExternalLink } from '@idriss-xyz/ui/external-link';
+import { MAIN_LANDING_LINK } from '@idriss-xyz/constants';
 
 import { Closable } from 'shared/ui';
 import { useExtensionSettings } from 'shared/extension';
@@ -12,7 +13,6 @@ import {
   GetHandleToTwitterIdCommand,
   getIdrissIdentifierType,
   IDRISS_IDENTIFIER_TYPE,
-  IDRISS_URL,
   normalizePhoneIdentifier,
   normalizeTwitterIdentifier,
 } from 'shared/idriss';
@@ -136,7 +136,7 @@ export const LookUpWalletAddress = () => {
             <div className="absolute w-full rounded-lg border border-[#D1D5DB] bg-white p-4 shadow-md">
               <span className="text-[#1F2937]">Nothing found.</span>
               <ExternalLink
-                href={IDRISS_URL}
+                href={MAIN_LANDING_LINK}
                 className="ml-2 text-[#2563EB] hover:underline"
               >
                 Sign up for IDriss now!

@@ -9,6 +9,8 @@ import {
   HelpCircle,
   LogOut,
   LogIn,
+  ArrowLeft,
+  ArrowRight,
 } from 'lucide-react';
 
 import * as customIcons from './custom';
@@ -22,6 +24,8 @@ export const ICON = {
   Rocket,
   LogOut,
   Settings,
+  ArrowLeft,
+  ArrowRight,
   HelpCircle,
   ChevronDown,
   ...customIcons,

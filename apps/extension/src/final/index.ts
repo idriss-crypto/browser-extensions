@@ -1,3 +1,3 @@
 export { Final } from './final';
 export { useLocationInfo } from './hooks';
-export { ExtensionPopup } from './extension-popup-2';
+export { ExtensionPopup } from './extension-popup';

@@ -11,13 +11,13 @@ import {
   toAddressWithValidChecksum,
 } from 'shared/web3';
 import { ErrorMessage } from 'shared/ui';
+import { IDRISS_ICON_CIRCLE } from 'assets/images';
 
 import { useSendForm, useSender } from '../hooks';
 import { SendPayload } from '../schema';
 import { getLoadingMessage } from '../utils';
 import { WidgetData } from '../types';
 import { DEFAULT_ALLOWED_CHAINS_IDS } from '../constants';
-import { IDRISS_ICON_CIRCLE } from 'assets/images';
 
 type Properties = {
   widgetData: WidgetData;

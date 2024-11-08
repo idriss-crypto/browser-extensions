@@ -1,7 +1,4 @@
 import { CHAIN } from 'shared/web3';
-import { IDRISS_ICON, IDRISS_RED_ICON } from 'shared/idriss';
-
-import { IconType } from './schema';
 
 export const DEFAULT_ALLOWED_CHAINS_IDS = [
   CHAIN.BASE.id,

@@ -116,7 +116,7 @@ export default {
         1: '1',
         topBar: '10',
         dialog: '20',
-        popup: '100',
+        extensionPopup: '100000',
       },
       fontFamily: {
         sans: ['var(--font-aeonikpro)'],
