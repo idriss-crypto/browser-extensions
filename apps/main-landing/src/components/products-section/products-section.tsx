@@ -6,7 +6,7 @@ import { DesktopProductsSection, MobileProductsSection } from './components';
 import { useWindowSize } from 'react-use';
 
 export const ProductsSection = () => {
-  const windowSize = useWindowSize();
+  const windowSize = useWindowSize(1024);
 
   const isMobile = windowSize.width < 1024;
 
