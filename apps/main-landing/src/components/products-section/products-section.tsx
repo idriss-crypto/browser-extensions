@@ -1,9 +1,10 @@
 'use client';
 
+import { useWindowSize } from 'react-use';
+
 import { QueryProvider } from '@/providers';
 
 import { DesktopProductsSection, MobileProductsSection } from './components';
-import { useWindowSize } from 'react-use';
 
 export const ProductsSection = () => {
   const windowSize = useWindowSize(1024);

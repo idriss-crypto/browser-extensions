@@ -1,4 +1,5 @@
 import { INTERNAL_LINK } from '@/constants';
+
 import { NavigationSectionItem } from './types';
 
 export const APPS_SECTION_NAVIGATION_ITEMS: NavigationSectionItem[] = [
