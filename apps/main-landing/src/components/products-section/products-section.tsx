@@ -3,12 +3,20 @@
 import { QueryProvider } from '@/providers';
 
 import { DesktopProductsSection, MobileProductsSection } from './components';
+import { useWindowSize } from 'react-use';
 
 export const ProductsSection = () => {
+  const windowSize = useWindowSize();
+
+  const isMobile = windowSize.width < 1024;
+
   return (
     <QueryProvider>
-      <DesktopProductsSection className="hidden lg:flex" />
-      <MobileProductsSection className="flex lg:hidden" />
+      {isMobile ? (
+        <MobileProductsSection className="flex lg:hidden" />
+      ) : (
+        <DesktopProductsSection className="hidden lg:flex" />
+      )}
     </QueryProvider>
   );
 };
