@@ -1,8 +1,8 @@
 import { GradientBorder } from '@idriss-xyz/ui/gradient-border';
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 
 type Properties = {
-  icon: ReactElement;
+  icon: ReactNode;
   title: string;
   description?: string;
 };

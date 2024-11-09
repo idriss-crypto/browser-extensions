@@ -1,12 +1,12 @@
 import { Icon } from '@idriss-xyz/ui/icon';
 import { GradientBorder } from '@idriss-xyz/ui/gradient-border';
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 
 type Properties = {
   name: string;
   title: string;
   features: string[];
-  actions: ReactElement;
+  actions: ReactNode;
 };
 
 export const ProductTile = ({ name, title, features, actions }: Properties) => {
@@ -34,7 +34,7 @@ export const ProductTile = ({ name, title, features, actions }: Properties) => {
           );
         })}
       </ul>
-      <div className="flex w-full justify-center gap-4 rounded-[15px] transition-opacity lg:absolute lg:bottom-[2px] lg:right-[1.667px] lg:bg-[linear-gradient(180deg,_rgba(255,255,255,0)_0%,_rgba(255,255,255,0.96)_24.58%)] lg:px-10 lg:pb-6 lg:pt-10 lg:opacity-0 lg:group-hover:opacity-100">
+      <div className="flex w-full justify-center lg:gap-4 gap-2 text-center rounded-[15px] transition-opacity lg:absolute lg:bottom-[2px] lg:right-[1.667px] lg:bg-[linear-gradient(180deg,_rgba(255,255,255,0)_0%,_rgba(255,255,255,0.96)_24.58%)] lg:px-10 lg:pb-6 lg:pt-10 lg:opacity-0 lg:group-hover:opacity-100">
         {actions}
       </div>
 

@@ -1,8 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 
 interface Properties {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const QueryProvider = ({ children }: Properties) => {

@@ -9,6 +9,7 @@ import {
   PREDICTION_MARKETS_INFO,
 } from './constans';
 import { stackedHex } from './assets';
+import { CHROME_EXTENSION_LINK, CREATORS_LINK, DOCUMENTATION_LINK } from '@idriss-xyz/constants';
 
 export const SuperpowersSection = () => {
   return (
@@ -34,31 +35,24 @@ export const SuperpowersSection = () => {
         <div className="flex flex-col items-start justify-center gap-6 lg:grid lg:grid-cols-[repeat(3,_minmax(auto,_431px))] lg:flex-row">
           <ProductTile
             {...EXTENSION_INFO}
-            name={EXTENSION_INFO.name}
-            title={EXTENSION_INFO.title}
-            features={EXTENSION_INFO.features}
             actions={
               <>
                 <Button
                   intent="primary"
                   size="large"
                   suffixIconName="IdrissArrowRight"
-                  className="text-button2 lg:text-button1"
                   asLink
-                  href="https://chromewebstore.google.com/detail/idriss/fghhpjoffbgecjikiipbkpdakfmkbmig"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={CHROME_EXTENSION_LINK}
+                  isExternal
                 >
                   Download
                 </Button>
                 <Button
                   intent="secondary"
                   size="large"
-                  className="text-button2 lg:text-button1"
                   asLink
-                  href="https://docs.idriss.xyz/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={DOCUMENTATION_LINK}
+                  isExternal
                 >
                   LEARN MORE
                 </Button>
@@ -67,20 +61,16 @@ export const SuperpowersSection = () => {
           />
           <ProductTile
             {...CREATORS_INFO}
-            name={CREATORS_INFO.name}
-            title={CREATORS_INFO.title}
-            features={CREATORS_INFO.features}
             actions={
               <>
                 <Button
                   intent="primary"
                   size="large"
                   suffixIconName="IdrissArrowRight"
-                  className="w-full text-button2 lg:text-button1"
+                  className="w-full"
                   asLink
-                  href="https://idriss.xyz/creators"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={CREATORS_LINK}
+                  isExternal
                 >
                   CREATE DONATION LINK
                 </Button>
@@ -89,16 +79,13 @@ export const SuperpowersSection = () => {
           />
           <ProductTile
             {...PREDICTION_MARKETS_INFO}
-            name={PREDICTION_MARKETS_INFO.name}
-            title={PREDICTION_MARKETS_INFO.title}
-            features={PREDICTION_MARKETS_INFO.features}
             actions={
               <>
                 <Button
                   intent="tertiary"
                   disabled
                   size="large"
-                  className="w-full text-button2 lg:text-button1"
+                  className="w-full"
                 >
                   COMING SOON
                 </Button>

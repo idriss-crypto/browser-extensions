@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { Icon, IconName } from '@idriss-xyz/ui/icon';
-import { CSSProperties, ReactElement } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import { classes } from '@idriss-xyz/ui/utils';
 
 import { tabOptions } from '../constants';
@@ -15,7 +15,7 @@ type ProductSectionProperties = {
   activeOptionKey: string;
   title: string;
   description: string;
-  actions: ReactElement;
+  actions: ReactNode;
   features: ProductSectionFeature[];
   tabsAsLinks: boolean;
   className?: string;
@@ -86,7 +86,7 @@ export const ProductSection = ({
             <div className="w-full overflow-hidden p-1 md:w-fit lg:w-fit">
               <div
                 className={classes(
-                  'flex flex-col items-center gap-3 transition-transform duration-1000 md:flex-row lg:flex-row lg:gap-2',
+                  'flex flex-col items-center gap-3 transition-transform duration-1000 md:flex-row lg:flex-row lg:gap-4',
                   fadeOut && 'translate-y-[-120%]',
                 )}
               >

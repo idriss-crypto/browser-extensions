@@ -1,14 +1,14 @@
+import { CHROME_EXTENSION_LINK } from '@idriss-xyz/constants';
 import { Button } from '@idriss-xyz/ui/button';
 export const CreatorsSectionActions = () => {
   return (
     <Button
       intent="secondary"
       size="large"
-      className="w-full text-button2 md:w-fit lg:w-fit lg:text-button1"
+      className="w-full md:w-fit"
       asLink
-      href="https://chromewebstore.google.com/detail/idriss/fghhpjoffbgecjikiipbkpdakfmkbmig"
-      target="_blank"
-      rel="noopener noreferrer"
+      href={CHROME_EXTENSION_LINK}
+      isExternal
     >
       CREATE DONATION LINK
     </Button>

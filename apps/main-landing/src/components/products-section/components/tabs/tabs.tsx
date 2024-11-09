@@ -16,25 +16,20 @@ export const Tabs = ({ activeOptionKey, options, asLink }: Properties) => {
         return asLink ? (
           <Link
             href={`/#${option.key}`}
-            passHref
-            legacyBehavior
             key={option.key}
+            className={classes(
+              'flex cursor-pointer items-start rounded-[100px] bg-[#17ff4a1a] px-[9.5px] py-2 text-midnightGreen-100 transition-colors duration-1000 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 lg:px-4',
+              activeOptionKey === option.key &&
+                'bg-mint-400 text-neutralGreen-900',
+            )}
           >
-            <a
-              className={classes(
-                'flex cursor-pointer items-start rounded-[100px] bg-[#17ff4a1a] px-[9.5px] py-2 text-midnightGreen-100 transition-colors duration-1000 lg:px-4',
-                activeOptionKey === option.key &&
-                  'bg-mint-400 text-neutralGreen-900',
-              )}
-            >
-              {option.name}
-            </a>
+            {option.name}
           </Link>
         ) : (
           <span
             key={option.key}
             className={classes(
-              'flex items-start rounded-[100px] bg-[#17ff4a1a] px-[9.5px] py-2 text-midnightGreen-100 lg:px-4',
+              'rounded-[100px] bg-[#17ff4a1a] px-[9.5px] py-2 text-midnightGreen-100 lg:px-4',
               activeOptionKey === option.key &&
                 'bg-mint-400 text-neutralGreen-900',
             )}

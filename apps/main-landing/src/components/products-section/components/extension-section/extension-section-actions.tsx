@@ -1,3 +1,4 @@
+import { CHROME_EXTENSION_LINK, DOCUMENTATION_LINK } from '@idriss-xyz/constants';
 import { Button } from '@idriss-xyz/ui/button';
 export const ExtensionSectionActions = () => {
   return (
@@ -5,22 +6,20 @@ export const ExtensionSectionActions = () => {
       <Button
         intent="secondary"
         size="large"
-        className="w-full text-button2 md:w-fit lg:w-fit lg:text-button1"
+        className="w-full md:w-fit"
         asLink
-        href="https://chromewebstore.google.com/detail/idriss/fghhpjoffbgecjikiipbkpdakfmkbmig"
-        target="_blank"
-        rel="noopener noreferrer"
+        href={CHROME_EXTENSION_LINK}
+        isExternal
       >
         DOWNLOAD EXTENSION
       </Button>
       <Button
         intent="tertiary"
         size="large"
-        className="pl-[28px] text-button2 text-[#E2E2E2] lg:text-button1"
+        className="text-[#E2E2E2]"
         asLink
-        href="https://docs.idriss.xyz/"
-        target="_blank"
-        rel="noopener noreferrer"
+        href={DOCUMENTATION_LINK}
+        isExternal
       >
         LEARN MORE
       </Button>

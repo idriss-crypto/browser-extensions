@@ -7,6 +7,7 @@ type WaitlistInput = {
   email: string;
 };
 
+//TODO Add zod validation and remove inline validation from Controller
 export const PredictionMarketsSectionActions = () => {
   const {
     control,
@@ -21,6 +22,7 @@ export const PredictionMarketsSectionActions = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: WaitlistInput) => {
+      //TODO Add axios and replace native fetch
       const response = await fetch('https://api.idriss.xyz/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -31,7 +33,7 @@ export const PredictionMarketsSectionActions = () => {
         throw new Error('Failed to join waitlist');
       }
 
-      return response.json() as Promise<Record<string, string>>;
+      await response.json();
     },
     onSuccess: () => {
       reset();
@@ -60,10 +62,11 @@ export const PredictionMarketsSectionActions = () => {
           }}
           render={({ field }) => {
             return (
+              //TODO add input to the DS
               <input
                 type="email"
                 className={classes(
-                  'flex h-12 w-full flex-[1_0_0] items-center rounded-[12px] border px-3 py-2 shadow-[0_0_0_4px_rgba(242,242,242,0.14)] lg:w-[290px]',
+                  'flex h-12 w-full flex-[1_0_0] items-center rounded-[12px] px-3 py-2 shadow-[0_0_0_4px_rgba(242,242,242,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 lg:w-[290px]',
 
                   mutation.isError && 'border-red-500',
                   mutation.isSuccess && 'border-mint-500',
@@ -80,7 +83,7 @@ export const PredictionMarketsSectionActions = () => {
           type="submit"
           intent="secondary"
           size="medium"
-          className="w-full text-button2 md:w-fit lg:w-fit lg:text-button1"
+          className="w-full md:w-fit"
           disabled={mutation.isPending}
         >
           GET EARLY ACCESS
