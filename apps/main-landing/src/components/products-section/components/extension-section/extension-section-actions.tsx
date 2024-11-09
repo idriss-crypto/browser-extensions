@@ -1,4 +1,7 @@
-import { CHROME_EXTENSION_LINK, DOCUMENTATION_LINK } from '@idriss-xyz/constants';
+import {
+  CHROME_EXTENSION_LINK,
+  DOCUMENTATION_LINK,
+} from '@idriss-xyz/constants';
 import { Button } from '@idriss-xyz/ui/button';
 export const ExtensionSectionActions = () => {
   return (

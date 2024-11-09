@@ -1,5 +1,10 @@
 import { Button } from '@idriss-xyz/ui/button';
 import Image from 'next/image';
+import {
+  CHROME_EXTENSION_LINK,
+  CREATORS_LINK,
+  DOCUMENTATION_LINK,
+} from '@idriss-xyz/constants';
 
 import { ProductTile } from './components/product-tile';
 import { TopWave } from './components/top-wave';
@@ -9,7 +14,6 @@ import {
   PREDICTION_MARKETS_INFO,
 } from './constans';
 import { stackedHex } from './assets';
-import { CHROME_EXTENSION_LINK, CREATORS_LINK, DOCUMENTATION_LINK } from '@idriss-xyz/constants';
 
 export const SuperpowersSection = () => {
   return (

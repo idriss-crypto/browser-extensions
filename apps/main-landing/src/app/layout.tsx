@@ -1,7 +1,6 @@
 // import { MAIN_LANDING_LINK } from '@idriss-xyz/constants';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-
 import './globals.css';
 import { ReactNode } from 'react';
 
