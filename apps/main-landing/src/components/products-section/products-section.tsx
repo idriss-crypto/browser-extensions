@@ -1,3 +1,5 @@
+'use client';
+
 import { QueryProvider } from '@/app/providers/query';
 
 import { DesktopProductsSection, MobileProductsSection } from './components';
