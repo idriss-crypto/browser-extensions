@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { Icon, IconName } from '@idriss-xyz/ui/icon';
-import { ReactElement } from 'react';
+import { CSSProperties, ReactElement } from 'react';
 import { classes } from '@idriss-xyz/ui/utils';
 
 import { tabOptions } from '../constants';
@@ -20,6 +20,7 @@ type ProductSectionProperties = {
   tabsAsLinks: boolean;
   className?: string;
   fadeOut: boolean;
+  style?: CSSProperties;
 };
 type ProductSectionFeature = {
   icon: IconName;
@@ -42,13 +43,17 @@ export const ProductSection = ({
   features,
   tabsAsLinks,
   fadeOut,
+  style,
 }: ProductSectionProperties) => {
   return (
     <div
       className={classes('relative flex size-full bg-mint-100', className)}
       id={id}
     >
-      <div className="flex size-full flex-col bg-[linear-gradient(114deg,_#022B1E_34.81%,_#079165_123.57%)] px-4 py-10 lg:px-[120px] lg:py-[80px] [@media(max-height:1100px)]:py-[30px]">
+      <div
+        className="transition-[border-radius] duration-150 will-change-[border-radius] flex size-full flex-col bg-[linear-gradient(114deg,_#022B1E_34.81%,_#079165_123.57%)] px-4 py-10 lg:px-[120px] lg:py-[80px] [@media(max-height:1100px)]:py-[30px]"
+        style={style}
+      >
         <div className="container flex flex-col gap-10 p-0 lg:gap-[104px] lg:[@media(max-height:1100px)]:gap-[50px] lg:[@media(max-height:770px)]:gap-[24px]">
           <div className="flex flex-col items-start gap-[64px] lg:[@media(max-height:1100px)]:gap-[50px] lg:[@media(max-height:770px)]:gap-[24px]">
             <Tabs

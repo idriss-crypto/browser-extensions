@@ -5,7 +5,7 @@ import { ExtensionSectionActions } from './extension-section-actions';
 const BROWSER_EXTENSION_INFO: ProductSectionInfo = {
   title: 'CRYPTO AND AI EXPANSION PACK FOR YOUR BROWSER',
   description:
-    'Enhance your browsing experience with crypto micropayments, DAO vote alerts, and trading widgets directly in your browser',
+    'Enhance your browsing experience with crypto micropayments, DAO vote alerts, and trading widgets directly in your browser.',
   features: [
     {
       icon: 'Tipping',
