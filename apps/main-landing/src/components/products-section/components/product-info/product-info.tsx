@@ -1,5 +1,3 @@
-'use client';
-
 import { GradientBorder } from '@idriss-xyz/ui/gradient-border';
 import { ReactElement } from 'react';
 
@@ -16,7 +14,7 @@ export const ProductInfo = ({ icon, title, description }: Properties) => {
         {icon}
       </div>
       <div className="flex flex-1 flex-col items-start justify-center gap-2">
-        <span className="text-heading-6 text-midnightGreen-100 lg:text-heading5">
+        <span className="text-heading6 text-midnightGreen-100 lg:text-heading5">
           {title}
         </span>
         <span className="text-body5 text-mint-200 lg:text-body4">

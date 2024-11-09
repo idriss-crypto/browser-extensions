@@ -31,7 +31,7 @@ export const PredictionMarketsSectionActions = () => {
         throw new Error('Failed to join waitlist');
       }
 
-      return response.json();
+      return response.json() as Promise<Record<string, string>>;
     },
     onSuccess: () => {
       reset();
@@ -58,21 +58,23 @@ export const PredictionMarketsSectionActions = () => {
               message: 'Please enter a valid email address.',
             },
           }}
-          render={({ field }) => (
-            <input
-              type="email"
-              className={classes(
-                'flex h-12 w-full flex-[1_0_0] items-center rounded-[12px] border px-3 py-2 shadow-[0_0_0_4px_rgba(242,242,242,0.14)] lg:w-[290px]',
+          render={({ field }) => {
+            return (
+              <input
+                type="email"
+                className={classes(
+                  'flex h-12 w-full flex-[1_0_0] items-center rounded-[12px] border px-3 py-2 shadow-[0_0_0_4px_rgba(242,242,242,0.14)] lg:w-[290px]',
 
-                mutation.isError && 'border-red-500',
-                mutation.isSuccess && 'border-mint-500',
-              )}
-              placeholder="Your email"
-              id="email"
-              disabled={mutation.isPending}
-              {...field}
-            />
-          )}
+                  mutation.isError && 'border-red-500',
+                  mutation.isSuccess && 'border-mint-500',
+                )}
+                placeholder="Your email"
+                id="email"
+                disabled={mutation.isPending}
+                {...field}
+              />
+            );
+          }}
         />
         <Button
           type="submit"
@@ -84,10 +86,10 @@ export const PredictionMarketsSectionActions = () => {
           GET EARLY ACCESS
         </Button>
       </form>
-      <div className='flex flex-col gap-1 pl-1'>
+      <div className="flex flex-col gap-1 pl-1">
         {mutation.isSuccess && (
           <span className="text-sm text-mint-500">
-            You're on the list. Stay tuned for updates.
+            {`You're on the list. Stay tuned for updates.`}
           </span>
         )}
 

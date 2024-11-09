@@ -51,7 +51,7 @@ export const ProductSection = ({
       id={id}
     >
       <div
-        className="transition-[border-radius] duration-150 will-change-[border-radius] flex size-full flex-col bg-[linear-gradient(114deg,_#022B1E_34.81%,_#079165_123.57%)] px-4 py-10 lg:px-[120px] lg:py-[80px] [@media(max-height:1100px)]:py-[30px]"
+        className="flex size-full flex-col bg-[linear-gradient(114deg,_#022B1E_34.81%,_#079165_123.57%)] px-4 py-10 transition-[border-radius] duration-100 will-change-[border-radius] lg:px-[120px] lg:py-[80px] [@media(max-height:1100px)]:py-[30px]"
         style={style}
       >
         <div className="container flex flex-col gap-10 p-0 lg:gap-[104px] lg:[@media(max-height:1100px)]:gap-[50px] lg:[@media(max-height:770px)]:gap-[24px]">
@@ -97,7 +97,7 @@ export const ProductSection = ({
               priority
               src={circleWithScreen}
               alt=""
-              className="bottom-0 right-0 top-[50%] lg:absolute lg:max-w-[45%] lg:translate-y-[-50%] lg:[@media(max-width:1400px)]:translate-y-[-40%] lg:[@media(min-height:1300px)]:-translate-y-full"
+              className="bottom-0 right-0 top-1/2 lg:absolute lg:max-w-[45%] lg:-translate-y-1/2 lg:[@media(max-width:1400px)]:translate-y-[-40%] lg:[@media(min-height:1300px)]:-translate-y-full"
             />
           </div>
           <div className="overflow-hidden">

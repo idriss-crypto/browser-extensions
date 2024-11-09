@@ -46,25 +46,26 @@ export const DesktopProductsSection = ({ className }: Properties) => {
 
   const selectedSectionData = useMemo(() => {
     return sectionsData[debouncedCurrentSectionIndex] ?? ExtensionSectionData;
-  }, [debouncedCurrentSectionIndex]);
+  }, [debouncedCurrentSectionIndex, sectionsData]);
 
   useEffect(() => {
     const topOfContainerObserver = new IntersectionObserver(
       ([entry]) => {
         setIsTopOfContainerFullyVisible(entry?.intersectionRatio === 1);
       },
-      { threshold: 1.0 },
+      { threshold: 1 },
     );
 
     const containerObserver = new IntersectionObserver(
       ([entry]) => {
         setIsContainerVisible((entry?.intersectionRatio ?? 0) > 0.2);
       },
-      { threshold: 1.0 },
+      { threshold: 1 },
     );
 
     const paddingObserver = new IntersectionObserver(
       ([entry]) => {
+        //if we navigate to the anchor the top container is skipped so we need to set padding 0 manually
         if (!isTopOfContainerFullyVisible && isContainerVisible) {
           setPadding(0);
           setBorderRadius(0);
@@ -86,12 +87,16 @@ export const DesktopProductsSection = ({ className }: Properties) => {
             const calculatedRadius = Math.round(
               40 * (2 - 2 * intersectionRatio),
             );
-            setPadding(calculatedPadding > 10 ? calculatedPadding : 0);
+            setPadding(calculatedPadding > 5 ? calculatedPadding : 0);
             setBorderRadius(calculatedRadius > 5 ? calculatedRadius : 0);
           }
         }
       },
-      { threshold: Array.from({ length: 101 }, (_, i) => i / 100) },
+      {
+        threshold: Array.from({ length: 101 }, (_, index) => {
+          return index / 100;
+        }),
+      },
     );
 
     if (containerReference.current) {
@@ -109,7 +114,7 @@ export const DesktopProductsSection = ({ className }: Properties) => {
       topOfContainerObserver.disconnect();
       paddingObserver.disconnect();
     };
-  }, [isTopOfContainerFullyVisible]);
+  }, [isTopOfContainerFullyVisible, isContainerVisible]);
 
   useLayoutEffect(() => {
     const handleScroll = () => {
@@ -143,14 +148,14 @@ export const DesktopProductsSection = ({ className }: Properties) => {
 
   return (
     <section>
-      <div ref={topOfContainerReference} className="h-[1px] w-full" />
+      <div ref={topOfContainerReference} className="h-px w-full" />
       <div
         className={classes('relative flex bg-mint-100', className)}
         ref={containerReference}
       >
         <div
           style={{ padding: `${padding / 3}px ${padding}px` }}
-          className="transition-padding sticky left-0 top-0 z-[99999] h-screen w-screen duration-150 will-change-[padding]"
+          className="sticky left-0 top-0 z-[99999] h-screen w-screen transition-[padding] duration-100 will-change-[padding]"
         >
           <ProductSection
             style={{ borderRadius: `${borderRadius}px` }}
@@ -163,7 +168,7 @@ export const DesktopProductsSection = ({ className }: Properties) => {
             fadeOut={currentSectionIndex !== debouncedCurrentSectionIndex}
           />
         </div>
-        <div className="w-[1px]">
+        <div className="w-[0.5px]">
           <div
             ref={firstSectionAnchorReference}
             id="extension-product"

@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+
 import { QueryProvider } from './query';
 
 type Properties = {
