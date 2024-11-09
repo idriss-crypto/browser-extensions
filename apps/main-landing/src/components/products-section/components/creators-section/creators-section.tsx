@@ -10,7 +10,6 @@ type Properties = {
 export const CreatorsSection = ({ className, fadeOut }: Properties) => {
   return (
     <ProductSection
-      id="creators-product"
       fadeOut={fadeOut}
       className={className}
       actions={CreatorsSectionData.actions}

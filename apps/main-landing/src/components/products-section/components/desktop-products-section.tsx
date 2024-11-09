@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useDebounce } from 'react-use';
+import { useDebounce, useWindowSize } from 'react-use';
 import { classes } from '@idriss-xyz/ui/utils';
 
 import { ProductSection } from './product-section';
@@ -15,6 +15,8 @@ type Properties = {
 const numberOfSections = 3;
 
 export const DesktopProductsSection = ({ className }: Properties) => {
+  const windowSize = useWindowSize();
+
   const containerReference = useRef<HTMLDivElement>(null);
   const topOfContainerReference = useRef<HTMLDivElement>(null);
   const firstSectionAnchorReference = useRef<HTMLDivElement>(null);
@@ -146,6 +148,10 @@ export const DesktopProductsSection = ({ className }: Properties) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  if(windowSize.width < 1024) {
+    return 
+  }
 
   return (
     <section>
