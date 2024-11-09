@@ -5,6 +5,7 @@ export const button = cva(
   [
     'group/button relative z-1 flex w-max items-center justify-center overflow-hidden rounded-xl',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2',
+    'disabled:bg-neutral-400 disabled:text-white'
   ],
   {
     variants: {
@@ -29,7 +30,6 @@ export const button = cva(
           'hover:bg-neutralGreen-700',
           'active:bg-neutralGreen-500',
         ],
-        disabled: ['bg-neutral-400 px-4.5 py-2 text-white'],
       },
       size: {
         large: ['px-5 py-4.5 text-button1'],

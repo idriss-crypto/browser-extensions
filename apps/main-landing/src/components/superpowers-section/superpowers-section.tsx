@@ -95,7 +95,8 @@ export const SuperpowersSection = () => {
             actions={
               <>
                 <Button
-                  intent="disabled"
+                  intent="tertiary"
+                  disabled
                   size="large"
                   className="w-full text-button2 lg:text-button1"
                 >
