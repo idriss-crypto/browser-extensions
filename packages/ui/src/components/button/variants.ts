@@ -5,7 +5,7 @@ export const button = cva(
   [
     'group/button relative z-1 flex w-max items-center justify-center overflow-hidden rounded-xl',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2',
-    'disabled:bg-neutral-400 disabled:text-white'
+    'disabled:bg-neutral-400 disabled:text-white',
   ],
   {
     variants: {
