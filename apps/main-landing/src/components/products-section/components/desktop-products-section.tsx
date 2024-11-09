@@ -18,11 +18,11 @@ export const DesktopProductsSection = ({ className }: Properties) => {
   const containerReference = useRef<HTMLDivElement>(null);
   const topOfContainerReference = useRef<HTMLDivElement>(null);
   const firstSectionAnchorReference = useRef<HTMLDivElement>(null);
-  const [padding, setPadding] = useState(50);
+  const [padding, setPadding] = useState(40);
   const [borderRadius, setBorderRadius] = useState(40);
   const [isTopOfContainerFullyVisible, setIsTopOfContainerFullyVisible] =
     useState(false);
-  const [isContainerVisible, setIsContainerVisible] = useState(true);
+  const [isContainerVisible, setIsContainerVisible] = useState(false);
 
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [debouncedCurrentSectionIndex, setDebouncedCurrentSectionIndex] =
@@ -58,9 +58,13 @@ export const DesktopProductsSection = ({ className }: Properties) => {
 
     const containerObserver = new IntersectionObserver(
       ([entry]) => {
-        setIsContainerVisible((entry?.intersectionRatio ?? 0) > 0.2);
+        setIsContainerVisible((entry?.intersectionRatio ?? 0) > 0.25);
       },
-      { threshold: 1 },
+      {
+        threshold: Array.from({ length: 101 }, (_, index) => {
+          return index / 100;
+        }),
+      },
     );
 
     const paddingObserver = new IntersectionObserver(
@@ -76,19 +80,16 @@ export const DesktopProductsSection = ({ className }: Properties) => {
           const intersectionRatio = entry?.intersectionRatio ?? 0;
 
           if (intersectionRatio <= 0.5) {
-            // When intersection is 0-50%, padding stays at 50px and radius 40px
-            setPadding(50);
+            // When intersection is 0-50%, padding and radius stays at 40px
+            setPadding(40);
             setBorderRadius(40);
           } else {
             // Map intersection ratio from 0.5-1 to 50-0 for padding and 40-0 for radius
-            const calculatedPadding = Math.round(
-              50 * (2 - 2 * intersectionRatio),
-            );
-            const calculatedRadius = Math.round(
+            const calculatedValue = Math.round(
               40 * (2 - 2 * intersectionRatio),
             );
-            setPadding(calculatedPadding > 5 ? calculatedPadding : 0);
-            setBorderRadius(calculatedRadius > 5 ? calculatedRadius : 0);
+            setPadding(calculatedValue > 5 ? calculatedValue : 0);
+            setBorderRadius(calculatedValue > 5 ? calculatedValue : 0);
           }
         }
       },
@@ -154,8 +155,8 @@ export const DesktopProductsSection = ({ className }: Properties) => {
         ref={containerReference}
       >
         <div
-          style={{ padding: `${padding / 3}px ${padding}px` }}
-          className="sticky left-0 top-0 z-[99999] h-screen w-screen transition-[padding] duration-100 will-change-[padding]"
+          style={{ padding: `${padding / 2}px ${padding}px` }}
+          className="sticky left-0 top-0 z-[99999] h-screen w-screen transition-[padding] duration-150 will-change-[padding]"
         >
           <ProductSection
             style={{ borderRadius: `${borderRadius}px` }}

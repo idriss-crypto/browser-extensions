@@ -51,7 +51,7 @@ export const ProductSection = ({
       id={id}
     >
       <div
-        className="flex size-full flex-col bg-[linear-gradient(114deg,_#022B1E_34.81%,_#079165_123.57%)] px-4 py-10 transition-[border-radius] duration-100 will-change-[border-radius] lg:px-[120px] lg:py-[80px] [@media(max-height:1100px)]:py-[30px]"
+        className="flex size-full flex-col bg-[linear-gradient(114deg,_#022B1E_34.81%,_#079165_123.57%)] px-4 py-10 transition-[border-radius] duration-150 will-change-[border-radius] lg:px-[120px] lg:py-[80px] [@media(max-height:1100px)]:py-[30px]"
         style={style}
       >
         <div className="container flex flex-col gap-10 p-0 lg:gap-[104px] lg:[@media(max-height:1100px)]:gap-[50px] lg:[@media(max-height:770px)]:gap-[24px]">
