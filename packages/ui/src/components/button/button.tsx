@@ -101,7 +101,7 @@ export const Button = forwardRef(
       ...htmlValidProperties
     } = properties;
 
-    const disabled = loading || disabledFromProperties;
+    const disabled = Boolean(loading ?? disabledFromProperties);
 
     const contentWithSpinner = (
       <>
