@@ -1,4 +1,3 @@
-'use client';
 import { Button } from '@idriss-xyz/ui/button';
 import Image from 'next/image';
 
@@ -6,6 +5,13 @@ import { backgroundLines } from '@/assets';
 import { INTERNAL_LINK } from '@/constants';
 
 import { CollaborationsShowcase } from './components';
+import { backgroundLines } from './assets';
+import { ImageSequencer } from '../image-sequencer';
+
+const BASE_NAME = `hero-tokens-flow/IDRISS_HERO_FIXED_`;
+const images = Array.from(Array(45).keys()).map(
+  (_, index) => `${BASE_NAME}${index.toString().padStart(4, '0')}.png`,
+);
 
 export const HeroSection = () => {
   return (
@@ -34,15 +40,6 @@ export const HeroSection = () => {
         images={images}
         className="pointer-events-none z-0 mt-[-22%] w-full min-w-[500px]"
       />
-
-      {/* <video
-        muted
-        loop
-        autoPlay
-        className="pointer-events-none z-0 mt-[-22%] w-full min-w-[500px]"
-      >
-        <source type="video/webm" src="/tokens-flow.webm" />
-      </video> */}
       <CollaborationsShowcase className="container mt-9 text-center lg:my-20" />
     </header>
   );
