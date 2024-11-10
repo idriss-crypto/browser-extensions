@@ -1,4 +1,3 @@
-import { Icon } from '@idriss-xyz/ui/icon';
 import { classes } from '@idriss-xyz/ui/utils';
 import { ReactNode } from 'react';
 

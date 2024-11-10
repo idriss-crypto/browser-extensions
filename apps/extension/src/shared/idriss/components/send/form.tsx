@@ -71,7 +71,7 @@ export const Form = ({
             className={classes(
               'w-full',
               amount === 1 &&
-              'border-mint-600 bg-mint-300 hover:border-mint-600 hover:bg-mint-300',
+                'border-mint-600 bg-mint-300 hover:border-mint-600 hover:bg-mint-300',
             )}
             intent="secondary"
             size="medium"
@@ -83,7 +83,7 @@ export const Form = ({
             className={classes(
               'w-full',
               amount === 2 &&
-              'border-mint-600 bg-mint-300 hover:border-mint-600 hover:bg-mint-300',
+                'border-mint-600 bg-mint-300 hover:border-mint-600 hover:bg-mint-300',
             )}
             intent="secondary"
             size="medium"
@@ -95,7 +95,7 @@ export const Form = ({
             className={classes(
               'w-full',
               amount === 5 &&
-              'border-mint-600 bg-mint-300 hover:border-mint-600 hover:bg-mint-300',
+                'border-mint-600 bg-mint-300 hover:border-mint-600 hover:bg-mint-300',
             )}
             intent="secondary"
             size="medium"

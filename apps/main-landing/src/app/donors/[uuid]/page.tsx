@@ -20,7 +20,7 @@ export default function Donors() {
                 className="w-[300px]"
                 name="Foo"
                 value="foo"
-                onChange={() => { }}
+                onChange={() => {}}
               />
             </Form>
           </main>

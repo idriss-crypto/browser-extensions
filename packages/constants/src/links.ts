@@ -6,19 +6,19 @@ export const SOCIAL_LINK = {
   DISCORD: 'https://discord.com/invite/RJhJKamjw5',
   INSTAGRAM: 'https://www.instagram.com/idriss_xyz_',
   TIKTOK: 'https://www.tiktok.com/@idriss_xyz_',
-  YOUTUBE: 'https://www.youtube.com/@IDriss_xyz',
+  YOUTUBE: 'https://www.youtube.com/@idriss_xyz',
 };
 
 /**
  * Our things announced by us
  */
 export const ANNOUNCEMENT_LINK = {
-  POLYMARKET: 'https://x.com/IDriss_xyz/status/1780582103396266085',
-  SNAPSHOT: 'https://x.com/IDriss_xyz/status/1761049574691819798',
-  TALLY: 'https://x.com/IDriss_xyz/status/1807798872930202007',
-  AAVEGOTCHI: 'https://x.com/IDriss_xyz/status/1750851248121930167',
-  PARALLEL: 'https://x.com/IDriss_xyz/status/1729258820441170160',
-  TIPPING: 'https://x.com/IDriss_xyz/status/1729258820441170160',
+  POLYMARKET: 'https://x.com/idriss_xyz/status/1780582103396266085',
+  SNAPSHOT: 'https://x.com/idriss_xyz/status/1761049574691819798',
+  TALLY: 'https://x.com/idriss_xyz/status/1807798872930202007',
+  AAVEGOTCHI: 'https://x.com/idriss_xyz/status/1750851248121930167',
+  PARALLEL: 'https://x.com/idriss_xyz/status/1729258820441170160',
+  TIPPING: 'https://x.com/idriss_xyz/status/1729258820441170160',
 };
 
 /**
