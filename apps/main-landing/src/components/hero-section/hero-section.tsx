@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@idriss-xyz/ui/button';
 import Image from 'next/image';
 
@@ -29,15 +30,19 @@ export const HeroSection = () => {
       >
         EXPLORE
       </Button>
+      <ImageSequencer
+        images={images}
+        className="pointer-events-none z-0 mt-[-22%] w-full min-w-[500px]"
+      />
 
-      <video
+      {/* <video
         muted
         loop
         autoPlay
         className="pointer-events-none z-0 mt-[-22%] w-full min-w-[500px]"
       >
         <source type="video/webm" src="/tokens-flow.webm" />
-      </video>
+      </video> */}
       <CollaborationsShowcase className="container mt-9 text-center lg:my-20" />
     </header>
   );
