@@ -63,7 +63,7 @@ export const Field = forwardRef(
             )}
             {helperText}
             {!inputProperties.error && (
-              <Icon name="AlertCircle" size={12} className="p-0.5" />
+              <Icon name="HelpCircle" size={12} className="p-0.5" />
             )}
           </span>
         )}
