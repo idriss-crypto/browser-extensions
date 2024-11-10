@@ -56,11 +56,11 @@ export const Modal = ({
   }
 
   return (
-    <div ref={setFakePortal} className="z-portal">
+    <div ref={setFakePortal}>
       <Portal.Root container={withoutPortal ? fakePortal : portal}>
         <Backdrop
           className={classes(
-            'fixed inset-0 bg-neutral-400/60',
+            'fixed inset-0 z-portal bg-neutral-400/60',
             backdropClassName,
           )}
           onClick={closeOnClickAway ? onClose : undefined}
@@ -69,7 +69,7 @@ export const Modal = ({
         />
         <div
           className={classes(
-            'rounded-xl bg-white shadow-2xl',
+            'z-portal rounded-xl bg-white shadow-2xl',
             shouldBeCentered
               ? 'fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'
               : 'absolute',
