@@ -6,7 +6,7 @@ export const Spinner = ({ className }: Properties) => {
   return (
     <div className={className}>
       <svg
-        className={"animate-spin size-full"}
+        className="size-full animate-spin"
         width="34"
         height="34"
         viewBox="0 0 34 34"

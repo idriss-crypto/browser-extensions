@@ -8,11 +8,11 @@ import {
 import { classes } from '../../utils';
 import { Icon, IconName } from '../icon';
 import { ExternalLink } from '../external-link';
+import { Spinner } from '../spinner';
 
 import { button, ButtonVariants } from './variants';
 import { Glow } from './glow';
 import { BUTTON_SIZE_TO_ICON_SIZE } from './constants';
-import { Spinner } from '../spinner';
 
 type ButtonOrAnchorProperties =
   | (ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -97,12 +97,12 @@ export const Button = forwardRef(
 
     const {
       asLink,
-      disabled: disabledFromProps,
+      disabled: disabledFromProperties,
       loading,
       ...htmlValidProperties
     } = properties;
 
-    const disabled = loading || disabledFromProps;
+    const disabled = loading || disabledFromProperties;
 
     const contentWithSpinner = (
       <>

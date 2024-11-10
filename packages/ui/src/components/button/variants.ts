@@ -48,8 +48,8 @@ export const button = cva(
       },
       loading: {
         true: [''],
-        false: ['']
-      }
+        false: [''],
+      },
     },
     compoundVariants: [
       //icon
@@ -72,7 +72,8 @@ export const button = cva(
       {
         loading: true,
         intent: 'secondary',
-        className: 'disabled:border-solid disabled:bg-white disabled:text-neutralGreen-900',
+        className:
+          'disabled:border-solid disabled:bg-white disabled:text-neutralGreen-900',
       },
       {
         loading: true,
@@ -122,8 +123,8 @@ export const glow = cva(
       },
       loading: {
         true: [''],
-        false: ['']
-      }
+        false: [''],
+      },
     },
     compoundVariants: [
       //loading
@@ -136,7 +137,7 @@ export const glow = cva(
         loading: true,
         intent: 'secondary',
         className: 'group-disabled/button:block',
-      }
+      },
     ],
   },
 );
