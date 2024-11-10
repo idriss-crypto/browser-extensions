@@ -74,9 +74,6 @@ export const ImageSequencer = ({ images, className }: Properties) => {
       src={!isLoaded ? loadedImages[0]!.src : loadedImages[currentIndex]!.src}
       className={className}
       alt="Animated Sequence"
-      style={{
-        width: '100%',
-      }}
     />
   );
 };
