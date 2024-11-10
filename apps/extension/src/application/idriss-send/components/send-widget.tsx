@@ -85,6 +85,11 @@ export const SendWidget = ({ widgetData }: Properties) => {
       recipientName={username}
       closeOnClickAway={sender.isIdle}
       onClose={reset}
+      header={
+        <IdrissSend.Heading>
+          {widgetOverrides?.headerCopy ?? `Send to @${username}`}
+        </IdrissSend.Heading>
+      }
     >
       {({ close }) => {
         if (sender.isSending) {
@@ -120,9 +125,6 @@ export const SendWidget = ({ widgetData }: Properties) => {
 
         return (
           <>
-            <IdrissSend.Heading>
-              {widgetOverrides?.headerCopy ?? `Send to @${username}`}
-            </IdrissSend.Heading>
             <IdrissSend.Form
               formMethods={formMethods}
               onSubmit={submit}

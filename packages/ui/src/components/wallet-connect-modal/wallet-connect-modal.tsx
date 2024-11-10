@@ -46,7 +46,7 @@ export const WalletConnectModal = ({
 
   return (
     <Modal
-      className="w-[400px]"
+      className="p-4"
       header={
         <div className="mb-6">
           <h2 className="text-heading5 text-neutral-900">Log in</h2>
@@ -57,6 +57,7 @@ export const WalletConnectModal = ({
           )}
         </div>
       }
+      width={400}
       onClose={onClose}
       isOpened={isOpened}
     >
