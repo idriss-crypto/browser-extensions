@@ -46,7 +46,7 @@ export const button = cva(
       withSuffixIcon: {
         true: ['pr-3'],
       },
-      loading: {
+      isLoading: {
         true: [''],
         false: [''],
       },
@@ -65,23 +65,23 @@ export const button = cva(
       },
       //loading
       {
-        loading: true,
+        isLoading: true,
         intent: 'primary',
         className: 'disabled:bg-mint-400 disabled:text-neutralGreen-900',
       },
       {
-        loading: true,
+        isLoading: true,
         intent: 'secondary',
         className:
           'disabled:border-solid disabled:bg-white disabled:text-neutralGreen-900',
       },
       {
-        loading: true,
+        isLoading: true,
         intent: 'tertiary',
         className: 'disabled:text-neutralGreen-900',
       },
       {
-        loading: true,
+        isLoading: true,
         intent: 'negative',
         className: 'disabled:bg-neutralGreen-900 disabled:text-white',
       },
@@ -89,7 +89,7 @@ export const button = cva(
   },
 );
 
-type ComputedVariants = 'withPrefixIcon' | 'withSuffixIcon';
+type ComputedVariants = 'withPrefixIcon' | 'withSuffixIcon' | 'isLoading';
 
 export type ButtonVariants = FullyRequired<
   Omit<VariantProps<typeof button>, ComputedVariants>

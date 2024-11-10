@@ -46,12 +46,13 @@ export const Button = forwardRef(
     }: Properties,
     reference,
   ) => {
+    const isLoading = (!properties.asLink && properties.loading) ?? false;
     const variantClassName = classes(
       button({
         intent,
         size,
-        loading: properties.loading,
         className,
+        isLoading: isLoading,
         withPrefixIcon: Boolean(prefixIconName),
         withSuffixIcon: Boolean(suffixIconName),
       }),
@@ -63,20 +64,18 @@ export const Button = forwardRef(
           <Icon
             name={prefixIconName}
             size={BUTTON_SIZE_TO_ICON_SIZE[size]}
-            className={classes('mr-2', properties.loading && 'opacity-0')}
+            className={classes('mr-2', isLoading && 'opacity-0')}
           />
         )}
-        <span className={classes(properties.loading && 'opacity-0')}>
-          {children}
-        </span>
+        <span className={classes(isLoading && 'opacity-0')}>{children}</span>
         {suffixIconName && (
           <Icon
             name={suffixIconName}
             size={BUTTON_SIZE_TO_ICON_SIZE[size]}
-            className={classes('ml-2', properties.loading && 'opacity-0')}
+            className={classes('ml-2', isLoading && 'opacity-0')}
           />
         )}
-        <Glow intent={intent} size={size} loading={properties.loading} />
+        <Glow intent={intent} size={size} loading={isLoading} />
       </>
     );
 
