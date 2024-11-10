@@ -1,5 +1,6 @@
 import * as RadixCheckbox from '@radix-ui/react-checkbox';
 import { forwardRef } from 'react';
+
 import { CheckIcon } from './assets';
 
 type Properties = {
@@ -8,7 +9,7 @@ type Properties = {
   onChange: (value: boolean) => void;
 };
 
-export const Checkbox = forwardRef<HTMLButtonElement, Properties>(
+const Base = forwardRef<HTMLButtonElement, Properties>(
   ({ label, value, onChange }, reference) => {
     return (
       <form>
@@ -37,3 +38,7 @@ export const Checkbox = forwardRef<HTMLButtonElement, Properties>(
     );
   },
 );
+
+export const Checkbox = Object.assign(Base, {
+  displayName: 'Checkbox',
+});
