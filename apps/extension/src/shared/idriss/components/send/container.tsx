@@ -101,6 +101,7 @@ export const Container = memo(
               closeOnHoverAway={closeOnHoverAway}
               closeOnClickAway={closeOnClickAway}
               onClose={close}
+              className="z-[99999]"
               backdropClassName="bg-transparent"
               onClickInside={disableCloseOnHoverAway}
               left={left}
