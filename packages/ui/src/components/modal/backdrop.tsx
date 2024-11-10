@@ -15,7 +15,7 @@ export const Backdrop = ({
   className,
   hoverActionDelay = 0,
 }: Properties) => {
-  const hoverTimer = useRef<number | null>(null);
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const startHover = useCallback(() => {
     hoverTimer.current = setTimeout(() => {

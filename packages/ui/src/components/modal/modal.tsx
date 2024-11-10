@@ -21,6 +21,7 @@ type Properties = {
   left?: number;
   right?: number;
   top?: number;
+  headerContainerClassName?: string;
   withoutPortal?: boolean;
 };
 
@@ -34,6 +35,7 @@ export const Modal = ({
   closeOnHoverAway,
   closeOnClickAway,
   onClickInside,
+  headerContainerClassName,
   width,
   left,
   right,
@@ -54,7 +56,7 @@ export const Modal = ({
   }
 
   return (
-    <div ref={setFakePortal}>
+    <div ref={setFakePortal} className="z-portal">
       <Portal.Root container={withoutPortal ? fakePortal : portal}>
         <Backdrop
           className={classes(
@@ -81,15 +83,20 @@ export const Modal = ({
           }}
           onClick={onClickInside}
         >
-          <div className="pr-8">{header}</div>
-          <div className="mt-6">{children}</div>
-          <IconButton
-            onClick={onClose}
-            className="absolute right-3 top-3"
-            intent="tertiary"
-            size="medium"
-            iconName="X"
-          />
+          {/* pr-8 at end on purpose so header never overflows icon */}
+          <div
+            className={classes('relative', headerContainerClassName, 'pr-14')}
+          >
+            {header}
+            <IconButton
+              onClick={onClose}
+              className="absolute right-3 top-3"
+              intent="tertiary"
+              size="medium"
+              iconName="X"
+            />
+          </div>
+          {children}
         </div>
       </Portal.Root>
     </div>

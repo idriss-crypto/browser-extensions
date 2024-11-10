@@ -1,10 +1,10 @@
 import { ReactNode, memo, useCallback, useEffect, useState } from 'react';
 import { useWindowSize } from 'react-use';
+import { Modal } from '@idriss-xyz/ui/modal';
 
 import { PortalWithTailwind } from 'shared/ui';
 
 import { WIDGET_WIDTH } from '../../constants';
-import { Modal } from '@idriss-xyz/ui/modal';
 
 interface RenderChildrenProperties {
   close: () => void;
@@ -96,7 +96,7 @@ export const Container = memo(
           <div onClick={disableCloseOnHoverAway}>
             <Modal
               header={header}
-              className="z-portal px-6 pb-3 pt-5.5"
+              headerContainerClassName="pl-6 pt-5.5 pb-2.5 border-b border-b-neutral-300"
               isOpened={isOpened}
               closeOnHoverAway={closeOnHoverAway}
               closeOnClickAway={closeOnClickAway}
@@ -109,7 +109,7 @@ export const Container = memo(
               width={WIDGET_WIDTH}
               withoutPortal
             >
-              {children({ close })}
+              <div>{children({ close })}</div>
             </Modal>
           </div>
         )}
