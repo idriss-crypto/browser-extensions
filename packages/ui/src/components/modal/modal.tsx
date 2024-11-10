@@ -8,7 +8,7 @@ import { classes } from '../../utils';
 import { Backdrop } from './backdrop';
 
 type Properties = {
-  header: ReactNode;
+  header?: ReactNode;
   children: ReactNode;
   isOpened: boolean;
   onClose: () => void;
@@ -69,7 +69,7 @@ export const Modal = ({
         />
         <div
           className={classes(
-            'rounded-xl bg-white',
+            'shadow-2xl rounded-xl bg-white',
             shouldBeCentered
               ? 'fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'
               : 'absolute',
@@ -84,18 +84,20 @@ export const Modal = ({
           onClick={onClickInside}
         >
           {/* pr-8 at end on purpose so header never overflows icon */}
-          <div
-            className={classes('relative', headerContainerClassName, 'pr-14')}
-          >
-            {header}
-            <IconButton
-              onClick={onClose}
-              className="absolute right-3 top-3"
-              intent="tertiary"
-              size="medium"
-              iconName="X"
-            />
-          </div>
+          {header && (
+            <div
+              className={classes('relative', headerContainerClassName, 'pr-14')}
+            >
+              {header}
+              <IconButton
+                onClick={onClose}
+                className="absolute right-3 top-3"
+                intent="tertiary"
+                size="medium"
+                iconName="X"
+              />
+            </div>
+          )}
           {children}
         </div>
       </Portal.Root>

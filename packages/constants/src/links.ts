@@ -32,13 +32,15 @@ export const EXTERNAL_ANNOUNCEMENT_LINK = {
 };
 
 export const DOCUMENTATION_LINK = 'https://docs.idriss.xyz/';
-export const GITHUB_LINK = 'https://www.github.com/idriss-crypto';
+export const GITHUB_LINK = 'https://www.github.com/idriss-xyz';
 export const BLOG_LINK = 'https://www.paragraph.xyz/@idriss';
 export const BRAND_KIT_LINK =
   'https://docs.idriss.xyz/contributor-guides/brand-resources';
 
-export const PRIVACY_POLICY_LINK = 'https://www.idriss.xyz/pp';
-export const TERMS_OF_SERVICE_LINK = 'https://www.idriss.xyz/tos';
+export const PRIVACY_POLICY_LINK =
+  'https://docs.idriss.xyz/resources/privacy-policy';
+export const TERMS_OF_SERVICE_LINK =
+  'https://docs.idriss.xyz/resources/terms-of-service';
 export const CREATORS_LINK = 'https://idriss.xyz/creators';
 
 export const CHROME_EXTENSION_LINK =
