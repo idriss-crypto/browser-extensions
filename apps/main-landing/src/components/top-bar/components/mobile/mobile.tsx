@@ -18,7 +18,7 @@ import { Socials } from './socials';
 export const Mobile = () => {
   return (
     <Dialog
-      className="fixed inset-x-4 bottom-3 top-[76px] flex flex-col rounded-[36px] bg-white/50 px-4 py-6 text-neutralGreen-900 backdrop-blur-[45px]" // top-[76px] is 64px height of navbar + 12px spacing, ideally it should be ref attached to nav to read component height in case it changes in future
+      className="border border-[#5FEB3C] fixed inset-x-4 bottom-3 top-[76px] flex flex-col rounded-[36px] bg-white/50 px-4 py-6 text-neutralGreen-900 backdrop-blur-[45px]" // top-[76px] is 64px height of navbar + 12px spacing, ideally it should be ref attached to nav to read component height in case it changes in future
       trigger={({ isOpened }) => {
         return (
           <IconButton
@@ -36,13 +36,6 @@ export const Mobile = () => {
       {({ close }) => {
         return (
           <>
-            <GradientBorder
-              borderRadius={36}
-              borderWidth={1}
-              gradientDirection="toTop"
-              gradientStartColor="#5FEB3C"
-              gradientStopColor="rgba(145,206,154,0.50)"
-            />
             <VisuallyHidden>
               <Dialog.Title>Website navigation</Dialog.Title>
             </VisuallyHidden>
