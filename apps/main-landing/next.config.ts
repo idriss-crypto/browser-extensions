@@ -1,7 +1,16 @@
 import type { NextConfig } from 'next';
 import withBundleAnalyzer from '@next/bundle-analyzer';
 
-import { LEGACY_URLS } from './src/constants';
+const LEGACY_URLS = [
+  '/partner-whitelist',
+  '/pricing',
+  '/token-price',
+  '/v1/getTwitterIDPlugin',
+  '/v2/getTwitterIDPlugin',
+  '/v2/getTwitterNamesPlugin',
+  '/v1/getTwitterID',
+  '/v1/getTwitterNames',
+];
 
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
