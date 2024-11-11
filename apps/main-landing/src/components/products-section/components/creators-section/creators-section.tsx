@@ -7,6 +7,8 @@ type Properties = {
   fadeOut: boolean;
 };
 
+const CIRCLE_IMAGE_PATH = 'extension-to-prediction-markets-circle/IDRISS_CIRCLE_95'
+
 export const CreatorsSection = ({ className, fadeOut }: Properties) => {
   return (
     <ProductSection
@@ -18,6 +20,8 @@ export const CreatorsSection = ({ className, fadeOut }: Properties) => {
       title={CreatorsSectionData.info.title}
       features={CreatorsSectionData.info.features}
       tabsAsLinks={false}
+      animated={false}
+      circleImage={CIRCLE_IMAGE_PATH}
     />
   );
 };
