@@ -8,11 +8,6 @@ import tokensFlow from './assets/IDRISS_SCENE_STREAM_4_2 1.png';
 
 import { CollaborationsShowcase } from './components';
 
-const BASE_NAME = `hero-tokens-flow/IDRISS_HERO_FIXED_`;
-const images = [...Array.from({ length: 45 }).keys()].map((_, index) => {
-  return `${BASE_NAME}${index.toString().padStart(4, '0')}.png`;
-});
-
 export const HeroSection = () => {
   return (
     <header className="relative flex w-full flex-col items-center overflow-hidden bg-[radial-gradient(111.94%_122.93%_at_16.62%_0%,_#E7F5E7_0%,_#76C282_100%)] pb-[60px] pt-[104px] lg:bg-[radial-gradient(222.94%_366.93%_at_16.62%_20%,_#E7F5E7_0%,_#76C282_100%)] lg:pb-[120px] lg:pt-[200px]">
