@@ -83,7 +83,7 @@ export default async function RootLayout({
     return (
       <html lang="en">
         <body className={`${aeonikPro.variable} font-sans antialiased`}>
-          <div className="flex h-screen items-center justify-center bg-mint-400 text-[#fafff5]">
+          <div className="flex h-screen items-center justify-center bg-mint-400 text-mint-100">
             <h1 className="text-heading1">NOVEMBER 12, 12 AM GMT</h1>
           </div>
         </body>
