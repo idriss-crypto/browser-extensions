@@ -3,22 +3,12 @@ import { Icon, IconName } from '@idriss-xyz/ui/icon';
 import { CSSProperties, ReactNode } from 'react';
 import { classes } from '@idriss-xyz/ui/utils';
 
+import { ImageSequencer } from '@/components/image-sequencer';
+
 import { tabOptions } from '../constants';
 
 import { ProductInfo } from './product-info';
 import { Tabs } from './tabs';
-import { ImageSequencer } from '@/components/image-sequencer';
-
-type AnimationConfig =
-  | {
-      images: string[];
-      direction: 'forward' | 'backward';
-      animated: true;
-    }
-  | {
-      image: string | undefined;
-      animated: false;
-    };
 
 type ProductSectionProperties = {
   activeOptionKey: string;
@@ -30,8 +20,19 @@ type ProductSectionProperties = {
   className?: string;
   fadeOut: boolean;
   style?: CSSProperties;
-  animationConfig: AnimationConfig;
-};
+} & (
+  | {
+      animated: true;
+      animationStartIndex: number;
+      animationEndIndex: number;
+      animationDirection: 'forward' | 'backward';
+      animationImages: string[];
+    }
+  | {
+      animated: false;
+      circleImage: string;
+    }
+);
 
 type ProductSectionFeature = {
   icon: IconName;
@@ -54,9 +55,8 @@ export const ProductSection = ({
   tabsAsLinks,
   fadeOut,
   style,
-  animationConfig,
+  ...properties
 }: ProductSectionProperties) => {
-  console.log('animationConfig', animationConfig);
   return (
     <div className={classes('relative flex size-full bg-mint-100', className)}>
       <div
@@ -102,16 +102,18 @@ export const ProductSection = ({
                 {actions}
               </div>
             </div>
-            {animationConfig.animated ? (
+            {properties.animated ? (
               <ImageSequencer
                 infinite={false}
-                images={animationConfig.images}
-                direction={animationConfig.direction}
+                images={properties.animationImages}
+                direction={properties.animationDirection}
+                startIndex={properties.animationStartIndex}
+                endIndex={properties.animationEndIndex}
                 className="bottom-0 right-0 top-1/2 lg:absolute lg:max-w-[45%] lg:-translate-y-1/2 lg:[@media(max-width:1440px)]:[@media(max-height:1000px)]:translate-y-[-30%] lg:[@media(min-height:1300px)]:-translate-y-full [@media(min-width:1001px)]:[@media(min-height:901px)]:[@media(max-height:1100px)]:translate-y-[-40%]"
               />
             ) : (
               <img
-                src={animationConfig.image ?? ''}
+                src={properties.circleImage}
                 alt=""
                 className="bottom-0 right-0 top-1/2 lg:absolute lg:max-w-[45%] lg:-translate-y-1/2 lg:[@media(max-width:1440px)]:[@media(max-height:1000px)]:translate-y-[-30%] lg:[@media(min-height:1300px)]:-translate-y-full [@media(min-width:1001px)]:[@media(min-height:901px)]:[@media(max-height:1100px)]:translate-y-[-40%]"
               />

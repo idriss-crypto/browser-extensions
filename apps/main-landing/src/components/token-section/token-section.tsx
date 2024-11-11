@@ -3,12 +3,13 @@ import Image from 'next/image';
 import { SOCIAL_LINK } from '@idriss-xyz/constants';
 import { GradientBorder } from '@idriss-xyz/ui/gradient-border';
 
-import background from './background.png';
 import { ImageSequencer } from '../image-sequencer';
 
+import background from './background.png';
+
 const BASE_NAME = `token-coin-spin/IDRISS_COIN_`;
-const images = Array.from(Array(91).keys()).map(
-  (_, index) => `${BASE_NAME}${index.toString().padStart(4, '0')}.png`,
+const images = [...Array.from({length: 91}).keys()].map(
+  (_, index) => {return `${BASE_NAME}${index.toString().padStart(4, '0')}.png`},
 );
 
 export const TokenSection = () => {
@@ -26,8 +27,6 @@ export const TokenSection = () => {
           <ImageSequencer
             images={images}
             className="size-[88px] lg:size-[200px]"
-            direction='backward'
-            
           />
           <h2 className="mt-6 text-display6 gradient-text lg:text-display3">
             IDRISS DAO

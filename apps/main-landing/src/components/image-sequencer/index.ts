@@ -1,1 +1,1 @@
-export { ImageSequencer } from './image-sequencer'
+export { ImageSequencer } from './image-sequencer';

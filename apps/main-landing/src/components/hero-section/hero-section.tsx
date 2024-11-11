@@ -1,17 +1,18 @@
 import { Button } from '@idriss-xyz/ui/button';
 import Image from 'next/image';
 
+import { ImageSequencer } from '../image-sequencer';
+
 import { backgroundLines } from '@/assets';
 import { INTERNAL_LINK } from '@/constants';
 
 import { CollaborationsShowcase } from './components';
 import { backgroundLines } from './assets';
-import { ImageSequencer } from '../image-sequencer';
 
 const BASE_NAME = `hero-tokens-flow/IDRISS_HERO_FIXED_`;
-const images = Array.from(Array(45).keys()).map(
-  (_, index) => `${BASE_NAME}${index.toString().padStart(4, '0')}.png`,
-);
+const images = [...Array.from({ length: 45 }).keys()].map((_, index) => {
+  return `${BASE_NAME}${index.toString().padStart(4, '0')}.png`;
+});
 
 export const HeroSection = () => {
   return (

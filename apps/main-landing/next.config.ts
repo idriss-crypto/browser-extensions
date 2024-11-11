@@ -60,7 +60,7 @@ const nextConfig: NextConfig = {
   },
   images: {
     domains: ['localhost'],
-  }
+  },
 };
 
 // eslint-disable-next-line import/no-default-export
