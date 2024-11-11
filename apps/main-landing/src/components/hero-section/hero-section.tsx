@@ -7,7 +7,6 @@ import { backgroundLines } from '@/assets';
 import { INTERNAL_LINK } from '@/constants';
 
 import { CollaborationsShowcase } from './components';
-import { backgroundLines } from './assets';
 
 const BASE_NAME = `hero-tokens-flow/IDRISS_HERO_FIXED_`;
 const images = [...Array.from({ length: 45 }).keys()].map((_, index) => {
