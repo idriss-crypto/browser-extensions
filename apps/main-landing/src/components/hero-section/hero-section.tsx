@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { backgroundLines } from '@/assets';
 import { INTERNAL_LINK } from '@/constants';
 
-import { ImageSequencer } from '../image-sequencer';
+import tokensFlow from './assets/IDRISS_HERO_FIXED_0000.png';
 
 import { CollaborationsShowcase } from './components';
 
@@ -36,9 +36,10 @@ export const HeroSection = () => {
       >
         EXPLORE
       </Button>
-      <ImageSequencer
-        images={images}
+      <Image
+        src={tokensFlow}
         className="pointer-events-none z-0 mt-[-22%] w-full min-w-[500px]"
+        alt=""
       />
       <CollaborationsShowcase className="container mt-9 text-center lg:my-20" />
     </header>
