@@ -7,7 +7,7 @@ type Properties = {
   fadeOut: boolean;
 };
 
-const CIRCLE_IMAGE_PATH = 'extension-to-prediction-markets-circle/IDRISS_CIRCLE_38'
+const CIRCLE_IMAGE_PATH = 'extension-to-prediction-markets-circle/IDRISS_CIRCLE_0038'
 
 export const ExtensionSection = ({ className, fadeOut }: Properties) => {
   return (
