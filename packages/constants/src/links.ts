@@ -33,7 +33,7 @@ export const EXTERNAL_ANNOUNCEMENT_LINK = {
 };
 
 export const DOCUMENTATION_LINK = 'https://docs.idriss.xyz/';
-export const EXTENSION_URER_GUIDE_LINK =
+export const EXTENSION_USER_GUIDE_LINK =
   'https://docs.idriss.xyz/user-guides/extension';
 export const GITHUB_LINK = 'https://www.github.com/idriss-xyz';
 export const BLOG_LINK = 'https://www.paragraph.xyz/@idriss';
@@ -51,5 +51,5 @@ export const CREATORS_LINK = 'https://www.idriss.xyz/creators';
 export const CHROME_EXTENSION_LINK =
   'https://chromewebstore.google.com/detail/idriss/fghhpjoffbgecjikiipbkpdakfmkbmig';
 
-export const CREATORS_URER_GUIDE_LINK =
+export const CREATORS_USER_GUIDE_LINK =
   'https://docs.idriss.xyz/user-guides/creators';
