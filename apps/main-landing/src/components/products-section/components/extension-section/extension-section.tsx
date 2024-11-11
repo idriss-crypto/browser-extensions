@@ -8,7 +8,7 @@ type Properties = {
 };
 
 const CIRCLE_IMAGE_PATH =
-  'extension-to-prediction-markets-circle/IDRISS_CIRCLE_0038.png';
+  'extension-to-prediction-markets-circle-optimized/IDRISS_CIRCLE_0038.webp';
 
 export const ExtensionSection = ({ className, fadeOut }: Properties) => {
   return (

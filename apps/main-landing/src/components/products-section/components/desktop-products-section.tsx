@@ -34,12 +34,12 @@ const EXTENSION_CIRCLE_INDEX = 0;
 const CREATORS_CIRCLE_INDEX = 57;
 const PREDICTION_MARKETS_CIRCLE_INDEX = 112;
 
-const CIRCLE_IMAGES_BASE_NAME = `extension-to-prediction-markets-circle/IDRISS_CIRCLE_`;
+const CIRCLE_IMAGES_BASE_NAME = `extension-to-prediction-markets-circle-optimized/IDRISS_CIRCLE_`;
 
 const circleImages = [
   ...Array.from({ length: CIRCLE_IMAGES_COUNT }).keys(),
 ].map((_, index) => {
-  return `${CIRCLE_IMAGES_BASE_NAME}${(index + CIRCLE_IMAGE_NUMBER_START_GAP).toString().padStart(4, '0')}.png`;
+  return `${CIRCLE_IMAGES_BASE_NAME}${(index + CIRCLE_IMAGE_NUMBER_START_GAP).toString().padStart(4, '0')}.webp`;
 });
 
 export const DesktopProductsSection = ({ className }: Properties) => {
