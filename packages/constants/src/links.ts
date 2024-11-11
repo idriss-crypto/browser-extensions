@@ -48,4 +48,4 @@ export const CHROME_EXTENSION_LINK =
   'https://chromewebstore.google.com/detail/idriss/fghhpjoffbgecjikiipbkpdakfmkbmig';
 
 export const PROTOCOL_FEE_USER_GUIDE_LINK =
-  'https://docs.idriss.xyz/user-guides/protocol-fee';
+  'https://docs.idriss.xyz/user-guides/creators';
