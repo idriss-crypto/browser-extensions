@@ -8,9 +8,9 @@ import { ImageSequencer } from '../image-sequencer';
 import background from './background.png';
 
 const BASE_NAME = `token-coin-spin/IDRISS_COIN_`;
-const images = [...Array.from({length: 91}).keys()].map(
-  (_, index) => {return `${BASE_NAME}${index.toString().padStart(4, '0')}.png`},
-);
+const images = [...Array.from({ length: 91 }).keys()].map((_, index) => {
+  return `${BASE_NAME}${index.toString().padStart(4, '0')}.png`;
+});
 
 export const TokenSection = () => {
   return (

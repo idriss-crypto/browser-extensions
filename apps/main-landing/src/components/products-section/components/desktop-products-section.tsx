@@ -9,17 +9,17 @@ import { CreatorsSectionData } from './creators-section';
 import { PredictionMarketsSectionData } from './prediction-markets-section';
 
 function usePreviousValue<T>(value: T): T | undefined {
-  const ref = useRef<T>();
-  const prevValue = useRef<T>();
+  const reference = useRef<T>();
+  const previousValue = useRef<T>();
 
   useEffect(() => {
-    if (value !== prevValue.current) {
-      ref.current = prevValue.current;
-      prevValue.current = value;
+    if (value !== previousValue.current) {
+      reference.current = previousValue.current;
+      previousValue.current = value;
     }
   }, [value]);
 
-  return ref.current;
+  return reference.current;
 }
 
 type Properties = {
