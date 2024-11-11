@@ -72,9 +72,9 @@ export const DesktopProductsSection = ({ className }: Properties) => {
 
   const animationStartIndex = useMemo(() => {
     const sectionIndex =
-      previousSectionIndex.current !== undefined
-        ? Math.min(previousSectionIndex.current, currentSectionIndex)
-        : 0;
+      previousSectionIndex.current === undefined
+        ? 0
+        : Math.min(previousSectionIndex.current, currentSectionIndex);
 
     switch (sectionIndex) {
       case 0: {
@@ -94,9 +94,9 @@ export const DesktopProductsSection = ({ className }: Properties) => {
 
   const animationEndIndex = useMemo(() => {
     const sectionIndex =
-      previousSectionIndex.current !== undefined
-        ? Math.max(previousSectionIndex.current, currentSectionIndex)
-        : currentSectionIndex;
+      previousSectionIndex.current === undefined
+        ? currentSectionIndex
+        : Math.max(previousSectionIndex.current, currentSectionIndex);
 
     switch (sectionIndex) {
       case 0: {
