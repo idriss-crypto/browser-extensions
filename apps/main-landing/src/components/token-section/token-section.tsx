@@ -24,10 +24,9 @@ export const TokenSection = () => {
             gradientStartColor="#5FEB3C"
             gradientStopColor="rgba(145,206,154,0.50)"
           />
-          <ImageSequencer
-            images={images}
-            className="size-[88px] lg:size-[200px]"
-          />
+          <video muted loop autoPlay className="size-[88px] lg:size-[200px]">
+            <source type="video/webm" src="/IDRISS_COIN.webm" />
+          </video>
           <h2 className="mt-6 text-display6 gradient-text lg:text-display3">
             IDRISS DAO
           </h2>
