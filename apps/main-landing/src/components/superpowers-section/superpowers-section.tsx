@@ -3,7 +3,7 @@ import Image from 'next/image';
 import {
   CHROME_EXTENSION_LINK,
   CREATORS_LINK,
-  DOCUMENTATION_USER_GUIDE_LINK,
+  EXTENSION_URER_GUIDE_LINK,
 } from '@idriss-xyz/constants';
 
 import { ProductTile } from './components/product-tile';
@@ -55,7 +55,7 @@ export const SuperpowersSection = () => {
                   intent="secondary"
                   size="large"
                   asLink
-                  href={DOCUMENTATION_USER_GUIDE_LINK}
+                  href={EXTENSION_URER_GUIDE_LINK}
                   isExternal
                 >
                   LEARN MORE

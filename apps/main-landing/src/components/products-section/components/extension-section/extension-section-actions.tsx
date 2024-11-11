@@ -1,6 +1,6 @@
 import {
   CHROME_EXTENSION_LINK,
-  DOCUMENTATION_USER_GUIDE_LINK,
+  EXTENSION_URER_GUIDE_LINK,
 } from '@idriss-xyz/constants';
 import { Button } from '@idriss-xyz/ui/button';
 export const ExtensionSectionActions = () => {
@@ -21,7 +21,7 @@ export const ExtensionSectionActions = () => {
         size="large"
         className="text-neutral-100"
         asLink
-        href={DOCUMENTATION_USER_GUIDE_LINK}
+        href={EXTENSION_URER_GUIDE_LINK}
         isExternal
       >
         LEARN MORE
