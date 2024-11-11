@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 import withBundleAnalyzer from '@next/bundle-analyzer';
 
-import { LEGACY_URLS } from '@/constants';
+import { LEGACY_URLS } from './src/constants';
 
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
