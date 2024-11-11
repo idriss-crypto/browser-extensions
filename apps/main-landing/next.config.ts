@@ -1,6 +1,8 @@
 import type { NextConfig } from 'next';
 import withBundleAnalyzer from '@next/bundle-analyzer';
 
+import { LEGACY_URLS } from '@/constants';
+
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
   // eslint-disable-next-line @typescript-eslint/require-await
@@ -54,11 +56,24 @@ const nextConfig: NextConfig = {
         permanent: false,
       },
       {
-        source: '/:path*',
-        destination: 'https://legacy.idriss.xyz/:path*',
+        source: '/pp',
+        destination: 'https://docs.idriss.xyz/resources/privacy-policy',
         basePath: false,
         permanent: false,
       },
+      {
+        source: '/tos',
+        destination: 'https://docs.idriss.xyz/resources/terms-of-service',
+        basePath: false,
+        permanent: false,
+      },
+      ...LEGACY_URLS.map((url) => {
+        return {
+          source: url,
+          destination: `https://legacy.idriss.xyz${url}`,
+          permanent: false,
+        };
+      }),
     ];
   },
   experimental: {
