@@ -53,6 +53,12 @@ const nextConfig: NextConfig = {
         basePath: false,
         permanent: false,
       },
+      {
+        source: '/:path*',
+        destination: 'https://legacy.idriss.xyz/:path*',
+        basePath: false,
+        permanent: false,
+      },
     ];
   },
   experimental: {
