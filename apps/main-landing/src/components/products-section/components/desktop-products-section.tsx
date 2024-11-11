@@ -36,11 +36,11 @@ const PREDICTION_MARKETS_CIRCLE_INDEX = 112;
 
 const CIRCLE_IMAGES_BASE_NAME = `extension-to-prediction-markets-circle-optimized/IDRISS_CIRCLE_`;
 
-const circleImages = [
-  ...Array.from({ length: CIRCLE_IMAGES_COUNT }).keys(),
-].map((_, index) => {
-  return `${CIRCLE_IMAGES_BASE_NAME}${(index + CIRCLE_IMAGE_NUMBER_START_GAP).toString().padStart(4, '0')}.webp`;
-});
+const circleImages = [...Array.from({ length: CIRCLE_IMAGES_COUNT }).keys()]
+  .map((_, index) => {
+    return `${CIRCLE_IMAGES_BASE_NAME}${(index + CIRCLE_IMAGE_NUMBER_START_GAP).toString().padStart(4, '0')}.webp`;
+  })
+  .reverse();
 
 export const DesktopProductsSection = ({ className }: Properties) => {
   const containerReference = useRef<HTMLDivElement>(null);

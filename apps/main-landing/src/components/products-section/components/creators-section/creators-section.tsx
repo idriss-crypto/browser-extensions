@@ -20,7 +20,7 @@ export const CreatorsSection = ({ className, fadeOut }: Properties) => {
       description={CreatorsSectionData.info.description}
       title={CreatorsSectionData.info.title}
       features={CreatorsSectionData.info.features}
-      tabsAsLinks={false}
+      tabsAsLinks
       animated={false}
       circleImage={CIRCLE_IMAGE_PATH}
     />
