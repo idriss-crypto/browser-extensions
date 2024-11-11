@@ -2,7 +2,6 @@ import { Button } from '@idriss-xyz/ui/button';
 import Image from 'next/image';
 import {
   CHROME_EXTENSION_LINK,
-  CREATORS_USER_GUIDE_LINK,
   CREATORS_LINK,
   EXTENSION_URER_GUIDE_LINK,
 } from '@idriss-xyz/constants';

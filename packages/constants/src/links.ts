@@ -47,8 +47,6 @@ export const PRIVACY_POLICY_LINK =
 export const TERMS_OF_SERVICE_LINK =
   'https://docs.idriss.xyz/resources/terms-of-service';
 export const CREATORS_LINK = 'https://www.idriss.xyz/creators';
-export const CREATORS_DOCS_LINK =
-  'https://docs.idriss.xyz/user-guides/creators';
 
 export const CHROME_EXTENSION_LINK =
   'https://chromewebstore.google.com/detail/idriss/fghhpjoffbgecjikiipbkpdakfmkbmig';
