@@ -5,7 +5,6 @@ import { backgroundLines } from '@/assets';
 import { INTERNAL_LINK } from '@/constants';
 
 import tokensFlow from './assets/IDRISS_SCENE_STREAM_4_2 1.png';
-
 import { CollaborationsShowcase } from './components';
 
 export const HeroSection = () => {
