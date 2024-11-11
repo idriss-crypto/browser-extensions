@@ -3,7 +3,7 @@ import Image from 'next/image';
 import {
   CHROME_EXTENSION_LINK,
   CREATORS_LINK,
-  DOCUMENTATION_LINK,
+  DOCUMENTATION_USER_GUIDE_LINK,
 } from '@idriss-xyz/constants';
 
 import { ProductTile } from './components/product-tile';
@@ -49,13 +49,13 @@ export const SuperpowersSection = () => {
                   href={CHROME_EXTENSION_LINK}
                   isExternal
                 >
-                  Download
+                  DOWNLOAD
                 </Button>
                 <Button
                   intent="secondary"
                   size="large"
                   asLink
-                  href={DOCUMENTATION_LINK}
+                  href={DOCUMENTATION_USER_GUIDE_LINK}
                   isExternal
                 >
                   LEARN MORE
