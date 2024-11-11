@@ -1,10 +1,10 @@
 import { Button } from '@idriss-xyz/ui/button';
 import Image from 'next/image';
 
-import { ImageSequencer } from '../image-sequencer';
-
 import { backgroundLines } from '@/assets';
 import { INTERNAL_LINK } from '@/constants';
+
+import { ImageSequencer } from '../image-sequencer';
 
 import { CollaborationsShowcase } from './components';
 
