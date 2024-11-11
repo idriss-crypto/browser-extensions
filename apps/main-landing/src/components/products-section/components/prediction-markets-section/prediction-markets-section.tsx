@@ -9,7 +9,7 @@ type Properties = {
 };
 
 const CIRCLE_IMAGE_PATH =
-  'extension-to-prediction-markets-circle/IDRISS_CIRCLE_0150';
+  'extension-to-prediction-markets-circle/IDRISS_CIRCLE_0150.png';
 
 export const PredictionMarketsSection = ({
   className,
