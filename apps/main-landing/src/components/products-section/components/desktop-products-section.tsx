@@ -12,7 +12,39 @@ type Properties = {
   className?: string;
 };
 
+type AnimatedCoin = {
+  images: string[];
+  direction: 'forward' | 'backward';
+  animated: true;
+};
+
+type StaticCoin = {
+  image: string | undefined;
+  animated: false;
+};
+
 const numberOfSections = 3;
+
+const CREATORS_TO_PREDICTION_MARKETS_BASE_NAME = `creators-to-prediciton-markets-circle/IDRISS_CIRCLE_`;
+const CREATORS_TO_PREDICTION_MARKETS_START_INDEX = 96;
+const creatorsToPredictionMarketsImages = Array.from(Array(55).keys()).map(
+  (_, index) =>
+    `${CREATORS_TO_PREDICTION_MARKETS_BASE_NAME}${(index + CREATORS_TO_PREDICTION_MARKETS_START_INDEX).toString().padStart(4, '0')}.png`,
+);
+
+const EXTENSION_TO_CREATORS_BASE_NAME = `extension-to-creators-circle/IDRISS_CIRCLE_`;
+const EXTENSION_TO_CREATORS_START_INDEX = 38;
+const extensionToCreatorsImages = Array.from(Array(58).keys()).map(
+  (_, index) =>
+    `${EXTENSION_TO_CREATORS_BASE_NAME}${(index + EXTENSION_TO_CREATORS_START_INDEX).toString().padStart(4, '0')}.png`,
+);
+
+const EXTENSION_TO_PREDICTION_MARKETS_BASE_NAME = `extension-to-prediction-markets-circle/IDRISS_CIRCLE_`;
+const EXTENSION_TO_PREDICTION_MARKETS_START_INDEX = 38;
+const extensionToPredictionMarketsImages = Array.from(Array(114).keys()).map(
+  (_, index) =>
+    `${EXTENSION_TO_PREDICTION_MARKETS_BASE_NAME}${(index + EXTENSION_TO_PREDICTION_MARKETS_START_INDEX).toString().padStart(4, '0')}.png`,
+);
 
 export const DesktopProductsSection = ({ className }: Properties) => {
   const containerReference = useRef<HTMLDivElement>(null);
@@ -43,6 +75,74 @@ export const DesktopProductsSection = ({ className }: Properties) => {
       PredictionMarketsSectionData,
     ];
   }, []);
+
+  const coinAnimation = useMemo(() => {
+    if (currentSectionIndex === 0 && debouncedCurrentSectionIndex === 1) {
+      return {
+        images: extensionToCreatorsImages,
+        direction: 'forward',
+        animated: true,
+      } as AnimatedCoin;
+    }
+
+    if (currentSectionIndex === 0 && debouncedCurrentSectionIndex === 2) {
+      return {
+        images: extensionToPredictionMarketsImages,
+        direction: 'forward',
+        animated: true,
+      } as AnimatedCoin;
+    }
+
+    if (currentSectionIndex === 1 && debouncedCurrentSectionIndex === 2) {
+      return {
+        images: creatorsToPredictionMarketsImages,
+        direction: 'forward',
+        animated: true,
+      } as AnimatedCoin;
+    }
+
+    if (currentSectionIndex === 1 && debouncedCurrentSectionIndex === 0) {
+      return {
+        images: extensionToCreatorsImages,
+        direction: 'backward',
+        animated: true,
+      } as AnimatedCoin;
+    }
+
+    if (currentSectionIndex === 2 && debouncedCurrentSectionIndex === 1) {
+      return {
+        images: creatorsToPredictionMarketsImages,
+        direction: 'backward',
+        animated: true,
+      } as AnimatedCoin;
+    }
+
+    if (currentSectionIndex === 2 && debouncedCurrentSectionIndex === 0) {
+      return {
+        images: extensionToPredictionMarketsImages,
+        direction: 'backward',
+        animated: true,
+      } as AnimatedCoin;
+    }
+
+    if (currentSectionIndex === debouncedCurrentSectionIndex) {
+      switch (currentSectionIndex) {
+        case 0:
+          return { image: extensionToCreatorsImages[0], animated: false } as StaticCoin;
+        case 1:
+          return {
+            image: creatorsToPredictionMarketsImages[0],
+            animated: false,
+          } as StaticCoin; 
+        case 2:
+          return {
+            image: creatorsToPredictionMarketsImages.at(-1),
+            animated: false,
+          } as StaticCoin;
+      }
+    }
+    return { image: extensionToCreatorsImages[0], animated: false } as StaticCoin;
+  }, [currentSectionIndex, debouncedCurrentSectionIndex]);
 
   const selectedSectionData = useMemo(() => {
     return sectionsData[debouncedCurrentSectionIndex] ?? ExtensionSectionData;
@@ -167,6 +267,7 @@ export const DesktopProductsSection = ({ className }: Properties) => {
             features={selectedSectionData.info.features}
             tabsAsLinks
             fadeOut={currentSectionIndex !== debouncedCurrentSectionIndex}
+            animationConfig={coinAnimation}
           />
         </div>
         <div className="w-[0.5px]">

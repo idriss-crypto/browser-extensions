@@ -26,6 +26,8 @@ export const TokenSection = () => {
           <ImageSequencer
             images={images}
             className="size-[88px] lg:size-[200px]"
+            direction='backward'
+            
           />
           <h2 className="mt-6 text-display6 gradient-text lg:text-display3">
             IDRISS DAO

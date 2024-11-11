@@ -1,14 +1,24 @@
 'use client';
-import Image from 'next/image';
 import { Icon, IconName } from '@idriss-xyz/ui/icon';
 import { CSSProperties, ReactNode } from 'react';
 import { classes } from '@idriss-xyz/ui/utils';
 
 import { tabOptions } from '../constants';
-import { circleWithScreen } from '../assets';
 
 import { ProductInfo } from './product-info';
 import { Tabs } from './tabs';
+import { ImageSequencer } from '@/components/image-sequencer';
+
+type AnimationConfig =
+  | {
+      images: string[];
+      direction: 'forward' | 'backward';
+      animated: true;
+    }
+  | {
+      image: string | undefined;
+      animated: false;
+    };
 
 type ProductSectionProperties = {
   activeOptionKey: string;
@@ -20,7 +30,9 @@ type ProductSectionProperties = {
   className?: string;
   fadeOut: boolean;
   style?: CSSProperties;
+  animationConfig: AnimationConfig;
 };
+
 type ProductSectionFeature = {
   icon: IconName;
   title: string;
@@ -42,7 +54,9 @@ export const ProductSection = ({
   tabsAsLinks,
   fadeOut,
   style,
+  animationConfig,
 }: ProductSectionProperties) => {
+  console.log('animationConfig', animationConfig);
   return (
     <div className={classes('relative flex size-full bg-mint-100', className)}>
       <div
@@ -88,12 +102,20 @@ export const ProductSection = ({
                 {actions}
               </div>
             </div>
-            <Image
-              priority
-              src={circleWithScreen}
-              alt=""
-              className="bottom-0 right-0 top-1/2 lg:absolute lg:max-w-[45%] lg:-translate-y-1/2 lg:[@media(max-width:1440px)]:[@media(max-height:1000px)]:translate-y-[-30%] lg:[@media(min-height:1300px)]:-translate-y-full [@media(min-width:1001px)]:[@media(min-height:901px)]:[@media(max-height:1100px)]:translate-y-[-40%]"
-            />
+            {animationConfig.animated ? (
+              <ImageSequencer
+                infinite={false}
+                images={animationConfig.images}
+                direction={animationConfig.direction}
+                className="bottom-0 right-0 top-1/2 lg:absolute lg:max-w-[45%] lg:-translate-y-1/2 lg:[@media(max-width:1440px)]:[@media(max-height:1000px)]:translate-y-[-30%] lg:[@media(min-height:1300px)]:-translate-y-full [@media(min-width:1001px)]:[@media(min-height:901px)]:[@media(max-height:1100px)]:translate-y-[-40%]"
+              />
+            ) : (
+              <img
+                src={animationConfig.image ?? ''}
+                alt=""
+                className="bottom-0 right-0 top-1/2 lg:absolute lg:max-w-[45%] lg:-translate-y-1/2 lg:[@media(max-width:1440px)]:[@media(max-height:1000px)]:translate-y-[-30%] lg:[@media(min-height:1300px)]:-translate-y-full [@media(min-width:1001px)]:[@media(min-height:901px)]:[@media(max-height:1100px)]:translate-y-[-40%]"
+              />
+            )}
           </div>
           <div className="overflow-hidden">
             <div

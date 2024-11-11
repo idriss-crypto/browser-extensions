@@ -1,10 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { classes } from '@idriss-xyz/ui/utils';
+import { useEffect, useRef, useState } from 'react';
 
 type Properties = {
   images: string[];
   className?: string;
+  direction?: 'forward' | 'backward';
+  infinite?: boolean;
 };
 
 const preloadImages = async (images: string[]) => {
@@ -20,16 +23,25 @@ const preloadImages = async (images: string[]) => {
   );
 };
 
-export const ImageSequencer = ({ images, className }: Properties) => {
+export const ImageSequencer = ({
+  images,
+  className,
+  direction = 'forward',
+  infinite = true,
+}: Properties) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loadedImages, setLoadedImages] = useState<HTMLImageElement[]>([]);
   const hasFirstImage = loadedImages.length > 0;
   const isLoaded = loadedImages.length === images.length;
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const run = async () => {
       const [firstImage] = images;
-      const v = await preloadImages([firstImage!]);
+      const lastImage = images[images.length - 1];
+      const v = await preloadImages([
+        direction === 'forward' ? firstImage! : lastImage!,
+      ]);
       setLoadedImages(v);
     };
     run();
@@ -41,7 +53,11 @@ export const ImageSequencer = ({ images, className }: Properties) => {
     }
 
     const run = async () => {
-      const [_firstImage, ...restImages] = images;
+      const _images = JSON.parse(JSON.stringify(images)) as string[]
+      if(direction === 'backward') {
+        _images.reverse()
+      }
+      const [_firstImage, ...restImages] = _images;
       const v = await preloadImages(restImages);
       setLoadedImages((prev) => [...prev, ...v]);
     };
@@ -56,14 +72,26 @@ export const ImageSequencer = ({ images, className }: Properties) => {
 
     const frameInterval = 1000 / 30; // 30 FPS
 
-    const intervalId = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, frameInterval);
 
     return () => {
-      clearInterval(intervalId);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
     };
   }, [images.length, isLoaded]);
+
+  useEffect(() => {
+    if (
+      !infinite &&
+      currentIndex === images.length - 1 &&
+      intervalRef.current
+    ) {
+      clearInterval(intervalRef.current);
+    }
+  }, [infinite, currentIndex]);
 
   if (!hasFirstImage) {
     return null;
@@ -72,7 +100,7 @@ export const ImageSequencer = ({ images, className }: Properties) => {
   return (
     <img
       src={!isLoaded ? loadedImages[0]!.src : loadedImages[currentIndex]!.src}
-      className={className}
+      className={classes('pointer-events-none', className)}
       alt="Animated Sequence"
     />
   );
