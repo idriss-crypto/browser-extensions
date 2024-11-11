@@ -70,8 +70,8 @@ export const ProductSection = ({
               activeOptionKey={activeOptionKey}
               asLink={tabsAsLinks}
             />
-            <div className="flex flex-col gap-4">
-              <div className="overflow-hidden">
+            <div className="z-1 flex flex-col gap-4">
+              <div className="z-1 overflow-hidden">
                 <h2
                   className={classes(
                     'text-balance text-display5 text-midnightGreen-100 transition-transform duration-1000 [@media(max-width:1440px)]:[@media(max-height:1000px)]:text-display4 [@media(min-width:1441px)]:text-display2',
@@ -81,7 +81,7 @@ export const ProductSection = ({
                   {title}
                 </h2>
               </div>
-              <div className="overflow-hidden">
+              <div className="z-1 overflow-hidden">
                 <p
                   className={classes(
                     'text-balance text-body3 text-midnightGreen-200 transition-transform duration-1000 lg:w-[60%] [@media(max-width:1440px)]:[@media(max-height:1000px)]:text-body4 [@media(min-width:1441px)]:text-body2',
@@ -109,17 +109,17 @@ export const ProductSection = ({
                 direction={properties.animationDirection}
                 startIndex={properties.animationStartIndex}
                 endIndex={properties.animationEndIndex}
-                className="bottom-0 right-0 top-1/2 lg:absolute lg:max-w-[45%] lg:-translate-y-1/2 lg:[@media(max-width:1440px)]:[@media(max-height:1000px)]:translate-y-[-30%] lg:[@media(min-height:1300px)]:-translate-y-full [@media(min-width:1001px)]:[@media(min-height:901px)]:[@media(max-height:1100px)]:translate-y-[-40%]"
+                className="bottom-0 right-0 top-1/2 z-0 lg:absolute lg:max-w-[45%] lg:-translate-y-1/2 lg:[@media(max-width:1440px)]:[@media(max-height:1000px)]:translate-y-[-30%] lg:[@media(min-height:1300px)]:-translate-y-full [@media(min-width:1001px)]:[@media(min-height:901px)]:[@media(max-height:1100px)]:translate-y-[-40%]"
               />
             ) : (
               <img
                 src={properties.circleImage}
                 alt=""
-                className="bottom-0 right-0 top-1/2 lg:absolute lg:max-w-[45%] lg:-translate-y-1/2 lg:[@media(max-width:1440px)]:[@media(max-height:1000px)]:translate-y-[-30%] lg:[@media(min-height:1300px)]:-translate-y-full [@media(min-width:1001px)]:[@media(min-height:901px)]:[@media(max-height:1100px)]:translate-y-[-40%]"
+                className="bottom-0 right-0 top-1/2 z-0 lg:absolute lg:max-w-[45%] lg:-translate-y-1/2 lg:[@media(max-width:1440px)]:[@media(max-height:1000px)]:translate-y-[-30%] lg:[@media(min-height:1300px)]:-translate-y-full [@media(min-width:1001px)]:[@media(min-height:901px)]:[@media(max-height:1100px)]:translate-y-[-40%]"
               />
             )}
           </div>
-          <div className="overflow-hidden">
+          <div className="z-1 overflow-hidden">
             <div
               className={classes(
                 'grid size-fit flex-wrap items-start gap-6 p-1.5 transition-transform duration-1000 md:grid-cols-2 lg:grid-cols-2',
