@@ -6,7 +6,6 @@ import { Button } from '@idriss-xyz/ui/button';
 import Link from 'next/link';
 import { NavigationMenu } from '@idriss-xyz/ui/navigation-menu';
 import { DOCUMENTATION_LINK } from '@idriss-xyz/constants';
-import { GradientBorder } from '@idriss-xyz/ui/gradient-border';
 
 import { INTERNAL_LINK } from '@/constants';
 
@@ -18,7 +17,7 @@ import { Socials } from './socials';
 export const Mobile = () => {
   return (
     <Dialog
-      className="border border-[#5FEB3C] fixed inset-x-4 bottom-3 top-[76px] flex flex-col rounded-[36px] bg-white/50 px-4 py-6 text-neutralGreen-900 backdrop-blur-[45px]" // top-[76px] is 64px height of navbar + 12px spacing, ideally it should be ref attached to nav to read component height in case it changes in future
+      className="fixed inset-x-4 bottom-3 top-[76px] flex flex-col rounded-[36px] border border-[#5FEB3C] bg-white/50 px-4 py-6 text-neutralGreen-900 backdrop-blur-[45px]" // top-[76px] is 64px height of navbar + 12px spacing, ideally it should be ref attached to nav to read component height in case it changes in future
       trigger={({ isOpened }) => {
         return (
           <IconButton
