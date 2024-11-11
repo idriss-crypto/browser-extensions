@@ -74,7 +74,7 @@ export const ProductSection = ({
               <div className="overflow-hidden">
                 <h2
                   className={classes(
-                    'text-balance text-display5 text-midnightGreen-100 transition-transform duration-1000 [@media(min-width:1181px)]:text-display2',
+                    'text-balance text-display5 text-midnightGreen-100 transition-transform duration-1000 [@media(max-width:1440px)]:[@media(max-height:1000px)]:text-display4 [@media(min-width:1441px)]:text-display2',
                     fadeOut && 'translate-y-[-120%]',
                   )}
                 >
@@ -84,7 +84,7 @@ export const ProductSection = ({
               <div className="overflow-hidden">
                 <p
                   className={classes(
-                    'text-balance text-body3 text-midnightGreen-200 transition-transform duration-1000 lg:w-[60%] [@media(min-width:1181px)]:text-body2',
+                    'text-balance text-body3 text-midnightGreen-200 transition-transform duration-1000 lg:w-[60%] [@media(max-width:1440px)]:[@media(max-height:1000px)]:text-body4 [@media(min-width:1441px)]:text-body2',
                     fadeOut && 'translate-y-[-120%]',
                   )}
                 >
