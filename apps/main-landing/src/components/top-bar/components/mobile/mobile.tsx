@@ -47,8 +47,8 @@ export const Mobile = () => {
               <Dialog.Title>Website navigation</Dialog.Title>
             </VisuallyHidden>
 
-            <NavigationMenu.Root className='h-full flex'>
-              <NavigationMenu.List className='h-full flex flex-col justify-between'>
+            <NavigationMenu.Root className="flex h-full">
+              <NavigationMenu.List className="flex h-full flex-col justify-between">
                 <div className="space-y-6">
                   <div>
                     <NavigationMenu.Item>

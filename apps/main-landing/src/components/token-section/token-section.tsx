@@ -3,8 +3,9 @@ import Image from 'next/image';
 import { SOCIAL_LINK } from '@idriss-xyz/constants';
 import { GradientBorder } from '@idriss-xyz/ui/gradient-border';
 
-import background from './background.png';
 import { ImageSequencer } from '../image-sequencer';
+
+import background from './background.png';
 
 const TOKEN_COIN_BASE_NAME = `spining-token-coin-optimized/IDRISS_COIN_`;
 const TOKEN_COIN_IMAGES_COUNT = 91;
@@ -26,7 +27,7 @@ export const TokenSection = () => {
             gradientStartColor="#5FEB3C"
             gradientStopColor="rgba(145,206,154,0.50)"
           />
-          
+
           <ImageSequencer
             images={tokenCoinImages}
             className="size-[88px] lg:size-[200px]"
