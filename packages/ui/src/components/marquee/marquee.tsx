@@ -16,10 +16,11 @@ export const Marquee = ({
 }: Properties) => {
   const [isRendered, setIsRendered] = useState(false);
 
+  const spaceClassName = 'space-x-10 lg:space-x-[60px]';
+
   useEffect(() => {
     setIsRendered(true);
   }, []);
-  const spaceClassName = 'space-x-10 lg:space-x-[60px]';
 
   return (
     <div
