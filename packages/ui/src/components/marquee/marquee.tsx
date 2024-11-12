@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+'use client';
+import { ReactNode, useEffect, useState } from 'react';
 
 import { classes } from '../../utils';
 
@@ -13,6 +14,11 @@ export const Marquee = ({
   pauseOnHover = true,
   className,
 }: Properties) => {
+  const [isRendered, setIsRendered] = useState(false);
+
+  useEffect(() => {
+    setIsRendered(true);
+  }, []);
   const spaceClassName = 'space-x-10 lg:space-x-[60px]';
 
   return (
@@ -24,8 +30,9 @@ export const Marquee = ({
     >
       <ul
         className={classes(
-          'flex animate-marquee list-none whitespace-nowrap pl-10 lg:pl-[60px]',
+          'flex list-none whitespace-nowrap pl-10 will-change-[transform] lg:pl-[60px]',
           spaceClassName,
+          isRendered && 'animate-marquee',
           pauseOnHover &&
             'group-focus-within:paused-animation group-hover:paused-animation',
         )}
@@ -44,8 +51,9 @@ export const Marquee = ({
 
       <ul
         className={classes(
-          'absolute flex animate-marquee2 list-none whitespace-nowrap pl-10 lg:pl-[60px]',
+          'absolute flex list-none whitespace-nowrap pl-10 will-change-[transform] lg:pl-[60px]',
           spaceClassName,
+          isRendered && 'animate-marquee2',
           pauseOnHover &&
             'group-focus-within:paused-animation group-hover:paused-animation',
         )}

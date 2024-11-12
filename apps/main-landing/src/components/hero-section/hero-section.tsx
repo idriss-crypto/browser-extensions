@@ -1,3 +1,4 @@
+'use client'
 import { Button } from '@idriss-xyz/ui/button';
 import Image from 'next/image';
 
