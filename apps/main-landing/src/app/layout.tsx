@@ -70,6 +70,7 @@ export const metadata: Metadata = {
   },
 };
 
+// ts-unused-exports:disable-next-line
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 0.9,
