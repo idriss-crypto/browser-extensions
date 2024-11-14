@@ -6,7 +6,7 @@ import { Multiselect } from '@idriss-xyz/ui/multiselect';
 import { backgroundLines2 } from '@/assets';
 
 import { Providers } from './providers';
-import { Content } from './content';
+// import { Content } from './content';
 import { useState } from 'react';
 import { Icon } from '@idriss-xyz/ui/icon';
 
@@ -33,11 +33,31 @@ export default function Donors() {
       label: 'Option 3',
       icon: <Icon name="Head" size={4} className="size-4" />,
     },
-    { value: 'option4', label: 'Option 4' },
-    { value: 'option5', label: 'Option 5' },
-    { value: 'option6', label: 'Option 6' },
-    { value: 'option7', label: 'Option 7' },
-    { value: 'option8', label: 'Option 8' },
+    {
+      value: 'option4',
+      label: 'Option 4',
+      icon: <Icon name="IdrissCircled" size={4} className="size-4" />,
+    },
+    {
+      value: 'option5',
+      label: 'Option 5',
+      icon: <Icon name="IdrissCircled" size={4} className="size-4" />,
+    },
+    {
+      value: 'option6',
+      label: 'Option 6',
+      icon: <Icon name="IdrissCircled" size={4} className="size-4" />,
+    },
+    {
+      value: 'option7',
+      label: 'Option 7',
+      icon: <Icon name="IdrissCircled" size={4} className="size-4" />,
+    },
+    {
+      value: 'option8',
+      label: 'Option 8',
+      icon: <Icon name="IdrissCircled" size={4} className="size-4" />,
+    },
   ];
 
   const handleMultiselectChange = (newValue: string[]) => {
@@ -63,7 +83,7 @@ export default function Donors() {
           alt=""
         />
 
-        <Content className="container lg:mt-[108px]" />
+        {/* <Content className="container lg:mt-[108px]" /> */}
       </main>
     </Providers>
   );

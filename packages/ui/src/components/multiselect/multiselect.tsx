@@ -63,7 +63,7 @@ export const Multiselect: React.FC<MultiselectProps> = ({
     <DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenu.Trigger
         className={classes(
-          'bg-inherit hover:bg-inherit flex h-auto min-h-10 w-full items-center justify-between rounded-md border p-1',
+          'bg-inherit hover:bg-inherit flex h-auto min-h-10 w-full items-center justify-between rounded-md border',
           className,
         )}
       >
@@ -76,22 +76,13 @@ export const Multiselect: React.FC<MultiselectProps> = ({
                   key={value}
                   className={classes(
                     'm-1 flex items-center gap-1 rounded-md px-2 py-1 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110',
-                    'border-foreground/10 text-foreground bg-card hover:bg-card/80',
+                    'border-foreground/10 text-foreground bg-card hover:bg-card/80 bg-neutral-800',
                   )}
                 >
+                  {option?.label}
                   <div className="mr-2 h-4 w-4">
                     {option?.icon && option.icon}
                   </div>
-                  {option?.label}
-                  <Checkbox.Root
-                    className="ml-2 h-4 w-4 cursor-pointer"
-                    checked={true}
-                    onCheckedChange={() => toggleOption(value)}
-                  >
-                    <Checkbox.Indicator className="text-foreground flex items-center justify-center">
-                      <XIcon className="h-4 w-4" />
-                    </Checkbox.Indicator>
-                  </Checkbox.Root>
                 </div>
               );
             })}
@@ -103,15 +94,6 @@ export const Multiselect: React.FC<MultiselectProps> = ({
                 )}
               >
                 {`+ ${selectedValues.length - maxCount} more`}
-                <Checkbox.Root
-                  className="ml-2 h-4 w-4 cursor-pointer"
-                  checked={true}
-                  onCheckedChange={() => clearExtraOptions()}
-                >
-                  <Checkbox.Indicator className="text-foreground flex items-center justify-center">
-                    <XIcon className="h-4 w-4" />
-                  </Checkbox.Indicator>
-                </Checkbox.Root>
               </div>
             )}
           </div>
@@ -144,9 +126,7 @@ export const Multiselect: React.FC<MultiselectProps> = ({
               )}
               checked={selectedValues.length === options.length}
             >
-              <Checkbox.Indicator className="text-primary flex items-center justify-center">
-                <CheckIcon className="h-4 w-4" />
-              </Checkbox.Indicator>
+              <CheckIcon className="h-4 w-4" />
             </Checkbox.Root>
             <span>(Select All)</span>
           </DropdownMenu.Item>
@@ -155,7 +135,7 @@ export const Multiselect: React.FC<MultiselectProps> = ({
             return (
               <DropdownMenu.Item
                 key={option.value}
-                className="hover:bg-card/50 flex cursor-pointer items-center rounded-md px-3 py-2"
+                className="hover:bg-card/50 flex cursor-pointer items-center gap-2 rounded-md px-3 py-2"
                 onSelect={(event) => {
                   event.preventDefault();
                   toggleOption(option.value);
@@ -170,16 +150,15 @@ export const Multiselect: React.FC<MultiselectProps> = ({
                   )}
                   checked={isSelected}
                 >
-                  <Checkbox.Indicator className="text-primary flex items-center justify-center">
-                    <CheckIcon className="h-4 w-4" />
-                  </Checkbox.Indicator>
+                  <CheckIcon className="h-4 w-4" />
                 </Checkbox.Root>
+
+                <span>{option.label}</span>
                 {option.icon && (
                   <div className="text-muted-foreground mr-2 h-4 w-4">
                     {option.icon}
                   </div>
                 )}
-                <span>{option.label}</span>
               </DropdownMenu.Item>
             );
           })}
