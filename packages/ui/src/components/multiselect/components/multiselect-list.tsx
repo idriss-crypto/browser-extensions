@@ -1,21 +1,28 @@
+import { classes } from '../../../utils';
 import { Checkbox } from '../../checkbox';
 import { ScrollArea } from '../../scroll-area';
+import { MultiselectOption } from '../types';
 
-import { Option } from '../types';
-
-type Properties = {
-  options: Option[];
-  selectedValues: string[];
-  onOptionChange: (optionValue: string) => void;
+type Properties<T> = {
+  options: MultiselectOption<T>[];
+  selectedValues: T[];
+  onOptionChange: (optionValue: T) => void;
+  className?: string;
 };
 
-export const MultiselectInputList = ({
+export const MultiselectInputList = <T,>({
+  className,
   options,
   selectedValues,
   onOptionChange,
-}: Properties) => {
+}: Properties<T>) => {
   return (
-    <div className="mt-1 flex flex-col gap-2 overflow-y-auto rounded-xl border border-[#DBDDE2] bg-white p-[8px_0px] shadow-lg">
+    <div
+      className={classes(
+        'mt-1 flex w-[var(--radix-popper-anchor-width)] flex-col gap-2 overflow-y-auto rounded-xl border border-[#DBDDE2] bg-white p-[8px_0px] shadow-lg',
+        className,
+      )}
+    >
       <ScrollArea
         className="max-h-[184px] transition-all duration-500"
         scrollBarClassName="bg-white hover:bg-white data-[orientation=vertical]:w-2.5"
@@ -23,10 +30,9 @@ export const MultiselectInputList = ({
         {options.map((option) => {
           const isSelected = selectedValues.includes(option.value);
           return (
-            <div className="px-3 py-1" key={option.value}>
+            <div className="px-3 py-1" key={`list-item-${String(option.value)}`}>
               <Checkbox
-                key={option.value}
-                onChange={() => onOptionChange(option.value)}
+                onChange={() => {return onOptionChange(option.value)}}
                 value={isSelected}
                 label={
                   <div className="flex flex-row items-center gap-3">
@@ -34,7 +40,7 @@ export const MultiselectInputList = ({
                       {option.label}
                     </span>
                     {option.icon && (
-                      <div className="text-muted-foreground mr-2 h-4 w-4">
+                      <div className="mr-2">
                         {option.icon}
                       </div>
                     )}

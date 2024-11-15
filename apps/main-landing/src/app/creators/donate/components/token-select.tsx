@@ -1,15 +1,17 @@
 import { useMemo } from 'react';
+import { Multiselect, MultiselectOption } from '@idriss-xyz/ui/multiselect';
 
 import { ChainToken } from '../types';
 
 import { Select } from './select';
 
+
 interface Properties {
-  value: string;
+  value: string[];
   label?: string;
   className?: string;
   tokens: ChainToken[];
-  onChange: (value: string) => void;
+  onChange: (value: string[]) => void;
 }
 
 export const TokenSelect = ({
@@ -23,9 +25,11 @@ export const TokenSelect = ({
     return optionsFrom(tokens);
   }, [tokens]);
 
+  console.log('tokenSelectValue', value);
+
   return (
-    <Select
-      className={className}
+    <Multiselect<string>
+      inputClassName={className}
       label={label}
       options={options}
       onChange={onChange}
@@ -34,12 +38,12 @@ export const TokenSelect = ({
   );
 };
 
-const optionsFrom = (tokens: ChainToken[]) => {
+const optionsFrom = (tokens: ChainToken[]): MultiselectOption<string>[] => {
   return tokens.map((token) => {
     return {
       label: token.name,
       value: token.address,
-      prefix: (
+      icon: (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={token.logo}

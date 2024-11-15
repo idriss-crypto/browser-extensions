@@ -1,14 +1,17 @@
 'use client';
 import Image from 'next/image';
+import { Multiselect } from '@idriss-xyz/ui/multiselect';
+import { useState } from 'react';
+import { Icon } from '@idriss-xyz/ui/icon';
 
 import { TopBar } from '@/components';
-import { Multiselect } from '@idriss-xyz/ui/multiselect';
 import { backgroundLines2 } from '@/assets';
 
 import { Providers } from './providers';
+
 // import { Content } from './content';
-import { useState } from 'react';
-import { Icon } from '@idriss-xyz/ui/icon';
+
+import { Content } from './content';
 
 // ts-unused-exports:disable-next-line
 export default function Donors() {
@@ -71,10 +74,11 @@ export default function Donors() {
         <Multiselect
           options={options}
           value={selectedOptions}
-          onValueChange={handleMultiselectChange}
+          onChange={handleMultiselectChange}
           placeholder="Select options"
           maxCount={12}
-          className="w-[412px]"
+          inputClassName="w-[412px]"
+          listClassName="w-[412px]"
         />
         <Image
           priority
@@ -83,7 +87,7 @@ export default function Donors() {
           alt=""
         />
 
-        {/* <Content className="container lg:mt-[108px]" /> */}
+        <Content className="container lg:mt-[108px]" />
       </main>
     </Providers>
   );

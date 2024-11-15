@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Form } from '@idriss-xyz/ui/form';
 import { Button } from '@idriss-xyz/ui/button';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { classes } from '@idriss-xyz/ui/utils';
 
 import { backgroundLines2 } from '@/assets';
@@ -17,11 +17,12 @@ import {
 } from './donate/constants';
 import { Providers } from './providers';
 import { getDefaultTokenForChainId } from './donate/utils';
+import { ChainToken } from './donate/types';
 
 type FormPayload = {
   address: string;
-  tokenAddress: string;
-  chainId: number;
+  tokensAddresses: string[];
+  chainsIds: number[];
 };
 
 // ts-unused-exports:disable-next-line
@@ -32,38 +33,87 @@ export default function Donors() {
   const formMethods = useForm<FormPayload>({
     defaultValues: {
       address: '',
-      chainId: CHAIN.ETHEREUM.id,
-      tokenAddress: CHAIN_ID_TO_TOKENS[CHAIN.ETHEREUM.id][1]?.address ?? '0x',
+      chainsIds: [CHAIN.ETHEREUM.id],
+      tokensAddresses: [
+        CHAIN_ID_TO_TOKENS[CHAIN.ETHEREUM.id][1]?.address ?? '0x',
+      ],
     },
   });
-  const [chainId, tokenAddress, address] = formMethods.watch([
-    'chainId',
-    'tokenAddress',
+  const [chainsIds, tokensAddresses, address] = formMethods.watch([
+    'chainsIds',
+    'tokensAddresses',
     'address',
   ]);
 
-  const onChangeChainId = useCallback(
-    (chainId: number) => {
-      formMethods.resetField('tokenAddress', {
-        defaultValue: getDefaultTokenForChainId(chainId).address,
-      });
-    },
-    [formMethods],
-  );
+  const onChangeChainId = useCallback(() => {
+    console.log(
+      'filtered 🚀🚀🚀🚀',
+      tokensAddresses.filter((address) =>
+        {return tokenOptions.some((option) => {return option.address === address})},
+      ),
+    );
+    formMethods.setValue(
+      'tokensAddresses',
+      tokensAddresses.filter((address) =>
+        {return tokenOptions.some((option) => {return option.address === address})},
+      ),
+    );
+  }, [formMethods, tokensAddresses]);
+
+  const tokenOptions = useMemo(() => {
+    return chainsIds.reduce((previous, chainId) => {
+      return [
+        ...previous,
+        ...(CHAIN_ID_TO_TOKENS[chainId] ?? []).filter(
+          (tokenOption) =>
+            {return !previous.some(
+              (previousOption) =>
+                {return previousOption.address === tokenOption.address},
+            )},
+        ),
+      ];
+    }, [] as ChainToken[]);
+  }, [chainsIds]);
+
+  console.log('tokensAddresses', tokensAddresses);
+  console.log('tokenOptions', tokenOptions);
+
+  const tokensSymbols = useMemo(() => {
+    let symbols: string[] = [];
+
+    for (const tokenAddress of tokensAddresses) {
+      const addressSymbols = chainsIds
+        .reduce((previous, chainId) => {
+          return [
+            ...previous,
+            CHAIN_ID_TO_TOKENS[chainId]?.find((token) => {
+              return token.address === tokenAddress;
+            })?.symbol ?? '',
+          ];
+        }, [] as string[])
+        .filter(Boolean);
+
+      symbols = [...symbols, ...addressSymbols];
+    }
+
+    return symbols;
+  }, []);
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const copyDonationLink = async () => {
-    const chainShortName =
-      Object.values(CHAIN).find((chain) => {
-        return chain.id === chainId;
-      })?.shortName ?? '';
-    const tokenSymbol =
-      CHAIN_ID_TO_TOKENS[chainId]?.find((token) => {
-        return token.address === tokenAddress;
-      })?.symbol ?? '';
+    const chainsShortNames = chainsIds
+      .reduce((previous, chainId) => {
+        return [
+          ...previous,
+          Object.values(CHAIN).find((chain) => {
+            return chain.id === chainId;
+          })?.shortName ?? '',
+        ];
+      }, [] as string[])
+      .filter(Boolean);
 
     await navigator.clipboard.writeText(
-      `https://www.idriss.xyz/creators/donate?address=${address}&token=${tokenSymbol}&network=${chainShortName}`,
+      `https://www.idriss.xyz/creators/donate?address=${address}&token=${tokensSymbols.join(';')}&network=${chainsShortNames.join(';')}`,
     );
 
     setCopiedDonationLink(true);
@@ -86,7 +136,7 @@ export default function Donors() {
 
   useEffect(() => {
     resetCopyState();
-  }, [address, tokenAddress, chainId, resetCopyState]);
+  }, [address, tokensAddresses, chainsIds, resetCopyState]);
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const onSubmit: SubmitHandler<FormPayload> = () => {
@@ -129,7 +179,7 @@ export default function Donors() {
 
               <Controller
                 control={formMethods.control}
-                name="chainId"
+                name="chainsIds"
                 render={({ field }) => {
                   return (
                     <ChainSelect
@@ -137,7 +187,7 @@ export default function Donors() {
                       label="Network"
                       allowedChainsIds={DEFAULT_ALLOWED_CHAINS_IDS}
                       onChange={(value) => {
-                        onChangeChainId(value);
+                        onChangeChainId();
                         field.onChange(value);
                       }}
                       value={field.value}
@@ -148,13 +198,13 @@ export default function Donors() {
 
               <Controller
                 control={formMethods.control}
-                name="tokenAddress"
+                name="tokensAddresses"
                 render={({ field }) => {
                   return (
                     <TokenSelect
                       className="mt-4 w-full"
                       label="Token"
-                      tokens={CHAIN_ID_TO_TOKENS[chainId] ?? []}
+                      tokens={tokenOptions}
                       onChange={field.onChange}
                       value={field.value}
                     />

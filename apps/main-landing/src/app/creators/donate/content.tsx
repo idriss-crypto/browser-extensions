@@ -268,7 +268,7 @@ export const Content = ({ className }: Properties) => {
     <div className={classes(baseClassName, className)}>
       <h1 className="self-start text-heading4">Select your donation details</h1>
       <Form onSubmit={formMethods.handleSubmit(onSubmit)} className="w-full">
-        <Controller
+        {/* <Controller
           control={formMethods.control}
           name="chainId"
           render={({ field }) => {
@@ -285,7 +285,7 @@ export const Content = ({ className }: Properties) => {
               />
             );
           }}
-        />
+        /> */}
 
         <Controller
           control={formMethods.control}

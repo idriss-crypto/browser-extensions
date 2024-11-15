@@ -1,18 +1,17 @@
 import { ReactNode, useMemo } from 'react';
+import { Multiselect, MultiselectOption } from '@idriss-xyz/ui/multiselect';
 
 import { Chain } from '../types';
 import { CHAIN } from '../constants';
 
-import { Select, Option } from './select';
 
 interface Properties {
-  value: number;
+  value: number[];
   label?: string;
   renderLabel?: () => ReactNode;
   className?: string;
-  onChange: (value: number) => void;
+  onChange: (value: number[]) => void;
   allowedChainsIds?: number[];
-  renderSuffix?: (chainId: number) => ReactNode;
 }
 
 export const ChainSelect = ({
@@ -21,16 +20,15 @@ export const ChainSelect = ({
   onChange,
   className,
   allowedChainsIds,
-  renderSuffix,
   renderLabel,
 }: Properties) => {
   const options = useMemo(() => {
-    return getOptions(allowedChainsIds, renderSuffix);
-  }, [allowedChainsIds, renderSuffix]);
+    return getOptions(allowedChainsIds);
+  }, [allowedChainsIds]);
 
   return (
-    <Select
-      className={className}
+    <Multiselect<number>
+      inputClassName={className}
       label={label}
       renderLabel={renderLabel}
       options={options}
@@ -40,26 +38,19 @@ export const ChainSelect = ({
   );
 };
 
-const optionsFrom = (
-  chain: Chain,
-  renderSuffix?: (chainId: number) => ReactNode,
-): Option<number> => {
+const optionsFrom = (chain: Chain): MultiselectOption<number> => {
   return {
     label: chain.name,
     value: chain.id,
     // eslint-disable-next-line @next/next/no-img-element
-    prefix: <img src={chain.logo} className="size-6 rounded-full" alt="" />,
-    suffix: renderSuffix?.(chain.id),
+    icon: <img src={chain.logo} className="size-6 rounded-full" alt="" />,
   };
 };
 
-const getOptions = (
-  allowedChainsIds?: number[],
-  renderSuffix?: (chainId: number) => ReactNode,
-) => {
+const getOptions = (allowedChainsIds?: number[]) => {
   if (!allowedChainsIds) {
     return Object.values(CHAIN).map((chain) => {
-      return optionsFrom(chain, renderSuffix);
+      return optionsFrom(chain);
     });
   }
 
@@ -70,6 +61,6 @@ const getOptions = (
     if (!foundChain) {
       throw new Error(`${chainId} not found`);
     }
-    return optionsFrom(foundChain, renderSuffix);
+    return optionsFrom(foundChain);
   });
 };

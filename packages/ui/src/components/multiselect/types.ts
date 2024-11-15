@@ -1,7 +1,7 @@
-import { ReactElement } from "react";
+import { ReactElement } from 'react';
 
-export type Option = {
-    label: string;
-    value: string;
-    icon?: ReactElement;
-}
+export type MultiselectOption<T> = {
+  label: string;
+  value: T;
+  icon?: ReactElement;
+};

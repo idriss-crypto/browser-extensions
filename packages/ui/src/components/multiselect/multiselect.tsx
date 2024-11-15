@@ -1,57 +1,63 @@
-import { useMemo, useState } from 'react';
+import { ReactNode, useMemo } from 'react';
+
 import { Dropdown } from '../dropdown';
-import { Option } from './types';
+import { classes } from '../../utils';
+
+import { MultiselectOption } from './types';
 import { MultiselectInputList, MultiselectInput } from './components';
 
-type Properties = {
-  options: Option[];
-  value: string[];
-  onValueChange: (newValue: string[]) => void;
+type Properties<T> = {
+  options: MultiselectOption<T>[];
+  value: T[];
+  onChange: (selectedValues: T[]) => void;
   placeholder?: string;
   maxCount?: number;
-  className?: string;
+  inputClassName?: string;
+  listClassName?: string;
+  label?: string;
+  renderLabel?: () => ReactNode;
 };
 
-export const Multiselect = ({
+export const Multiselect = <T,>({
   options,
   value,
-  onValueChange,
+  onChange: onChange,
   placeholder = 'Select options',
-  maxCount = 3,
-  className,
-}: Properties) => {
-  const [selectedValues, setSelectedValues] = useState<string[]>(value);
+  maxCount = 10,
+  inputClassName,
+  listClassName,
+}: Properties<T>) => {
   const selectedOptions = useMemo(() => {
-    return options.filter((option) => selectedValues.includes(option.value));
-  }, [selectedValues]);
+    return options.filter((option) => {return value.includes(option.value)});
+  }, [value, options]);
 
-  const toggleOption = (optionValue: string) => {
-    const newSelectedValues = selectedValues.includes(optionValue)
-      ? selectedValues.filter((val) => val !== optionValue)
-      : [...selectedValues, optionValue];
-    setSelectedValues(newSelectedValues);
-    onValueChange(newSelectedValues);
+  const toggleOption = (optionValue: T) => {
+    const newSelectedValues = value.includes(optionValue)
+      ? value.filter((value_) => {return value_ !== optionValue})
+      : [...value, optionValue];
+    onChange(newSelectedValues);
   };
 
   return (
     <Dropdown
-      className={className}
-      trigger={() => (
+      className={classes('z-portal')}
+      trigger={() => {return (
         <MultiselectInput
           selectedOptions={selectedOptions}
           placeholder={placeholder}
           showOptionIconOnly
           trimDisplayedOptions={maxCount}
-          className={className}
+          className={inputClassName}
         />
-      )}
-      children={() => (
+      )}}
+      children={() => {return (
         <MultiselectInputList
           onOptionChange={toggleOption}
           options={options}
-          selectedValues={selectedValues}
+          selectedValues={value}
+          className={listClassName}
         />
-      )}
-    ></Dropdown>
+      )}}
+     />
   );
 };
