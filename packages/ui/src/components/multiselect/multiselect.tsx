@@ -35,6 +35,7 @@ export const Multiselect = ({
 
   return (
     <Dropdown
+      className={className}
       trigger={() => (
         <MultiselectInput
           selectedOptions={selectedOptions}

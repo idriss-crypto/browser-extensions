@@ -74,7 +74,7 @@ export default function Donors() {
           onValueChange={handleMultiselectChange}
           placeholder="Select options"
           maxCount={3}
-          className="w-full max-w-md"
+          className="w-[412px]"
         />
         <Image
           priority

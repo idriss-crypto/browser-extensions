@@ -2,6 +2,7 @@ import { classes } from '../../../utils';
 import { Option } from '../types';
 import { forwardRef, HTMLAttributes } from 'react';
 import { DropdownMenuTriggerProps } from '@radix-ui/react-dropdown-menu';
+import { Icon } from '../../icon';
 
 type Properties = HTMLAttributes<HTMLDivElement> &
   DropdownMenuTriggerProps & {
@@ -39,7 +40,7 @@ export const MultiselectInput = forwardRef<HTMLDivElement, Properties>(
         onKeyDown={onKeyDown}
         {...props}
         className={classes(
-          'py-2 px-3 w-full rounded-xl bg-white text-neutralGreen-900 border border-neutral-200 shadow-xs ring-1 ring-[#D1D5DB] focus:outline-none focus:ring-indigo-500',
+          'flex flex-row items-center justify-between rounded-xl border border-neutral-200 bg-white px-3 py-2 text-neutralGreen-900 shadow-xs ring-1 ring-[#D1D5DB] focus:outline-none focus:ring-indigo-500',
           className,
         )}
       >
@@ -68,6 +69,8 @@ export const MultiselectInput = forwardRef<HTMLDivElement, Properties>(
               )}
           </div>
         )}
+
+        <Icon name="ExpandUpDown" size={12} className="" />
       </div>
     );
   },
