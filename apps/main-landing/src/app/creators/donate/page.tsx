@@ -73,7 +73,7 @@ export default function Donors() {
           value={selectedOptions}
           onValueChange={handleMultiselectChange}
           placeholder="Select options"
-          maxCount={3}
+          maxCount={12}
           className="w-[412px]"
         />
         <Image
