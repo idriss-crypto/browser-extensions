@@ -60,44 +60,40 @@ export default function Donors() {
     );
   }, [formMethods, tokensAddresses]);
 
-  const tokenOptions = useMemo(() => {
-    return chainsIds.reduce((previous, chainId) => {
-      return [
-        ...previous,
-        ...(CHAIN_ID_TO_TOKENS[chainId] ?? []).filter(
-          (tokenOption) =>
-            {return !previous.some(
-              (previousOption) =>
-                {return previousOption.address === tokenOption.address},
-            )},
-        ),
-      ];
-    }, [] as ChainToken[]);
+  const tokenOptions = useMemo(() => {  
+    const uniqueTokens = new Map<string, ChainToken>();
+  
+    for (const chainId of chainsIds) {
+      const chainTokens = CHAIN_ID_TO_TOKENS[chainId] ?? [];
+      
+      for (const tokenOption of chainTokens) {
+        if (!uniqueTokens.has(tokenOption.symbol)) {
+          uniqueTokens.set(tokenOption.symbol, tokenOption);
+        }
+      }
+    }
+  
+    return [...uniqueTokens.values()];
   }, [chainsIds]);
 
   console.log('tokensAddresses', tokensAddresses);
   console.log('tokenOptions', tokenOptions);
 
   const tokensSymbols = useMemo(() => {
-    let symbols: string[] = [];
-
+    const symbols: string[] = [];
+  
     for (const tokenAddress of tokensAddresses) {
-      const addressSymbols = chainsIds
-        .reduce((previous, chainId) => {
-          return [
-            ...previous,
-            CHAIN_ID_TO_TOKENS[chainId]?.find((token) => {
-              return token.address === tokenAddress;
-            })?.symbol ?? '',
-          ];
-        }, [] as string[])
-        .filter(Boolean);
-
-      symbols = [...symbols, ...addressSymbols];
+      const addressSymbols = chainsIds.flatMap((chainId) => {
+        const token = CHAIN_ID_TO_TOKENS[chainId]?.find((token) => {return token.address === tokenAddress});
+        return token ? token.symbol : [];
+      });
+  
+      symbols.push(...addressSymbols);
     }
-
+  
     return symbols;
-  }, []);
+  }, [tokensAddresses, chainsIds]);
+  
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const copyDonationLink = async () => {
@@ -113,7 +109,7 @@ export default function Donors() {
       .filter(Boolean);
 
     await navigator.clipboard.writeText(
-      `https://www.idriss.xyz/creators/donate?address=${address}&token=${tokensSymbols.join(';')}&network=${chainsShortNames.join(';')}`,
+      `https://www.idriss.xyz/creators/donate?address=${address}&token=${tokensSymbols.join(',')}&network=${chainsShortNames.join(',')}`,
     );
 
     setCopiedDonationLink(true);
