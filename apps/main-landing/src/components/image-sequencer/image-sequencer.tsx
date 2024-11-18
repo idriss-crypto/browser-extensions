@@ -111,6 +111,7 @@ export const ImageSequencer = ({
 
   return (
     <NextImage
+      priority
       width={800}
       height={800}
       src={isLoaded ? loadedImages[currentIndex]!.src : loadedImages[0]!.src}
