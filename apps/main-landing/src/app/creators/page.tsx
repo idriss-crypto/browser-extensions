@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import { Form } from '@idriss-xyz/ui/form';
 import { Button } from '@idriss-xyz/ui/button';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { classes } from '@idriss-xyz/ui/utils';
 import { Multiselect, MultiselectOption } from '@idriss-xyz/ui/multiselect';
@@ -51,6 +51,7 @@ export default function Donors() {
       chainsIds: ALL_CHAIN_IDS,
       tokensSymbols: UNIQUE_ALL_TOKEN_SYMBOLS,
     },
+    mode: 'onChange'
   });
   const [chainsIds, tokensSymbols, address] = formMethods.watch([
     'chainsIds',
@@ -81,6 +82,8 @@ export default function Donors() {
           value: token.symbol,
           icon: (
             <Image
+              width={24}
+              height={24}
               src={token.logo}
               className="size-6 rounded-full"
               alt={token.symbol}
@@ -107,6 +110,8 @@ export default function Donors() {
         value: foundChain.id,
         icon: (
           <Image
+            width={24}
+            height={24}
             src={foundChain.logo}
             className="size-6 rounded-full"
             alt={foundChain.name}
@@ -126,6 +131,13 @@ export default function Donors() {
       }),
     );
   }, [formMethods, tokensSymbols, selectedChainsTokens]);
+
+  const validateAndCopy = async (copyFunction: () => Promise<void>) => {
+    const isValid = await formMethods.trigger();
+    if (isValid) {
+      await copyFunction();
+    }
+  };
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const copyDonationLink = async () => {
@@ -167,11 +179,6 @@ export default function Donors() {
     resetCopyState();
   }, [address, tokensSymbols, chainsIds, resetCopyState]);
 
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  const onSubmit: SubmitHandler<FormPayload> = () => {
-    //
-  };
-
   return (
     <Providers>
       <TopBar />
@@ -188,18 +195,24 @@ export default function Donors() {
             Create your donation links
           </h1>
           <div className="w-full">
-            <Form
-              className="w-full"
-              onSubmit={formMethods.handleSubmit(onSubmit)}
-            >
+            <Form className="w-full">
               <Controller
                 control={formMethods.control}
                 name="address"
-                render={({ field }) => {
+                rules={{
+                  required: 'Address is required',
+                  pattern: {
+                    value: /^0x/,
+                    message: 'Address must start with 0x',
+                  },
+                }}
+                render={({ field, fieldState }) => {
                   return (
                     <Form.Field
                       label="Wallet address"
                       className="mt-6 w-full"
+                      helperText={fieldState.error?.message}
+                      error={Boolean(fieldState.error?.message)}
                       {...field}
                     />
                   );
@@ -209,18 +222,25 @@ export default function Donors() {
               <Controller
                 control={formMethods.control}
                 name="chainsIds"
-                render={({ field }) => {
+                rules={{
+                  required: 'Select at least one network',
+                }}
+                render={({ field, fieldState }) => {
                   return (
-                    <Multiselect<number>
-                      inputClassName="mt-6 w-full"
-                      label="Network"
-                      options={allowedChainOptions}
-                      onChange={(value) => {
-                        onChangeChainId();
-                        field.onChange(value);
-                      }}
-                      value={field.value}
-                    />
+                    <>
+                      <Multiselect<number>
+                        inputClassName="mt-6 w-full"
+                        label="Network"
+                        options={allowedChainOptions}
+                        onChange={(value) => {
+                          onChangeChainId();
+                          field.onChange(value);
+                        }}
+                        value={field.value}
+                        helperText={fieldState.error?.message}
+                        error={Boolean(fieldState.error?.message)}
+                      />
+                    </>
                   );
                 }}
               />
@@ -228,7 +248,10 @@ export default function Donors() {
               <Controller
                 control={formMethods.control}
                 name="tokensSymbols"
-                render={({ field }) => {
+                rules={{
+                  required: 'Select at least one token',
+                }}
+                render={({ field, fieldState }) => {
                   return (
                     <Multiselect<string>
                       inputClassName="mt-6 w-full"
@@ -236,6 +259,8 @@ export default function Donors() {
                       options={uniqueTokenOptions}
                       onChange={field.onChange}
                       value={field.value}
+                      helperText={fieldState.error?.message}
+                      error={Boolean(fieldState.error?.message)}
                     />
                   );
                 }}
@@ -252,7 +277,7 @@ export default function Donors() {
                     copiedDonationLink &&
                       'bg-mint-600 hover:bg-mint-600 [&>div]:hidden',
                   )}
-                  onClick={copyDonationLink}
+                  onClick={() => validateAndCopy(copyDonationLink)}
                 >
                   {copiedDonationLink ? 'COPIED' : 'DONATION LINK'}
                 </Button>
@@ -266,7 +291,7 @@ export default function Donors() {
                     copiedObsLink &&
                       'border-mint-600 bg-mint-300 hover:bg-mint-300',
                   )}
-                  onClick={copyObsLink}
+                  onClick={() => validateAndCopy(copyObsLink)}
                 >
                   {copiedObsLink ? 'COPIED' : 'OBS LINK'}
                 </Button>

@@ -14,6 +14,8 @@ type Properties<T> = HTMLAttributes<HTMLDivElement> &
     className?: string;
     label?: string;
     renderLabel?: () => ReactNode;
+    helperText?: string;
+    error?: boolean;
   };
 
 const _MultiselectInput = <T,>(
@@ -30,6 +32,8 @@ const _MultiselectInput = <T,>(
     onKeyDown,
     renderLabel,
     label,
+    helperText,
+    error,
     ...rest
   } = properties;
 
@@ -84,6 +88,18 @@ const _MultiselectInput = <T,>(
         )}
         <Icon name="ExpandUpDown" size={12} className="" />
       </div>
+      {helperText && (
+        <span
+          className={classes(
+            'flex items-center space-x-1 pt-1 text-label7 text-neutral-600 lg:text-label6',
+            error && 'text-red-500',
+          )}
+        >
+          {error && <Icon name="AlertCircle" size={12} className="p-0.5" />}
+          {helperText}
+          {!error && <Icon name="HelpCircle" size={12} className="p-0.5" />}
+        </span>
+      )}
     </div>
   );
 };

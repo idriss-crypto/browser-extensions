@@ -16,6 +16,8 @@ type Properties<T> = {
   listClassName?: string;
   label?: string;
   renderLabel?: () => ReactNode;
+  helperText?: string;
+  error?: boolean;
 };
 
 export const Multiselect = <T,>({
@@ -28,6 +30,8 @@ export const Multiselect = <T,>({
   listClassName,
   label,
   renderLabel,
+  helperText,
+  error,
 }: Properties<T>) => {
   const selectedOptions = useMemo(() => {
     return options.filter((option) => {
@@ -57,6 +61,8 @@ export const Multiselect = <T,>({
             showOptionIconOnly
             trimDisplayedOptions={maxCount}
             className={inputClassName}
+            helperText={helperText}
+            error={error}
           />
         );
       }}

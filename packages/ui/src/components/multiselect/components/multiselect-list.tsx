@@ -27,6 +27,13 @@ export const MultiselectInputList = <T,>({
         className="max-h-[184px] transition-all duration-500"
         scrollBarClassName="bg-white hover:bg-white data-[orientation=vertical]:w-2.5"
       >
+        {options.length === 0 && (
+          <span
+            className={classes(
+              'flex items-center px-3 py-1 text-label7 text-neutral-600 lg:text-label6',
+            )}
+          >No options available</span>
+        )}
         {options.map((option) => {
           const isSelected = selectedValues.includes(option.value);
           return (
