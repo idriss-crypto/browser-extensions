@@ -40,13 +40,14 @@ export const MultiselectInputList = <T,>({
           const isSelected = selectedValues.includes(option.value);
           return (
             <div
-              className="px-3 py-1"
+              className="px-3 py-1 hover:bg-black/10"
               key={`list-item-${String(option.value)}`}
             >
               <Checkbox
                 onChange={() => {
                   return onOptionChange(option.value);
                 }}
+                className='w-full cursor-pointer'
                 value={isSelected}
                 label={
                   <div className="flex flex-row items-center gap-3">
