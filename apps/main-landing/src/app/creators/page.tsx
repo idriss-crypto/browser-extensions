@@ -51,7 +51,7 @@ export default function Donors() {
       chainsIds: ALL_CHAIN_IDS,
       tokensSymbols: UNIQUE_ALL_TOKEN_SYMBOLS,
     },
-    mode: 'onChange'
+    mode: 'onChange',
   });
   const [chainsIds, tokensSymbols, address] = formMethods.watch([
     'chainsIds',
@@ -277,7 +277,9 @@ export default function Donors() {
                     copiedDonationLink &&
                       'bg-mint-600 hover:bg-mint-600 [&>div]:hidden',
                   )}
-                  onClick={() => validateAndCopy(copyDonationLink)}
+                  onClick={() => {
+                    return validateAndCopy(copyDonationLink);
+                  }}
                 >
                   {copiedDonationLink ? 'COPIED' : 'DONATION LINK'}
                 </Button>
@@ -291,7 +293,9 @@ export default function Donors() {
                     copiedObsLink &&
                       'border-mint-600 bg-mint-300 hover:bg-mint-300',
                   )}
-                  onClick={() => validateAndCopy(copyObsLink)}
+                  onClick={() => {
+                    return validateAndCopy(copyObsLink);
+                  }}
                 >
                   {copiedObsLink ? 'COPIED' : 'OBS LINK'}
                 </Button>

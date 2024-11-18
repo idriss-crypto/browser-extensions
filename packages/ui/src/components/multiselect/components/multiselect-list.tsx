@@ -32,7 +32,9 @@ export const MultiselectInputList = <T,>({
             className={classes(
               'flex items-center px-3 py-1 text-label7 text-neutral-600 lg:text-label6',
             )}
-          >No options available</span>
+          >
+            No options available
+          </span>
         )}
         {options.map((option) => {
           const isSelected = selectedValues.includes(option.value);
