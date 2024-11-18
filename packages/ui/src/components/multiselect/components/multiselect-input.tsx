@@ -106,5 +106,4 @@ const _MultiselectInput = <T,>(
 
 _MultiselectInput.displayName = 'MultiselectInput';
 
-// export default forwardRef(MultiselectInput);
 export const MultiselectInput = forwardRef(_MultiselectInput);
