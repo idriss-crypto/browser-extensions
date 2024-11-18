@@ -26,14 +26,20 @@ export const Multiselect = <T,>({
   maxCount = 10,
   inputClassName,
   listClassName,
+  label,
+  renderLabel,
 }: Properties<T>) => {
   const selectedOptions = useMemo(() => {
-    return options.filter((option) => {return value.includes(option.value)});
+    return options.filter((option) => {
+      return value.includes(option.value);
+    });
   }, [value, options]);
 
   const toggleOption = (optionValue: T) => {
     const newSelectedValues = value.includes(optionValue)
-      ? value.filter((value_) => {return value_ !== optionValue})
+      ? value.filter((value_) => {
+          return value_ !== optionValue;
+        })
       : [...value, optionValue];
     onChange(newSelectedValues);
   };
@@ -41,23 +47,29 @@ export const Multiselect = <T,>({
   return (
     <Dropdown
       className={classes('z-portal')}
-      trigger={() => {return (
-        <MultiselectInput
-          selectedOptions={selectedOptions}
-          placeholder={placeholder}
-          showOptionIconOnly
-          trimDisplayedOptions={maxCount}
-          className={inputClassName}
-        />
-      )}}
-      children={() => {return (
-        <MultiselectInputList
-          onOptionChange={toggleOption}
-          options={options}
-          selectedValues={value}
-          className={listClassName}
-        />
-      )}}
-     />
+      trigger={() => {
+        return (
+          <MultiselectInput
+            label={label}
+            renderLabel={renderLabel}
+            selectedOptions={selectedOptions}
+            placeholder={placeholder}
+            showOptionIconOnly
+            trimDisplayedOptions={maxCount}
+            className={inputClassName}
+          />
+        );
+      }}
+      children={() => {
+        return (
+          <MultiselectInputList
+            onOptionChange={toggleOption}
+            options={options}
+            selectedValues={value}
+            className={listClassName}
+          />
+        );
+      }}
+    />
   );
 };

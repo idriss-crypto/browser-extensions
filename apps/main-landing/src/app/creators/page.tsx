@@ -9,21 +9,28 @@ import { classes } from '@idriss-xyz/ui/utils';
 import { backgroundLines2 } from '@/assets';
 import { TopBar } from '@/components';
 
-import { ChainSelect, TokenSelect } from './donate/components';
 import {
   CHAIN,
   CHAIN_ID_TO_TOKENS,
   DEFAULT_ALLOWED_CHAINS_IDS,
 } from './donate/constants';
 import { Providers } from './providers';
-import { getDefaultTokenForChainId } from './donate/utils';
 import { ChainToken } from './donate/types';
+import { Multiselect, MultiselectOption } from '@idriss-xyz/ui/multiselect';
 
 type FormPayload = {
   address: string;
-  tokensAddresses: string[];
+  tokensSymbols: string[];
   chainsIds: number[];
 };
+
+const ALL_CHAIN_IDS = Object.values(CHAIN).map((chain) => chain.id);
+const ALL_TOKEN_SYMBOLS = Object.values(CHAIN_ID_TO_TOKENS)
+  .flat()
+  .map((token) => token.symbol);
+const UNIQUE_ALL_TOKEN_SYMBOLS = Array.from(
+  new Map(ALL_TOKEN_SYMBOLS.map((symbol) => [symbol, symbol])).values(),
+);
 
 // ts-unused-exports:disable-next-line
 export default function Donors() {
@@ -33,71 +40,74 @@ export default function Donors() {
   const formMethods = useForm<FormPayload>({
     defaultValues: {
       address: '',
-      chainsIds: [CHAIN.ETHEREUM.id],
-      tokensAddresses: [
-        CHAIN_ID_TO_TOKENS[CHAIN.ETHEREUM.id][1]?.address ?? '0x',
-      ],
+      chainsIds: ALL_CHAIN_IDS,
+      tokensSymbols: UNIQUE_ALL_TOKEN_SYMBOLS,
     },
   });
-  const [chainsIds, tokensAddresses, address] = formMethods.watch([
+  const [chainsIds, tokensSymbols, address] = formMethods.watch([
     'chainsIds',
-    'tokensAddresses',
+    'tokensSymbols',
     'address',
   ]);
 
-  const onChangeChainId = useCallback(() => {
-    console.log(
-      'filtered 🚀🚀🚀🚀',
-      tokensAddresses.filter((address) =>
-        {return tokenOptions.some((option) => {return option.address === address})},
-      ),
-    );
-    formMethods.setValue(
-      'tokensAddresses',
-      tokensAddresses.filter((address) =>
-        {return tokenOptions.some((option) => {return option.address === address})},
-      ),
-    );
-  }, [formMethods, tokensAddresses]);
-
-  const tokenOptions = useMemo(() => {
-    return chainsIds.reduce((previous, chainId) => {
-      return [
-        ...previous,
-        ...(CHAIN_ID_TO_TOKENS[chainId] ?? []).filter(
-          (tokenOption) =>
-            {return !previous.some(
-              (previousOption) =>
-                {return previousOption.address === tokenOption.address},
-            )},
-        ),
-      ];
-    }, [] as ChainToken[]);
+  const selectedChainsTokens: ChainToken[] = useMemo(() => {
+    return chainsIds
+      .map((chainId) => CHAIN_ID_TO_TOKENS[chainId])
+      .flat()
+      .map((token) => token)
+      .filter((token) => token !== undefined);
   }, [chainsIds]);
 
-  console.log('tokensAddresses', tokensAddresses);
-  console.log('tokenOptions', tokenOptions);
+  const uniqueTokenOptions: MultiselectOption<string>[] = useMemo(() => {
+    return Array.from(
+      new Map(selectedChainsTokens.map((token) => [token.symbol, token]))
+        .values()
+        .map((token) => ({
+          label: token.name,
+          value: token.symbol,
+          icon: (
+            <img
+              src={token.logo}
+              className="size-6 rounded-full"
+              alt={token.symbol}
+            />
+          ),
+        })),
+    ).sort((a, b) => a.value.localeCompare(b.value));
+  }, [selectedChainsTokens]);
 
-  const tokensSymbols = useMemo(() => {
-    let symbols: string[] = [];
-
-    for (const tokenAddress of tokensAddresses) {
-      const addressSymbols = chainsIds
-        .reduce((previous, chainId) => {
-          return [
-            ...previous,
-            CHAIN_ID_TO_TOKENS[chainId]?.find((token) => {
-              return token.address === tokenAddress;
-            })?.symbol ?? '',
-          ];
-        }, [] as string[])
-        .filter(Boolean);
-
-      symbols = [...symbols, ...addressSymbols];
-    }
-
-    return symbols;
+  const allowedChainOptions: MultiselectOption<number>[] = useMemo(() => {
+    return DEFAULT_ALLOWED_CHAINS_IDS.map((chainId) => {
+      const foundChain = Object.values(CHAIN).find((chain) => {
+        return chain.id === chainId;
+      });
+      if (!foundChain) {
+        throw new Error(`${chainId} not found`);
+      }
+      return {
+        label: foundChain.name,
+        value: foundChain.id,
+        icon: (
+          <img
+            src={foundChain.logo}
+            className="size-6 rounded-full"
+            alt={foundChain.name}
+          />
+        ),
+      };
+    });
   }, []);
+
+  const onChangeChainId = useCallback(() => {
+    formMethods.setValue(
+      'tokensSymbols',
+      tokensSymbols.filter((symbol) => {
+        return selectedChainsTokens.some((option) => {
+          return option.symbol === symbol;
+        });
+      }),
+    );
+  }, [formMethods, tokensSymbols, selectedChainsTokens]);
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const copyDonationLink = async () => {
@@ -113,7 +123,7 @@ export default function Donors() {
       .filter(Boolean);
 
     await navigator.clipboard.writeText(
-      `https://www.idriss.xyz/creators/donate?address=${address}&token=${tokensSymbols.join(';')}&network=${chainsShortNames.join(';')}`,
+      `https://www.idriss.xyz/creators/donate?address=${address}&token=${tokensSymbols.join(',')}&network=${chainsShortNames.join(',')}`,
     );
 
     setCopiedDonationLink(true);
@@ -136,7 +146,7 @@ export default function Donors() {
 
   useEffect(() => {
     resetCopyState();
-  }, [address, tokensAddresses, chainsIds, resetCopyState]);
+  }, [address, tokensSymbols, chainsIds, resetCopyState]);
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const onSubmit: SubmitHandler<FormPayload> = () => {
@@ -182,10 +192,10 @@ export default function Donors() {
                 name="chainsIds"
                 render={({ field }) => {
                   return (
-                    <ChainSelect
-                      className="mt-6 w-full"
+                    <Multiselect<number>
+                      inputClassName="mt-6 w-full"
                       label="Network"
-                      allowedChainsIds={DEFAULT_ALLOWED_CHAINS_IDS}
+                      options={allowedChainOptions}
                       onChange={(value) => {
                         onChangeChainId();
                         field.onChange(value);
@@ -198,13 +208,13 @@ export default function Donors() {
 
               <Controller
                 control={formMethods.control}
-                name="tokensAddresses"
+                name="tokensSymbols"
                 render={({ field }) => {
                   return (
-                    <TokenSelect
-                      className="mt-4 w-full"
+                    <Multiselect<string>
+                      inputClassName="mt-6 w-full"
                       label="Token"
-                      tokens={tokenOptions}
+                      options={uniqueTokenOptions}
                       onChange={field.onChange}
                       value={field.value}
                     />
