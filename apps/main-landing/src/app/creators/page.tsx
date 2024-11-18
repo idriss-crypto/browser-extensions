@@ -5,6 +5,7 @@ import { Button } from '@idriss-xyz/ui/button';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { classes } from '@idriss-xyz/ui/utils';
+import { Multiselect, MultiselectOption } from '@idriss-xyz/ui/multiselect';
 
 import { backgroundLines2 } from '@/assets';
 import { TopBar } from '@/components';
@@ -16,7 +17,6 @@ import {
 } from './donate/constants';
 import { Providers } from './providers';
 import { ChainToken } from './donate/types';
-import { Multiselect, MultiselectOption } from '@idriss-xyz/ui/multiselect';
 
 type FormPayload = {
   address: string;
@@ -24,13 +24,21 @@ type FormPayload = {
   chainsIds: number[];
 };
 
-const ALL_CHAIN_IDS = Object.values(CHAIN).map((chain) => chain.id);
+const ALL_CHAIN_IDS = Object.values(CHAIN).map((chain) => {
+  return chain.id;
+});
 const ALL_TOKEN_SYMBOLS = Object.values(CHAIN_ID_TO_TOKENS)
   .flat()
-  .map((token) => token.symbol);
-const UNIQUE_ALL_TOKEN_SYMBOLS = Array.from(
-  new Map(ALL_TOKEN_SYMBOLS.map((symbol) => [symbol, symbol])).values(),
-);
+  .map((token) => {
+    return token.symbol;
+  });
+const UNIQUE_ALL_TOKEN_SYMBOLS = [
+  ...new Map(
+    ALL_TOKEN_SYMBOLS.map((symbol) => {
+      return [symbol, symbol];
+    }),
+  ).values(),
+];
 
 // ts-unused-exports:disable-next-line
 export default function Donors() {
@@ -52,28 +60,38 @@ export default function Donors() {
 
   const selectedChainsTokens: ChainToken[] = useMemo(() => {
     return chainsIds
-      .map((chainId) => CHAIN_ID_TO_TOKENS[chainId])
-      .flat()
-      .map((token) => token)
-      .filter((token) => token !== undefined);
+      .flatMap((chainId) => {
+        return CHAIN_ID_TO_TOKENS[chainId] as ChainToken | undefined;
+      })
+      .filter((token) => {
+        return token !== undefined;
+      });
   }, [chainsIds]);
 
   const uniqueTokenOptions: MultiselectOption<string>[] = useMemo(() => {
-    return Array.from(
-      new Map(selectedChainsTokens.map((token) => [token.symbol, token]))
-        .values()
-        .map((token) => ({
+    return new Map(
+      selectedChainsTokens.map((token) => {
+        return [token.symbol, token];
+      }),
+    )
+      .values()
+      .map((token) => {
+        return {
           label: token.name,
           value: token.symbol,
           icon: (
-            <img
+            <Image
               src={token.logo}
               className="size-6 rounded-full"
               alt={token.symbol}
             />
           ),
-        })),
-    ).sort((a, b) => a.value.localeCompare(b.value));
+        };
+      })
+      .toArray()
+      .sort((a, b) => {
+        return a.value.localeCompare(b.value);
+      });
   }, [selectedChainsTokens]);
 
   const allowedChainOptions: MultiselectOption<number>[] = useMemo(() => {
@@ -88,7 +106,7 @@ export default function Donors() {
         label: foundChain.name,
         value: foundChain.id,
         icon: (
-          <img
+          <Image
             src={foundChain.logo}
             className="size-6 rounded-full"
             alt={foundChain.name}
@@ -112,6 +130,7 @@ export default function Donors() {
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const copyDonationLink = async () => {
     const chainsShortNames = chainsIds
+      //eslint-disable-next-line unicorn/no-array-reduce
       .reduce((previous, chainId) => {
         return [
           ...previous,

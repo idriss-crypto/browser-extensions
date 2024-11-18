@@ -60,13 +60,15 @@ export const Multiselect = <T,>({
           />
         );
       }}
-      children={() => {
+      // eslint-disable-next-line react/no-children-prop
+      children={(properties) => {
         return (
           <MultiselectInputList
             onOptionChange={toggleOption}
             options={options}
             selectedValues={value}
             className={listClassName}
+            {...properties}
           />
         );
       }}

@@ -30,20 +30,21 @@ export const MultiselectInputList = <T,>({
         {options.map((option) => {
           const isSelected = selectedValues.includes(option.value);
           return (
-            <div className="px-3 py-1" key={`list-item-${String(option.value)}`}>
+            <div
+              className="px-3 py-1"
+              key={`list-item-${String(option.value)}`}
+            >
               <Checkbox
-                onChange={() => {return onOptionChange(option.value)}}
+                onChange={() => {
+                  return onOptionChange(option.value);
+                }}
                 value={isSelected}
                 label={
                   <div className="flex flex-row items-center gap-3">
                     <span className="truncate text-body4 text-neutral-900">
                       {option.label}
                     </span>
-                    {option.icon && (
-                      <div className="mr-2">
-                        {option.icon}
-                      </div>
-                    )}
+                    {option.icon && <div className="mr-2">{option.icon}</div>}
                   </div>
                 }
               />
