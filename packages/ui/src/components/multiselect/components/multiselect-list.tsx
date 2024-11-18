@@ -47,7 +47,7 @@ export const MultiselectInputList = <T,>({
                 onChange={() => {
                   return onOptionChange(option.value);
                 }}
-                className='w-full cursor-pointer'
+                className="w-full cursor-pointer"
                 value={isSelected}
                 label={
                   <div className="flex flex-row items-center gap-3">
