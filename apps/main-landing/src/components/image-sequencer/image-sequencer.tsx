@@ -111,6 +111,8 @@ export const ImageSequencer = ({
 
   return (
     <NextImage
+      width={800}
+      height={800}
       src={isLoaded ? loadedImages[currentIndex]!.src : loadedImages[0]!.src}
       className={classes('pointer-events-none', className)}
       alt="Animated Sequence"
