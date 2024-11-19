@@ -1,4 +1,5 @@
 import { Chain as ViemChain } from 'viem';
+
 import { TOKEN } from './constants';
 
 export type Hex = `0x${string}`;
