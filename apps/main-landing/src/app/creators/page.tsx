@@ -16,7 +16,7 @@ import {
   DEFAULT_ALLOWED_CHAINS_IDS,
 } from './donate/constants';
 import { Providers } from './providers';
-import { ChainToken } from './donate/types';
+import { ChainToken, TokenSymbol } from './donate/types';
 
 type FormPayload = {
   address: string;
@@ -39,6 +39,17 @@ const UNIQUE_ALL_TOKEN_SYMBOLS = [
     }),
   ).values(),
 ];
+
+const TOKENS_ORDER: Record<TokenSymbol, number> = {
+  ETH: 1,
+  USDC: 2,
+  DAI: 3,
+  GHST: 4,
+  PRIME: 5,
+  YGG: 6,
+  PDT: 7,
+  DEGEN: 8,
+};
 
 // ts-unused-exports:disable-next-line
 export default function Donors() {
@@ -93,7 +104,10 @@ export default function Donors() {
       })
       .toArray()
       .sort((a, b) => {
-        return a.value.localeCompare(b.value);
+        return (
+          (TOKENS_ORDER[a.value as TokenSymbol] ?? 0) -
+          (TOKENS_ORDER[b.value as TokenSymbol] ?? 0)
+        );
       });
   }, [selectedChainsTokens]);
 
@@ -182,7 +196,7 @@ export default function Donors() {
   return (
     <Providers>
       <TopBar />
-      <main className="flex grow items-start justify-center overflow-hidden bg-[radial-gradient(111.94%_122.93%_at_16.62%_0%,_#E7F5E7_0%,_#76C282_100%)] pt-[104px]">
+      <main className="flex grow items-start justify-center overflow-hidden bg-[radial-gradient(111.94%_122.93%_at_16.62%_0%,_#E7F5E7_0%,_#76C282_100%)] px-2 pt-[56px] lg:px-0">
         <Image
           priority
           src={backgroundLines2}
@@ -190,7 +204,7 @@ export default function Donors() {
           alt=""
         />
 
-        <div className="container flex w-[426px] max-w-full flex-col items-center rounded-xl bg-white px-4 pb-3 pt-6 lg:mt-[108px]">
+        <div className="container flex w-[440px] max-w-full flex-col items-center rounded-xl bg-white px-4 pb-3 pt-6 lg:mt-[108px]">
           <h1 className="self-start text-heading4">
             Create your donation links
           </h1>
@@ -265,7 +279,7 @@ export default function Donors() {
                   );
                 }}
               />
-              <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="mt-6 grid grid-cols-2 gap-2 lg:gap-4">
                 <Button
                   intent="primary"
                   size="medium"
