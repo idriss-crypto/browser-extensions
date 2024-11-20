@@ -19,7 +19,7 @@ export default function Donors() {
           alt=""
         />
 
-        <Content className="container lg:mt-[108px]" />
+        <Content className="container mt-4 lg:mt-[108px]" />
       </main>
     </Providers>
   );
