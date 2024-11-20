@@ -83,13 +83,17 @@ export default function Donors() {
   }, [chainsIds]);
 
   const uniqueTokenOptions: MultiselectOption<string>[] = useMemo(() => {
+    if (!selectedChainsTokens) {
+      return [];
+    }
+    
     return new Map(
       selectedChainsTokens.map((token) => {
         return [token.symbol, token];
       }),
     )
       .values()
-      .map((token) => {
+      ?.map((token) => {
         return {
           label: token.name,
           value: token.symbol,
