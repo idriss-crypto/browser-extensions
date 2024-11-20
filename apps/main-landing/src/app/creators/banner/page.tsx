@@ -41,6 +41,7 @@ const banners = [
   banner12,
 ];
 
+// ts-unused-exports:disable-next-line
 export default function Banner() {
   const [selectedBannerSource, setSelectedBannerSource] = useState<string>();
 
