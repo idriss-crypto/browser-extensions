@@ -83,7 +83,7 @@ export default function Banner() {
               intent="tertiary"
               size="medium"
             />
-            <h1 className="my-auto self-start text-heading4">
+            <h1 className="my-auto self-start text-heading5 lg:text-heading4">
               Download a banner for you
             </h1>
           </div>
@@ -91,13 +91,13 @@ export default function Banner() {
             {banners.map((banner) => {
               const isSelected = banner.src === selectedBannerSource;
               return (
-                <div className="relative select-none" key={banner.src}>
+                <div className="relative select-none overflow-hidden rounded-lg" key={banner.src}>
                   <Image
                     onClick={() => {
                       setSelectedBannerSource(banner.src);
                     }}
                     className={classes(
-                      'cursor-pointer rounded-lg p-[1px]',
+                      'cursor-pointer rounded-lg p-[1px] hover:scale-[1.03] transition-transform duration-300',
                       isSelected && 'border border-mint-400 p-0',
                     )}
                     priority
