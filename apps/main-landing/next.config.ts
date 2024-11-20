@@ -96,7 +96,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['@idriss-xyz/ui'],
   },
   images: {
-    domains: ['localhost'],
+    domains: ['localhost', 'f324-152-32-107-25.ngrok-free.app'],
   },
 };
 
