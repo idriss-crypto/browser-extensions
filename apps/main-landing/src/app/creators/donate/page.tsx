@@ -1,12 +1,12 @@
 import Image from 'next/image';
+import { Button } from '@idriss-xyz/ui/button';
+import { ANNOUNCEMENT_LINK } from '@idriss-xyz/constants';
 
 import { TopBar } from '@/components';
 import { backgroundLines2 } from '@/assets';
 
 import { Providers } from './providers';
 import { Content } from './content';
-import { Button } from '@idriss-xyz/ui/button';
-import { ANNOUNCEMENT_LINK } from '@idriss-xyz/constants';
 
 // ts-unused-exports:disable-next-line
 export default function Donors() {

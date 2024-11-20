@@ -91,13 +91,16 @@ export default function Banner() {
             {banners.map((banner) => {
               const isSelected = banner.src === selectedBannerSource;
               return (
-                <div className="relative select-none overflow-hidden rounded-lg" key={banner.src}>
+                <div
+                  className="relative select-none overflow-hidden rounded-lg"
+                  key={banner.src}
+                >
                   <Image
                     onClick={() => {
                       setSelectedBannerSource(banner.src);
                     }}
                     className={classes(
-                      'cursor-pointer rounded-lg p-[1px] hover:scale-[1.03] transition-transform duration-300',
+                      'cursor-pointer rounded-lg p-[1px] transition-transform duration-300 hover:scale-[1.03]',
                       isSelected && 'border border-mint-400 p-0',
                     )}
                     priority
