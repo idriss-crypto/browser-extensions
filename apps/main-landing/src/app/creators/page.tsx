@@ -206,7 +206,7 @@ export default function Donors() {
           alt=""
         />
 
-        <div className="container relative mt-4 flex w-[440px] max-w-full flex-col items-center overflow-hidden rounded-xl bg-white px-4 pb-3 pt-6 lg:mt-[108px]">
+        <div className="container relative mt-10 flex w-[440px] max-w-full flex-col items-center overflow-hidden rounded-xl bg-white px-4 pb-3 pt-6 lg:mt-[108px]">
           <Image
             priority
             src={backgroundLines3}
@@ -214,7 +214,7 @@ export default function Donors() {
             alt=""
           />
           <h1 className="self-start text-heading4">
-            Create your donation links
+            Create your donation link
           </h1>
           <div className="w-full">
             <Form className="w-full">
@@ -333,7 +333,7 @@ export default function Donors() {
           </Link>
         </div>
         <Button
-          className="absolute bottom-6 right-2 px-5 py-3.5 lg:right-7"
+          className="absolute bottom-6 right-1/2 translate-x-1/2 px-5 py-3.5 lg:right-7 lg:translate-x-0"
           intent="secondary"
           size="small"
           prefixIconName="InfoCircle"
