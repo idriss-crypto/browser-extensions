@@ -1,10 +1,16 @@
 'use client';
-import { backgroundLines2, backgroundLines3 } from '@/assets';
 import { Button } from '@idriss-xyz/ui/button';
 import Image from 'next/image';
-import { Providers } from '../providers';
-import { TopBar } from '@/components';
 import { IconButton } from '@idriss-xyz/ui/icon-button';
+import { useState } from 'react';
+import { Icon } from '@idriss-xyz/ui/icon';
+import { classes } from '@idriss-xyz/ui/utils';
+
+import { TopBar } from '@/components';
+import { backgroundLines2, backgroundLines3 } from '@/assets';
+
+import { Providers } from '../providers';
+
 import {
   banner1,
   banner10,
@@ -19,9 +25,6 @@ import {
   banner8,
   banner9,
 } from './assets';
-import { useState } from 'react';
-import { Icon } from '@idriss-xyz/ui/icon';
-import { classes } from '@idriss-xyz/ui/utils';
 
 const banners = [
   banner1,
@@ -39,18 +42,18 @@ const banners = [
 ];
 
 export default function Banner() {
-  const [selectedBannerSrc, setSelectedBannerSrc] = useState<string>();
+  const [selectedBannerSource, setSelectedBannerSource] = useState<string>();
 
   const handleDownload = () => {
-    if (!selectedBannerSrc) {
+    if (!selectedBannerSource) {
       return;
     }
     const link = document.createElement('a');
-    link.href = selectedBannerSrc;
+    link.href = selectedBannerSource;
     link.download = 'creator-banner.png';
-    document.body.appendChild(link);
+    document.body.append(link);
     link.click();
-    document.body.removeChild(link);
+    link.remove();
   };
 
   return (
@@ -85,11 +88,11 @@ export default function Banner() {
           </div>
           <div className="mt-6 grid w-full grid-cols-2 justify-center gap-4">
             {banners.map((banner) => {
-              const isSelected = banner.src === selectedBannerSrc;
+              const isSelected = banner.src === selectedBannerSource;
               return (
                 <div className="relative select-none" key={banner.src}>
                   <Image
-                    onClick={() => setSelectedBannerSrc(banner.src)}
+                    onClick={() => {return setSelectedBannerSource(banner.src)}}
                     className={classes(
                       'cursor-pointer rounded-lg p-[1px]',
                       isSelected && 'border border-mint-400 p-0',
@@ -114,7 +117,7 @@ export default function Banner() {
             })}
           </div>
           <Button
-            disabled={!selectedBannerSrc}
+            disabled={!selectedBannerSource}
             className="mt-6 w-full"
             intent="secondary"
             size="medium"

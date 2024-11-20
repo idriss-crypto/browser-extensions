@@ -6,6 +6,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { classes } from '@idriss-xyz/ui/utils';
 import { Multiselect, MultiselectOption } from '@idriss-xyz/ui/multiselect';
+import { ANNOUNCEMENT_LINK } from '@idriss-xyz/constants';
+import { Link } from '@idriss-xyz/ui/link';
 
 import { backgroundLines2, backgroundLines3 } from '@/assets';
 import { TopBar } from '@/components';
@@ -17,8 +19,6 @@ import {
 } from './donate/constants';
 import { Providers } from './providers';
 import { ChainToken, TokenSymbol } from './donate/types';
-import { ANNOUNCEMENT_LINK } from '@idriss-xyz/constants';
-import { Link } from '@idriss-xyz/ui/link';
 
 type FormPayload = {
   address: string;
@@ -206,7 +206,7 @@ export default function Donors() {
           alt=""
         />
 
-        <div className="overflow-hidden relative container mt-4 flex w-[440px] max-w-full flex-col items-center rounded-xl bg-white px-4 pb-3 pt-6 lg:mt-[108px]">
+        <div className="container relative mt-4 flex w-[440px] max-w-full flex-col items-center overflow-hidden rounded-xl bg-white px-4 pb-3 pt-6 lg:mt-[108px]">
           <Image
             priority
             src={backgroundLines3}
@@ -324,7 +324,11 @@ export default function Donors() {
               </div>
             </Form>
           </div>
-          <Link size="s" href="creators/banner" className="mt-[38px] mb-4 text-neutral-900 border-none">
+          <Link
+            size="s"
+            href="creators/banner"
+            className="mb-4 mt-[38px] border-none text-neutral-900"
+          >
             DOWNLOAD A BANNER FOR YOUR BIO
           </Link>
         </div>
@@ -332,7 +336,7 @@ export default function Donors() {
           className="absolute bottom-6 right-2 px-5 py-3.5 lg:right-7"
           intent="secondary"
           size="small"
-          prefixIconName={'InfoCircle'}
+          prefixIconName="InfoCircle"
           href={ANNOUNCEMENT_LINK.CREATORS_DONATIONS}
           isExternal
           asLink

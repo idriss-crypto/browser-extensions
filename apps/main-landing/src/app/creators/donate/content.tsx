@@ -12,6 +12,9 @@ import { classes } from '@idriss-xyz/ui/utils';
 import { useWallet } from '@idriss-xyz/wallet-connect';
 import { getAddress } from 'viem';
 import { Spinner } from '@idriss-xyz/ui/spinner';
+import Image from 'next/image';
+
+import { backgroundLines3 } from '@/assets';
 
 import { ChainSelect, TokenSelect } from './components';
 import {
@@ -30,8 +33,6 @@ import {
 } from './utils';
 import { Token } from './types';
 import { useSender } from './hooks';
-import Image from 'next/image';
-import { backgroundLines3 } from '@/assets';
 
 const SEARCH_PARAMETER = {
   ADDRESS: 'address',
