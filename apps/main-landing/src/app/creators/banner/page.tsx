@@ -93,7 +93,9 @@ export default function Banner() {
               return (
                 <div className="relative select-none" key={banner.src}>
                   <Image
-                    onClick={() => {return setSelectedBannerSource(banner.src)}}
+                    onClick={() => {
+                      setSelectedBannerSource(banner.src);
+                    }}
                     className={classes(
                       'cursor-pointer rounded-lg p-[1px]',
                       isSelected && 'border border-mint-400 p-0',
