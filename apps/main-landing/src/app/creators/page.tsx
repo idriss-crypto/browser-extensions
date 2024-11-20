@@ -86,7 +86,7 @@ export default function Donors() {
     if (!selectedChainsTokens) {
       return [];
     }
-    
+
     return new Map(
       selectedChainsTokens.map((token) => {
         return [token.symbol, token];
