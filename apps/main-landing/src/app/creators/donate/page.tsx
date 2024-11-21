@@ -13,7 +13,7 @@ export default function Donors() {
   return (
     <Providers>
       <TopBar />
-      <main className="flex grow items-start justify-center overflow-hidden bg-[radial-gradient(111.94%_122.93%_at_16.62%_0%,_#E7F5E7_0%,_#76C282_100%)] px-2 pt-[56px] lg:px-0">
+      <main className="flex grow items-start justify-center overflow-hidden bg-[radial-gradient(111.94%_122.93%_at_16.62%_0%,_#E7F5E7_0%,_#b5d8ae_100%)] px-2 pt-[56px] lg:px-0">
         <Image
           priority
           src={backgroundLines2}

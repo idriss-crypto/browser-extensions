@@ -34,13 +34,7 @@ const ALL_TOKEN_SYMBOLS = Object.values(CHAIN_ID_TO_TOKENS)
   .map((token) => {
     return token.symbol;
   });
-const UNIQUE_ALL_TOKEN_SYMBOLS = [
-  ...new Map(
-    ALL_TOKEN_SYMBOLS.map((symbol) => {
-      return [symbol, symbol];
-    }),
-  ).values(),
-];
+const UNIQUE_ALL_TOKEN_SYMBOLS = [...new Set(ALL_TOKEN_SYMBOLS)];
 
 const TOKENS_ORDER: Record<TokenSymbol, number> = {
   ETH: 1,
@@ -87,28 +81,30 @@ export default function Donors() {
       return [];
     }
 
-    return new Map(
-      selectedChainsTokens.map((token) => {
-        return [token.symbol, token];
-      }),
-    )
-      .values()
-      ?.map((token) => {
-        return {
-          label: token.name,
-          value: token.symbol,
-          icon: (
-            <Image
-              width={24}
-              height={24}
-              src={token.logo}
-              className="size-6 rounded-full"
-              alt={token.symbol}
-            />
-          ),
-        };
-      })
-      .toArray()
+    // Use a Set to track unique symbols
+    const uniqueSymbols = new Set<string>();
+    const uniqueTokens = selectedChainsTokens.filter((token) => {
+      if (uniqueSymbols.has(token.symbol)) {
+        return false;
+      }
+      uniqueSymbols.add(token.symbol);
+      return true;
+    });
+
+    return uniqueTokens
+      .map((token) => ({
+        label: token.name,
+        value: token.symbol,
+        icon: (
+          <Image
+            width={24}
+            height={24}
+            src={token.logo}
+            className="size-6 rounded-full"
+            alt={token.symbol}
+          />
+        ),
+      }))
       .sort((a, b) => {
         return (
           (TOKENS_ORDER[a.value as TokenSymbol] ?? 0) -
@@ -202,7 +198,7 @@ export default function Donors() {
   return (
     <Providers>
       <TopBar />
-      <main className="relative flex grow items-start justify-center overflow-hidden bg-[radial-gradient(111.94%_122.93%_at_16.62%_0%,_#E7F5E7_0%,_#76C282_100%)] px-2 pt-[56px] lg:px-0">
+      <main className="relative flex grow items-start justify-center overflow-hidden bg-[radial-gradient(111.94%_122.93%_at_16.62%_0%,_#E7F5E7_0%,_#b5d8ae_100%)] px-2 pt-[56px] lg:px-0">
         <Image
           priority
           src={backgroundLines2}
