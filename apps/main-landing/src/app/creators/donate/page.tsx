@@ -21,7 +21,7 @@ export default function Donors() {
           alt=""
         />
 
-        <Content className="container mt-8 lg:mt-[130px]" />
+        <Content className="container mt-8 lg:mt-[130px] lg:[@media(max-height:800px)]:mt-[60px]" />
         <Button
           className="px-5 py-3.5 lg:absolute lg:bottom-6 lg:right-7 lg:translate-x-0"
           intent="secondary"

@@ -81,7 +81,6 @@ export default function Donors() {
       return [];
     }
 
-    // Use a Set to track unique symbols
     const uniqueSymbols = new Set<string>();
     const uniqueTokens = selectedChainsTokens.filter((token) => {
       if (uniqueSymbols.has(token.symbol)) {
@@ -92,19 +91,21 @@ export default function Donors() {
     });
 
     return uniqueTokens
-      .map((token) => {return {
-        label: token.name,
-        value: token.symbol,
-        icon: (
-          <Image
-            width={24}
-            height={24}
-            src={token.logo}
-            className="size-6 rounded-full"
-            alt={token.symbol}
-          />
-        ),
-      }})
+      .map((token) => {
+        return {
+          label: token.name,
+          value: token.symbol,
+          icon: (
+            <Image
+              width={24}
+              height={24}
+              src={token.logo}
+              className="size-6 rounded-full"
+              alt={token.symbol}
+            />
+          ),
+        };
+      })
       .sort((a, b) => {
         return (
           (TOKENS_ORDER[a.value as TokenSymbol] ?? 0) -
@@ -206,7 +207,7 @@ export default function Donors() {
           alt=""
         />
 
-        <div className="container relative mt-8 flex w-[440px] max-w-full flex-col items-center overflow-hidden rounded-xl bg-white px-4 pb-3 pt-6 lg:mt-[130px]">
+        <div className="container relative mt-8 flex w-[440px] max-w-full flex-col items-center overflow-hidden rounded-xl bg-white px-4 pb-3 pt-6 lg:mt-[130px] lg:[@media(max-height:800px)]:mt-[60px]">
           <Image
             priority
             src={backgroundLines3}

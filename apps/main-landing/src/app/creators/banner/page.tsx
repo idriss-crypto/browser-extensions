@@ -69,7 +69,7 @@ export default function Banner() {
           alt=""
         />
 
-        <div className="container relative mt-8 flex w-[460px] max-w-full flex-col items-center overflow-hidden rounded-xl bg-white px-4 pb-3 pt-6 lg:mt-[130px]">
+        <div className="container relative mt-8 flex w-[460px] max-w-full flex-col items-center overflow-hidden rounded-xl bg-white px-4 pb-3 pt-6 lg:mt-[130px] lg:[@media(max-height:800px)]:mt-[60px]">
           <Image
             priority
             src={backgroundLines3}
