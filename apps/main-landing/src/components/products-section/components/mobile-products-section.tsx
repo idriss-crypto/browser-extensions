@@ -1,33 +1,35 @@
 'use client';
 
+import { useLayoutEffect, useRef, useState } from 'react';
+
 import { tabOptions } from '../constants';
+
 import { CreatorsSection } from './creators-section';
 import { ExtensionSection } from './extension-section';
 import { PredictionMarketsSection } from './prediction-markets-section';
 import { Tabs } from './tabs';
-import { useLayoutEffect, useRef, useState } from 'react';
 
 type Properties = {
   className?: string;
 };
 
 export const MobileProductsSection = ({ className }: Properties) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const reference = useRef<HTMLDivElement>(null);
   const [currentTopSection, setCurrentTopSection] =
     useState<string>('extension');
 
   useLayoutEffect(() => {
     const handleScroll = () => {
-      if (ref.current) {
+      if (reference.current) {
         const { left, top, width, height } =
-          ref.current.getBoundingClientRect();
+          reference.current.getBoundingClientRect();
 
         const { x, y } = { x: left + width / 2, y: top + height / 2 };
 
         const currentTopSection = document
           .elementsFromPoint(x, y)
-          .find((el) => {
-            return el.tagName === 'SECTION';
+          .find((element) => {
+            return element.tagName === 'SECTION';
           })?.id;
         if (currentTopSection) {
           setCurrentTopSection(currentTopSection);
@@ -48,7 +50,7 @@ export const MobileProductsSection = ({ className }: Properties) => {
         options={tabOptions}
         activeOptionKey={currentTopSection}
         asLink
-        ref={ref}
+        ref={reference}
       />
       <section className={className} id="extension">
         <ExtensionSection fadeOut={false} headerClassName="pt-0" />
