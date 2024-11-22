@@ -5,7 +5,7 @@ import { CreatorsSection } from './creators-section';
 import { ExtensionSection } from './extension-section';
 import { PredictionMarketsSection } from './prediction-markets-section';
 import { Tabs } from './tabs';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 type Properties = {
   className?: string;
@@ -13,7 +13,6 @@ type Properties = {
 
 export const MobileProductsSection = ({ className }: Properties) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
   const [currentTopSection, setCurrentTopSection] =
     useState<string>('extension');
 
@@ -22,7 +21,17 @@ export const MobileProductsSection = ({ className }: Properties) => {
       if (ref.current) {
         const { left, top, width, height } =
           ref.current.getBoundingClientRect();
-        setScrollPosition({ x: left + width / 2, y: top + height / 2 });
+
+        const { x, y } = { x: left + width / 2, y: top + height / 2 };
+
+        const currentTopSection = document
+          .elementsFromPoint(x, y)
+          .find((el) => {
+            return el.tagName === 'SECTION';
+          })?.id;
+        if (currentTopSection) {
+          setCurrentTopSection(currentTopSection);
+        }
       }
     };
 
@@ -32,17 +41,6 @@ export const MobileProductsSection = ({ className }: Properties) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-  useEffect(() => {
-    const currentTopSection = document
-      .elementsFromPoint(scrollPosition.x, scrollPosition.y)
-      .find((el) => {
-        return el.tagName === 'SECTION';
-      })?.id;
-    if (currentTopSection) {
-      setCurrentTopSection(currentTopSection);
-    }
-  }, [scrollPosition]);
 
   return (
     <div className="relative bg-[#022B1E]">
