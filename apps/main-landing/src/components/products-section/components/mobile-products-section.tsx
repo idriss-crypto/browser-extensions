@@ -1,16 +1,59 @@
+'use client';
+
+import { tabOptions } from '../constants';
 import { CreatorsSection } from './creators-section';
 import { ExtensionSection } from './extension-section';
 import { PredictionMarketsSection } from './prediction-markets-section';
+import { Tabs } from './tabs';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 type Properties = {
   className?: string;
 };
 
 export const MobileProductsSection = ({ className }: Properties) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
+  const [currentTopSection, setCurrentTopSection] =
+    useState<string>('extension');
+
+  useLayoutEffect(() => {
+    const handleScroll = () => {
+      if (ref.current) {
+        const { left, top, width, height } =
+          ref.current.getBoundingClientRect();
+        setScrollPosition({ x: left + width / 2, y: top + height / 2 });
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const currentTopSection = document
+      .elementsFromPoint(scrollPosition.x, scrollPosition.y)
+      .find((el) => {
+        return el.tagName === 'SECTION';
+      })?.id;
+    if (currentTopSection) {
+      setCurrentTopSection(currentTopSection);
+    }
+  }, [scrollPosition]);
+
   return (
-    <>
+    <div className="relative bg-[#022B1E]">
+      <Tabs
+        options={tabOptions}
+        activeOptionKey={currentTopSection}
+        asLink
+        ref={ref}
+      />
       <section className={className} id="extension">
-        <ExtensionSection fadeOut={false} />
+        <ExtensionSection fadeOut={false} headerClassName="pt-0" />
       </section>
       <section className={className} id="creators">
         <CreatorsSection fadeOut={false} />
@@ -18,6 +61,6 @@ export const MobileProductsSection = ({ className }: Properties) => {
       <section className={className} id="prediction-markets">
         <PredictionMarketsSection fadeOut={false} />
       </section>
-    </>
+    </div>
   );
 };
