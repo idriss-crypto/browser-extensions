@@ -47,11 +47,11 @@ export const Providers = ({
                       <QueryProvider>
                         <NiceModal.Provider>
                           <NotificationsProvider>
-                      <WalletContextProvider
+                            <WalletContextProvider
                               disabledWalletsRdns={disabledWalletRdns}
-                            onGetWallet={WalletStorage.get}
-                            onClearWallet={WalletStorage.clear}
-                            onSaveWallet={WalletStorage.save}
+                              onGetWallet={WalletStorage.get}
+                              onClearWallet={WalletStorage.clear}
+                              onSaveWallet={WalletStorage.save}
                             >
                               <ExtensionPopupProvider>
                                 <ExtensionSettingsProvider>
@@ -66,7 +66,7 @@ export const Providers = ({
                               </ExtensionPopupProvider>
                             </WalletContextProvider>
                           </NotificationsProvider>
-                  </NiceModal.Provider>
+                        </NiceModal.Provider>
                       </QueryProvider>
                     </TailwindProvider>
                   </FontProvider>

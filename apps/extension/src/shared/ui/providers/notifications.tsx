@@ -1,5 +1,5 @@
 import groupBy from 'lodash/groupBy';
-import React, {
+import {
   createContext,
   useState,
   useCallback,

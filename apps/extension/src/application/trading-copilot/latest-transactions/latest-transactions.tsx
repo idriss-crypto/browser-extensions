@@ -1,14 +1,15 @@
 import { useState } from 'react';
+
 import { TransactionListItem } from './transaction-list-item';
 
-const UNISWAP_V3_SUBGRAPH_ID = {
+const _UNISWAP_V3_SUBGRAPH_ID = {
   BASE: '43Hwfi3dJSoGpyas9VwNoDAv55yjgGrPpNSmbQZArzMG',
   CELO: 'ESdrTJ3twMwWVoQ1hUE2u7PugEHX3QkenudD6aXCkDQ4',
   OPTIMISM: 'Cghf4LfVqPiFw6fp6Y5X5Ubc8UpmUhSfJL82zwiBFLaj',
 } as const;
 
 export type SwapWithNetworkInfo = Swap & {
-  _network: keyof typeof UNISWAP_V3_SUBGRAPH_ID;
+  _network: keyof typeof _UNISWAP_V3_SUBGRAPH_ID;
 };
 
 type Swap = {

@@ -61,7 +61,7 @@ export const SubscriptionsList = ({
 
   return (
     <div className={className}>
-      <p className="text-gray-900 mb-2 text-sm font-semibold leading-6">
+      <p className="mb-2 text-sm font-semibold leading-6 text-mint-900">
         Your Subscriptions
       </p>
       {subscriptionsListBody}

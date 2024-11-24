@@ -1,14 +1,16 @@
 import moment, { duration } from 'moment';
+
 import { classes, Spinner } from 'shared/ui';
+
 import { ConfirmTransactionForm } from './confirm-transaction-form';
 import { SwapWithNetworkInfo } from './latest-transactions';
 import { SUPPORTED_ICONS, SupportedIcon, TOKEN_SYMBOL_TO_ICON } from './icons';
 
-type TransactionListItemProps = {
+type TransactionListItemProperties = {
   transaction: SwapWithNetworkInfo;
   isTransactionFormOpened: boolean;
   className?: string;
-  onFormToggleClick: (transactionId: string | undefined) => void;
+  onFormToggleClick: (transactionId?: string) => void;
 };
 
 export const TransactionListItem = ({
@@ -16,7 +18,7 @@ export const TransactionListItem = ({
   isTransactionFormOpened,
   className,
   onFormToggleClick,
-}: TransactionListItemProps) => {
+}: TransactionListItemProperties) => {
   const purchasedToken = {
     purchaseAmount: 1,
     purchaseToken: {
@@ -85,10 +87,10 @@ export const TransactionListItem = ({
             disabled={isLoading}
             onClick={() => {
               return isTransactionFormOpened
-                ? onFormToggleClick(undefined)
+                ? onFormToggleClick()
                 : onFormToggleClick(transaction.id);
             }}
-            className={`${!isTransactionFormOpened ? 'relative bg-[#16a34a] hover:bg-[#15803d]' : 'bg-[#9ca3af] hover:bg-[#6b7280]'} relative rounded-lg px-4 py-2 text-xs font-bold text-white shadow-lg`}
+            className={`${isTransactionFormOpened ? 'bg-[#9ca3af] hover:bg-[#6b7280]' : 'relative bg-[#16a34a] hover:bg-[#15803d]'} relative rounded-lg px-4 py-2 text-xs font-bold text-white shadow-lg`}
           >
             <Spinner
               className={classes(
@@ -107,11 +109,7 @@ export const TransactionListItem = ({
         </div>
       </div>
       {isTransactionFormOpened && (
-        <ConfirmTransactionForm
-          onConfirmClicked={function (): void {
-            console.log('Function not implemented.');
-          }}
-        />
+        <ConfirmTransactionForm onConfirmClicked={() => {}} />
       )}
     </li>
   );

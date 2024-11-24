@@ -69,7 +69,7 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
           }
         />
 
-        <p className="text-gray-700 ml-2 flex items-center gap-1 text-sm">
+        <p className="ml-2 flex items-center gap-1 text-sm text-neutral-700">
           {subscription.ensName}
 
           {twitterQuery.data && (
@@ -77,35 +77,23 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
               <Icon
                 size={16}
                 name="TwitterLogoIcon"
-                className="text-twitter-primary [&>path]:fill-rule-non-zero"
+                className="[&>path]:fill-rule-non-zero"
               />
             </ExternalLink>
           )}
           {githubQuery.data && (
             <ExternalLink href={getGithubUserLink(githubQuery.data)}>
-              <Icon
-                size={16}
-                name="GitHubLogoIcon"
-                className="text-twitter-primary"
-              />
+              <Icon size={16} name="GitHubLogoIcon" />
             </ExternalLink>
           )}
           {discordQuery.data && (
             <span title={discordQuery.data}>
-              <Icon
-                size={16}
-                name="DiscordLogoIcon"
-                className="text-twitter-primary"
-              />
+              <Icon size={16} name="DiscordLogoIcon" />
             </span>
           )}
           {emailQuery.data && (
             <ExternalLink href={`mailto:${emailQuery.data}`}>
-              <Icon
-                size={16}
-                name="EnvelopeClosedIcon"
-                className="text-twitter-primary"
-              />
+              <Icon size={16} name="EnvelopeClosedIcon" />
             </ExternalLink>
           )}
         </p>

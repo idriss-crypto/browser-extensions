@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-type ConfirmTransactionFormProps = {
+type ConfirmTransactionFormProperties = {
   onConfirmClicked: (amount: number) => void;
 };
 
 export const ConfirmTransactionForm = ({
   onConfirmClicked,
-}: ConfirmTransactionFormProps) => {
+}: ConfirmTransactionFormProperties) => {
   const [balancePercentage, setBalancePercentage] = useState(10);
   const currentETHBalance = 2;
 
@@ -34,8 +34,8 @@ export const ConfirmTransactionForm = ({
         min="0"
         max="100"
         value={balancePercentage}
-        onChange={(e) => {
-          return setBalancePercentage(Number(e.target.value));
+        onChange={(event) => {
+          return setBalancePercentage(Number(event.target.value));
         }}
         className="mt-1 w-full outline-none"
       />
