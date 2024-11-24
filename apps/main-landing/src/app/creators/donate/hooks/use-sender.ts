@@ -10,12 +10,20 @@ import { useSwitchChain } from './use-switch-chain';
 import { useGetTokenPerDollar } from './use-get-token-per-dollar';
 import { useNativeTransaction } from './use-native-transaction';
 import { useErc20Transaction } from './use-erc20-transaction';
+import { WalletClient } from 'viem';
 
 type Properties = {
-  wallet?: Wallet;
+  walletClient?: WalletClient;
 };
 
-export const useSender = ({ wallet }: Properties) => {
+export const useSender = ({ walletClient }: Properties) => {
+  const wallet: Wallet | undefined = walletClient ? {
+    account: walletClient.account,
+    provider: walletClient,
+    chainId: walletClient.chain?.id,
+    providerRdns: 'rainbowkit',
+  } : undefined;
+
   const switchChain = useSwitchChain();
 
   const getTokenPerDollarMutation = useGetTokenPerDollar();

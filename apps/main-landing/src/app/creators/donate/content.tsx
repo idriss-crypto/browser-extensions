@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useSearchParams } from 'next/navigation';
 import { Icon } from '@idriss-xyz/ui/icon';
 import { classes } from '@idriss-xyz/ui/utils';
-import { useWallet } from '@idriss-xyz/wallet-connect';
 import { getAddress } from 'viem';
 import { Spinner } from '@idriss-xyz/ui/spinner';
 import Image from 'next/image';
@@ -33,6 +32,8 @@ import {
 } from './utils';
 import { Token } from './types';
 import { useSender } from './hooks';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useAccount, useWalletClient } from 'wagmi';
 
 const SEARCH_PARAMETER = {
   ADDRESS: 'address',
@@ -49,7 +50,11 @@ const baseClassName =
   'z-1 w-[440px] max-w-full rounded-xl bg-white px-4 pb-9 pt-6 flex flex-col items-center relative';
 
 export const Content = ({ className }: Properties) => {
-  const { wallet, openConnectionModal, isConnectionModalOpened } = useWallet();
+
+  const { isConnected } = useAccount()
+  const { data: walletClient } = useWalletClient()
+  const { connectModalOpen, openConnectModal } = useConnectModal();
+
   const searchParameters = useSearchParams();
   const addressFromParameters =
     searchParameters.get(SEARCH_PARAMETER.ADDRESS) ??
@@ -165,7 +170,7 @@ export const Content = ({ className }: Properties) => {
     return tokens;
   }, [possibleTokens, chainId]);
 
-  const sender = useSender({ wallet });
+  const sender = useSender({ walletClient });
 
   const selectedToken = useMemo(() => {
     return CHAIN_ID_TO_TOKENS[chainId]?.find((token) => {
@@ -348,7 +353,7 @@ export const Content = ({ className }: Properties) => {
           }}
         />
 
-        {wallet ? (
+        {isConnected ? (
           <Button
             type="submit"
             intent="primary"
@@ -359,11 +364,11 @@ export const Content = ({ className }: Properties) => {
           </Button>
         ) : (
           <Button
-            intent="primary"
-            size="medium"
-            className="mt-6 w-full"
-            onClick={openConnectionModal}
-            loading={isConnectionModalOpened}
+          intent="primary"
+          size="medium"
+          className="mt-6 w-full"
+          onClick={openConnectModal}
+          loading={connectModalOpen}
           >
             LOG IN
           </Button>
