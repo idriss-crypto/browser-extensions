@@ -1,16 +1,16 @@
 import groupBy from 'lodash/groupBy';
+import { v4 as uuidv4 } from 'uuid';
 import {
   createContext,
   useState,
   useCallback,
   useMemo,
-  useContext,
   ReactElement,
 } from 'react';
 import * as ToastPrimitive from '@radix-ui/react-toast';
 import { Cross2Icon } from '@radix-ui/react-icons';
 
-import { classes } from '../utils';
+import { classes, createContextHook } from '../utils';
 
 type Position = 'top-right' | 'bottom-right';
 
@@ -21,7 +21,7 @@ interface NotificationContextType {
 interface NotificationProperties {
   body: ReactElement;
   position: Position;
-  timestamp: number;
+  uuid: string
 }
 
 interface NotificationsProperties {
@@ -53,7 +53,7 @@ const NotificationViewport = ({
 }: {
   position: Position;
   notifications: NotificationProperties[];
-  onRemove: (timestamp: number) => void;
+  onRemove: (uuid: string) => void;
   className?: string;
 }) => {
   if (notifications.length === 0) return null;
@@ -64,15 +64,15 @@ const NotificationViewport = ({
         return (
           <ToastPrimitive.Root
             duration={Infinity}
-            key={notification.timestamp}
+            key={notification.uuid}
             onOpenChange={(open) => {
               if (!open) {
-                onRemove(notification.timestamp);
+                onRemove(notification.uuid);
               }
             }}
             className="absolute bottom-3 right-3 flex items-center justify-between gap-3 rounded-lg bg-[#d1d5db] pr-3 shadow-2xl transition-all ease-in"
             style={{
-              transform: `scale(${1 - index * 0.1}, 1) translateY(-${index * 15}%)`,
+              transform: `scale(${1 - index * 0.1}, 1) translateY(${(notification.position === 'top-right' ? 1 : -1) * ((notification.position === 'top-right' ? 100 : 0) + index * 3)}%)`,
               opacity: 1 - index * 0.25,
               transitionDuration: `${70 + index * 70}ms`,
               zIndex: 10 - index,
@@ -118,17 +118,21 @@ const NotificationsProvider = ({
     });
   }, []);
 
-  const handleRemoveToast = useCallback((timestamp: number) => {
+  const handleRemoveToast = useCallback((uuid: string) => {
     setNotifications((previous) => {
       return previous.filter((existingToast) => {
-        return existingToast.timestamp !== timestamp;
+        return existingToast.uuid !== uuid;
       });
     });
   }, []);
 
   const handleDispatchNotification = useCallback(
     (body: ReactElement, position: Position = defaultPosition) => {
-      return handleAddToast({ body, position, timestamp: Date.now() });
+      return handleAddToast({
+        body,
+        position,
+        uuid: uuidv4(),
+      });
     },
     [handleAddToast, defaultPosition],
   );
@@ -178,10 +182,6 @@ const NotificationsProvider = ({
   );
 };
 
-function useNotification() {
-  const context = useContext(NotificationContext);
-  if (context) return context;
-  throw new Error('useNotification must be used within NotificationsProvider');
-}
+const useNotification = createContextHook(NotificationContext);
 
 export { NotificationsProvider, useNotification };
