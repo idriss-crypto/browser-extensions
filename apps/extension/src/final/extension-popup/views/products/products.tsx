@@ -3,6 +3,7 @@ import { ExternalLink } from '@idriss-xyz/ui/external-link';
 import { Button } from '@idriss-xyz/ui/button';
 import { useCallback } from 'react';
 import { ANNOUNCEMENT_LINK } from '@idriss-xyz/constants';
+import { Link } from '@idriss-xyz/ui/link';
 
 import {
   AGORA_LOGO,
@@ -20,6 +21,10 @@ export const Products = () => {
 
   const goToSettings = useCallback(() => {
     popup.navigate(POPUP_ROUTE.SETTINGS);
+  }, [popup]);
+
+  const goToTradingCopilot = useCallback(() => {
+    popup.navigate(POPUP_ROUTE.TRADING_COPILOT);
   }, [popup]);
 
   return (
@@ -85,25 +90,23 @@ export const Products = () => {
           />
         </ExternalLink>
 
-        <ProductCard
-          className="hover:scale-100 hover:bg-white"
-          heading={
-            <div className="opacity-40">
-              <Icon name="Rocket" size={40} className="text-black" />
-            </div>
-          }
-          title={
-            <ProductCard.Title className="mt-4 opacity-40">
-              Trading Copilot
-            </ProductCard.Title>
-          }
-          description={
-            <ProductCard.Description className="mt-1 opacity-40">
-              Coming soon
-            </ProductCard.Description>
-          }
-        />
+        <Link className="hover:cursor-pointer border-b-0" size="medium" onClick={goToTradingCopilot}>
+          <ProductCard
+            heading={<Icon name="Rocket" size={40} className="text-black" />}
+            title={
+              <ProductCard.Title className="mt-4">
+                Trading Copilot
+              </ProductCard.Title>
+            }
+            description={
+              <ProductCard.Description className="mt-1">
+                Copy onchain moves
+              </ProductCard.Description>
+            }
+          />
+        </Link>
       </div>
+
       <Button
         intent="primary"
         size="medium"

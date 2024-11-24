@@ -13,6 +13,7 @@ import {
   ArrowRight,
   AlertCircle,
   CheckCircle2,
+  Bitcoin,
 } from 'lucide-react';
 
 import * as customIcons from './custom';
@@ -25,6 +26,7 @@ export const ICON = {
   Puzzle,
   Rocket,
   LogOut,
+  Bitcoin,
   Settings,
   ArrowLeft,
   ArrowRight,

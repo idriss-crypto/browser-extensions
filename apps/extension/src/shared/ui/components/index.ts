@@ -19,3 +19,5 @@ export { ScrollArea } from './scroll-area';
 export { PortalWithTailwind } from './portal-with-tailwind';
 export { LazyImage } from './lazy-image';
 export { Empty } from './empty';
+export { ToastWrapper } from './toast'
+export { Dialog } from './dialog';
