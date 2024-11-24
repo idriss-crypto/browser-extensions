@@ -8,6 +8,8 @@ import { backgroundLines2 } from '@/assets';
 import { RainbowKitProviders } from './providers';
 import { Content } from './content';
 
+import '@rainbow-me/rainbowkit/styles.css';
+
 // ts-unused-exports:disable-next-line
 export default function Donors() {
   return (
