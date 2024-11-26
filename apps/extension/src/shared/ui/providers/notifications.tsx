@@ -21,7 +21,7 @@ interface NotificationContextType {
 interface NotificationProperties {
   body: ReactElement;
   position: Position;
-  uuid: string
+  uuid: string;
 }
 
 interface NotificationsProperties {
@@ -56,7 +56,9 @@ const NotificationViewport = ({
   onRemove: (uuid: string) => void;
   className?: string;
 }) => {
-  if (notifications.length === 0) return null;
+  if (notifications.length === 0) {
+    return null;
+  }
 
   return (
     <ToastPrimitive.Provider>
@@ -67,10 +69,12 @@ const NotificationViewport = ({
             key={notification.uuid}
             onOpenChange={(open) => {
               if (!open) {
-                onRemove(notification.uuid);
+                setTimeout(() => {
+                  onRemove(notification.uuid);
+                }, 100);
               }
             }}
-            className="absolute bottom-3 right-3 flex items-center justify-between gap-3 rounded-lg bg-[#d1d5db] pr-3 shadow-2xl transition-all ease-in"
+            className={`absolute bottom-3 right-3 flex items-center justify-between gap-3 rounded-lg bg-[#d1d5db] pr-3 shadow-2xl transition-all ease-in [&[data-state="closed"]]:animate-[swipeRight_100ms_ease-in_forwards] [&[data-state="open"]]:animate-[swipeLeft_100ms_ease-out_forwards]`}
             style={{
               transform: `scale(${1 - index * 0.1}, 1) translateY(${(notification.position === 'top-right' ? 1 : -1) * ((notification.position === 'top-right' ? 100 : 0) + index * 3)}%)`,
               opacity: 1 - index * 0.25,
@@ -86,7 +90,7 @@ const NotificationViewport = ({
                 <ToastPrimitive.Description className="text-sm text-[#6b7280]" />
               </div>
             </div>
-            <ToastPrimitive.Close className="flex size-6 items-center justify-center rounded-full bg-[#f3f4f6] text-[#6b7280] hover:bg-[#e5e7eb]">
+            <ToastPrimitive.Close className="flex items-center justify-center rounded-full bg-[#f3f4f6] text-[#6b7280] hover:bg-[#e5e7eb]">
               <Cross2Icon />
             </ToastPrimitive.Close>
           </ToastPrimitive.Root>
