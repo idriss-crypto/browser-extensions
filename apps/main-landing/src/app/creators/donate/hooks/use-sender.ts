@@ -18,7 +18,7 @@ type Properties = {
 
 export const useSender = ({ walletClient }: Properties) => {
   const wallet: Wallet | undefined = walletClient ? {
-    account: walletClient.account,
+    account: walletClient.account?.address,
     provider: walletClient,
     chainId: walletClient.chain?.id,
     providerRdns: 'rainbowkit',
