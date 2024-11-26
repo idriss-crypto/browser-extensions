@@ -71,7 +71,7 @@ const NotificationViewport = ({
               if (!open) {
                 setTimeout(() => {
                   onRemove(notification.uuid);
-                }, 100);
+                }, 150);
               }
             }}
             className={`absolute bottom-3 right-3 flex items-center justify-between gap-3 rounded-lg bg-[#d1d5db] pr-3 shadow-2xl transition-all ease-in [&[data-state="closed"]]:animate-[swipeRight_100ms_ease-in_forwards] [&[data-state="open"]]:animate-[swipeLeft_100ms_ease-out_forwards]`}
