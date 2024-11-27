@@ -33,7 +33,7 @@ import {
 import { Token } from './types';
 import { useSender } from './hooks';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
-import { useAccount, useWalletClient } from 'wagmi';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 
 const SEARCH_PARAMETER = {
   ADDRESS: 'address',
@@ -52,7 +52,8 @@ const baseClassName =
 export const Content = ({ className }: Properties) => {
 
   const { isConnected } = useAccount()
-  const { data: walletClient } = useWalletClient()
+  const { data: walletClient } = useWalletClient();
+  const publicClient = usePublicClient();
   const { connectModalOpen, openConnectModal } = useConnectModal();
 
   const searchParameters = useSearchParams();
@@ -170,7 +171,7 @@ export const Content = ({ className }: Properties) => {
     return tokens;
   }, [possibleTokens, chainId]);
 
-  const sender = useSender({ walletClient });
+  const sender = useSender({ walletClient, publicClient });
 
   const selectedToken = useMemo(() => {
     return CHAIN_ID_TO_TOKENS[chainId]?.find((token) => {
@@ -195,6 +196,7 @@ export const Content = ({ className }: Properties) => {
         return;
       }
       const validAddress = getAddress(addressValidationResult.data);
+      // TODO: Add error handling
       await sender.send({
         sendPayload,
         recipientAddress: validAddress,

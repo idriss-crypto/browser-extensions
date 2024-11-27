@@ -1,4 +1,3 @@
-import { Wallet } from '@idriss-xyz/wallet-connect';
 import { useCallback } from 'react';
 
 import { Hex } from '../types';
@@ -10,19 +9,14 @@ import { useSwitchChain } from './use-switch-chain';
 import { useGetTokenPerDollar } from './use-get-token-per-dollar';
 import { useNativeTransaction } from './use-native-transaction';
 import { useErc20Transaction } from './use-erc20-transaction';
-import { WalletClient } from 'viem';
+import { PublicClient, WalletClient } from 'viem';
 
 type Properties = {
   walletClient?: WalletClient;
+  publicClient?: PublicClient;
 };
 
-export const useSender = ({ walletClient }: Properties) => {
-  const wallet: Wallet | undefined = walletClient ? {
-    account: walletClient.account?.address,
-    provider: walletClient,
-    chainId: walletClient.chain?.id,
-    providerRdns: 'rainbowkit',
-  } : undefined;
+export const useSender = ({ walletClient, publicClient }: Properties) => {
 
   const switchChain = useSwitchChain();
 
@@ -38,7 +32,8 @@ export const useSender = ({ walletClient }: Properties) => {
       recipientAddress: Hex;
       sendPayload: SendPayload;
     }) => {
-      if (!wallet) {
+      if (!walletClient || !publicClient) {
+        console.error('walletClient or publicClient not defined');
         return;
       }
 
@@ -74,14 +69,15 @@ export const useSender = ({ walletClient }: Properties) => {
 
       await switchChain.mutateAsync({
         chainId: sendPayload.chainId,
-        wallet,
+        walletClient,
       });
 
       if (isNativeTokenAddress(sendPayload.tokenAddress)) {
         nativeTransaction.mutate({
           tokensToSend,
           recipientAddress,
-          wallet,
+          walletClient,
+          publicClient,
           chainId: sendPayload.chainId,
           message: sendPayload.message,
         });
@@ -89,7 +85,8 @@ export const useSender = ({ walletClient }: Properties) => {
         erc20Transaction.mutate({
           recipientAddress,
           tokenAddress: sendPayload.tokenAddress,
-          wallet,
+          walletClient,
+          publicClient,
           tokensToSend,
           chainId: sendPayload.chainId,
           message: sendPayload.message,
@@ -101,7 +98,7 @@ export const useSender = ({ walletClient }: Properties) => {
       getTokenPerDollarMutation,
       nativeTransaction,
       switchChain,
-      wallet,
+      walletClient,
     ],
   );
 
