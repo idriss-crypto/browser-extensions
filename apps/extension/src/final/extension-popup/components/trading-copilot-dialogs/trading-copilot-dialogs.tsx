@@ -125,7 +125,7 @@ const TradingCopilotDialog = ({
               }
             />
             <div className="flex flex-col">
-              <p className="text-heading4 text-neutralGreen-900">
+              <p className="text-label3 text-neutralGreen-900">
                 {details.name}{' '}
                 <span className="text-body3 text-neutral-600">
                   purchased {details.amount} {details.crypto}
