@@ -46,7 +46,7 @@ export const SubscriptionForm = ({ onSubmit }: Properties) => {
     <form onSubmit={form.handleSubmit(addSubscriber)}>
       <label
         htmlFor="subscriptionName"
-        className="block text-sm font-medium leading-6 text-[#111827]"
+        className="block text-label4 text-neutralGreen-700"
       >
         Subscribe to Wallet
       </label>

@@ -3,7 +3,6 @@ import { ExternalLink } from '@idriss-xyz/ui/external-link';
 import { Button } from '@idriss-xyz/ui/button';
 import { useCallback } from 'react';
 import { ANNOUNCEMENT_LINK } from '@idriss-xyz/constants';
-import { Link } from '@idriss-xyz/ui/link';
 
 import {
   AGORA_LOGO,
@@ -90,7 +89,10 @@ export const Products = () => {
           />
         </ExternalLink>
 
-        <Link className="hover:cursor-pointer border-b-0" size="medium" onClick={goToTradingCopilot}>
+        <div
+          className="border-b-0 hover:cursor-pointer"
+          onClick={goToTradingCopilot}
+        >
           <ProductCard
             heading={<Icon name="Rocket" size={40} className="text-black" />}
             title={
@@ -104,7 +106,7 @@ export const Products = () => {
               </ProductCard.Description>
             }
           />
-        </Link>
+        </div>
       </div>
 
       <Button

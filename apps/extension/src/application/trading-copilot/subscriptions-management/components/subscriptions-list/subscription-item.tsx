@@ -1,8 +1,14 @@
 import { useCallback } from 'react';
 import { ExternalLink } from '@idriss-xyz/ui/external-link';
+import { Icon as IdrissIcon } from '@idriss-xyz/ui/icon';
 
 import { useCommandQuery } from 'shared/messaging';
-import { Icon, IconButton, LazyImage, getGithubUserLink } from 'shared/ui';
+import {
+  Icon,
+  LazyImage,
+  getGithubUserLink,
+  IdrissIconButton,
+} from 'shared/ui';
 import { getTwitterUserLink } from 'host/twitter';
 
 import { GetEnsInfoCommand } from '../../../commands';
@@ -63,13 +69,19 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
       <div className="flex items-center">
         <LazyImage
           src={avatarQuery.data}
-          className="size-7 rounded-full"
+          className="size-8 rounded-full bg-neutral-200"
           fallbackComponent={
-            <Icon size={24} name="PersonIcon" className="rounded-full text-neutral-700 bg-neutral-300 p-1" />
+            <div className="flex size-8 items-center justify-center rounded-full bg-neutral-200">
+              <IdrissIcon
+                size={20}
+                name="CircleUserRound"
+                className="m-auto text-neutral-700"
+              />
+            </div>
           }
         />
 
-        <p className="ml-2 flex items-center gap-1 text-sm text-neutral-700">
+        <p className="ml-2 flex items-center gap-1 text-label5 font-normal text-neutral-600">
           {subscription.ensName}
 
           {twitterQuery.data && (
@@ -77,7 +89,7 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
               <Icon
                 size={16}
                 name="TwitterLogoIcon"
-                className="text-neutral-700 [&>path]:fill-rule-non-zero"
+                className="text-[#757575] [&>path]:fill-rule-non-zero"
               />
             </ExternalLink>
           )}
@@ -86,7 +98,7 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
               <Icon
                 size={16}
                 name="GitHubLogoIcon"
-                className="text-neutral-700"
+                className="text-[#757575]"
               />
             </ExternalLink>
           )}
@@ -95,7 +107,7 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
               <Icon
                 size={16}
                 name="DiscordLogoIcon"
-                className="text-neutral-700"
+                className="text-[#757575]"
               />
             </span>
           )}
@@ -104,15 +116,15 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
               <Icon
                 size={16}
                 name="EnvelopeClosedIcon"
-                className="text-neutral-700"
+                className="text-[#757575]"
               />
             </ExternalLink>
           )}
         </p>
       </div>
-      <IconButton
-        iconProps={{ name: 'TrashIcon' }}
-        className="text-[#b91c1c]"
+      <IdrissIconButton
+        iconProps={{ name: 'Trash2', size: 20 }}
+        className="text-red-500"
         onClick={remove}
       />
     </li>

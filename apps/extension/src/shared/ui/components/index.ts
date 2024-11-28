@@ -3,7 +3,7 @@ export { Chip } from './chip';
 export type { ButtonProperties } from './button';
 export { Button } from './button';
 export { ErrorMessage } from './error-message';
-export { IconButton } from './icon-button';
+export { IconButton, IdrissIconButton } from './icon-button';
 export { Icon } from './icon';
 export { CurrencyInput } from './currency-input';
 export { InputBase } from './input-base';
@@ -20,4 +20,4 @@ export { PortalWithTailwind } from './portal-with-tailwind';
 export { LazyImage } from './lazy-image';
 export { Empty } from './empty';
 export { ToastWrapper } from './toast'
-export { Dialog } from './dialog';
+export { DialogComponent } from './dialog';

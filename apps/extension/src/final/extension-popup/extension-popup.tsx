@@ -15,11 +15,11 @@ import {
   TopBar,
   Footer,
   PopupContentLayout,
-  SettingsLayout, 
+  SettingsLayout,
   TradingCopilotLayout,
+  TradingCopilotToasts,
+  TradingCopilotDialogs,
 } from './components';
-import { TradingCopilotToasts } from './components/trading-copilot-toasts';
-import { TradingCopilotDialogs } from './components/trading-copilot-dialogs';
 
 export const ExtensionPopup = () => {
   const [activeDialogId, setActiveDialogId] = useState<string | null>(null);
@@ -64,7 +64,10 @@ export const ExtensionPopup = () => {
             </Route>
 
             <Route element={<TradingCopilotLayout />}>
-              <Route path={POPUP_ROUTE.TRADING_COPILOT} element={<SubscriptionsManagement />} />
+              <Route
+                path={POPUP_ROUTE.TRADING_COPILOT}
+                element={<SubscriptionsManagement />}
+              />
             </Route>
           </Route>
         </Routes>
@@ -72,7 +75,10 @@ export const ExtensionPopup = () => {
         <Footer className="z-1 rounded-b-xl" />
       </Closable>
       <TradingCopilotToasts openDialog={openDialog} />
-      <TradingCopilotDialogs activeDialogId={activeDialogId} closeDialog={closeDialog} />
+      <TradingCopilotDialogs
+        activeDialogId={activeDialogId}
+        closeDialog={closeDialog}
+      />
     </>
   );
 };

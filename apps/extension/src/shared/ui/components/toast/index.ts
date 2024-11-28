@@ -1,1 +1,1 @@
-export { Toast as ToastWrapper } from './toast';
+export { ToastComponent as ToastWrapper } from './toast.component';
