@@ -2,26 +2,49 @@
 import Image from 'next/image';
 import { Form } from '@idriss-xyz/ui/form';
 import { Button } from '@idriss-xyz/ui/button';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useCallback, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { classes } from '@idriss-xyz/ui/utils';
+import { Multiselect, MultiselectOption } from '@idriss-xyz/ui/multiselect';
+import { ANNOUNCEMENT_LINK } from '@idriss-xyz/constants';
+import { Link } from '@idriss-xyz/ui/link';
 
-import { backgroundLines2 } from '@/assets';
+import { backgroundLines2, backgroundLines3 } from '@/assets';
 import { TopBar } from '@/components';
 
-import { ChainSelect, TokenSelect } from './donate/components';
 import {
   CHAIN,
   CHAIN_ID_TO_TOKENS,
   DEFAULT_ALLOWED_CHAINS_IDS,
 } from './donate/constants';
 import { Providers } from './providers';
-import { getDefaultTokenForChainId } from './donate/utils';
+import { ChainToken, TokenSymbol } from './donate/types';
 
 type FormPayload = {
   address: string;
-  tokenAddress: string;
-  chainId: number;
+  tokensSymbols: string[];
+  chainsIds: number[];
+};
+
+const ALL_CHAIN_IDS = Object.values(CHAIN).map((chain) => {
+  return chain.id;
+});
+const ALL_TOKEN_SYMBOLS = Object.values(CHAIN_ID_TO_TOKENS)
+  .flat()
+  .map((token) => {
+    return token.symbol;
+  });
+const UNIQUE_ALL_TOKEN_SYMBOLS = [...new Set(ALL_TOKEN_SYMBOLS)];
+
+const TOKENS_ORDER: Record<TokenSymbol, number> = {
+  ETH: 1,
+  USDC: 2,
+  DAI: 3,
+  GHST: 4,
+  PRIME: 5,
+  YGG: 6,
+  PDT: 7,
+  DEGEN: 8,
 };
 
 // ts-unused-exports:disable-next-line
@@ -32,38 +55,123 @@ export default function Donors() {
   const formMethods = useForm<FormPayload>({
     defaultValues: {
       address: '',
-      chainId: CHAIN.ETHEREUM.id,
-      tokenAddress: CHAIN_ID_TO_TOKENS[CHAIN.ETHEREUM.id][1]?.address ?? '0x',
+      chainsIds: ALL_CHAIN_IDS,
+      tokensSymbols: UNIQUE_ALL_TOKEN_SYMBOLS,
     },
+    mode: 'onChange',
   });
-  const [chainId, tokenAddress, address] = formMethods.watch([
-    'chainId',
-    'tokenAddress',
+  const [chainsIds, tokensSymbols, address] = formMethods.watch([
+    'chainsIds',
+    'tokensSymbols',
     'address',
   ]);
 
-  const onChangeChainId = useCallback(
-    (chainId: number) => {
-      formMethods.resetField('tokenAddress', {
-        defaultValue: getDefaultTokenForChainId(chainId).address,
+  const selectedChainsTokens: ChainToken[] = useMemo(() => {
+    return chainsIds
+      .flatMap((chainId) => {
+        return CHAIN_ID_TO_TOKENS[chainId] as ChainToken | undefined;
+      })
+      .filter((token) => {
+        return token !== undefined;
       });
-    },
-    [formMethods],
-  );
+  }, [chainsIds]);
+
+  const uniqueTokenOptions: MultiselectOption<string>[] = useMemo(() => {
+    if (!selectedChainsTokens) {
+      return [];
+    }
+
+    const uniqueSymbols = new Set<string>();
+    const uniqueTokens = selectedChainsTokens.filter((token) => {
+      if (uniqueSymbols.has(token.symbol)) {
+        return false;
+      }
+      uniqueSymbols.add(token.symbol);
+      return true;
+    });
+
+    return uniqueTokens
+      .map((token) => {
+        return {
+          label: token.name,
+          value: token.symbol,
+          icon: (
+            <Image
+              width={24}
+              height={24}
+              src={token.logo}
+              className="size-6 rounded-full"
+              alt={token.symbol}
+            />
+          ),
+        };
+      })
+      .sort((a, b) => {
+        return (
+          (TOKENS_ORDER[a.value as TokenSymbol] ?? 0) -
+          (TOKENS_ORDER[b.value as TokenSymbol] ?? 0)
+        );
+      });
+  }, [selectedChainsTokens]);
+
+  const allowedChainOptions: MultiselectOption<number>[] = useMemo(() => {
+    return DEFAULT_ALLOWED_CHAINS_IDS.map((chainId) => {
+      const foundChain = Object.values(CHAIN).find((chain) => {
+        return chain.id === chainId;
+      });
+      if (!foundChain) {
+        throw new Error(`${chainId} not found`);
+      }
+      return {
+        label: foundChain.name,
+        value: foundChain.id,
+        icon: (
+          <Image
+            width={24}
+            height={24}
+            src={foundChain.logo}
+            className="size-6 rounded-full"
+            alt={foundChain.name}
+          />
+        ),
+      };
+    });
+  }, []);
+
+  const onChangeChainId = useCallback(() => {
+    formMethods.setValue(
+      'tokensSymbols',
+      tokensSymbols.filter((symbol) => {
+        return selectedChainsTokens.some((option) => {
+          return option.symbol === symbol;
+        });
+      }),
+    );
+  }, [formMethods, tokensSymbols, selectedChainsTokens]);
+
+  const validateAndCopy = async (copyFunction: () => Promise<void>) => {
+    const isValid = await formMethods.trigger();
+    if (isValid) {
+      await copyFunction();
+    }
+  };
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const copyDonationLink = async () => {
-    const chainShortName =
-      Object.values(CHAIN).find((chain) => {
-        return chain.id === chainId;
-      })?.shortName ?? '';
-    const tokenSymbol =
-      CHAIN_ID_TO_TOKENS[chainId]?.find((token) => {
-        return token.address === tokenAddress;
-      })?.symbol ?? '';
+    const chainsShortNames = chainsIds
+      //eslint-disable-next-line unicorn/no-array-reduce
+      .reduce((previous, chainId) => {
+        return [
+          ...previous,
+          Object.values(CHAIN).find((chain) => {
+            return chain.id === chainId;
+          })?.shortName ?? '',
+        ];
+      }, [] as string[])
+      .filter(Boolean);
 
     await navigator.clipboard.writeText(
-      `https://www.idriss.xyz/creators/donate?address=${address}&token=${tokenSymbol}&network=${chainShortName}`,
+      `https://www.idriss.xyz/creators/donate?address=${address}&token=${tokensSymbols.join(',')}&network=${chainsShortNames.join(',')}`,
     );
 
     setCopiedDonationLink(true);
@@ -86,17 +194,12 @@ export default function Donors() {
 
   useEffect(() => {
     resetCopyState();
-  }, [address, tokenAddress, chainId, resetCopyState]);
-
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  const onSubmit: SubmitHandler<FormPayload> = () => {
-    //
-  };
+  }, [address, tokensSymbols, chainsIds, resetCopyState]);
 
   return (
     <Providers>
       <TopBar />
-      <main className="flex grow items-start justify-center overflow-hidden bg-[radial-gradient(111.94%_122.93%_at_16.62%_0%,_#E7F5E7_0%,_#76C282_100%)] pt-[104px]">
+      <main className="relative flex min-h-screen grow flex-col items-center justify-around gap-4 overflow-hidden bg-[radial-gradient(111.94%_122.93%_at_16.62%_0%,_#E7F5E7_0%,_#b5d8ae_100%)] px-2 pb-1 pt-[56px] lg:flex-row lg:items-start lg:justify-center lg:px-0">
         <Image
           priority
           src={backgroundLines2}
@@ -104,23 +207,35 @@ export default function Donors() {
           alt=""
         />
 
-        <div className="container flex w-[426px] max-w-full flex-col items-center rounded-xl bg-white px-4 pb-3 pt-6 lg:mt-[108px]">
+        <div className="container relative mt-8 flex w-[440px] max-w-full flex-col items-center overflow-hidden rounded-xl bg-white px-4 pb-3 pt-6 lg:mt-[130px] lg:[@media(max-height:800px)]:mt-[60px]">
+          <Image
+            priority
+            src={backgroundLines3}
+            className="pointer-events-none absolute top-0 hidden h-full opacity-40 lg:block"
+            alt=""
+          />
           <h1 className="self-start text-heading4">
-            Create your donation links
+            Create your donation link
           </h1>
           <div className="w-full">
-            <Form
-              className="w-full"
-              onSubmit={formMethods.handleSubmit(onSubmit)}
-            >
+            <Form className="w-full">
               <Controller
                 control={formMethods.control}
                 name="address"
-                render={({ field }) => {
+                rules={{
+                  required: 'Address is required',
+                  pattern: {
+                    value: /^0x/,
+                    message: 'Address must start with 0x',
+                  },
+                }}
+                render={({ field, fieldState }) => {
                   return (
                     <Form.Field
                       label="Wallet address"
                       className="mt-6 w-full"
+                      helperText={fieldState.error?.message}
+                      error={Boolean(fieldState.error?.message)}
                       {...field}
                     />
                   );
@@ -129,39 +244,51 @@ export default function Donors() {
 
               <Controller
                 control={formMethods.control}
-                name="chainId"
-                render={({ field }) => {
+                name="chainsIds"
+                rules={{
+                  required: 'Select at least one network',
+                }}
+                render={({ field, fieldState }) => {
                   return (
-                    <ChainSelect
-                      className="mt-6 w-full"
-                      label="Network"
-                      allowedChainsIds={DEFAULT_ALLOWED_CHAINS_IDS}
-                      onChange={(value) => {
-                        onChangeChainId(value);
-                        field.onChange(value);
-                      }}
-                      value={field.value}
-                    />
+                    <>
+                      <Multiselect<number>
+                        inputClassName="mt-6 w-full"
+                        label="Network"
+                        options={allowedChainOptions}
+                        onChange={(value) => {
+                          onChangeChainId();
+                          field.onChange(value);
+                        }}
+                        value={field.value}
+                        helperText={fieldState.error?.message}
+                        error={Boolean(fieldState.error?.message)}
+                      />
+                    </>
                   );
                 }}
               />
 
               <Controller
                 control={formMethods.control}
-                name="tokenAddress"
-                render={({ field }) => {
+                name="tokensSymbols"
+                rules={{
+                  required: 'Select at least one token',
+                }}
+                render={({ field, fieldState }) => {
                   return (
-                    <TokenSelect
-                      className="mt-4 w-full"
+                    <Multiselect<string>
+                      inputClassName="mt-6 w-full"
                       label="Token"
-                      tokens={CHAIN_ID_TO_TOKENS[chainId] ?? []}
+                      options={uniqueTokenOptions}
                       onChange={field.onChange}
                       value={field.value}
+                      helperText={fieldState.error?.message}
+                      error={Boolean(fieldState.error?.message)}
                     />
                   );
                 }}
               />
-              <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="mt-6 grid grid-cols-2 gap-2 lg:gap-4">
                 <Button
                   intent="primary"
                   size="medium"
@@ -173,7 +300,9 @@ export default function Donors() {
                     copiedDonationLink &&
                       'bg-mint-600 hover:bg-mint-600 [&>div]:hidden',
                   )}
-                  onClick={copyDonationLink}
+                  onClick={() => {
+                    return validateAndCopy(copyDonationLink);
+                  }}
                 >
                   {copiedDonationLink ? 'COPIED' : 'DONATION LINK'}
                 </Button>
@@ -187,14 +316,34 @@ export default function Donors() {
                     copiedObsLink &&
                       'border-mint-600 bg-mint-300 hover:bg-mint-300',
                   )}
-                  onClick={copyObsLink}
+                  onClick={() => {
+                    return validateAndCopy(copyObsLink);
+                  }}
                 >
                   {copiedObsLink ? 'COPIED' : 'OBS LINK'}
                 </Button>
               </div>
             </Form>
           </div>
+          <Link
+            size="s"
+            href="creators/banner"
+            className="mb-4 mt-[38px] border-none text-neutral-900 hover:text-mint-600"
+          >
+            DOWNLOAD A BANNER FOR YOUR BIO
+          </Link>
         </div>
+        <Button
+          className="px-5 py-3.5 lg:absolute lg:bottom-6 lg:right-7 lg:translate-x-0"
+          intent="secondary"
+          size="small"
+          prefixIconName="InfoCircle"
+          href={ANNOUNCEMENT_LINK.CREATORS_DONATIONS}
+          isExternal
+          asLink
+        >
+          STEP-BY-STEP GUIDE
+        </Button>
       </main>
     </Providers>
   );

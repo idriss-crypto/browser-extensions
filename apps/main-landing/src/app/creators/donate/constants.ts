@@ -102,7 +102,7 @@ export const TOKEN = {
     symbol: 'PDT',
     logo: PDT_LOGO,
   },
-} satisfies Record<string, Token>;
+} as const satisfies Record<string, Token>;
 
 export const CHAIN_ID_TO_TOKENS = {
   [CHAIN.ALEPH.id]: [
@@ -221,6 +221,11 @@ export const CHAIN_ID_TO_TOKENS = {
       ...TOKEN.PDT,
       decimals: 18,
       address: '0xeff2a458e464b07088bdb441c21a42ab4b61e07e',
+    },
+    {
+      ...TOKEN.YGG,
+      decimals: 18,
+      address: '0x25f8087ead173b73d6e8b84329989a8eea16cf73',
     },
     {
       ...TOKEN.DEGEN,
