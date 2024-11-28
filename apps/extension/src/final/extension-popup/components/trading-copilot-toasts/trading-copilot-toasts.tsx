@@ -94,7 +94,7 @@ const TradingCopilotToast = ({toast: {details, open, dialogId}, openDialog}: Tra
                 className="uppercase"
                 onClick={() => {
                   openDialog(dialogId);
-                  setIsOpen(!open);
+                  setIsOpen(true);
                 }}
               >
                 Copy
