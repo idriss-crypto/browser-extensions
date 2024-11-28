@@ -15,7 +15,8 @@ export const TradingCopilotLayout = () => {
   const title = POPUP_ROUTE_TITLE[popup.currentRoute];
 
   const leftColumn = useMemo(() => {
-    const allowToNavigateBack = popup.currentRoute === POPUP_ROUTE.TRADING_COPILOT;
+    const allowToNavigateBack =
+      popup.currentRoute === POPUP_ROUTE.TRADING_COPILOT;
     return allowToNavigateBack ? (
       <IconButton
         intent="tertiary"

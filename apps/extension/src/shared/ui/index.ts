@@ -16,7 +16,6 @@ export {
   ToastWrapper,
   ErrorMessage,
   CurrencyInput,
-  DialogComponent,
   IdrissIconButton,
   PulsingLoadingBar,
   PortalWithTailwind,

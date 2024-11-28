@@ -48,7 +48,7 @@ export const IdrissIconButton = ({
   disabled = false,
 }: IdrissIconButtonProperties) => {
   const size = iconProps.size ?? 20;
-  
+
   return (
     <button
       className={classes(

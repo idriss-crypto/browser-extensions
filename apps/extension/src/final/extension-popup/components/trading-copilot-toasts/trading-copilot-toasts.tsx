@@ -1,10 +1,10 @@
-import * as RadixToast from "@radix-ui/react-toast";
-import {Button} from "@idriss-xyz/ui/button";
-import { useState } from "react";
+import * as RadixToast from '@radix-ui/react-toast';
+import { Button } from '@idriss-xyz/ui/button';
+import { useState } from 'react';
 
-import {Icon, LazyImage, ToastWrapper} from "shared/ui";
-import {useCommandQuery} from "shared/messaging";
-import {GetEnsInfoCommand} from "application/trading-copilot";
+import { Icon, LazyImage, ToastWrapper } from 'shared/ui';
+import { useCommandQuery } from 'shared/messaging';
+import { GetEnsInfoCommand } from 'application/trading-copilot';
 
 const exampleTradingCopilotToasts = [
   {
@@ -26,21 +26,27 @@ const exampleTradingCopilotToasts = [
     },
     open: true,
     dialogId: 'dialog2',
-  }
+  },
 ];
 
 type TradingCopilotToastsProperties = {
   openDialog: (dialogId: string) => void;
 };
 
-export const TradingCopilotToasts = ({ openDialog }: TradingCopilotToastsProperties) => {
+export const TradingCopilotToasts = ({
+  openDialog,
+}: TradingCopilotToastsProperties) => {
   return (
     <ToastWrapper>
-        {exampleTradingCopilotToasts.map((toast, index) => {
-          return (
-            <TradingCopilotToast key={index} toast={toast} openDialog={openDialog} />
-          )
-        })}
+      {exampleTradingCopilotToasts.map((toast, index) => {
+        return (
+          <TradingCopilotToast
+            key={index}
+            toast={toast}
+            openDialog={openDialog}
+          />
+        );
+      })}
     </ToastWrapper>
   );
 };
@@ -55,11 +61,14 @@ type TradingCopilotToastProperties = {
     };
     open: boolean;
     dialogId: string;
-  },
+  };
   openDialog: (dialogId: string) => void;
 };
 
-const TradingCopilotToast = ({toast: {details, open, dialogId}, openDialog}: TradingCopilotToastProperties) => {
+const TradingCopilotToast = ({
+  toast: { details, open, dialogId },
+  openDialog,
+}: TradingCopilotToastProperties) => {
   const [isOpen, setIsOpen] = useState(open);
 
   const avatarQuery = useCommandQuery({
@@ -71,23 +80,35 @@ const TradingCopilotToast = ({toast: {details, open, dialogId}, openDialog}: Tra
   });
 
   return (
-    <RadixToast.Root open={isOpen} onSwipeEnd={() => {return setIsOpen(!isOpen)}} style={{
-      transform: "translate(var(--radix-toast-swipe-move-x), 0)",
-    }}>
-      <div className="bg-white px-4 py-5 rounded-xl text-neutralGreen-900">
-        <div className='grid grid-cols-[48px,1fr] gap-3'>
+    <RadixToast.Root
+      open={isOpen}
+      onSwipeEnd={() => {
+        return setIsOpen(!isOpen);
+      }}
+      style={{
+        transform: 'translate(var(--radix-toast-swipe-move-x), 0)',
+      }}
+    >
+      <div className="rounded-xl bg-white px-4 py-5 text-neutralGreen-900">
+        <div className="grid grid-cols-[48px,1fr] gap-3">
           <LazyImage
             src={avatarQuery.data}
             className="size-12 rounded-full"
             fallbackComponent={
-              <Icon size={48} name="PersonIcon" className="rounded-full"/>
+              <Icon size={48} name="PersonIcon" className="rounded-full" />
             }
           />
-          <div className="flex flex-col gap-2 w-full">
-            <p className="text-heading5 text-neutralGreen-900">{details.name} <span className="text-neutral-700 font-normal">purchased {details.amount} {details.crypto}</span>
+          <div className="flex w-full flex-col gap-2">
+            <p className="text-heading5 text-neutralGreen-900">
+              {details.name}{' '}
+              <span className="font-normal text-neutral-700">
+                purchased {details.amount} {details.crypto}
+              </span>
             </p>
-            <div className="flex flex-row gap-2 justify-between items-start w-full">
-              <p className="text-label5 font-normal text-mint-700">{details.when}</p>
+            <div className="flex w-full flex-row items-start justify-between gap-2">
+              <p className="text-label5 font-normal text-mint-700">
+                {details.when}
+              </p>
               <Button
                 intent="primary"
                 size="small"
@@ -104,5 +125,5 @@ const TradingCopilotToast = ({toast: {details, open, dialogId}, openDialog}: Tra
         </div>
       </div>
     </RadixToast.Root>
-  )
-}
+  );
+};
