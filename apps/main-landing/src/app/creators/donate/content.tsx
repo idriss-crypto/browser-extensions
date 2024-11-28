@@ -198,15 +198,15 @@ export const Content = ({ className }: Properties) => {
     [addressValidationResult.data, addressValidationResult.success, sender],
   );
 
-  if (addressValidationResult.error) {
-    return (
-      <div className={classes(baseClassName, className)}>
-        <h1 className="flex items-center justify-center gap-2 text-center text-heading4 text-red-500">
-          <Icon name="AlertCircle" size={40} /> <span>Wrong address</span>
-        </h1>
-      </div>
-    );
-  }
+  // if (addressValidationResult.error) {
+  //   return (
+  //     <div className={classes(baseClassName, className)}>
+  //       <h1 className="flex items-center justify-center gap-2 text-center text-heading4 text-red-500">
+  //         <Icon name="AlertCircle" size={40} /> <span>Wrong address</span>
+  //       </h1>
+  //     </div>
+  //   );
+  // }
 
   if (sender.isSending) {
     return (
@@ -279,6 +279,22 @@ export const Content = ({ className }: Properties) => {
       <Form onSubmit={formMethods.handleSubmit(onSubmit)} className="w-full">
         <Controller
           control={formMethods.control}
+          name="tokenAddress"
+          render={({ field }) => {
+            return (
+              <TokenSelect
+                className="mt-4 w-full"
+                label="Token"
+                tokens={allowedTokens}
+                onChange={field.onChange}
+                value={field.value}
+              />
+            );
+          }}
+        />
+
+        <Controller
+          control={formMethods.control}
           name="chainId"
           render={({ field }) => {
             return (
@@ -296,21 +312,6 @@ export const Content = ({ className }: Properties) => {
           }}
         />
 
-        <Controller
-          control={formMethods.control}
-          name="tokenAddress"
-          render={({ field }) => {
-            return (
-              <TokenSelect
-                className="mt-4 w-full"
-                label="Token"
-                tokens={allowedTokens}
-                onChange={field.onChange}
-                value={field.value}
-              />
-            );
-          }}
-        />
 
         <Controller
           control={formMethods.control}

@@ -14,6 +14,7 @@ type Properties = Omit<ComponentProps<typeof Input>, 'onChange'> & {
   onChange: (value: string) => void;
 };
 
+
 export const Field = forwardRef(
   (
     {
@@ -30,7 +31,7 @@ export const Field = forwardRef(
     return (
       <RadixForm.Field name={name} ref={reference} className={className}>
         {label && (
-          <RadixForm.Label className="mb-2 block text-label4 text-neutral-700">
+          <RadixForm.Label className="mb-2 block text-label4 text-secondary">
             {label}
           </RadixForm.Label>
         )}
