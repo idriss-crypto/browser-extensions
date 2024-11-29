@@ -17,7 +17,6 @@ type Properties = {
 };
 
 export const useSender = ({ walletClient, publicClient }: Properties) => {
-
   const switchChain = useSwitchChain();
 
   const getTokenPerDollarMutation = useGetTokenPerDollar();

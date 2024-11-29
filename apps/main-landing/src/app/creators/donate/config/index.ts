@@ -1,13 +1,5 @@
-import {
-  getDefaultConfig,
-} from '@rainbow-me/rainbowkit';
-import {
-  mainnet,
-  polygon,
-  optimism,
-  mantle,
-  base,
-} from 'wagmi/chains';
+import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { mainnet, polygon, optimism, mantle, base } from 'wagmi/chains';
 import { defineChain } from 'viem';
 import { ALEPH_LOGO } from '../logos';
 
@@ -27,7 +19,7 @@ export const alephzero = defineChain({
       url: 'https://evm-explorer.alephzero.org',
     },
   },
-})
+});
 
 export const wagmiconfig = getDefaultConfig({
   appName: 'IDRISS Creators Login',

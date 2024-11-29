@@ -32,7 +32,6 @@ export const useErc20Transaction = () => {
       recipientAddress,
       message,
     }: Properties) => {
-
       const [account] = await walletClient.getAddresses();
 
       if (account === undefined) {

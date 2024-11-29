@@ -29,7 +29,6 @@ export const useNativeTransaction = () => {
       chainId,
       message,
     }: Properties) => {
-
       const [account] = await walletClient.getAddresses();
 
       if (account === undefined) {
@@ -63,7 +62,7 @@ export const useNativeTransaction = () => {
         gas,
       });
 
-      const receipt = await waitForTransactionReceipt(walletClient,{
+      const receipt = await waitForTransactionReceipt(walletClient, {
         hash: transactionHash,
       });
 

@@ -50,8 +50,7 @@ const baseClassName =
   'z-1 w-[440px] max-w-full rounded-xl bg-white px-4 pb-9 pt-6 flex flex-col items-center relative';
 
 export const Content = ({ className }: Properties) => {
-
-  const { isConnected } = useAccount()
+  const { isConnected } = useAccount();
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
   const { connectModalOpen, openConnectModal } = useConnectModal();
@@ -366,11 +365,11 @@ export const Content = ({ className }: Properties) => {
           </Button>
         ) : (
           <Button
-          intent="primary"
-          size="medium"
-          className="mt-6 w-full"
-          onClick={openConnectModal}
-          loading={connectModalOpen}
+            intent="primary"
+            size="medium"
+            className="mt-6 w-full"
+            onClick={openConnectModal}
+            loading={connectModalOpen}
           >
             LOG IN
           </Button>
