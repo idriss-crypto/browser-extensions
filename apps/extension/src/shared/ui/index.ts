@@ -27,6 +27,8 @@ export {
   TailwindProvider,
   WithCustomFont as FontProvider,
   WithExtensionInfo,
+  NotificationsProvider,
+  useNotification,
 } from './providers';
 export { classes, createContextHook, getGithubUserLink } from './utils';
 export { usePooling } from './hooks';
