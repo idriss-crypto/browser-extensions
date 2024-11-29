@@ -141,10 +141,10 @@ export const SendWidget = ({ widgetData }: Properties) => {
                   <Button
                     intent="primary"
                     size="medium"
-                    className="w-full uppercase"
+                    className="w-full"
                     type="submit"
                   >
-                    {widgetOverrides?.sendButtonCopy ?? 'Send'}
+                    {widgetOverrides?.sendButtonCopy ?? 'SEND'}
                   </Button>
                 ) : (
                   <Button
