@@ -12,6 +12,8 @@ import { classes } from '@idriss-xyz/ui/utils';
 import { getAddress } from 'viem';
 import { Spinner } from '@idriss-xyz/ui/spinner';
 import Image from 'next/image';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 
 import { backgroundLines3 } from '@/assets';
 
@@ -32,8 +34,6 @@ import {
 } from './utils';
 import { Token } from './types';
 import { useSender } from './hooks';
-import { useConnectModal } from '@rainbow-me/rainbowkit';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 
 const SEARCH_PARAMETER = {
   ADDRESS: 'address',

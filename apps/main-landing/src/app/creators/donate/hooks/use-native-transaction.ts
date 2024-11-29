@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { encodeFunctionData, PublicClient, WalletClient } from 'viem';
 import { Hex } from '@idriss-xyz/wallet-connect';
+import { waitForTransactionReceipt } from 'viem/actions';
 
 import {
   CHAIN_TO_IDRISS_TIPPING_ADDRESS,
@@ -8,7 +9,6 @@ import {
   TIPPING_ABI,
 } from '../constants';
 import { getChainById } from '../utils';
-import { waitForTransactionReceipt } from 'viem/actions';
 
 interface Properties {
   recipientAddress: Hex;

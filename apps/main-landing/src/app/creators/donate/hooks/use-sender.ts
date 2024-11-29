@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { PublicClient, WalletClient } from 'viem';
 
 import { Hex } from '../types';
 import { SendPayload } from '../schema';
@@ -9,7 +10,6 @@ import { useSwitchChain } from './use-switch-chain';
 import { useGetTokenPerDollar } from './use-get-token-per-dollar';
 import { useNativeTransaction } from './use-native-transaction';
 import { useErc20Transaction } from './use-erc20-transaction';
-import { PublicClient, WalletClient } from 'viem';
 
 type Properties = {
   walletClient?: WalletClient;
