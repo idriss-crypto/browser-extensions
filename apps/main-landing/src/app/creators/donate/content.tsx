@@ -36,6 +36,7 @@ import { Token } from './types';
 import { useSender } from './hooks';
 
 const SEARCH_PARAMETER = {
+  CREATOR_NAME: 'creatorName',
   ADDRESS: 'address',
   LEGACY_ADDRESS: 'streamerAddress',
   NETWORK: 'network',
@@ -63,6 +64,9 @@ export const Content = ({ className }: Properties) => {
 
   const networkParameter = searchParameters.get(SEARCH_PARAMETER.NETWORK);
   const tokenParameter = searchParameters.get(SEARCH_PARAMETER.TOKEN);
+  const creatorNameParameter = searchParameters.get(
+    SEARCH_PARAMETER.CREATOR_NAME,
+  );
 
   const possibleTokens: Token[] = useMemo(() => {
     const tokensSymbols = (tokenParameter ?? '').toLowerCase().split(',');
@@ -281,7 +285,11 @@ export const Content = ({ className }: Properties) => {
         className="pointer-events-none absolute top-0 hidden h-full opacity-40 lg:block"
         alt=""
       />
-      <h1 className="self-start text-heading4">Select your donation details</h1>
+      <h1 className="self-start text-heading4">
+        {creatorNameParameter
+          ? `Donate to ${creatorNameParameter}`
+          : 'Select your donation details'}
+      </h1>
       <Form onSubmit={formMethods.handleSubmit(onSubmit)} className="w-full">
         <Controller
           control={formMethods.control}
