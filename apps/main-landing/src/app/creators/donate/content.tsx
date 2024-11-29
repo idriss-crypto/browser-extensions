@@ -198,15 +198,15 @@ export const Content = ({ className }: Properties) => {
     [addressValidationResult.data, addressValidationResult.success, sender],
   );
 
-  // if (addressValidationResult.error) {
-  //   return (
-  //     <div className={classes(baseClassName, className)}>
-  //       <h1 className="flex items-center justify-center gap-2 text-center text-heading4 text-red-500">
-  //         <Icon name="AlertCircle" size={40} /> <span>Wrong address</span>
-  //       </h1>
-  //     </div>
-  //   );
-  // }
+  if (addressValidationResult.error) {
+    return (
+      <div className={classes(baseClassName, className)}>
+        <h1 className="flex items-center justify-center gap-2 text-center text-heading4 text-red-500">
+          <Icon name="AlertCircle" size={40} /> <span>Wrong address</span>
+        </h1>
+      </div>
+    );
+  }
 
   if (sender.isSending) {
     return (
