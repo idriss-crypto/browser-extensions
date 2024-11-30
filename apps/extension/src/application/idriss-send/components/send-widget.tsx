@@ -151,10 +151,10 @@ export const SendWidget = ({ widgetData }: Properties) => {
                     intent="primary"
                     size="medium"
                     onClick={openConnectionModal}
-                    className="w-full uppercase"
+                    className="w-full"
                     loading={isConnectionModalOpened}
                   >
-                    Log In
+                    LOG IN
                   </Button>
                 )}
                 {sender.isError ? (

@@ -16,7 +16,6 @@ export default {
     colors: {
       white: '#FFFFFF',
       black: '#000000',
-      secondary: "#323D37",
       transparent: 'transparent',
       current: 'currentColor',
       neutral: {
@@ -56,6 +55,9 @@ export default {
         700: '#02633F',
         800: '#035136',
         900: '#002D1E',
+      },
+      gray: {
+        200: '#E5E5E5'
       },
       lime: {
         100: '#FBFFE6',
@@ -110,9 +112,6 @@ export default {
         '2xl': '0px 24px 48px -12px #1018282E',
         '3xl': '0px 32px 64px -12px #1018283D',
         'input': '0px 0px 0px 4px #F2F2F224',
-      },
-      borderColor: {
-        secondary: '#EBECEE'
       },
       blur: {
         md: '10px',
@@ -297,6 +296,14 @@ export default {
         marquee2: {
           '0%': { transform: 'translateX(100%)' },
           '100%': { transform: 'translateX(0%)' },
+        },
+        swipeRight: {
+          '0%': { translate: '0 0' },
+          '100%': { translate: '100% 0' },
+        },
+        swipeLeft: {
+          '0%': { translate: '100% 0' },
+          '100%': { translate: '0 0' },
         },
       },
     },

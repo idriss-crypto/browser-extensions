@@ -272,7 +272,7 @@ export const Content = ({ className }: Properties) => {
       <Image
         priority
         src={backgroundLines3}
-        className="pointer-events-none absolute top-0 hidden h-full opacity-40 lg:block"
+        className="pointer-events-none absolute top-0 hidden h-full opacity-100 lg:block"
         alt=""
       />
       <h1 className="self-start text-heading4">Select your donation details</h1>
