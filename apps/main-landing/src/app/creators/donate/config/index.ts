@@ -1,6 +1,6 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 import { mainnet, polygon, optimism, mantle, base } from 'wagmi/chains';
-import { defineChain } from 'viem';
+import { defineChain, createPublicClient, http } from 'viem';
 
 import { ALEPH_LOGO } from '../logos';
 
@@ -27,4 +27,9 @@ export const wagmiconfig = getDefaultConfig({
   projectId: 'd9b05a544ca612833e810a77724e5af8', // TODO: change for production WalletConnect ID
   chains: [mainnet, polygon, optimism, mantle, base, alephzero],
   ssr: true,
+});
+
+export const ethereumClient = createPublicClient({
+  chain: mainnet,
+  transport: http(), // TODO: Add custom RPC provider if needed
 });

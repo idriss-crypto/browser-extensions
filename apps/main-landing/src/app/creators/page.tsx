@@ -19,6 +19,9 @@ import {
 } from './donate/constants';
 import { Providers } from './providers';
 import { ChainToken, TokenSymbol } from './donate/types';
+import { ethereumClient } from './donate/config';
+import { isAddress } from 'viem';
+import { normalize } from 'viem/ens'
 
 type FormPayload = {
   name: string;
@@ -249,9 +252,19 @@ export default function Donors() {
                 name="address"
                 rules={{
                   required: 'Address is required',
-                  pattern: {
-                    value: /^0x/,
-                    message: 'Address must start with 0x',
+                  validate: async (value) => {
+                    try {
+                      if (value.endsWith('.eth')) {
+                        const resolvedAddress = await ethereumClient?.getEnsAddress({
+                          name: normalize(value),
+                        });
+                        return resolvedAddress ? true : 'Invalid ENS name';
+                      }
+                      return isAddress(value) ? true : 'Invalid Ethereum address';
+                    } catch (error) {
+                      console.log(error);
+                      return 'Invalid address or ENS name';
+                    }
                   },
                 }}
                 render={({ field, fieldState }) => {
