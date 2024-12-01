@@ -1,6 +1,8 @@
 import { CHAIN, CHAIN_ID_TO_TOKENS, NATIVE_COIN_ADDRESS } from './constants';
 import { SendPayload } from './schema';
 import { Hex } from './types';
+import { ethereumClient } from './config';
+import { normalize } from 'viem/ens';
 
 export const getDefaultTokenForChainId = (chainId: number) => {
   const chainTokens = CHAIN_ID_TO_TOKENS[chainId];
@@ -130,3 +132,15 @@ export const getTransactionUrl = (properties: {
   }
   return `${baseUrl}/tx/${transactionHash}`;
 };
+
+export const validateAddressOrENS = async (addressOrENS: string | null) => {
+  if (addressOrENS == null)
+    return null;
+  if (addressOrENS.endsWith('.eth')) {
+    const resolvedAddress = await ethereumClient?.getEnsAddress({
+      name: normalize(addressOrENS),
+    });
+    return resolvedAddress;
+  }
+  return addressOrENS;
+}
