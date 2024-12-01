@@ -4,7 +4,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@idriss-xyz/ui/button';
 import { Link } from '@idriss-xyz/ui/link';
 import { CREATORS_USER_GUIDE_LINK } from '@idriss-xyz/constants';
-import { useCallback, useMemo } from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSearchParams } from 'next/navigation';
 import { Icon } from '@idriss-xyz/ui/icon';
@@ -31,7 +31,7 @@ import {
   getTransactionUrl,
   roundToSignificantFigures,
 } from './utils';
-import { Token } from './types';
+import {ChainToken, Token} from './types';
 import { useSender } from './hooks';
 
 const SEARCH_PARAMETER = {
@@ -55,6 +55,8 @@ export const Content = ({ className }: Properties) => {
     searchParameters.get(SEARCH_PARAMETER.ADDRESS) ??
     searchParameters.get(SEARCH_PARAMETER.LEGACY_ADDRESS);
   const addressValidationResult = hexSchema.safeParse(addressFromParameters);
+
+  const [selectedTokenKey, setSelectedTokenKey] = useState<string>('')
 
   const networkParameter = searchParameters.get(SEARCH_PARAMETER.NETWORK);
   const tokenParameter = searchParameters.get(SEARCH_PARAMETER.TOKEN);
@@ -88,17 +90,9 @@ export const Content = ({ className }: Properties) => {
 
       const tokensForThisChain = CHAIN_ID_TO_TOKENS[chain.id];
 
-      const chainIncludesSomeOfTheTokens = possibleTokens.some((token) => {
-        return Boolean(
-          tokensForThisChain?.find((chainToken) => {
-            return (
-              chainToken.symbol.toLowerCase() === token.symbol.toLowerCase()
-            );
-          }),
-        );
-      });
-
-      return chainIncludesSomeOfTheTokens;
+      return !!tokensForThisChain?.find((token) => {
+        return token.symbol === selectedTokenKey
+      })
     });
 
     if (chains.length === 0) {
@@ -109,7 +103,7 @@ export const Content = ({ className }: Properties) => {
     return chains.map((chain) => {
       return chain.id;
     });
-  }, [possibleTokens, networkParameter]);
+  }, [networkParameter, selectedTokenKey]);
 
   const defaultChainId = allowedChainsIds[0] ?? 0;
 
@@ -152,26 +146,28 @@ export const Content = ({ className }: Properties) => {
   );
 
   const allowedTokens = useMemo(() => {
-    const tokensForThisChain = CHAIN_ID_TO_TOKENS[chainId] ?? [];
-    const tokens = tokensForThisChain.filter((chainToken) => {
-      return possibleTokens.find((token) => {
-        return token.symbol === chainToken.symbol;
-      });
-    });
-    if (tokens.length === 0) {
-      return CHAIN_ID_TO_TOKENS[chainId] ?? [];
+    const allTokens = Object.values(CHAIN_ID_TO_TOKENS).flat();
+    const uniqueTokens: ChainToken[] = []
+    for(const token of allTokens) {
+      const exists = uniqueTokens.find((uniqueToken) => {
+        return uniqueToken.symbol === token.symbol
+      })
+      if(exists) continue;
+      uniqueTokens.push(token)
     }
 
-    return tokens;
-  }, [possibleTokens, chainId]);
+    return uniqueTokens;
+  }, [possibleTokens]);
 
   const sender = useSender({ wallet });
 
   const selectedToken = useMemo(() => {
-    return CHAIN_ID_TO_TOKENS[chainId]?.find((token) => {
+    const token =  allowedTokens?.find((token) => {
       return token.address === tokenAddress;
     });
-  }, [chainId, tokenAddress]);
+    setSelectedTokenKey(token?.symbol ?? '')
+    return token;
+  }, [allowedTokens, tokenAddress]);
 
   const amountInSelectedToken = useMemo(() => {
     if (!sender.tokensToSend || !selectedToken?.decimals) {
