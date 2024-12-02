@@ -68,7 +68,7 @@ export const Content = ({ className }: Properties) => {
       const address = await validateAddressOrENS(addressFromParameters);
       setValidatedAddress(address);
     };
-    validateAddress();
+    void validateAddress();
   }, [addressFromParameters]);
 
   const addressValidationResult = hexSchema.safeParse(validatedAddress);

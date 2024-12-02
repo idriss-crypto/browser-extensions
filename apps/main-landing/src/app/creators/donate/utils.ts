@@ -1,8 +1,9 @@
+import { normalize } from 'viem/ens';
+
 import { CHAIN, CHAIN_ID_TO_TOKENS, NATIVE_COIN_ADDRESS } from './constants';
 import { SendPayload } from './schema';
 import { Hex } from './types';
 import { ethereumClient } from './config';
-import { normalize } from 'viem/ens';
 
 export const getDefaultTokenForChainId = (chainId: number) => {
   const chainTokens = CHAIN_ID_TO_TOKENS[chainId];

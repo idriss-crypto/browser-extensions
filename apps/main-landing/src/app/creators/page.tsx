@@ -8,6 +8,8 @@ import { classes } from '@idriss-xyz/ui/utils';
 import { Multiselect, MultiselectOption } from '@idriss-xyz/ui/multiselect';
 import { ANNOUNCEMENT_LINK } from '@idriss-xyz/constants';
 import { Link } from '@idriss-xyz/ui/link';
+import { isAddress } from 'viem';
+import { normalize } from 'viem/ens'
 
 import { backgroundLines2, backgroundLines3 } from '@/assets';
 import { TopBar } from '@/components';
@@ -20,8 +22,6 @@ import {
 import { Providers } from './providers';
 import { ChainToken, TokenSymbol } from './donate/types';
 import { ethereumClient } from './donate/config';
-import { isAddress } from 'viem';
-import { normalize } from 'viem/ens'
 
 type FormPayload = {
   name: string;
