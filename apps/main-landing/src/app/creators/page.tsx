@@ -259,7 +259,9 @@ export default function Donors() {
                           await ethereumClient?.getEnsAddress({
                             name: normalize(value),
                           });
-                        return resolvedAddress ? true : 'This address doesn’t exist.';
+                        return resolvedAddress
+                          ? true
+                          : 'This address doesn’t exist.';
                       }
                       return isAddress(value)
                         ? true
