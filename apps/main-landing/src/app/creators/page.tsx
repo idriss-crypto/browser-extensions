@@ -158,7 +158,9 @@ export default function Donors() {
   const validateAndCopy = async (copyFunction: () => Promise<void>) => {
     const isValid = await formMethods.trigger();
     if (isValid) {
-      await copyFunction();
+      setTimeout(() => {
+        void copyFunction();
+      }, 0);
     }
   };
 
