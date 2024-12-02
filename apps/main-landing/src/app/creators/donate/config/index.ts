@@ -36,6 +36,7 @@ export const wagmiconfig = createConfig({
   client({ chain }) {
     return createClient({ chain, transport: http() })
   },
+  ssr: true,
   // Do not store on localstorage. Does not work for injected providers
   storage: null,
   connectors: connectors,
