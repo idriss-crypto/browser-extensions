@@ -254,13 +254,13 @@ export default function Donors() {
                   required: 'Address is required',
                   validate: async (value) => {
                     try {
-                      if(isAddress(value)) return true
-
-                      const resolvedAddress = await ethereumClient?.getEnsAddress({
-                        name: normalize(value),
-                      });
-                      return resolvedAddress ? true : 'Invalid address or ENS name';
-
+                      if (value.includes('.')) {
+                        const resolvedAddress = await ethereumClient?.getEnsAddress({
+                          name: normalize(value),
+                        });
+                        return resolvedAddress ? true : 'ENS did not resolve';
+                      }
+                      return isAddress(value) ? true: 'Invalid address or name';
                     } catch (error) {
                       console.log(error);
                       return 'Error validating address or ENS name';
