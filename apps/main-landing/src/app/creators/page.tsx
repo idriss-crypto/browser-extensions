@@ -259,14 +259,14 @@ export default function Donors() {
                           await ethereumClient?.getEnsAddress({
                             name: normalize(value),
                           });
-                        return resolvedAddress ? true : 'ENS did not resolve';
+                        return resolvedAddress ? true : 'This address doesn’t exist.';
                       }
                       return isAddress(value)
                         ? true
-                        : 'Invalid address or name';
+                        : 'This address doesn’t exist.';
                     } catch (error) {
                       console.log(error);
-                      return 'Error validating address or ENS name';
+                      return 'An unexpected error occurred. Try again.';
                     }
                   },
                 }}
