@@ -56,7 +56,7 @@ export const Content = ({ className }: Properties) => {
     searchParameters.get(SEARCH_PARAMETER.LEGACY_ADDRESS);
   const addressValidationResult = hexSchema.safeParse(addressFromParameters);
 
-  const [selectedTokenKey, setSelectedTokenKey] = useState<string>('')
+  const [selectedTokenKey, setSelectedTokenKey] = useState<string>('ETH')
 
   const networkParameter = searchParameters.get(SEARCH_PARAMETER.NETWORK);
   const tokenParameter = searchParameters.get(SEARCH_PARAMETER.TOKEN);
