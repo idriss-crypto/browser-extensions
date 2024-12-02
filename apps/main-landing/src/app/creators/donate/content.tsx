@@ -56,7 +56,9 @@ export const Content = ({ className }: Properties) => {
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
   const { connectModalOpen, openConnectModal } = useConnectModal();
-  const [validatedAddress, setValidatedAddress] = useState<string | null | undefined>();
+  const [validatedAddress, setValidatedAddress] = useState<
+    string | null | undefined
+  >();
 
   const searchParameters = useSearchParams();
   const addressFromParameters =

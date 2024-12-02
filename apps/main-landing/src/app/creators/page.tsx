@@ -9,7 +9,7 @@ import { Multiselect, MultiselectOption } from '@idriss-xyz/ui/multiselect';
 import { ANNOUNCEMENT_LINK } from '@idriss-xyz/constants';
 import { Link } from '@idriss-xyz/ui/link';
 import { isAddress } from 'viem';
-import { normalize } from 'viem/ens'
+import { normalize } from 'viem/ens';
 
 import { backgroundLines2, backgroundLines3 } from '@/assets';
 import { TopBar } from '@/components';
@@ -255,12 +255,15 @@ export default function Donors() {
                   validate: async (value) => {
                     try {
                       if (value.includes('.')) {
-                        const resolvedAddress = await ethereumClient?.getEnsAddress({
-                          name: normalize(value),
-                        });
+                        const resolvedAddress =
+                          await ethereumClient?.getEnsAddress({
+                            name: normalize(value),
+                          });
                         return resolvedAddress ? true : 'ENS did not resolve';
                       }
-                      return isAddress(value) ? true: 'Invalid address or name';
+                      return isAddress(value)
+                        ? true
+                        : 'Invalid address or name';
                     } catch (error) {
                       console.log(error);
                       return 'Error validating address or ENS name';

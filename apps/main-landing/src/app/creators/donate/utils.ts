@@ -135,8 +135,7 @@ export const getTransactionUrl = (properties: {
 };
 
 export const validateAddressOrENS = async (addressOrENS: string | null) => {
-  if (addressOrENS == null)
-    return null;
+  if (addressOrENS == null) return null;
   if (addressOrENS.includes('.')) {
     const resolvedAddress = await ethereumClient?.getEnsAddress({
       name: normalize(addressOrENS),
@@ -144,4 +143,4 @@ export const validateAddressOrENS = async (addressOrENS: string | null) => {
     return resolvedAddress;
   }
   return addressOrENS;
-}
+};
