@@ -4,7 +4,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@idriss-xyz/ui/button';
 import { Link } from '@idriss-xyz/ui/link';
 import { CREATORS_USER_GUIDE_LINK } from '@idriss-xyz/constants';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSearchParams } from 'next/navigation';
 import { Icon } from '@idriss-xyz/ui/icon';
@@ -13,7 +13,7 @@ import { getAddress } from 'viem';
 import { Spinner } from '@idriss-xyz/ui/spinner';
 import Image from 'next/image';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import { useAccount, useDisconnect, usePublicClient, useWalletClient } from 'wagmi';
 
 import { backgroundLines3 } from '@/assets';
 
@@ -55,6 +55,7 @@ export const Content = ({ className }: Properties) => {
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
   const { connectModalOpen, openConnectModal } = useConnectModal();
+  const { disconnect } = useDisconnect();
 
   const searchParameters = useSearchParams();
   const addressFromParameters =
@@ -276,6 +277,10 @@ export const Content = ({ className }: Properties) => {
       </div>
     );
   }
+  // TODO: Check why it's not working
+  useEffect(() => {
+    disconnect();
+  },[])
 
   return (
     <div className={classes(baseClassName, className)}>
@@ -363,14 +368,24 @@ export const Content = ({ className }: Properties) => {
         />
 
         {isConnected ? (
-          <Button
-            type="submit"
-            intent="primary"
-            size="medium"
-            className="mt-6 w-full"
-          >
-            SEND
-          </Button>
+          <>
+            <Button
+              type="submit"
+              intent="primary"
+              size="medium"
+              className="mt-6 w-full"
+            >
+              SEND
+            </Button>
+            <Button
+              intent="primary"
+              size="medium"
+              className="mt-6 w-full"
+              onClick={() => disconnect()}
+            >
+              DISCONNECT
+            </Button>
+          </>
         ) : (
           <Button
             intent="primary"
