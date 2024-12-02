@@ -1,8 +1,9 @@
-import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { connectorsForWallets, getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { mainnet, polygon, optimism, mantle, base } from 'wagmi/chains';
-import { defineChain } from 'viem';
+import { defineChain, createClient, http } from 'viem';
 
 import { ALEPH_LOGO } from '../logos';
+import { createConfig } from 'wagmi';
 
 const alephzero = defineChain({
   id: 41_455,
@@ -22,9 +23,20 @@ const alephzero = defineChain({
   },
 });
 
-export const wagmiconfig = getDefaultConfig({
-  appName: 'IDRISS Creators Login',
-  projectId: 'c68a9fb876e8a1c0a99f89debcfeb2bf',
+const connectors = connectorsForWallets(
+  [...getDefaultWallets().wallets],
+  {
+    appName: 'IDRISS Creators Login',
+    projectId: 'c68a9fb876e8a1c0a99f89debcfeb2bf'
+  }
+);
+
+export const wagmiconfig = createConfig({
   chains: [mainnet, polygon, optimism, mantle, base, alephzero],
-  ssr: true,
+  client({ chain }) {
+    return createClient({ chain, transport: http() })
+  },
+  // Do not store on localstorage. Does not work for injected providers
+  storage: null,
+  connectors: connectors,
 });
