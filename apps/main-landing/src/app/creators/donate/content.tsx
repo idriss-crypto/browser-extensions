@@ -56,7 +56,7 @@ export const Content = ({ className }: Properties) => {
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
   const { connectModalOpen, openConnectModal } = useConnectModal();
-  const [validatedAddress, setValidatedAddress] = useState<string | null>(null);
+  const [validatedAddress, setValidatedAddress] = useState<string | null | undefined>();
 
   const searchParameters = useSearchParams();
   const addressFromParameters =
@@ -219,7 +219,7 @@ export const Content = ({ className }: Properties) => {
     [addressValidationResult.data, addressValidationResult.success, sender],
   );
 
-  if (validatedAddress != null && addressValidationResult.error) {
+  if (validatedAddress !== undefined && addressValidationResult.error) {
     return (
       <div className={classes(baseClassName, className)}>
         <h1 className="flex items-center justify-center gap-2 text-center text-heading4 text-red-500">
