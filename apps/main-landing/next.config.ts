@@ -16,6 +16,20 @@ const LEGACY_URLS = [
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
   // eslint-disable-next-line @typescript-eslint/require-await
+  async headers() {
+    return [
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate',
+          },
+        ],
+      },
+    ];
+  },
+  // eslint-disable-next-line @typescript-eslint/require-await
   async redirects() {
     return [
       {
