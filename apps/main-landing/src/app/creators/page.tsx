@@ -8,6 +8,8 @@ import { classes } from '@idriss-xyz/ui/utils';
 import { Multiselect, MultiselectOption } from '@idriss-xyz/ui/multiselect';
 import { ANNOUNCEMENT_LINK } from '@idriss-xyz/constants';
 import { Link } from '@idriss-xyz/ui/link';
+import { isAddress } from 'viem';
+import { normalize } from 'viem/ens';
 
 import { backgroundLines2, backgroundLines3 } from '@/assets';
 import { TopBar } from '@/components';
@@ -19,8 +21,10 @@ import {
 } from './donate/constants';
 import { Providers } from './providers';
 import { ChainToken, TokenSymbol } from './donate/types';
+import { ethereumClient } from './donate/config';
 
 type FormPayload = {
+  name: string;
   address: string;
   tokensSymbols: string[];
   chainsIds: number[];
@@ -54,13 +58,15 @@ export default function Donors() {
 
   const formMethods = useForm<FormPayload>({
     defaultValues: {
+      name: '',
       address: '',
       chainsIds: ALL_CHAIN_IDS,
       tokensSymbols: UNIQUE_ALL_TOKEN_SYMBOLS,
     },
     mode: 'onChange',
   });
-  const [chainsIds, tokensSymbols, address] = formMethods.watch([
+  const [creatorName, chainsIds, tokensSymbols, address] = formMethods.watch([
+    'name',
     'chainsIds',
     'tokensSymbols',
     'address',
@@ -152,7 +158,13 @@ export default function Donors() {
   const validateAndCopy = async (copyFunction: () => Promise<void>) => {
     const isValid = await formMethods.trigger();
     if (isValid) {
-      await copyFunction();
+      // iOS is strict about gestures, and will throw NotAllowedError with async validation (e.g. API calls)
+      // setTimeout works here because it executes code in a subsequent event loop tick.
+      // This "trick" helps iOS associate the clipboard operation with the earlier gesture,
+      // as long as the user gesture initiates the chain of events
+      setTimeout(() => {
+        void copyFunction();
+      }, 0);
     }
   };
 
@@ -171,7 +183,7 @@ export default function Donors() {
       .filter(Boolean);
 
     await navigator.clipboard.writeText(
-      `https://www.idriss.xyz/creators/donate?address=${address}&token=${tokensSymbols.join(',')}&network=${chainsShortNames.join(',')}`,
+      `https://www.idriss.xyz/creators/donate?address=${address}&token=${tokensSymbols.join(',')}&network=${chainsShortNames.join(',')}&creatorName=${creatorName}`,
     );
 
     setCopiedDonationLink(true);
@@ -221,12 +233,49 @@ export default function Donors() {
             <Form className="w-full">
               <Controller
                 control={formMethods.control}
+                name="name"
+                rules={{
+                  required: 'Name is required',
+                  maxLength: {
+                    value: 20,
+                    message: 'Name cannot be longer than 20 characters',
+                  },
+                }}
+                render={({ field, fieldState }) => {
+                  return (
+                    <Form.Field
+                      label="Name"
+                      className="mt-6 w-full"
+                      helperText={fieldState.error?.message}
+                      error={Boolean(fieldState.error?.message)}
+                      {...field}
+                    />
+                  );
+                }}
+              />
+              <Controller
+                control={formMethods.control}
                 name="address"
                 rules={{
                   required: 'Address is required',
-                  pattern: {
-                    value: /^0x/,
-                    message: 'Address must start with 0x',
+                  validate: async (value) => {
+                    try {
+                      if (value.includes('.')) {
+                        const resolvedAddress =
+                          await ethereumClient?.getEnsAddress({
+                            name: normalize(value),
+                          });
+                        return resolvedAddress
+                          ? true
+                          : 'This address doesn’t exist.';
+                      }
+                      return isAddress(value)
+                        ? true
+                        : 'This address doesn’t exist.';
+                    } catch (error) {
+                      console.log(error);
+                      return 'An unexpected error occurred. Try again.';
+                    }
                   },
                 }}
                 render={({ field, fieldState }) => {
@@ -241,7 +290,6 @@ export default function Donors() {
                   );
                 }}
               />
-
               <Controller
                 control={formMethods.control}
                 name="chainsIds"

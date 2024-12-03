@@ -4,15 +4,16 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@idriss-xyz/ui/button';
 import { Link } from '@idriss-xyz/ui/link';
 import { CREATORS_USER_GUIDE_LINK } from '@idriss-xyz/constants';
-import {useCallback, useMemo, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSearchParams } from 'next/navigation';
 import { Icon } from '@idriss-xyz/ui/icon';
 import { classes } from '@idriss-xyz/ui/utils';
-import { useWallet } from '@idriss-xyz/wallet-connect';
 import { getAddress } from 'viem';
 import { Spinner } from '@idriss-xyz/ui/spinner';
 import Image from 'next/image';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
 
 import { backgroundLines3 } from '@/assets';
 
@@ -26,15 +27,16 @@ import {
 import { createSendPayloadSchema, hexSchema, SendPayload } from './schema';
 import {
   applyDecimalsToNumericString,
-  getDefaultTokenForChainId,
   getSendFormDefaultValues,
   getTransactionUrl,
   roundToSignificantFigures,
+  validateAddressOrENS,
 } from './utils';
 import {ChainToken, Token} from './types';
 import { useSender } from './hooks';
 
 const SEARCH_PARAMETER = {
+  CREATOR_NAME: 'creatorName',
   ADDRESS: 'address',
   LEGACY_ADDRESS: 'streamerAddress',
   NETWORK: 'network',
@@ -49,17 +51,36 @@ const baseClassName =
   'z-1 w-[440px] max-w-full rounded-xl bg-white px-4 pb-9 pt-6 flex flex-col items-center relative';
 
 export const Content = ({ className }: Properties) => {
-  const { wallet, openConnectionModal, isConnectionModalOpened } = useWallet();
+  const { isConnected } = useAccount();
+  const { data: walletClient } = useWalletClient();
+  const publicClient = usePublicClient();
+  const { connectModalOpen, openConnectModal } = useConnectModal();
+  const [validatedAddress, setValidatedAddress] = useState<
+    string | null | undefined
+  >();
+
   const searchParameters = useSearchParams();
   const addressFromParameters =
     searchParameters.get(SEARCH_PARAMETER.ADDRESS) ??
     searchParameters.get(SEARCH_PARAMETER.LEGACY_ADDRESS);
-  const addressValidationResult = hexSchema.safeParse(addressFromParameters);
+
+  useEffect(() => {
+    const validateAddress = async () => {
+      const address = await validateAddressOrENS(addressFromParameters);
+      setValidatedAddress(address);
+    };
+    void validateAddress();
+  }, [addressFromParameters]);
+
+  const addressValidationResult = hexSchema.safeParse(validatedAddress);
 
   const [selectedTokenKey, setSelectedTokenKey] = useState<string>('ETH')
 
   const networkParameter = searchParameters.get(SEARCH_PARAMETER.NETWORK);
   const tokenParameter = searchParameters.get(SEARCH_PARAMETER.TOKEN);
+  const creatorNameParameter = searchParameters.get(
+    SEARCH_PARAMETER.CREATOR_NAME,
+  );
 
   const possibleTokens: Token[] = useMemo(() => {
     const tokensSymbols = (tokenParameter ?? '').toLowerCase().split(',');
@@ -136,14 +157,6 @@ export const Content = ({ className }: Properties) => {
     'amount',
   ]);
 
-  const onChangeChainId = useCallback(
-    (chainId: number) => {
-      formMethods.resetField('tokenAddress', {
-        defaultValue: getDefaultTokenForChainId(chainId).address,
-      });
-    },
-    [formMethods],
-  );
 
   const allowedTokens = useMemo(() => {
     const allTokens = Object.values(CHAIN_ID_TO_TOKENS).flat();
@@ -152,14 +165,16 @@ export const Content = ({ className }: Properties) => {
       const exists = uniqueTokens.find((uniqueToken) => {
         return uniqueToken.symbol === token.symbol
       })
-      if(exists) continue;
+      if(exists) {
+        continue
+      }
       uniqueTokens.push(token)
     }
 
     return uniqueTokens;
   }, [possibleTokens]);
 
-  const sender = useSender({ wallet });
+  const sender = useSender({ walletClient, publicClient });
 
   const selectedToken = useMemo(() => {
     const token =  allowedTokens?.find((token) => {
@@ -182,10 +197,11 @@ export const Content = ({ className }: Properties) => {
 
   const onSubmit: SubmitHandler<SendPayload> = useCallback(
     async (sendPayload) => {
-      if (!addressValidationResult.success) {
+      if (!addressValidationResult.success || !validatedAddress) {
         return;
       }
       const validAddress = getAddress(addressValidationResult.data);
+      // TODO: Add error handling
       await sender.send({
         sendPayload,
         recipientAddress: validAddress,
@@ -194,7 +210,7 @@ export const Content = ({ className }: Properties) => {
     [addressValidationResult.data, addressValidationResult.success, sender],
   );
 
-  if (addressValidationResult.error) {
+  if (validatedAddress !== undefined && addressValidationResult.error) {
     return (
       <div className={classes(baseClassName, className)}>
         <h1 className="flex items-center justify-center gap-2 text-center text-heading4 text-red-500">
@@ -271,7 +287,11 @@ export const Content = ({ className }: Properties) => {
         className="pointer-events-none absolute top-0 hidden h-full opacity-100 lg:block"
         alt=""
       />
-      <h1 className="self-start text-heading4">Select your donation details</h1>
+      <h1 className="self-start text-heading4">
+        {creatorNameParameter
+          ? `Donate to ${creatorNameParameter}`
+          : 'Select your donation details'}
+      </h1>
       <Form onSubmit={formMethods.handleSubmit(onSubmit)} className="w-full">
         <Controller
           control={formMethods.control}
@@ -304,7 +324,6 @@ export const Content = ({ className }: Properties) => {
             );
           }}
         />
-
 
         <Controller
           control={formMethods.control}
@@ -342,7 +361,7 @@ export const Content = ({ className }: Properties) => {
           }}
         />
 
-        {wallet ? (
+        {isConnected ? (
           <Button
             type="submit"
             intent="primary"
@@ -356,8 +375,8 @@ export const Content = ({ className }: Properties) => {
             intent="primary"
             size="medium"
             className="mt-6 w-full"
-            onClick={openConnectionModal}
-            loading={isConnectionModalOpened}
+            onClick={openConnectModal}
+            loading={connectModalOpen}
           >
             LOG IN
           </Button>
