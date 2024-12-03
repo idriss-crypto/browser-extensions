@@ -298,10 +298,7 @@ export const Content = ({ className }: Properties) => {
                 className="mt-6 w-full"
                 label="Network"
                 allowedChainsIds={allowedChainsIds}
-                onChange={(value) => {
-                  onChangeChainId(value);
-                  field.onChange(value);
-                }}
+                onChange={field.onChange}
                 value={field.value}
               />
             );
