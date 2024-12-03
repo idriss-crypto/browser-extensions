@@ -97,6 +97,12 @@ const nextConfig: NextConfig = {
         basePath: false,
         permanent: false,
       },
+      {
+        source: '/service-status',
+        destination: 'https://api.idriss.xyz/service-status',
+        basePath: false,
+        permanent: false,
+      },
       ...LEGACY_URLS.map((url) => {
         return {
           source: url,
