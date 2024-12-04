@@ -75,7 +75,6 @@ export const useSender = ({ walletClient, publicClient }: Properties) => {
           tokensToSend,
           recipientAddress,
           walletClient,
-          publicClient,
           chainId: sendPayload.chainId,
           message: sendPayload.message,
         });
