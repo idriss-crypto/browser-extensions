@@ -90,25 +90,29 @@ const TradingCopilotToast = ({
       }}
     >
       <div className="rounded-xl bg-white px-4 py-5 text-neutralGreen-900">
-        <div className="grid grid-cols-[48px,1fr] gap-3">
+        <div className="grid grid-cols-[48px,1fr] gap-2">
           <LazyImage
             src={avatarQuery.data}
-            className="size-12 rounded-full"
+            className="size-12 rounded-full border border-[#DBDDE2] bg-neutral-200"
             fallbackComponent={
-              <Icon size={48} name="PersonIcon" className="rounded-full" />
+              <div className="flex size-12 items-center justify-center rounded-full border border-[#DBDDE2] bg-neutral-200">
+                <Icon
+                  size={32}
+                  name="PersonIcon"
+                  className="m-auto rounded-full text-neutral-700"
+                />
+              </div>
             }
           />
           <div className="flex w-full flex-col gap-2">
-            <p className="text-heading5 text-neutralGreen-900">
+            <p className="text-label3 text-neutralGreen-900">
               {details.name}{' '}
-              <span className="font-normal text-neutral-700">
+              <span className="text-body3 text-neutral-600">
                 purchased {details.amount} {details.crypto}
               </span>
             </p>
-            <div className="flex w-full flex-row items-start justify-between gap-2">
-              <p className="text-label5 font-normal text-mint-700">
-                {details.when}
-              </p>
+            <div className="flex w-full justify-between">
+              <p className="text-body6 text-mint-700">{details.when}</p>
               <Button
                 intent="primary"
                 size="small"

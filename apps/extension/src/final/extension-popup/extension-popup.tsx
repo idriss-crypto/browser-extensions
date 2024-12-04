@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Closable } from 'shared/ui';
 import { POPUP_ROUTE, useExtensionPopup } from 'shared/extension';
 import { SubscriptionsManagement } from 'application/trading-copilot';
+import { LINES, LINES2 } from 'assets/images';
 
 import {
   GovernanceSettings,
@@ -48,9 +49,10 @@ export const ExtensionPopup = () => {
         <TopBar className="rounded-t-xl" />
 
         <Routes>
-          <Route element={<PopupContentLayout />}>
+          <Route element={<PopupContentLayout backgroundImage={LINES} />}>
             <Route path={POPUP_ROUTE.PRODUCTS} element={<Products />} />
-
+          </Route>
+          <Route element={<PopupContentLayout backgroundImage={LINES2} />}>
             <Route element={<SettingsLayout />}>
               <Route path={POPUP_ROUTE.SETTINGS} element={<MainSettings />} />
               <Route

@@ -131,9 +131,7 @@ const TradingCopilotDialog = ({
                   purchased {details.amount} {details.crypto}
                 </span>
               </p>
-              <p className="text-label4 font-normal text-mint-700">
-                {details.when}
-              </p>
+              <p className="text-body6 text-mint-700">{details.when}</p>
             </div>
           </div>
           <form className="pb-4">
