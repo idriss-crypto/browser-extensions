@@ -24,8 +24,8 @@ export const SubscriptionsManagement = () => {
     void subscriptionsQuery.refetch();
   };
 
-  const handleUnsubscribe = async (ensName: Subscription['ensName']) => {
-    await unsubscribe.mutateAsync({ ensName });
+  const handleUnsubscribe = async (subscription: Subscription) => {
+    await unsubscribe.mutateAsync({subscription});
     void subscriptionsQuery.refetch();
   };
 

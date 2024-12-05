@@ -2,11 +2,14 @@ import {
   Command,
   FailureResult,
   HandlerError,
+  HandlerResponseError,
   OkResult,
 } from 'shared/messaging';
 
 import { Subscription } from '../types';
 import { TradingCopilotSettingsManager } from '../subscriptions-manager';
+
+import { COPILOT_API_URL } from './constants';
 
 interface Payload {
   subscription: Subscription;
@@ -28,7 +31,29 @@ export class AddTradingCopilotSubscriptionCommand extends Command<
     try {
       await TradingCopilotSettingsManager.subscribe(this.payload.subscription);
 
-      return new OkResult(true);
+      const response = await fetch(`${COPILOT_API_URL}/subscribe`, {
+        method: 'POST',
+        body: JSON.stringify({
+          subscriberId: 'id1',
+          address: this.payload.subscription.walletAddress
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const responseText = await response.text();
+        throw new HandlerResponseError(
+          this.name,
+          responseText,
+          response.status,
+        );
+      }
+
+      const json = (await response.json()) as Response;
+
+      return new OkResult(json);
     } catch (error) {
       this.captureException(error);
       if (error instanceof HandlerError) {

@@ -11,7 +11,7 @@ type Properties = {
   subscriptionsLoading: boolean;
   subscriptionsUpdatePending: boolean;
   className?: string;
-  onRemove: (ensName: Subscription['ensName']) => void;
+  onRemove: (subscription: Subscription) => void;
 };
 
 export const SubscriptionsList = ({
