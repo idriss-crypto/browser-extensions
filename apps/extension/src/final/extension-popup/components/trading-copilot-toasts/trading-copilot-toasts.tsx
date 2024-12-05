@@ -83,29 +83,29 @@ const TradingCopilotToast = ({
     <RadixToast.Root
       open={isOpen}
       onSwipeEnd={() => {
-        return setIsOpen(!isOpen);
+        return setIsOpen(false);
       }}
       style={{
         transform: 'translate(var(--radix-toast-swipe-move-x), 0)',
       }}
     >
-      <div className="rounded-xl bg-white px-4 py-5 text-neutralGreen-900">
+      <div className="rounded-xl border border-neutral-300 bg-white p-4">
         <div className="grid grid-cols-[48px,1fr] gap-2">
           <LazyImage
             src={avatarQuery.data}
-            className="size-12 rounded-full border border-[#DBDDE2] bg-neutral-200"
+            className="size-12 rounded-full border border-neutral-400 bg-neutral-200"
             fallbackComponent={
-              <div className="flex size-12 items-center justify-center rounded-full border border-[#DBDDE2] bg-neutral-200">
+              <div className="flex size-12 items-center justify-center rounded-full border border-neutral-400 bg-neutral-200">
                 <Icon
-                  size={32}
+                  size={30}
                   name="PersonIcon"
-                  className="m-auto rounded-full text-neutral-700"
+                  className="text-neutral-500"
                 />
               </div>
             }
           />
-          <div className="flex w-full flex-col gap-2">
-            <p className="text-label3 text-neutralGreen-900">
+          <div className="flex w-full flex-col gap-y-1">
+            <p className="text-label3 text-neutral-900">
               {details.name}{' '}
               <span className="text-body3 text-neutral-600">
                 purchased {details.amount} {details.crypto}
@@ -119,7 +119,7 @@ const TradingCopilotToast = ({
                 className="uppercase"
                 onClick={() => {
                   openDialog(dialogId);
-                  setIsOpen(true);
+                  setIsOpen(false);
                 }}
               >
                 Copy

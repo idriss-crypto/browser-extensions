@@ -89,10 +89,7 @@ export const Products = () => {
           />
         </ExternalLink>
 
-        <div
-          className="border-b-0 hover:cursor-pointer"
-          onClick={goToTradingCopilot}
-        >
+        <div className="hover:cursor-pointer" onClick={goToTradingCopilot}>
           <ProductCard
             heading={<Icon name="Rocket" size={40} className="text-black" />}
             title={

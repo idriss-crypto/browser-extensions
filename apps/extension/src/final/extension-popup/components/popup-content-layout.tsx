@@ -14,7 +14,7 @@ export const PopupContentLayout = ({
     <div className={classes('relative h-[498px]', className)}>
       <img
         src={backgroundImage}
-        className="pointer-events-none absolute left-0 top-0 hidden opacity-40 lg:block"
+        className="pointer-events-none absolute left-0 top-0 hidden lg:block"
         alt=""
       />
 

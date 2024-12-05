@@ -102,11 +102,11 @@ const TradingCopilotDialog = ({
 
   return (
     <Closable
-      className="fixed left-0 top-0 z-portal size-full bg-neutralGreen-900/50"
+      className="fixed left-0 top-0 z-portal size-full bg-black/50"
       hideCloseButton
     >
       <div className="flex size-full items-center justify-center">
-        <div className="flex w-[400px] flex-col gap-y-5 rounded-lg bg-white p-5">
+        <div className="flex w-[400px] flex-col gap-y-5 rounded-lg border border-black/20 bg-white p-5">
           <div className="flex flex-row items-center justify-between">
             <h1 className="text-heading4 text-neutral-900">{details.title}</h1>
             <IconButton
@@ -116,16 +116,22 @@ const TradingCopilotDialog = ({
               onClick={closeDialog}
             />
           </div>
-          <div className="flex flex-row gap-2">
+          <div className="grid grid-cols-[48px,1fr] gap-2">
             <LazyImage
               src={avatarQuery.data}
-              className="size-12 rounded-full"
+              className="size-12 rounded-full border border-neutral-400 bg-neutral-200"
               fallbackComponent={
-                <Icon size={48} name="PersonIcon" className="rounded-full" />
+                <div className="flex size-12 items-center justify-center rounded-full border border-neutral-400 bg-neutral-200">
+                  <Icon
+                    size={30}
+                    name="PersonIcon"
+                    className="text-neutral-500"
+                  />
+                </div>
               }
             />
-            <div className="flex flex-col">
-              <p className="text-label3 text-neutralGreen-900">
+            <div className="flex w-full flex-col">
+              <p className="text-label3 text-neutral-900">
                 {details.name}{' '}
                 <span className="text-body3 text-neutral-600">
                   purchased {details.amount} {details.crypto}
@@ -134,7 +140,7 @@ const TradingCopilotDialog = ({
               <p className="text-body6 text-mint-700">{details.when}</p>
             </div>
           </div>
-          <form className="pb-4">
+          <form className="mt-1">
             <div className="flex flex-row items-center justify-between">
               <label
                 htmlFor="cryptoAmount"
@@ -151,24 +157,28 @@ const TradingCopilotDialog = ({
               name="amount"
               render={({ field: { value, onChange } }) => {
                 return (
-                  <span className="relative mt-1 flex flex-row">
+                  <span className="relative mt-2 flex">
                     <NumericInput
                       value={value}
                       placeholder="ETH"
                       onChange={onChange}
                       className="ps-[60px] text-right"
                     />
-                    <IdrissIcon
-                      size={24}
-                      name="Eth"
-                      className="pointer-events-none absolute start-0 top-1/2 h-full w-[48px] -translate-y-1/2 border-r border-neutral-200 px-3 text-neutral-700"
-                    />
+                    <div className="pointer-events-none absolute start-0 top-1/2 flex h-full w-12 -translate-y-1/2 items-center justify-center border-r border-neutral-200">
+                      <span className="flex size-6 items-center justify-center rounded-full bg-neutral-200">
+                        <IdrissIcon
+                          size={18}
+                          name="Eth"
+                          className="text-neutral-700"
+                        />
+                      </span>
+                    </div>
                   </span>
                 );
               }}
             />
           </form>
-          <div>
+          <div className="mt-5">
             <Button intent="primary" size="medium" className="w-full">
               BUY
             </Button>

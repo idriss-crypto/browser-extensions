@@ -69,19 +69,19 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
       <div className="flex items-center">
         <LazyImage
           src={avatarQuery.data}
-          className="size-8 rounded-full border border-[#DBDDE2] bg-neutral-200"
+          className="size-8 rounded-full border border-neutral-400 bg-neutral-200"
           fallbackComponent={
-            <div className="flex size-8 items-center justify-center rounded-full border border-[#DBDDE2] bg-neutral-200">
+            <div className="flex size-8 items-center justify-center rounded-full border border-neutral-400 bg-neutral-200">
               <IdrissIcon
                 size={20}
                 name="CircleUserRound"
-                className="m-auto text-neutral-700"
+                className="text-neutral-500"
               />
             </div>
           }
         />
 
-        <p className="ml-2 flex items-center gap-1 text-label5 text-neutral-600">
+        <p className="ml-1.5 flex items-center gap-1.5 text-label5 text-neutral-600">
           {subscription.ensName}
 
           {twitterQuery.data && (
@@ -123,7 +123,7 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
         </p>
       </div>
       <IdrissIconButton
-        iconProps={{ name: 'Trash2', size: 20 }}
+        iconProps={{ name: 'Trash2', size: 16 }}
         className="text-red-500"
         onClick={remove}
       />
