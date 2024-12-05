@@ -17,7 +17,7 @@ export const SelectOption = forwardRef(
           className,
         )}
       >
-        <div className='relative pr-2 mr-1 after:absolute after:right-0 after:-top-[6px] after:bg-gray-200 after:w-px after:h-[calc(2.625rem_-_6px)]'>
+        <div className='relative pr-2 mr-1 after:absolute after:right-0 after:-top-1.5 after:bg-gray-200 after:w-px after:h-[calc(2.625rem_-_6px)]'>
           {option.prefix}
         </div>
         <div className="whitespace-nowrap text-neutralGreen-900">

@@ -172,7 +172,7 @@ export const Content = ({ className }: Properties) => {
     }
 
     return uniqueTokens;
-  }, [possibleTokens]);
+  }, []);
 
   const sender = useSender({ walletClient, publicClient });
 
