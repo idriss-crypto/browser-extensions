@@ -10,6 +10,7 @@ import { ANNOUNCEMENT_LINK } from '@idriss-xyz/constants';
 import { Link } from '@idriss-xyz/ui/link';
 import { isAddress } from 'viem';
 import { normalize } from 'viem/ens';
+import { debounce } from 'lodash';
 
 import { backgroundLines2, backgroundLines3 } from '@/assets';
 import { TopBar } from '@/components';
@@ -63,7 +64,7 @@ export default function Donors() {
       chainsIds: ALL_CHAIN_IDS,
       tokensSymbols: UNIQUE_ALL_TOKEN_SYMBOLS,
     },
-    mode: 'onSubmit',
+    mode: 'onChange',
   });
   const [creatorName, chainsIds, tokensSymbols, address] = formMethods.watch([
     'name',
@@ -208,6 +209,36 @@ export default function Donors() {
     resetCopyState();
   }, [address, tokensSymbols, chainsIds, resetCopyState]);
 
+  const validateAddress = async (value: string): Promise<string | true> => {
+    console.log('called with', value);
+    try {
+      if (value.includes('.') && !value.endsWith('.')) {
+        const resolvedAddress = await ethereumClient?.getEnsAddress({
+          name: normalize(value),
+        });
+        return resolvedAddress ? true : 'This address doesn’t exist.';
+      }
+      return isAddress(value) ? true : 'This address doesn’t exist.';
+    } catch (error) {
+      console.error(error);
+      return 'An unexpected error occurred. Try again.';
+    }
+  };
+
+  const debouncedAddressValidation = useMemo(() => {
+    const debouncedFunction = debounce(
+      (value: string, resolve: (result: string | true) => void) => {
+        return validateAddress(value).then(resolve);
+      },
+      500,
+    );
+
+    return (value: string) => {
+      return new Promise<string | true>((resolve) => {
+        debouncedFunction(value, resolve);
+      });
+    };
+  }, []);
   return (
     <Providers>
       <TopBar />
@@ -259,23 +290,7 @@ export default function Donors() {
                 rules={{
                   required: 'Address is required',
                   validate: async (value) => {
-                    try {
-                      if (value.includes('.') && !value.endsWith('.')) {
-                        const resolvedAddress =
-                          await ethereumClient?.getEnsAddress({
-                            name: normalize(value),
-                          });
-                        return resolvedAddress
-                          ? true
-                          : 'This address doesn’t exist.';
-                      }
-                      return isAddress(value)
-                        ? true
-                        : 'This address doesn’t exist.';
-                    } catch (error) {
-                      console.log(error);
-                      return 'An unexpected error occurred. Try again.';
-                    }
+                    return await debouncedAddressValidation(value);
                   },
                 }}
                 render={({ field, fieldState }) => {
