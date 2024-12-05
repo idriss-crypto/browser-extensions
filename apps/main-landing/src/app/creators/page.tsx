@@ -8,8 +8,6 @@ import { classes } from '@idriss-xyz/ui/utils';
 import { Multiselect, MultiselectOption } from '@idriss-xyz/ui/multiselect';
 import { ANNOUNCEMENT_LINK } from '@idriss-xyz/constants';
 import { Link } from '@idriss-xyz/ui/link';
-import { isAddress } from 'viem';
-import { normalize } from 'viem/ens';
 import { debounce } from 'lodash';
 
 import { backgroundLines2, backgroundLines3 } from '@/assets';
@@ -22,7 +20,7 @@ import {
 } from './donate/constants';
 import { Providers } from './providers';
 import { ChainToken, TokenSymbol } from './donate/types';
-import { ethereumClient } from './donate/config';
+import { validateAddress } from './utils';
 
 type FormPayload = {
   name: string;
@@ -209,22 +207,6 @@ export default function Donors() {
     resetCopyState();
   }, [address, tokensSymbols, chainsIds, resetCopyState]);
 
-  const validateAddress = async (value: string): Promise<string | true> => {
-    console.log('called with', value);
-    try {
-      if (value.includes('.') && !value.endsWith('.')) {
-        const resolvedAddress = await ethereumClient?.getEnsAddress({
-          name: normalize(value),
-        });
-        return resolvedAddress ? true : 'This address doesn’t exist.';
-      }
-      return isAddress(value) ? true : 'This address doesn’t exist.';
-    } catch (error) {
-      console.error(error);
-      return 'An unexpected error occurred. Try again.';
-    }
-  };
-
   const debouncedAddressValidation = useMemo(() => {
     const debouncedFunction = debounce(
       (value: string, resolve: (result: string | true) => void) => {
@@ -235,7 +217,7 @@ export default function Donors() {
 
     return (value: string) => {
       return new Promise<string | true>((resolve) => {
-        debouncedFunction(value, resolve);
+        return debouncedFunction(value, resolve);
       });
     };
   }, []);
