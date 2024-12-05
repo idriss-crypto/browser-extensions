@@ -7,16 +7,16 @@ import { MultiselectOption } from '../types';
 
 type Properties<T> = HTMLAttributes<HTMLDivElement> &
   DropdownMenuTriggerProps & {
-  selectedOptions: MultiselectOption<T>[];
-  trimDisplayedOptions?: number;
-  placeholder?: string;
-  showOptionIconOnly?: boolean;
-  className?: string;
-  label?: string;
-  renderLabel?: () => ReactNode;
-  helperText?: string;
-  error?: boolean;
-};
+    selectedOptions: MultiselectOption<T>[];
+    trimDisplayedOptions?: number;
+    placeholder?: string;
+    showOptionIconOnly?: boolean;
+    className?: string;
+    label?: string;
+    renderLabel?: () => ReactNode;
+    helperText?: string;
+    error?: boolean;
+  };
 
 const _MultiselectInput = <T,>(
   properties: Properties<T>,
@@ -58,7 +58,7 @@ const _MultiselectInput = <T,>(
         onKeyDown={onKeyDown}
         {...rest}
         className={classes(
-          'flex flex-row items-center justify-between min-h-11 rounded-xl border border-neutral-200 bg-white px-3 py-2 text-neutralGreen-900 shadow-input placeholder:text-neutral-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500',
+          'flex min-h-11 flex-row items-center justify-between rounded-xl border border-neutral-200 bg-white px-3 py-2 text-neutralGreen-900 shadow-input placeholder:text-neutral-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500',
         )}
       >
         {displayedOptions.length === 0 ? (

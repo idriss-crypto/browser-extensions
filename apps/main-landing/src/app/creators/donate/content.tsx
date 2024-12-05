@@ -4,7 +4,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@idriss-xyz/ui/button';
 import { Link } from '@idriss-xyz/ui/link';
 import { CREATORS_USER_GUIDE_LINK } from '@idriss-xyz/constants';
-import {useCallback, useEffect, useMemo, useState} from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSearchParams } from 'next/navigation';
 import { Icon } from '@idriss-xyz/ui/icon';
@@ -32,7 +32,7 @@ import {
   roundToSignificantFigures,
   validateAddressOrENS,
 } from './utils';
-import {ChainToken, Token} from './types';
+import { ChainToken, Token } from './types';
 import { useSender } from './hooks';
 
 const SEARCH_PARAMETER = {
@@ -74,7 +74,7 @@ export const Content = ({ className }: Properties) => {
 
   const addressValidationResult = hexSchema.safeParse(validatedAddress);
 
-  const [selectedTokenKey, setSelectedTokenKey] = useState<string>('ETH')
+  const [selectedTokenKey, setSelectedTokenKey] = useState<string>('ETH');
 
   const networkParameter = searchParameters.get(SEARCH_PARAMETER.NETWORK);
   const tokenParameter = searchParameters.get(SEARCH_PARAMETER.TOKEN);
@@ -112,8 +112,8 @@ export const Content = ({ className }: Properties) => {
       const tokensForThisChain = CHAIN_ID_TO_TOKENS[chain.id];
 
       return !!tokensForThisChain?.find((token) => {
-        return token.symbol === selectedTokenKey
-      })
+        return token.symbol === selectedTokenKey;
+      });
     });
 
     if (chains.length === 0) {
@@ -157,18 +157,17 @@ export const Content = ({ className }: Properties) => {
     'amount',
   ]);
 
-
   const allowedTokens = useMemo(() => {
     const allTokens = Object.values(CHAIN_ID_TO_TOKENS).flat();
-    const uniqueTokens: ChainToken[] = []
-    for(const token of allTokens) {
+    const uniqueTokens: ChainToken[] = [];
+    for (const token of allTokens) {
       const exists = uniqueTokens.find((uniqueToken) => {
-        return uniqueToken.symbol === token.symbol
-      })
-      if(exists) {
-        continue
+        return uniqueToken.symbol === token.symbol;
+      });
+      if (exists) {
+        continue;
       }
-      uniqueTokens.push(token)
+      uniqueTokens.push(token);
     }
 
     return uniqueTokens;
@@ -177,10 +176,10 @@ export const Content = ({ className }: Properties) => {
   const sender = useSender({ walletClient, publicClient });
 
   const selectedToken = useMemo(() => {
-    const token =  allowedTokens?.find((token) => {
+    const token = allowedTokens?.find((token) => {
       return token.address === tokenAddress;
     });
-    setSelectedTokenKey(token?.symbol ?? '')
+    setSelectedTokenKey(token?.symbol ?? '');
     return token;
   }, [allowedTokens, tokenAddress]);
 

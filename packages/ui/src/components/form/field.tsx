@@ -14,7 +14,6 @@ type Properties = Omit<ComponentProps<typeof Input>, 'onChange'> & {
   onChange: (value: string) => void;
 };
 
-
 export const Field = forwardRef(
   (
     {

@@ -346,7 +346,7 @@ export default function Donors() {
                   className={classes(
                     'w-full',
                     copiedDonationLink &&
-                    'bg-mint-600 hover:bg-mint-600 [&>div]:hidden',
+                      'bg-mint-600 hover:bg-mint-600 [&>div]:hidden',
                   )}
                   onClick={() => {
                     return validateAndCopy(copyDonationLink);
@@ -362,7 +362,7 @@ export default function Donors() {
                   className={classes(
                     'w-full',
                     copiedObsLink &&
-                    'border-mint-600 bg-mint-300 hover:bg-mint-300',
+                      'border-mint-600 bg-mint-300 hover:bg-mint-300',
                   )}
                   onClick={() => {
                     return validateAndCopy(copyObsLink);
