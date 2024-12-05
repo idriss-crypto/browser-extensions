@@ -1,14 +1,10 @@
 import { useCallback } from 'react';
 import { ExternalLink } from '@idriss-xyz/ui/external-link';
 import { Icon as IdrissIcon } from '@idriss-xyz/ui/icon';
+import { IconButton } from '@idriss-xyz/ui/icon-button';
 
 import { useCommandQuery } from 'shared/messaging';
-import {
-  Icon,
-  LazyImage,
-  getGithubUserLink,
-  IdrissIconButton,
-} from 'shared/ui';
+import { Icon, LazyImage, getGithubUserLink } from 'shared/ui';
 import { getTwitterUserLink } from 'host/twitter';
 
 import { GetEnsInfoCommand } from '../../../commands';
@@ -122,10 +118,12 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
           )}
         </p>
       </div>
-      <IdrissIconButton
-        iconProps={{ name: 'Trash2', size: 16 }}
-        className="text-red-500"
+      <IconButton
+        intent="tertiary"
+        size="small"
+        iconName="Trash2"
         onClick={remove}
+        className="text-red-500"
       />
     </li>
   );
