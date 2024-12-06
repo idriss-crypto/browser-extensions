@@ -1,30 +1,30 @@
 'use client';
-import { Form } from '@idriss-xyz/ui/form';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Button } from '@idriss-xyz/ui/button';
-import { Link } from '@idriss-xyz/ui/link';
-import { CREATORS_USER_GUIDE_LINK } from '@idriss-xyz/constants';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useSearchParams } from 'next/navigation';
-import { Icon } from '@idriss-xyz/ui/icon';
-import { classes } from '@idriss-xyz/ui/utils';
-import { getAddress } from 'viem';
-import { Spinner } from '@idriss-xyz/ui/spinner';
+import {Form} from '@idriss-xyz/ui/form';
+import {Controller, SubmitHandler, useForm} from 'react-hook-form';
+import {Button} from '@idriss-xyz/ui/button';
+import {Link} from '@idriss-xyz/ui/link';
+import {CREATORS_USER_GUIDE_LINK} from '@idriss-xyz/constants';
+import {useCallback, useEffect, useMemo, useState} from 'react';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useSearchParams} from 'next/navigation';
+import {Icon} from '@idriss-xyz/ui/icon';
+import {classes} from '@idriss-xyz/ui/utils';
+import {getAddress} from 'viem';
+import {Spinner} from '@idriss-xyz/ui/spinner';
 import Image from 'next/image';
-import { useConnectModal } from '@rainbow-me/rainbowkit';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import {useConnectModal} from '@rainbow-me/rainbowkit';
+import {useAccount, usePublicClient, useWalletClient} from 'wagmi';
 
-import { backgroundLines3 } from '@/assets';
+import {backgroundLines3} from '@/assets';
 
-import { ChainSelect, TokenSelect } from './components';
+import {ChainSelect, TokenSelect} from './components';
 import {
   CHAIN,
   CHAIN_ID_TO_TOKENS,
   DEFAULT_ALLOWED_CHAINS_IDS,
   TOKEN,
 } from './constants';
-import { createSendPayloadSchema, hexSchema, SendPayload } from './schema';
+import {createSendPayloadSchema, hexSchema, SendPayload} from './schema';
 import {
   applyDecimalsToNumericString,
   getSendFormDefaultValues,
@@ -32,8 +32,8 @@ import {
   roundToSignificantFigures,
   validateAddressOrENS,
 } from './utils';
-import { ChainToken, Token } from './types';
-import { useSender } from './hooks';
+import {Token} from './types';
+import {useSender} from './hooks';
 
 const SEARCH_PARAMETER = {
   CREATOR_NAME: 'creatorName',
@@ -50,11 +50,11 @@ type Properties = {
 const baseClassName =
   'z-1 w-[440px] max-w-full rounded-xl bg-white px-4 pb-9 pt-6 flex flex-col items-center relative';
 
-export const Content = ({ className }: Properties) => {
-  const { isConnected } = useAccount();
-  const { data: walletClient } = useWalletClient();
+export const Content = ({className}: Properties) => {
+  const {isConnected} = useAccount();
+  const {data: walletClient} = useWalletClient();
   const publicClient = usePublicClient();
-  const { connectModalOpen, openConnectModal } = useConnectModal();
+  const {connectModalOpen, openConnectModal} = useConnectModal();
   const [validatedAddress, setValidatedAddress] = useState<
     string | null | undefined
   >();
@@ -157,7 +157,7 @@ export const Content = ({ className }: Properties) => {
     'amount',
   ]);
 
-  const sender = useSender({ walletClient, publicClient });
+  const sender = useSender({walletClient, publicClient});
 
   const selectedToken = useMemo(() => {
     const token = possibleTokens?.find((token) => {
@@ -168,29 +168,31 @@ export const Content = ({ className }: Properties) => {
   }, [possibleTokens, tokenAddress]);
 
   const amountInSelectedToken = useMemo(() => {
-    if (!sender.tokensToSend || !selectedToken?.decimals) {
+    console.log(selectedTokenKey)
+    const decimals = CHAIN_ID_TO_TOKENS[chainId]?.find(token => token.symbol === selectedTokenKey) || 1
+    if (!sender.tokensToSend || !selectedToken?.symbol) {
       return;
     }
 
     return applyDecimalsToNumericString(
       sender.tokensToSend.toString(),
-      selectedToken.decimals,
+      decimals,
     );
-  }, [selectedToken?.decimals, sender.tokensToSend]);
+  }, [selectedTokenKey, chainId, sender.tokensToSend]);
 
   const onSubmit: SubmitHandler<SendPayload> = useCallback(
     async (payload) => {
       if (!addressValidationResult.success || !validatedAddress) {
         return;
       }
-      const { chainId, tokenAddress: symbol, ...rest } = payload;
+      const {chainId, tokenAddress: symbol, ...rest} = payload;
       const address =
         CHAIN_ID_TO_TOKENS[chainId]?.find((token: Token) => {
           return token.symbol === symbol;
         })?.address ?? '';
-      const sendPayload = { ...rest, chainId, tokenAddress: address };
+      const sendPayload = {...rest, chainId, tokenAddress: address};
       const validAddress = getAddress(addressValidationResult.data);
-      // // TODO: Add error handling
+      //TODO: Add error handling
       await sender.send({
         sendPayload,
         recipientAddress: validAddress,
@@ -203,7 +205,7 @@ export const Content = ({ className }: Properties) => {
     return (
       <div className={classes(baseClassName, className)}>
         <h1 className="flex items-center justify-center gap-2 text-center text-heading4 text-red-500">
-          <Icon name="AlertCircle" size={40} /> <span>Wrong address</span>
+          <Icon name="AlertCircle" size={40}/> <span>Wrong address</span>
         </h1>
       </div>
     );
@@ -212,7 +214,7 @@ export const Content = ({ className }: Properties) => {
   if (sender.isSending) {
     return (
       <div className={classes(baseClassName, className)}>
-        <Spinner className="size-16 text-mint-600" />
+        <Spinner className="size-16 text-mint-600"/>
         <p className="mt-6 text-heading5 text-neutral-900 lg:text-heading4">
           Waiting for confirmation
         </p>
@@ -285,7 +287,7 @@ export const Content = ({ className }: Properties) => {
         <Controller
           control={formMethods.control}
           name="tokenAddress"
-          render={({ field }) => {
+          render={({field}) => {
             return (
               <TokenSelect
                 className="mt-4 w-full"
@@ -301,7 +303,7 @@ export const Content = ({ className }: Properties) => {
         <Controller
           control={formMethods.control}
           name="chainId"
-          render={({ field }) => {
+          render={({field}) => {
             return (
               <ChainSelect
                 className="mt-6 w-full"
@@ -317,7 +319,7 @@ export const Content = ({ className }: Properties) => {
         <Controller
           control={formMethods.control}
           name="amount"
-          render={({ field }) => {
+          render={({field}) => {
             return (
               <Form.Field
                 {...field}
@@ -336,7 +338,7 @@ export const Content = ({ className }: Properties) => {
         <Controller
           control={formMethods.control}
           name="message"
-          render={({ field, fieldState }) => {
+          render={({field, fieldState}) => {
             return (
               <Form.Field
                 {...field}
