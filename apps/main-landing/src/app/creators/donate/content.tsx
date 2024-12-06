@@ -168,8 +168,9 @@ export const Content = ({className}: Properties) => {
   }, [possibleTokens, tokenAddress]);
 
   const amountInSelectedToken = useMemo(() => {
-    console.log(selectedTokenKey)
-    const decimals = CHAIN_ID_TO_TOKENS[chainId]?.find(token => token.symbol === selectedTokenKey) || 1
+    const decimals = CHAIN_ID_TO_TOKENS[chainId]?.find(token => {
+      return token.symbol === selectedTokenKey
+    })?.decimals ?? 1
     if (!sender.tokensToSend || !selectedToken?.symbol) {
       return;
     }
@@ -189,10 +190,10 @@ export const Content = ({className}: Properties) => {
       const address =
         CHAIN_ID_TO_TOKENS[chainId]?.find((token: Token) => {
           return token.symbol === symbol;
-        })?.address ?? '';
+        })?.address;
       const sendPayload = {...rest, chainId, tokenAddress: address};
       const validAddress = getAddress(addressValidationResult.data);
-      //TODO: Add error handling
+      // //TODO: Add error handling
       await sender.send({
         sendPayload,
         recipientAddress: validAddress,
