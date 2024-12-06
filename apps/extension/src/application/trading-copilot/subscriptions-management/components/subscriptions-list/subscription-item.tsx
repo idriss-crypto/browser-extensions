@@ -65,9 +65,9 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
       <div className="flex items-center">
         <LazyImage
           src={avatarQuery.data}
-          className="size-8 rounded-full border border-neutral-400 bg-neutral-200"
+          className="size-8 rounded-full border border-neutral-300 bg-neutral-200"
           fallbackComponent={
-            <div className="flex size-8 items-center justify-center rounded-full border border-neutral-400 bg-neutral-200">
+            <div className="flex size-8 items-center justify-center rounded-full border border-neutral-300 bg-neutral-200">
               <IdrissIcon
                 size={20}
                 name="CircleUserRound"

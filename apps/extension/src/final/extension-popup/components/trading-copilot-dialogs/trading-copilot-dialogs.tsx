@@ -119,9 +119,9 @@ const TradingCopilotDialog = ({
           <div className="grid grid-cols-[48px,1fr] gap-2">
             <LazyImage
               src={avatarQuery.data}
-              className="size-12 rounded-full border border-neutral-400 bg-neutral-200"
+              className="size-12 rounded-full border border-neutral-300 bg-neutral-200"
               fallbackComponent={
-                <div className="flex size-12 items-center justify-center rounded-full border border-neutral-400 bg-neutral-200">
+                <div className="flex size-12 items-center justify-center rounded-full border border-neutral-300 bg-neutral-200">
                   <Icon
                     size={30}
                     name="PersonIcon"
