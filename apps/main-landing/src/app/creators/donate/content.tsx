@@ -193,7 +193,7 @@ export const Content = ({ className }: Properties) => {
       })?.address;
       const sendPayload = { ...rest, chainId, tokenAddress: address };
       const validAddress = getAddress(addressValidationResult.data);
-      // //TODO: Add error handling
+      //TODO: Add error handling
       await sender.send({
         sendPayload,
         recipientAddress: validAddress,
