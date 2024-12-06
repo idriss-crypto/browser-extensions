@@ -7,10 +7,10 @@ export type Subscription = {
 
 export type SwapDataToken = {
   symbol: string;
-  amount: number
-}
+  amount: number;
+};
 
 export type SwapData = {
-  tokenIn: SwapDataToken
-  tokenOut: SwapDataToken
-}
+  tokenIn: SwapDataToken;
+  tokenOut: SwapDataToken;
+};

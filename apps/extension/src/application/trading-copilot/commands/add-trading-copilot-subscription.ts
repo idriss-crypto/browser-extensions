@@ -7,12 +7,12 @@ import {
 } from 'shared/messaging';
 
 import { Subscription } from '../types';
-import { TradingCopilotSettingsManager } from '../subscriptions-manager';
 
 import { COPILOT_API_URL } from './constants';
 
 interface Payload {
   subscription: Subscription;
+  subscriberId: string;
 }
 
 type Response = boolean;
@@ -29,13 +29,11 @@ export class AddTradingCopilotSubscriptionCommand extends Command<
 
   async handle() {
     try {
-      await TradingCopilotSettingsManager.subscribe(this.payload.subscription);
-
       const response = await fetch(`${COPILOT_API_URL}/subscribe`, {
         method: 'POST',
         body: JSON.stringify({
-          subscriberId: 'id1',
-          address: this.payload.subscription.walletAddress
+          subscriberId: this.payload.subscriberId,
+          address: this.payload.subscription.walletAddress,
         }),
         headers: {
           'Content-Type': 'application/json',

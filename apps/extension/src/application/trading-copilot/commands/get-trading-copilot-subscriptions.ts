@@ -2,13 +2,17 @@ import {
   Command,
   FailureResult,
   HandlerError,
+  HandlerResponseError,
   OkResult,
 } from 'shared/messaging';
+import { COPILOT_API_URL } from 'application/trading-copilot/commands/constants';
 
-import { TradingCopilotSettingsManager } from '../subscriptions-manager';
 import { Subscription } from '../types';
 
-type Payload = Record<string, never>;
+interface Payload {
+  subscriberId: string;
+}
+
 type Response = Subscription[];
 
 export class GetTradingCopilotSubscriptionsCommand extends Command<
@@ -23,8 +27,23 @@ export class GetTradingCopilotSubscriptionsCommand extends Command<
 
   async handle() {
     try {
-      const subscriptions =
-        await TradingCopilotSettingsManager.getAllSubscriptions();
+      const response = await fetch(
+        `${COPILOT_API_URL}/subscriptions/${this.payload.subscriberId}`,
+        {
+          method: 'GET',
+        },
+      );
+
+      if (!response.ok) {
+        const responseText = await response.text();
+        throw new HandlerResponseError(
+          this.name,
+          responseText,
+          response.status,
+        );
+      }
+
+      const subscriptions = (await response.json()) as Response;
 
       return new OkResult(subscriptions);
     } catch (error) {

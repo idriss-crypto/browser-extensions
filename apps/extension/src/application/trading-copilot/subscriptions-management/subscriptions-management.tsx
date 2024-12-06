@@ -10,8 +10,10 @@ import { Subscription } from '../types';
 import { SubscriptionForm, SubscriptionsList } from './components';
 
 export const SubscriptionsManagement = () => {
+  const subscriberId = 'id1';
+
   const subscriptionsQuery = useCommandQuery({
-    command: new GetTradingCopilotSubscriptionsCommand({}),
+    command: new GetTradingCopilotSubscriptionsCommand({ subscriberId }),
   });
 
   const subscribe = useCommandMutation(AddTradingCopilotSubscriptionCommand);
@@ -20,12 +22,12 @@ export const SubscriptionsManagement = () => {
   );
 
   const handleAddNewSubscription = async (subscription: Subscription) => {
-    await subscribe.mutateAsync({ subscription });
+    await subscribe.mutateAsync({ subscription, subscriberId });
     void subscriptionsQuery.refetch();
   };
 
   const handleUnsubscribe = async (subscription: Subscription) => {
-    await unsubscribe.mutateAsync({subscription});
+    await unsubscribe.mutateAsync({ subscription, subscriberId });
     void subscriptionsQuery.refetch();
   };
 
@@ -34,7 +36,9 @@ export const SubscriptionsManagement = () => {
       <SubscriptionForm onSubmit={handleAddNewSubscription} />
       <SubscriptionsList
         className="mt-4"
-        subscriptions={subscriptionsQuery.data ?? []}
+        subscriptions={[]}
+        // TODO: Connect after correcting the response from the API
+        // subscriptions={subscriptionsQuery.data || []}
         subscriptionsLoading={subscriptionsQuery.isLoading}
         subscriptionsUpdatePending={
           subscribe.isPending ||

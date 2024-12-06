@@ -81,21 +81,14 @@ export class ServiceWorker {
     serviceWorker.watchWorkerInactivity();
   }
 
-  private initializeSocketEvents() {
+  initializeSocketEvents() {
     console.log('Initializing socket');
+
     this.socket.on('connect', () => {
       console.log('Connected to server');
 
-      // Retrieve subscriberId from storage
-      // this.environment.storage.local.get(['subscriberId'], (result) => {
-      //   const subscriberId = result.subscriberId;
-      //   if (subscriberId) {
-      //     this.registerWithServer(subscriberId);
-      //   } else {
-      //     console.error('No subscriberId found in storage');
-      //   }
-      // });
       const subscriberId = 'id1';
+
       if (subscriberId) {
         this.registerWithServer(subscriberId);
       } else {
