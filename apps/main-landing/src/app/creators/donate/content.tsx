@@ -157,31 +157,15 @@ export const Content = ({ className }: Properties) => {
     'amount',
   ]);
 
-  const allowedTokens = useMemo(() => {
-    const allTokens = Object.values(CHAIN_ID_TO_TOKENS).flat();
-    const uniqueTokens: ChainToken[] = [];
-    for (const token of allTokens) {
-      const exists = uniqueTokens.find((uniqueToken) => {
-        return uniqueToken.symbol === token.symbol;
-      });
-      if (exists) {
-        continue;
-      }
-      uniqueTokens.push(token);
-    }
-
-    return uniqueTokens;
-  }, []);
-
   const sender = useSender({ walletClient, publicClient });
 
   const selectedToken = useMemo(() => {
-    const token = allowedTokens?.find((token) => {
-      return token.address === tokenAddress;
+    const token = possibleTokens?.find((token) => {
+      return token.symbol === tokenAddress;
     });
     setSelectedTokenKey(token?.symbol ?? '');
     return token;
-  }, [allowedTokens, tokenAddress]);
+  }, [possibleTokens, tokenAddress]);
 
   const amountInSelectedToken = useMemo(() => {
     if (!sender.tokensToSend || !selectedToken?.decimals) {
@@ -195,12 +179,18 @@ export const Content = ({ className }: Properties) => {
   }, [selectedToken?.decimals, sender.tokensToSend]);
 
   const onSubmit: SubmitHandler<SendPayload> = useCallback(
-    async (sendPayload) => {
+    async (payload) => {
       if (!addressValidationResult.success || !validatedAddress) {
         return;
       }
+      const { chainId, tokenAddress: symbol, ...rest } = payload;
+      const address =
+        CHAIN_ID_TO_TOKENS[chainId]?.find((token: Token) => {
+          return token.symbol === symbol;
+        })?.address ?? '';
+      const sendPayload = { ...rest, chainId, tokenAddress: address };
       const validAddress = getAddress(addressValidationResult.data);
-      // TODO: Add error handling
+      // // TODO: Add error handling
       await sender.send({
         sendPayload,
         recipientAddress: validAddress,
@@ -300,7 +290,7 @@ export const Content = ({ className }: Properties) => {
               <TokenSelect
                 className="mt-4 w-full"
                 label="Token"
-                tokens={allowedTokens}
+                tokens={possibleTokens}
                 onChange={field.onChange}
                 value={field.value}
               />
