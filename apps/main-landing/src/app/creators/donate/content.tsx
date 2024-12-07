@@ -27,7 +27,6 @@ import {
 import { createSendPayloadSchema, hexSchema, SendPayload } from './schema';
 import {
   applyDecimalsToNumericString,
-  getDefaultTokenForChainId,
   getSendFormDefaultValues,
   getTransactionUrl,
   roundToSignificantFigures,
@@ -75,6 +74,8 @@ export const Content = ({ className }: Properties) => {
 
   const addressValidationResult = hexSchema.safeParse(validatedAddress);
 
+  const [selectedTokenKey, setSelectedTokenKey] = useState<string>('ETH');
+
   const networkParameter = searchParameters.get(SEARCH_PARAMETER.NETWORK);
   const tokenParameter = searchParameters.get(SEARCH_PARAMETER.TOKEN);
   const creatorNameParameter = searchParameters.get(
@@ -110,17 +111,9 @@ export const Content = ({ className }: Properties) => {
 
       const tokensForThisChain = CHAIN_ID_TO_TOKENS[chain.id];
 
-      const chainIncludesSomeOfTheTokens = possibleTokens.some((token) => {
-        return Boolean(
-          tokensForThisChain?.find((chainToken) => {
-            return (
-              chainToken.symbol.toLowerCase() === token.symbol.toLowerCase()
-            );
-          }),
-        );
+      return !!tokensForThisChain?.find((token) => {
+        return token.symbol === selectedTokenKey;
       });
-
-      return chainIncludesSomeOfTheTokens;
     });
 
     if (chains.length === 0) {
@@ -131,7 +124,7 @@ export const Content = ({ className }: Properties) => {
     return chains.map((chain) => {
       return chain.id;
     });
-  }, [possibleTokens, networkParameter]);
+  }, [networkParameter, selectedTokenKey]);
 
   const defaultChainId = allowedChainsIds[0] ?? 0;
 
@@ -164,55 +157,44 @@ export const Content = ({ className }: Properties) => {
     'amount',
   ]);
 
-  const onChangeChainId = useCallback(
-    (chainId: number) => {
-      formMethods.resetField('tokenAddress', {
-        defaultValue: getDefaultTokenForChainId(chainId).address,
-      });
-    },
-    [formMethods],
-  );
-
-  const allowedTokens = useMemo(() => {
-    const tokensForThisChain = CHAIN_ID_TO_TOKENS[chainId] ?? [];
-    const tokens = tokensForThisChain.filter((chainToken) => {
-      return possibleTokens.find((token) => {
-        return token.symbol === chainToken.symbol;
-      });
-    });
-    if (tokens.length === 0) {
-      return CHAIN_ID_TO_TOKENS[chainId] ?? [];
-    }
-
-    return tokens;
-  }, [possibleTokens, chainId]);
-
   const sender = useSender({ walletClient, publicClient });
 
   const selectedToken = useMemo(() => {
-    return CHAIN_ID_TO_TOKENS[chainId]?.find((token) => {
-      return token.address === tokenAddress;
+    const token = possibleTokens?.find((token) => {
+      return token.symbol === tokenAddress;
     });
-  }, [chainId, tokenAddress]);
+    setSelectedTokenKey(token?.symbol ?? '');
+    return token;
+  }, [possibleTokens, tokenAddress]);
 
   const amountInSelectedToken = useMemo(() => {
-    if (!sender.tokensToSend || !selectedToken?.decimals) {
+    const decimals =
+      CHAIN_ID_TO_TOKENS[chainId]?.find((token) => {
+        return token.symbol === selectedTokenKey;
+      })?.decimals ?? 1;
+    if (!sender.tokensToSend || !selectedToken?.symbol) {
       return;
     }
 
     return applyDecimalsToNumericString(
       sender.tokensToSend.toString(),
-      selectedToken.decimals,
+      decimals,
     );
-  }, [selectedToken?.decimals, sender.tokensToSend]);
+  }, [selectedTokenKey, chainId, sender.tokensToSend]);
 
   const onSubmit: SubmitHandler<SendPayload> = useCallback(
-    async (sendPayload) => {
+    async (payload) => {
       if (!addressValidationResult.success || !validatedAddress) {
         return;
       }
+      const { chainId, tokenAddress: symbol, ...rest } = payload;
+      const address =
+        CHAIN_ID_TO_TOKENS[chainId]?.find((token: Token) => {
+          return token.symbol === symbol;
+        })?.address ?? '0x';
+      const sendPayload = { ...rest, chainId, tokenAddress: address };
       const validAddress = getAddress(addressValidationResult.data);
-      // TODO: Add error handling
+      //TODO: Add error handling
       await sender.send({
         sendPayload,
         recipientAddress: validAddress,
@@ -295,7 +277,7 @@ export const Content = ({ className }: Properties) => {
       <Image
         priority
         src={backgroundLines3}
-        className="pointer-events-none absolute top-0 hidden h-full opacity-40 lg:block"
+        className="pointer-events-none absolute top-0 hidden h-full opacity-100 lg:block"
         alt=""
       />
       <h1 className="self-start text-heading4">
@@ -306,17 +288,14 @@ export const Content = ({ className }: Properties) => {
       <Form onSubmit={formMethods.handleSubmit(onSubmit)} className="w-full">
         <Controller
           control={formMethods.control}
-          name="chainId"
+          name="tokenAddress"
           render={({ field }) => {
             return (
-              <ChainSelect
-                className="mt-6 w-full"
-                label="Network"
-                allowedChainsIds={allowedChainsIds}
-                onChange={(value) => {
-                  onChangeChainId(value);
-                  field.onChange(value);
-                }}
+              <TokenSelect
+                className="mt-4 w-full"
+                label="Token"
+                tokens={possibleTokens}
+                onChange={field.onChange}
                 value={field.value}
               />
             );
@@ -325,13 +304,13 @@ export const Content = ({ className }: Properties) => {
 
         <Controller
           control={formMethods.control}
-          name="tokenAddress"
+          name="chainId"
           render={({ field }) => {
             return (
-              <TokenSelect
-                className="mt-4 w-full"
-                label="Token"
-                tokens={allowedTokens}
+              <ChainSelect
+                className="mt-6 w-full"
+                label="Network"
+                allowedChainsIds={allowedChainsIds}
                 onChange={field.onChange}
                 value={field.value}
               />
