@@ -1,6 +1,6 @@
-import {z} from 'zod';
+import { z } from 'zod';
 
-import {Hex} from './types';
+import { Hex } from './types';
 
 export const hexSchema = z
   .string()
