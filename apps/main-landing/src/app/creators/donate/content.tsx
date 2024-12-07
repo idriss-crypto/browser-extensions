@@ -37,7 +37,7 @@ import {
   roundToSignificantFigures,
   validateAddressOrENS,
 } from './utils';
-import { Token } from './types';
+import { Hex, Token } from './types';
 import { useSender } from './hooks';
 
 const SEARCH_PARAMETER = {
@@ -196,7 +196,7 @@ export const Content = ({ className }: Properties) => {
         return;
       }
       const { chainId, tokenSymbol, ...rest } = payload;
-      const address =
+      const address: Hex =
         CHAIN_ID_TO_TOKENS[chainId]?.find((token: Token) => {
           return token.symbol === tokenSymbol;
         })?.address ?? '0x';
