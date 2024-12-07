@@ -1,6 +1,6 @@
-import { z } from 'zod';
+import {z} from 'zod';
 
-import { Hex } from './types';
+import {Hex} from './types';
 
 export const hexSchema = z
   .string()
@@ -13,7 +13,7 @@ const createSendPayloadSchema = (allowedChainIds: number[]) => {
     amount: z
       .number()
       .gte(MIN_SEND_AMOUNT, `Value must be at least $${MIN_SEND_AMOUNT}`),
-    tokenAddress: z.string(),
+    tokenAddress: hexSchema,
     chainId: z.union(createPossibleChainIdsSchema(allowedChainIds)),
     message: z.string().max(70),
   });
