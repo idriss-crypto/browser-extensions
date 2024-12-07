@@ -1,6 +1,6 @@
-import { z } from 'zod';
+import {z} from 'zod';
 
-import { Hex } from './types';
+import {Hex} from './types';
 
 export const hexSchema = z
   .string()
@@ -8,7 +8,7 @@ export const hexSchema = z
 
 const MIN_SEND_AMOUNT = 0.001;
 
-export const createSendPayloadSchema = (allowedChainIds: number[]) => {
+const createSendPayloadSchema = (allowedChainIds: number[]) => {
   return z.object({
     amount: z
       .number()
