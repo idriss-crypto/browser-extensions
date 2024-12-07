@@ -35,7 +35,6 @@ export const ProductsSection = () => {
     // Run initial scroll after a short delay to ensure render
     const timeoutId = setTimeout(handleInitialScroll, 200);
 
-    // Cleanup
     return () => {
       window.removeEventListener('resize', checkMobile);
       clearTimeout(timeoutId);
