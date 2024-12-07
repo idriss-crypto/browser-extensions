@@ -12,12 +12,12 @@ import { Subscription } from '../../../types';
 
 type Properties = {
   subscription: Subscription;
-  onRemove: (ensName: Subscription['ensName']) => void;
+  onRemove: (subscription: Subscription) => void;
 };
 
 export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
   const remove = useCallback(() => {
-    onRemove(subscription.ensName);
+    onRemove(subscription);
   }, [onRemove, subscription]);
 
   const emailQuery = useCommandQuery({

@@ -105,7 +105,6 @@ export const Products = () => {
           />
         </div>
       </div>
-
       <Button
         intent="primary"
         size="medium"
