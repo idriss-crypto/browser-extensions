@@ -48,7 +48,7 @@ export const Footer = () => {
         alt=""
       />
 
-      <div className="px-safe border-t border-t-[#002D1E4D]">
+      <div className="border-t border-t-[#002D1E4D] px-safe">
         <div className="container justify-between gap-x-6 py-10 lg:mt-10 lg:flex xl:grid xl:grid-cols-2">
           <div>
             <Image

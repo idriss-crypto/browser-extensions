@@ -219,7 +219,7 @@ export default function Donors() {
           alt=""
         />
 
-        <div className="px-safe mt-8 w-[440px] max-w-full overflow-hidden lg:mt-[130px] lg:[@media(max-height:800px)]:mt-[60px]">
+        <div className="mt-8 w-[440px] max-w-full overflow-hidden px-safe lg:mt-[130px] lg:[@media(max-height:800px)]:mt-[60px]">
           <div className="container relative flex w-full flex-col items-center rounded-xl bg-white px-4 pb-3 pt-6">
             <Image
               priority

@@ -17,7 +17,7 @@ import { Socials } from './socials';
 export const Mobile = () => {
   return (
     <Dialog
-      className="px-safe fixed inset-x-4 bottom-3 top-[76px]" // top-[76px] is 64px height of navbar + 12px spacing, ideally it should be ref attached to nav to read component height in case it changes in future
+      className="fixed inset-x-4 bottom-3 top-[76px] px-safe" // top-[76px] is 64px height of navbar + 12px spacing, ideally it should be ref attached to nav to read component height in case it changes in future
       trigger={({ isOpened }) => {
         return (
           <IconButton

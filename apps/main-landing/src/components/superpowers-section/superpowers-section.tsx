@@ -25,7 +25,7 @@ export const SuperpowersSection = () => {
         alt=""
         className="absolute bottom-0 right-0 hidden translate-x-[-5%] lg:block"
       />
-      <div className="px-safe z-1">
+      <div className="z-1 px-safe">
         <div className="container relative lg:flex lg:flex-col lg:items-center">
           <div className="mb-10 flex w-full flex-col items-center gap-4 lg:mb-20">
             <h2 className="mt-20 text-center text-display5 gradient-text lg:mt-10 lg:text-display2">
