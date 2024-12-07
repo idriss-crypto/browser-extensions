@@ -43,7 +43,7 @@ export const Tabs = ({ activeOptionKey, options, asLink, ref }: Properties) => {
               {option.name}
             </span>
           );
-        })}{' '}
+        })}
       </div>
     </div>
   );
