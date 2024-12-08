@@ -16,7 +16,7 @@ export type SubscriptionsResponse = {
   addresses: SubscriptionResponse[];
 };
 
-export type SwapDataToken = {
+type SwapDataToken = {
   symbol: string;
   amount: number;
 };
