@@ -6,14 +6,9 @@ import {
   OkResult,
 } from 'shared/messaging';
 
-import { Subscription } from '../types';
+import { SubscriptionRequest as Payload } from '../types';
 
 import { COPILOT_API_URL } from './constants';
-
-interface Payload {
-  subscription: Subscription;
-  subscriberId: string;
-}
 
 type Response = boolean;
 
@@ -31,10 +26,7 @@ export class RemoveTradingCopilotSubscriptionCommand extends Command<
     try {
       const response = await fetch(`${COPILOT_API_URL}/unsubscribe`, {
         method: 'POST',
-        body: JSON.stringify({
-          subscriberId: this.payload.subscriberId,
-          address: this.payload.subscription.walletAddress,
-        }),
+        body: JSON.stringify(this.payload),
         headers: {
           'Content-Type': 'application/json',
         },

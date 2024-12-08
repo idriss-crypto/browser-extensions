@@ -1,8 +1,19 @@
 import { Hex } from 'shared/web3';
 
-export type Subscription = {
-  ensName: string;
-  walletAddress: Hex;
+export type SubscriptionRequest = {
+  subscriberId: string;
+  address: Hex;
+};
+
+export type SubscriptionResponse = Hex;
+
+export type SubscriptionsRequest = {
+  subscriberId: string;
+};
+
+export type SubscriptionsResponse = {
+  subscriberId: string;
+  addresses: SubscriptionResponse[];
 };
 
 export type SwapDataToken = {

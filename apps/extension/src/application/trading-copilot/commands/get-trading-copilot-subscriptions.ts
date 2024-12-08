@@ -7,13 +7,10 @@ import {
 } from 'shared/messaging';
 import { COPILOT_API_URL } from 'application/trading-copilot/commands/constants';
 
-import { Subscription } from '../types';
-
-interface Payload {
-  subscriberId: string;
-}
-
-type Response = Subscription[];
+import {
+  SubscriptionsRequest as Payload,
+  SubscriptionsResponse as Response,
+} from '../types';
 
 export class GetTradingCopilotSubscriptionsCommand extends Command<
   Payload,
