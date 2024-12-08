@@ -1,10 +1,8 @@
 import { useCallback } from 'react';
 import { ExternalLink } from '@idriss-xyz/ui/external-link';
-import { Icon as IdrissIcon } from '@idriss-xyz/ui/icon';
-import { IconButton } from '@idriss-xyz/ui/icon-button';
 
 import { useCommandQuery } from 'shared/messaging';
-import { Icon, LazyImage, getGithubUserLink } from 'shared/ui';
+import { Icon, IconButton, LazyImage, getGithubUserLink } from 'shared/ui';
 import { getTwitterUserLink } from 'host/twitter';
 import { GetEnsNameCommand } from 'application/trading-copilot/commands/get-ens-name';
 
@@ -98,15 +96,9 @@ const SubscriptionItemContent = ({
       <div className="flex items-center">
         <LazyImage
           src={avatarQuery.data}
-          className="size-8 rounded-full border border-neutral-400 bg-neutral-200"
+          className="size-5 rounded-full"
           fallbackComponent={
-            <div className="flex size-8 items-center justify-center rounded-full border border-neutral-300 bg-neutral-200">
-              <IdrissIcon
-                size={20}
-                name="CircleUserRound"
-                className="text-neutral-500"
-              />
-            </div>
+            <Icon size={20} name="PersonIcon" className="rounded-full" />
           }
         />
 
@@ -118,45 +110,31 @@ const SubscriptionItemContent = ({
               <Icon
                 size={16}
                 name="TwitterLogoIcon"
-                className="text-[#757575] [&>path]:fill-rule-non-zero"
+                className="[&>path]:fill-rule-non-zero"
               />
             </ExternalLink>
           )}
           {githubQuery.data && (
             <ExternalLink href={getGithubUserLink(githubQuery.data)}>
-              <Icon
-                size={16}
-                name="GitHubLogoIcon"
-                className="text-[#757575]"
-              />
+              <Icon size={16} name="GitHubLogoIcon" />
             </ExternalLink>
           )}
           {discordQuery.data && (
             <span title={discordQuery.data}>
-              <Icon
-                size={16}
-                name="DiscordLogoIcon"
-                className="text-[#757575]"
-              />
+              <Icon size={16} name="DiscordLogoIcon" />
             </span>
           )}
           {emailQuery.data && (
             <ExternalLink href={`mailto:${emailQuery.data}`}>
-              <Icon
-                size={16}
-                name="EnvelopeClosedIcon"
-                className="text-[#757575]"
-              />
+              <Icon size={16} name="EnvelopeClosedIcon" />
             </ExternalLink>
           )}
         </p>
       </div>
       <IconButton
-        intent="tertiary"
-        size="small"
-        iconName="Trash2"
+        iconProps={{ name: 'Cross1Icon' }}
+        className="text-red-700"
         onClick={remove}
-        className="text-red-500"
       />
     </li>
   );

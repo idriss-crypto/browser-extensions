@@ -24,13 +24,13 @@ export const SubscriptionsList = ({
   const subscriptionsListBody = useMemo(() => {
     if (subscriptionsLoading) {
       return (
-        <Spinner className="mt-10 flex w-full items-center justify-center" />
+        <Spinner className="mt-14 flex w-full items-center justify-center" />
       );
     }
 
     if (subscriptions === undefined || subscriptions.addresses.length === 0) {
       return (
-        <Empty text="Your subscriptions list is empty" className="mt-10" />
+        <Empty text="Your subscriptions list is empty" className="mt-14" />
       );
     }
 
@@ -61,7 +61,7 @@ export const SubscriptionsList = ({
 
   return (
     <div className={className}>
-      <p className="mb-1 block text-label4 text-neutralGreen-700">
+      <p className="mb-2 text-sm font-semibold leading-6 text-mint-900">
         Your Subscriptions
       </p>
       {subscriptionsListBody}
