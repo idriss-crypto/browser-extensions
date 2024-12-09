@@ -1,15 +1,19 @@
 
-const express = require('express');
-const cors = require('cors');
+import express from 'express';
+import cors from 'cors';
+
 const app = express();
 const port = 3031;
 
 app.use(cors());
 app.use(express.json());
 
+const { getQuoteFromLifi } = await import('./lifi.mjs');
+
 app.post('/api/execute-swap', async (req, res) => {
   try {
     const {
+      fromAddress,
       originChain,
       destinationChain,
       originToken,
@@ -25,11 +29,11 @@ app.post('/api/execute-swap', async (req, res) => {
       });
     }
 
-    // Mock response for demonstration
-    // TODO: Replace with actual use of the Li.FI SDK
+    const quote = await getQuoteFromLifi(fromAddress, originChain, destinationChain, originToken, destinationToken, amount);
+
     const swapCallData = {
       success: true,
-      transactionData: 0x2137192
+      transactionData: quote.transactionRequest
     };
 
     res.json(swapCallData);
