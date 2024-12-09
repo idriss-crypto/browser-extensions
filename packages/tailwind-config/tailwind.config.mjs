@@ -56,6 +56,9 @@ export default {
         800: '#035136',
         900: '#002D1E',
       },
+      gray: {
+        200: '#E5E5E5'
+      },
       lime: {
         100: '#FBFFE6',
         200: '#F5FEC9',
@@ -328,6 +331,20 @@ export default {
         },
         '.paused-animation': {
           'animation-play-state': 'paused',
+        },
+        '.p-safe': {
+          paddingTop: 'env(safe-area-inset-top)',
+          paddingRight: 'env(safe-area-inset-right)',
+          paddingBottom: 'env(safe-area-inset-bottom)',
+          paddingLeft: 'env(safe-area-inset-left)',
+        },
+        '.px-safe': {
+          paddingLeft: 'env(safe-area-inset-left)',
+          paddingRight: 'env(safe-area-inset-right)',
+        },
+        '.py-safe': {
+          paddingTop: 'env(safe-area-inset-top)',
+          paddingBottom: 'env(safe-area-inset-bottom)',
         },
       };
       addUtilities(newUtilities);

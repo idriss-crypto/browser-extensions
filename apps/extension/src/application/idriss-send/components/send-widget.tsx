@@ -90,7 +90,7 @@ export const SendWidget = ({ widgetData }: Properties) => {
       header={
         sender.isSending || sender.isSuccess ? undefined : (
           <IdrissSend.Heading>
-            {widgetOverrides?.headerCopy ?? `Send to @${username}`}
+            {widgetOverrides?.headerCopy ?? `Donate to @${username}`}
           </IdrissSend.Heading>
         )
       }
@@ -154,7 +154,7 @@ export const SendWidget = ({ widgetData }: Properties) => {
                     className="w-full"
                     loading={isConnectionModalOpened}
                   >
-                    Log In
+                    Log in
                   </Button>
                 )}
                 {sender.isError ? (

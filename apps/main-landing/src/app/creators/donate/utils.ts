@@ -1,32 +1,18 @@
 import { normalize } from 'viem/ens';
 
-import { CHAIN, CHAIN_ID_TO_TOKENS, NATIVE_COIN_ADDRESS } from './constants';
-import { SendPayload } from './schema';
+import { CHAIN, NATIVE_COIN_ADDRESS } from './constants';
+import { FormPayload } from './schema';
 import { Hex } from './types';
 import { ethereumClient } from './config';
 
-export const getDefaultTokenForChainId = (chainId: number) => {
-  const chainTokens = CHAIN_ID_TO_TOKENS[chainId];
-  if (!chainTokens) {
-    throw new Error('Chain tokens not found');
-  }
-
-  const defaultChainToken = chainTokens[0];
-  if (!defaultChainToken) {
-    throw new Error('Chain does not have any tokens');
-  }
-
-  return defaultChainToken;
-};
-
 export const getSendFormDefaultValues = (
   defaultChainId: number,
-  defaultTokenAddress: Hex,
-): SendPayload => {
+  defaultTokenSymbol: string,
+): FormPayload => {
   return {
     amount: 1,
     chainId: defaultChainId,
-    tokenAddress: defaultTokenAddress,
+    tokenSymbol: defaultTokenSymbol,
     message: '',
   };
 };
@@ -135,12 +121,11 @@ export const getTransactionUrl = (properties: {
 };
 
 export const validateAddressOrENS = async (addressOrENS: string | null) => {
-  if (addressOrENS == null) return null;
+  if (addressOrENS === null) return null;
   if (addressOrENS.includes('.')) {
-    const resolvedAddress = await ethereumClient?.getEnsAddress({
+    return ethereumClient?.getEnsAddress({
       name: normalize(addressOrENS),
     });
-    return resolvedAddress;
   }
   return addressOrENS;
 };
