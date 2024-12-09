@@ -17,7 +17,6 @@ import { PredictionMarketsSectionData } from './prediction-markets-section';
 
 type Properties = {
   className?: string;
-  windowHash: string;
   isFirstRender: MutableRefObject<boolean>;
 };
 
@@ -47,7 +46,6 @@ const circleImages = [...Array.from({ length: CIRCLE_IMAGES_COUNT }).keys()]
 
 export const DesktopProductsSection = ({
   className,
-  windowHash,
   isFirstRender,
 }: Properties) => {
   const containerReference = useRef<HTMLDivElement>(null);
@@ -58,7 +56,8 @@ export const DesktopProductsSection = ({
   const [isTopOfContainerFullyVisible, setIsTopOfContainerFullyVisible] =
     useState(false);
   const [isContainerVisible, setIsContainerVisible] = useState(false);
-
+  const windowHash =
+    typeof window === 'undefined' ? '' : window.location.hash.slice(1);
   const [currentSectionIndex, setCurrentSectionIndex] = useState(
     (isFirstRender && getSectionNumberByName(windowHash)) ?? 0,
   );
@@ -74,8 +73,6 @@ export const DesktopProductsSection = ({
     1000,
     [currentSectionIndex],
   );
-
-  console.log(currentSectionIndex);
 
   const sectionsData = useMemo(() => {
     return [
