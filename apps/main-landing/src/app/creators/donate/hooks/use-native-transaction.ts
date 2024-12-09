@@ -49,22 +49,23 @@ export const useNativeTransaction = () => {
         account,
         data: encodedData,
       }).catch((error) => {
-        console.error("Error estimating gas:", error.message);
-        throw error;
-      });;
-
-
-      const transactionHash = await walletClient.sendTransaction({
-        account,
-        chain: getChainById(chainId),
-        data: encodedData,
-        value: tokensToSend,
-        to: idrissTippingAddress,
-        gas,
-      }).catch((error) => {
-        console.error("Error sending transaction:", error.message);
+        console.error('Error estimating gas:', error.message);
         throw error;
       });
+
+      const transactionHash = await walletClient
+        .sendTransaction({
+          account,
+          chain: getChainById(chainId),
+          data: encodedData,
+          value: tokensToSend,
+          to: idrissTippingAddress,
+          gas,
+        })
+        .catch((error) => {
+          console.error('Error sending transaction:', error.message);
+          throw error;
+        });
 
       const receipt = await waitForTransactionReceipt(walletClient, {
         hash: transactionHash,

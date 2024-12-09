@@ -57,8 +57,11 @@ export const useErc20Transaction = () => {
         throw new Error('Allowance data is not defined');
       }
 
-      const allowanceNumber = decodeFunctionResult({abi: ERC20_ABI,
-        functionName: 'allowance', data: allowanceRaw.data});
+      const allowanceNumber = decodeFunctionResult({
+        abi: ERC20_ABI,
+        functionName: 'allowance',
+        data: allowanceRaw.data,
+      });
 
       if (allowanceNumber < tokensToSend) {
         const approveData = {
@@ -74,7 +77,7 @@ export const useErc20Transaction = () => {
           to: tokenAddress,
           data: encodedData,
         }).catch((error) => {
-          console.error("Error estimating gas:", error.message);
+          console.error('Error estimating gas:', error.message);
           throw error;
         });
 
@@ -108,7 +111,6 @@ export const useErc20Transaction = () => {
         to: idrissTippingAddress,
         data: data,
       });
-
 
       const transactionHash = await walletClient.sendTransaction({
         account,
