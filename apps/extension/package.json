@@ -25,6 +25,7 @@
     "@idriss-xyz/constants": "workspace:*",
     "@idriss-xyz/ui": "workspace:*",
     "@idriss-xyz/wallet-connect": "workspace:*",
+    "@lifi/sdk": "^3.4.2",
     "@noble/hashes": "^1.5.0",
     "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.2",
