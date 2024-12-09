@@ -47,6 +47,7 @@ export class Application {
 
 const bootstrap = () => {
   const root = document.createElement('div');
+  root.classList.add('idriss-root');
   const shadowRoot = root.attachShadow({ mode: 'open' });
   const reactRoot = createRoot(shadowRoot);
   reactRoot.render(createElement(ApplicationWithProviders));

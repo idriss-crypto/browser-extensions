@@ -28,6 +28,7 @@ export class ContentScript {
     contentScript.subscribeToExtensionSettings();
     contentScript.subscribeToWallet();
     contentScript.subscribeToDeviceId();
+    contentScript.blockGithubSearchShortcut();
   }
 
   static canRun() {
@@ -177,5 +178,22 @@ export class ContentScript {
     onWindowMessage<string>('SET_DEVICE_ID', (v) => {
       void ExtensionSettingsManager.setDeviceId(v);
     });
+  }
+
+  blockGithubSearchShortcut() {
+    document.addEventListener(
+      'keydown',
+      (event) => {
+        const activeElement = document.activeElement;
+
+        if (
+          activeElement?.className === 'idriss-root' &&
+          window.location.hostname === 'github.com'
+        ) {
+          event.stopPropagation();
+        }
+      },
+      true,
+    );
   }
 }

@@ -1,4 +1,8 @@
+import { useWallet } from '@idriss-xyz/wallet-connect';
+import { Button } from '@idriss-xyz/ui/button';
+
 import { useCommandMutation, useCommandQuery } from 'shared/messaging';
+import { Empty } from 'shared/ui';
 
 import {
   AddTradingCopilotSubscriptionCommand,
@@ -10,8 +14,33 @@ import { SubscriptionRequest } from '../types';
 import { SubscriptionForm, SubscriptionsList } from './components';
 
 export const SubscriptionsManagement = () => {
-  const subscriberId = 'id1';
+  const { wallet, isConnectionModalOpened, openConnectionModal } = useWallet();
 
+  return wallet ? (
+    <SubscriptionsManagementContent subscriberId={wallet.account} />
+  ) : (
+    <>
+      <Empty text="Log in to see your subscriptions list" className="mt-10" />
+      <Button
+        intent="primary"
+        size="medium"
+        onClick={openConnectionModal}
+        className="mx-auto mt-10"
+        loading={isConnectionModalOpened}
+      >
+        LOG IN
+      </Button>
+    </>
+  );
+};
+
+type SubscriptionsManagementContentProperties = {
+  subscriberId: string;
+};
+
+const SubscriptionsManagementContent = ({
+  subscriberId,
+}: SubscriptionsManagementContentProperties) => {
   const subscriptionsQuery = useCommandQuery({
     command: new GetTradingCopilotSubscriptionsCommand({
       subscriberId,
