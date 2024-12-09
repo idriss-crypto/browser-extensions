@@ -3,6 +3,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { Icon as IdrissIcon } from '@idriss-xyz/ui/icon';
 import { IconButton } from '@idriss-xyz/ui/icon-button';
 import { NumericInput } from '@idriss-xyz/ui/numeric-input';
+import { useWallet } from '@idriss-xyz/wallet-connect';
 
 import { Closable, Icon, LazyImage } from 'shared/ui';
 import { useCommandQuery } from 'shared/messaging';
@@ -84,6 +85,8 @@ const TradingCopilotDialog = ({
   activeDialogId,
   closeDialog,
 }: TradingCopilotDialogProperties) => {
+  const { wallet, isConnectionModalOpened, openConnectionModal } = useWallet();
+
   const form = useForm<TradingCopilotFormValues>({
     defaultValues: EMPTY_FORM,
   });
@@ -164,7 +167,7 @@ const TradingCopilotDialog = ({
                       onChange={onChange}
                       className="ps-[60px] text-right"
                     />
-                    <div className="pointer-events-none absolute start-0 top-1/2 flex h-full w-12 -translate-y-1/2 items-center justify-center border-r border-neutral-200">
+                    <div className="pointer-events-none absolute start-0 top-1/2 flex h-full w-12 -translate-y-1/2 items-center justify-center after:absolute after:right-0 after:top-1.5 after:h-[calc(100%_-_12px)] after:w-px after:bg-neutral-200">
                       <span className="flex size-6 items-center justify-center rounded-full bg-neutral-200">
                         <IdrissIcon
                           size={18}
@@ -179,9 +182,26 @@ const TradingCopilotDialog = ({
             />
           </form>
           <div className="mt-5">
-            <Button intent="primary" size="medium" className="w-full">
-              BUY
-            </Button>
+            {wallet ? (
+              <Button
+                intent="primary"
+                size="medium"
+                className="w-full"
+                type="submit"
+              >
+                BUY
+              </Button>
+            ) : (
+              <Button
+                intent="primary"
+                size="medium"
+                onClick={openConnectionModal}
+                className="w-full"
+                loading={isConnectionModalOpened}
+              >
+                LOG IN
+              </Button>
+            )}
           </div>
         </div>
       </div>
