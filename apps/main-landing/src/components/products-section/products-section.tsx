@@ -9,6 +9,7 @@ import { DesktopProductsSection, MobileProductsSection } from './components';
 export const ProductsSection = () => {
   const [isMobile, setIsMobile] = useState(false);
   const isFirstRender = useRef(true);
+  const windowHash = window.location.hash.slice(1);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -46,7 +47,11 @@ export const ProductsSection = () => {
       {isMobile ? (
         <MobileProductsSection className="flex lg:hidden" />
       ) : (
-        <DesktopProductsSection className="hidden lg:flex" />
+        <DesktopProductsSection
+          className="hidden lg:flex"
+          isFirstRender={isFirstRender}
+          windowHash={windowHash}
+        />
       )}
     </QueryProvider>
   );
