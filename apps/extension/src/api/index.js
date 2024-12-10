@@ -33,6 +33,10 @@ app.post('/api/execute-swap', async (req, res) => {
 
     const swapCallData = {
       success: true,
+      estimate: quote.estimate,
+      type: quote.type, // for debugging purposes
+      tool: quote.tool, // for debugging purposes
+      includedSteps: quote.includedSteps, // for debugging purposes
       transactionData: quote.transactionRequest
     };
 
