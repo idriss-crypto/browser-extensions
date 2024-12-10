@@ -1,6 +1,7 @@
 
 import express from 'express';
 import cors from 'cors';
+import { getRoutesFromLifi } from './lifi.mjs';
 
 const app = express();
 const port = 3031;
@@ -31,7 +32,7 @@ app.post('/api/execute-swap', async (req, res) => {
 
     const quote = await getQuoteFromLifi(fromAddress, originChain, destinationChain, originToken, destinationToken, amount);
 
-    const swapCallData = {
+    const quoteResult = {
       success: true,
       estimate: quote.estimate,
       type: quote.type, // for debugging purposes
@@ -40,7 +41,41 @@ app.post('/api/execute-swap', async (req, res) => {
       transactionData: quote.transactionRequest
     };
 
-    res.json(swapCallData);
+    res.json(quoteResult);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
+app.post('/api/get-routes', async (req, res) => {
+  try {
+    const {
+      originChain,
+      destinationChain,
+      originToken,
+      destinationToken,
+      amount
+    } = req.body;
+
+    // Validate required parameters
+    if (!originChain || !destinationChain || !originToken || !destinationToken || !amount) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing required parameters'
+      });
+    }
+
+    const routes = await getRoutesFromLifi(originChain, destinationChain, originToken, destinationToken, amount);
+
+    const routesResult = {
+      success: true,
+      routes: routes
+    };
+
+    res.json(routesResult);
   } catch (error) {
     res.status(500).json({
       success: false,
