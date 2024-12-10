@@ -1,7 +1,12 @@
 import { useMemo, createElement } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { useLocationInfo, ExtensionPopup, Final } from 'final';
+import {
+  useLocationInfo,
+  ExtensionPopup,
+  Final,
+  NotificationPopup,
+} from 'final';
 import { LookUpWalletAddress } from 'application/look-up-wallet-address';
 
 import { Providers } from './providers';
@@ -67,6 +72,7 @@ const ApplicationWithProviders = () => {
   return (
     <Providers disabledWalletRdns={disabledWalletRdns}>
       <LookUpWalletAddress />
+      <NotificationPopup />
       <ExtensionPopup />
       <Final />
     </Providers>

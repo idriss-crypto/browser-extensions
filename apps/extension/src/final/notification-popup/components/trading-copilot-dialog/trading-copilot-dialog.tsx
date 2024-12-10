@@ -11,83 +11,20 @@ import { GetEnsInfoCommand } from 'application/trading-copilot';
 
 import {
   TradingCopilotDialogProperties,
-  TradingCopilotDialogsProperties,
-  TradingCopilotFormValues,
-} from './trading-copilot-dialogs.types';
+  TradingCopilotDialogFormValues,
+} from './trading-copilot-dialog.types';
 
-const EMPTY_FORM: TradingCopilotFormValues = {
+const EMPTY_FORM: TradingCopilotDialogFormValues = {
   amount: '',
 };
 
-const exampleTradingCopilotDialogs = [
-  {
-    uuid: 'dialog01',
-    details: {
-      name: 'vitalik.eth',
-      amount: 150,
-      crypto: 'ETH',
-      when: '15 mins ago',
-      title: 'Trading copilot',
-    },
-    user: {
-      balance: 200,
-      crypto: 'ETH',
-    },
-    id: 'dialog1',
-  },
-  {
-    uuid: 'dialog02',
-    details: {
-      name: 'vitalikk.eth',
-      amount: 300,
-      crypto: 'ETH',
-      when: '30 mins ago',
-      title: 'Trading copilot',
-    },
-    user: {
-      balance: 200,
-      crypto: 'ETH',
-    },
-    id: 'dialog2',
-  },
-];
-
-export const TradingCopilotDialogs = ({
-  activeDialogId,
-  closeDialog,
-}: TradingCopilotDialogsProperties) => {
-  const activeDialog = exampleTradingCopilotDialogs.find((dialog) => {
-    return dialog.id === activeDialogId;
-  });
-
-  if (!activeDialog) {
-    return;
-  }
-
-  return (
-    <>
-      {exampleTradingCopilotDialogs.map((dialog) => {
-        return (
-          <TradingCopilotDialog
-            key={dialog.uuid}
-            dialog={dialog}
-            activeDialogId={activeDialogId}
-            closeDialog={closeDialog}
-          />
-        );
-      })}
-    </>
-  );
-};
-
-const TradingCopilotDialog = ({
-  dialog: { details, user, id },
-  activeDialogId,
+export const TradingCopilotDialog = ({
+  dialog: { details, user },
   closeDialog,
 }: TradingCopilotDialogProperties) => {
   const { wallet, isConnectionModalOpened, openConnectionModal } = useWallet();
 
-  const form = useForm<TradingCopilotFormValues>({
+  const form = useForm<TradingCopilotDialogFormValues>({
     defaultValues: EMPTY_FORM,
   });
 
@@ -99,10 +36,6 @@ const TradingCopilotDialog = ({
     staleTime: Number.POSITIVE_INFINITY,
   });
 
-  if (id !== activeDialogId) {
-    return;
-  }
-
   return (
     <Closable
       className="fixed left-0 top-0 z-portal size-full bg-black/50"
@@ -111,7 +44,7 @@ const TradingCopilotDialog = ({
       <div className="flex size-full items-center justify-center">
         <div className="flex w-[400px] flex-col gap-y-5 rounded-lg border border-black/20 bg-white p-5">
           <div className="flex flex-row items-center justify-between">
-            <h1 className="text-heading4 text-neutral-900">{details.title}</h1>
+            <h1 className="text-heading4 text-neutral-900">Trading copilot</h1>
             <IconButton
               intent="tertiary"
               size="medium"

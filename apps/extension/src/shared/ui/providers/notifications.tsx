@@ -8,7 +8,7 @@ import {
   ReactElement,
 } from 'react';
 import * as ToastPrimitive from '@radix-ui/react-toast';
-import { Cross2Icon } from '@radix-ui/react-icons';
+import { IconButton } from '@idriss-xyz/ui/icon-button';
 
 import { classes, createContextHook } from '../utils';
 
@@ -74,7 +74,7 @@ const NotificationViewport = ({
                 }, 150);
               }
             }}
-            className={`absolute bottom-3 right-3 flex items-center justify-between gap-3 rounded-lg bg-[#d1d5db] pr-3 shadow-2xl transition-all ease-in [&[data-state="closed"]]:animate-[swipeRight_100ms_ease-in_forwards] [&[data-state="open"]]:animate-[swipeLeft_100ms_ease-out_forwards]`}
+            className={`absolute bottom-3 right-3 grid w-[460px] grid-cols-[1fr,36px] items-start gap-4 rounded-xl border border-neutral-300 bg-white p-4 transition-all ease-in [&[data-state="closed"]]:animate-[swipeRight_100ms_ease-in_forwards] [&[data-state="open"]]:animate-[swipeLeft_100ms_ease-out_forwards]`}
             style={{
               transform: `scale(${1 - index * 0.1}, 1) translateY(${(notification.position === 'top-right' ? 1 : -1) * ((notification.position === 'top-right' ? 100 : 0) + index * 3)}%)`,
               opacity: 1 - index * 0.25,
@@ -82,23 +82,25 @@ const NotificationViewport = ({
               zIndex: 10 - index,
             }}
           >
-            <div className="flex items-center gap-4">
-              <div>
-                <ToastPrimitive.Title className="text-sm font-medium text-white">
-                  {notification.body}
-                </ToastPrimitive.Title>
-                <ToastPrimitive.Description className="text-sm text-[#6b7280]" />
-              </div>
+            <div>
+              <ToastPrimitive.Title className="text-sm font-medium text-white">
+                {notification.body}
+              </ToastPrimitive.Title>
+              <ToastPrimitive.Description className="text-sm text-[#6b7280]" />
             </div>
-            <ToastPrimitive.Close className="flex items-center justify-center rounded-full bg-[#f3f4f6] text-[#6b7280] hover:bg-[#e5e7eb]">
-              <Cross2Icon />
-            </ToastPrimitive.Close>
+            <ToastPrimitive.Action
+              asChild
+              altText="Close notification"
+              className="-translate-y-2 translate-x-2 p-2"
+            >
+              <IconButton intent="tertiary" size="medium" iconName="X" />
+            </ToastPrimitive.Action>
           </ToastPrimitive.Root>
         );
       })}
       <ToastPrimitive.Viewport
         className={classes(
-          'fixed z-[9999999] flex flex-col gap-4 p-6 outline-none',
+          'fixed z-notification flex flex-col gap-3 outline-none',
           getPositionClasses(position),
           className,
         )}
