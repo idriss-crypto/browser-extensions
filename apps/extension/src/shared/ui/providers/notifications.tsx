@@ -15,7 +15,7 @@ import { classes, createContextHook } from '../utils';
 type Position = 'top-right' | 'bottom-right';
 
 interface NotificationContextType {
-  show: (body: ReactElement, position?: Position) => void;
+  show: (body: ReactElement, position?: Position, id?: string) => void;
 }
 
 interface NotificationProperties {
@@ -120,6 +120,15 @@ const NotificationsProvider = ({
 
   const handleAddToast = useCallback((toast: NotificationProperties) => {
     setNotifications((previous) => {
+      // TODO: Check that after connecting to the websocket, does we need to check the ID to avoid duplicated notifications
+      if (
+        previous.some((previousToast) => {
+          return previousToast.uuid === toast.uuid;
+        })
+      ) {
+        return previous;
+      }
+
       return [...previous, toast];
     });
   }, []);
@@ -133,11 +142,11 @@ const NotificationsProvider = ({
   }, []);
 
   const handleDispatchNotification = useCallback(
-    (body: ReactElement, position: Position = defaultPosition) => {
+    (body: ReactElement, position: Position = defaultPosition, id?: string) => {
       return handleAddToast({
         body,
         position,
-        uuid: uuidv4(),
+        uuid: id ?? uuidv4(),
       });
     },
     [handleAddToast, defaultPosition],

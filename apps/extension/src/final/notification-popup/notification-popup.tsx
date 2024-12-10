@@ -12,6 +12,7 @@ const exampleTradingCopilotToasts = [
       crypto: 'ETH',
       when: '20 mins ago',
     },
+    popupId: 'popup01',
     dialogId: 'dialog01',
   },
   {
@@ -21,6 +22,7 @@ const exampleTradingCopilotToasts = [
       crypto: 'ETH',
       when: '33 mins ago',
     },
+    popupId: 'popup02',
     dialogId: 'dialog02',
   },
   {
@@ -30,6 +32,7 @@ const exampleTradingCopilotToasts = [
       crypto: 'ETH',
       when: '52 mins ago',
     },
+    popupId: 'popup03',
     dialogId: 'dialog03',
   },
 ];
@@ -99,6 +102,8 @@ export const NotificationPopup = () => {
           dialogId={toast.dialogId}
           openDialog={openDialog}
         />,
+        'bottom-right',
+        toast.popupId,
       );
     });
   }, [notification]);
