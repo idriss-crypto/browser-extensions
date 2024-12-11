@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import { useNotification } from 'shared/ui';
+import { onWindowMessage, SWAP_EVENT } from 'shared/messaging';
+import { SwapData } from 'application/trading-copilot';
 
 import { TradingCopilotToast, TradingCopilotDialog } from './components';
 
@@ -85,6 +87,31 @@ export const NotificationPopup = () => {
     return dialogData.id === activeDialogId;
   });
   const notification = useNotification();
+
+  onWindowMessage(SWAP_EVENT, (data: SwapData) => {
+    const id = data.transactionId;
+
+    const toast = {
+      details: {
+        name: 'test',
+        amount: data.tokenOut.amount,
+        crypto: data.tokenOut.symbol,
+        when: '15 mins ago',
+      },
+      dialogId: `dialog${id}`,
+      popupId: `toast${id}`,
+    };
+
+    notification.show(
+      <TradingCopilotToast
+        toast={toast.details}
+        dialogId={toast.dialogId}
+        openDialog={openDialog}
+      />,
+      'bottom-right',
+      toast.popupId,
+    );
+  });
 
   const openDialog = (dialogId: string) => {
     setActiveDialogId(dialogId);

@@ -106,7 +106,7 @@ export class ContentScript {
       if (request.type === SWAP_EVENT) {
         const message = {
           type: SWAP_EVENT,
-          data: request.data,
+          detail: request.detail,
         };
         window.postMessage(message);
         return;

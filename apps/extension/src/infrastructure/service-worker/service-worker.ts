@@ -8,6 +8,7 @@ import {
   FailureResult,
   JsonValue,
   SerializedCommand,
+  SWAP_EVENT,
 } from 'shared/messaging';
 import { WEB3_COMMAND_MAP } from 'shared/web3';
 import { GITCOIN_DONATION_COMMAND_MAP } from 'application/gitcoin';
@@ -65,8 +66,9 @@ export class ServiceWorker {
 
   private constructor(private environment: typeof chrome) {
     this.socket = io(SERVER_URL, { transports: ['websocket'] });
-    console.log('Creating socket connection', this.socket);
-    this.initializeSocketEvents();
+    console.log('%c[WebSocket] Creating socket connection', 'color: #FF9900;');
+    console.log(this.socket);
+    void this.initializeSocketEvents();
   }
 
   static run(environment: typeof chrome) {
@@ -81,23 +83,23 @@ export class ServiceWorker {
     serviceWorker.watchWorkerInactivity();
   }
 
-  initializeSocketEvents() {
-    console.log('Initializing socket');
+  async initializeSocketEvents() {
+    console.log('%c[WebSocket] Initializing connection...', 'color: #FF9900;');
 
-    this.socket.on('connect', () => {
-      console.log('Connected to server');
+    await ExtensionSettingsManager.getWallet().then((wallet) => {
+      this.socket.on('connect', () => {
+        console.log('%c[WebSocket] Connected successfully!', 'color: #32CD32;');
 
-      const subscriberId = 'id1';
-
-      if (subscriberId) {
-        this.registerWithServer(subscriberId);
-      } else {
-        console.error('No subscriberId found in storage');
-      }
+        if (wallet?.account) {
+          this.registerWithServer(wallet.account);
+        } else {
+          console.error('%c[WebSocket] User not found.', 'color: red;');
+        }
+      });
     });
 
     this.socket.on('disconnect', () => {
-      console.log('Disconnected from server');
+      console.log('%c[WebSocket] Disconnected.', 'color: red;');
     });
 
     this.socket.on('swapEvent', (swapData) => {
@@ -106,21 +108,58 @@ export class ServiceWorker {
   }
 
   private registerWithServer(subscriberId: string) {
+    console.log(
+      `%c[WebSocket] Found user with wallet ${subscriberId}`,
+      'color: #32CD32;',
+    );
     this.socket.emit('register', subscriberId);
+
+    // TODO: temporary for testing
+    setTimeout(() => {
+      this.createSwapNotification({
+        tokenIn: {
+          amount: 0.01,
+          symbol: 'btc',
+        },
+        tokenOut: {
+          amount: 10,
+          symbol: 'eth',
+        },
+        transactionId: 'ws01',
+      });
+    }, 10_000);
+
+    setTimeout(() => {
+      this.createSwapNotification({
+        tokenIn: {
+          amount: 30,
+          symbol: 'btc',
+        },
+        tokenOut: {
+          amount: 41_230,
+          symbol: 'eth',
+        },
+        transactionId: 'ws02',
+      });
+    }, 15_000);
   }
 
-  private createSwapNotification(swapData: SwapData) {
-    const message = `Swap detected: ${swapData.tokenIn?.amount} of ${swapData.tokenIn?.symbol} swapped for ${swapData.tokenOut?.amount} of ${swapData.tokenOut?.symbol}`;
-    console.log('Websocket event message:', message);
+  createSwapNotification(swapData: SwapData) {
+    const message = `New trade detected: ${swapData.tokenIn?.amount} of ${swapData.tokenIn?.symbol} traded for ${swapData.tokenOut?.amount} of ${swapData.tokenOut?.symbol}`;
+    console.log(`%c[WebSocket] ${message}`, 'color: yellow;');
 
     this.environment.tabs.query(
       { active: true, currentWindow: true },
       (tabs) => {
-        if (tabs[0]?.id) {
-          void chrome.tabs.sendMessage(tabs[0].id, {
-            type: 'SWAP_EVENT',
-            data: swapData,
-          });
+        const activeTab = tabs[0];
+
+        if (ServiceWorker.isValidTab(activeTab)) {
+          this.environment.tabs
+            .sendMessage(activeTab.id, {
+              type: SWAP_EVENT,
+              detail: swapData,
+            })
+            .catch(console.error);
         }
       },
     );
@@ -298,6 +337,7 @@ export class ServiceWorker {
         { active: true, currentWindow: true },
         (tabs) => {
           const activeTab = tabs[0];
+
           if (ServiceWorker.isValidTab(activeTab)) {
             this.environment.tabs
               .sendMessage(activeTab.id, {

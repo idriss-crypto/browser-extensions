@@ -24,4 +24,5 @@ type SwapDataToken = {
 export type SwapData = {
   tokenIn: SwapDataToken;
   tokenOut: SwapDataToken;
+  transactionId: string;
 };
