@@ -4,5 +4,9 @@ export {
   GetImageCommand,
 } from './commands';
 
-export { getDifferenceInDays, getEndsInLabel } from './date-utils';
+export {
+  getDifferenceInDays,
+  getFormattedTimeDifference,
+  getEndsInLabel,
+} from './date-utils';
 export { reverseObject, createLookup } from './objects';

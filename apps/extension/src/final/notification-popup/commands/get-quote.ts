@@ -6,17 +6,21 @@ import {
   OkResult,
 } from 'shared/messaging';
 
-import { SubscriptionRequest as Payload } from '../types';
+import { QuoteResponse as Response } from '../types';
 
-import { COPILOT_API_URL } from './constants';
+import { QUOTE_API_URL } from './constants';
 
-type Response = boolean;
+type Payload = {
+  originChain: number;
+  destinationChain: number;
+  originToken: string;
+  destinationToken: string;
+  fromAddress: string;
+  amount: string;
+};
 
-export class AddTradingCopilotSubscriptionCommand extends Command<
-  Payload,
-  Response
-> {
-  public readonly name = 'AddTradingCopilotSubscriptionCommand' as const;
+export class GetQuoteCommand extends Command<Payload, Response> {
+  public readonly name = 'GetQuoteCommand' as const;
 
   constructor(public payload: Payload) {
     super();
@@ -24,7 +28,7 @@ export class AddTradingCopilotSubscriptionCommand extends Command<
 
   async handle() {
     try {
-      const response = await fetch(`${COPILOT_API_URL}/subscribe`, {
+      const response = await fetch(QUOTE_API_URL, {
         method: 'POST',
         body: JSON.stringify(this.payload),
         headers: {
