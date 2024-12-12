@@ -36,7 +36,7 @@ export const TradingCopilotToast = ({
   );
 };
 
-export const TradingCopilotToastContent = ({
+const TradingCopilotToastContent = ({
   toast,
   userName,
   openDialog,

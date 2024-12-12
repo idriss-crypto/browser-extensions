@@ -60,7 +60,7 @@ export const TradingCopilotDialog = ({
   );
 };
 
-export const TradingCopilotDialogContent = ({
+const TradingCopilotDialogContent = ({
   dialog,
   userName,
   closeDialog,
