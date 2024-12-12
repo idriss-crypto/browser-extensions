@@ -1,19 +1,49 @@
 import { Button } from '@idriss-xyz/ui/button';
 
-import { Icon, LazyImage } from 'shared/ui';
+import { Icon, LazyImage, Spinner } from 'shared/ui';
 import { useCommandQuery } from 'shared/messaging';
-import { GetEnsInfoCommand } from 'application/trading-copilot';
+import {
+  GetEnsInfoCommand,
+  GetEnsNameCommand,
+} from 'application/trading-copilot';
+import { getFormattedTimeDifference } from 'shared/utils';
 
-import { TradingCopilotToastProperties } from './trading-copilot-toast.types';
+import {
+  TradingCopilotToastContentProperties,
+  TradingCopilotToastProperties,
+} from './trading-copilot-toast.types';
 
 export const TradingCopilotToast = ({
   toast,
-  dialogId,
   openDialog,
 }: TradingCopilotToastProperties) => {
+  const ensNameQuery = useCommandQuery({
+    command: new GetEnsNameCommand({
+      address: toast.from,
+    }),
+  });
+
+  if (ensNameQuery.isFetching) {
+    return <Spinner className="flex w-full items-center justify-center" />;
+  }
+
+  return (
+    <TradingCopilotToastContent
+      toast={toast}
+      openDialog={openDialog}
+      userName={ensNameQuery.data ?? toast.from}
+    />
+  );
+};
+
+export const TradingCopilotToastContent = ({
+  toast,
+  userName,
+  openDialog,
+}: TradingCopilotToastContentProperties) => {
   const avatarQuery = useCommandQuery({
     command: new GetEnsInfoCommand({
-      ensName: toast.name,
+      ensName: userName,
       infoKey: 'avatar',
     }),
     staleTime: Number.POSITIVE_INFINITY,
@@ -32,19 +62,21 @@ export const TradingCopilotToast = ({
       />
       <div className="flex w-full flex-col gap-y-1">
         <p className="text-label3 text-neutral-900">
-          {toast.name}{' '}
+          {userName}{' '}
           <span className="text-body3 text-neutral-600">
-            purchased {toast.amount} {toast.crypto}
+            purchased {toast.tokenOut.amount} {toast.tokenOut.symbol}
           </span>
         </p>
         <div className="flex w-full justify-between">
-          <p className="text-body6 text-mint-700">{toast.when}</p>
+          <p className="text-body6 text-mint-700">
+            {getFormattedTimeDifference(toast.timestamp)} ago
+          </p>
           <Button
             intent="primary"
             size="small"
             className="uppercase"
             onClick={() => {
-              openDialog(dialogId);
+              openDialog(toast.transactionHash);
             }}
           >
             Copy

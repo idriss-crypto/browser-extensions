@@ -4,6 +4,7 @@ JSON.stringify(typeof SubscriptionsManagement);
 export {
   COMMAND_MAP as TRADING_COPILOT_COMMAND_MAP,
   GetEnsInfoCommand,
+  GetEnsNameCommand,
 } from './commands';
 export type { SwapData } from './types';
 export { SubscriptionsManagement } from './subscriptions-management';

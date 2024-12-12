@@ -1,4 +1,4 @@
-import { Hex } from 'shared/web3';
+import { CHAIN, Hex } from 'shared/web3';
 
 export type SubscriptionRequest = {
   subscriberId: string;
@@ -17,12 +17,19 @@ export type SubscriptionsResponse = {
 };
 
 type SwapDataToken = {
+  address: Hex;
   symbol: string;
   amount: number;
+  decimals: number;
+  network: keyof typeof CHAIN;
 };
 
 export type SwapData = {
+  transactionHash: Hex;
+  from: Hex;
+  to: Hex;
   tokenIn: SwapDataToken;
   tokenOut: SwapDataToken;
-  transactionId: string;
+  timestamp: string;
+  isComplete: boolean;
 };

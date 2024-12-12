@@ -6,31 +6,99 @@ import { NumericInput } from '@idriss-xyz/ui/numeric-input';
 import { useWallet } from '@idriss-xyz/wallet-connect';
 
 import { Closable, Icon, LazyImage } from 'shared/ui';
-import { useCommandQuery } from 'shared/messaging';
-import { GetEnsInfoCommand } from 'application/trading-copilot';
+import { useCommandMutation, useCommandQuery } from 'shared/messaging';
+import {
+  GetEnsInfoCommand,
+  GetEnsNameCommand,
+} from 'application/trading-copilot';
+import { getFormattedTimeDifference } from 'shared/utils';
+import { CHAIN } from 'shared/web3';
+
+import { GetQuoteCommand } from '../../commands/get-quote';
+import { GetEnsBalanceCommand } from '../../commands/get-ens-balance';
 
 import {
   TradingCopilotDialogProperties,
   TradingCopilotDialogFormValues,
+  TradingCopilotDialogContentProperties,
+  TradingCopilotWalletBalanceProperties,
 } from './trading-copilot-dialog.types';
+
+type Payload = {
+  originChain: number;
+  destinationChain: number;
+  originToken: string;
+  destinationToken: string;
+  fromAddress: string;
+  amount: string;
+};
 
 const EMPTY_FORM: TradingCopilotDialogFormValues = {
   amount: '',
 };
 
 export const TradingCopilotDialog = ({
-  dialog: { details, user },
+  dialog,
   closeDialog,
 }: TradingCopilotDialogProperties) => {
+  const ensNameQuery = useCommandQuery({
+    command: new GetEnsNameCommand({
+      address: dialog.from,
+    }),
+  });
+
+  if (ensNameQuery.isFetching) {
+    return;
+  }
+
+  return (
+    <TradingCopilotDialogContent
+      dialog={dialog}
+      closeDialog={closeDialog}
+      userName={ensNameQuery.data ?? dialog.from}
+    />
+  );
+};
+
+export const TradingCopilotDialogContent = ({
+  dialog,
+  userName,
+  closeDialog,
+}: TradingCopilotDialogContentProperties) => {
   const { wallet, isConnectionModalOpened, openConnectionModal } = useWallet();
 
-  const form = useForm<TradingCopilotDialogFormValues>({
+  const { handleSubmit, control } = useForm<TradingCopilotDialogFormValues>({
     defaultValues: EMPTY_FORM,
   });
 
+  const getQuote = useCommandMutation(GetQuoteCommand);
+
+  const handleGetQuote = async (payload: Payload) => {
+    return await getQuote.mutateAsync(payload);
+  };
+
+  const onSubmit = async (data: TradingCopilotDialogFormValues) => {
+    if (!wallet) {
+      return;
+    }
+
+    const payload = {
+      amount: data.amount,
+      destinationChain: 8453,
+      fromAddress: wallet.account,
+      destinationToken: dialog.tokenIn.address,
+      originToken: '0x0000000000000000000000000000000000000000',
+      originChain: CHAIN[dialog.tokenIn.network].id,
+    };
+
+    const payloadData = await handleGetQuote(payload);
+
+    return console.log(payloadData);
+  };
+
   const avatarQuery = useCommandQuery({
     command: new GetEnsInfoCommand({
-      ensName: details.name,
+      ensName: userName,
       infoKey: 'avatar',
     }),
     staleTime: Number.POSITIVE_INFINITY,
@@ -68,15 +136,17 @@ export const TradingCopilotDialog = ({
             />
             <div className="flex w-full flex-col">
               <p className="text-label3 text-neutral-900">
-                {details.name}{' '}
+                {userName}{' '}
                 <span className="text-body3 text-neutral-600">
-                  purchased {details.amount} {details.crypto}
+                  purchased {dialog.tokenOut.amount} {dialog.tokenOut.symbol}
                 </span>
               </p>
-              <p className="text-body6 text-mint-700">{details.when}</p>
+              <p className="text-body6 text-mint-700">
+                {getFormattedTimeDifference(dialog.timestamp)} ago
+              </p>
             </div>
           </div>
-          <form className="mt-1">
+          <form className="mt-1" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-row items-center justify-between">
               <label
                 htmlFor="cryptoAmount"
@@ -84,19 +154,17 @@ export const TradingCopilotDialog = ({
               >
                 Amount
               </label>
-              <p className="text-body6 text-neutral-500">
-                Balance: {user.balance} {user.crypto}
-              </p>
+              {wallet ? <TradingCopilotWalletBalance wallet={wallet} /> : null}
             </div>
             <Controller
-              control={form.control}
+              control={control}
               name="amount"
               render={({ field: { value, onChange } }) => {
                 return (
                   <span className="relative mt-2 flex">
                     <NumericInput
                       value={value}
-                      placeholder="ETH"
+                      placeholder={dialog.tokenOut.symbol}
                       onChange={onChange}
                       className="ps-[60px] text-right"
                     />
@@ -113,31 +181,48 @@ export const TradingCopilotDialog = ({
                 );
               }}
             />
+            <div className="mt-5">
+              {wallet ? (
+                <Button
+                  intent="primary"
+                  size="medium"
+                  className="w-full"
+                  type="submit"
+                >
+                  BUY
+                </Button>
+              ) : (
+                <Button
+                  intent="primary"
+                  size="medium"
+                  onClick={openConnectionModal}
+                  className="w-full"
+                  loading={isConnectionModalOpened}
+                >
+                  LOG IN
+                </Button>
+              )}
+            </div>
           </form>
-          <div className="mt-5">
-            {wallet ? (
-              <Button
-                intent="primary"
-                size="medium"
-                className="w-full"
-                type="submit"
-              >
-                BUY
-              </Button>
-            ) : (
-              <Button
-                intent="primary"
-                size="medium"
-                onClick={openConnectionModal}
-                className="w-full"
-                loading={isConnectionModalOpened}
-              >
-                LOG IN
-              </Button>
-            )}
-          </div>
         </div>
       </div>
     </Closable>
+  );
+};
+
+const TradingCopilotWalletBalance = ({
+  wallet,
+}: TradingCopilotWalletBalanceProperties) => {
+  const balanceQuery = useCommandQuery({
+    command: new GetEnsBalanceCommand({
+      address: wallet?.account ?? '',
+      blockTag: 'safe',
+    }),
+  });
+
+  return (
+    <p className="text-body6 text-neutral-500">
+      Balance: {balanceQuery.data} ETH
+    </p>
   );
 };

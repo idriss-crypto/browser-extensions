@@ -21,4 +21,5 @@ export { AddTradingCopilotSubscriptionCommand } from './add-trading-copilot-subs
 export { GetTradingCopilotSubscriptionsCommand } from './get-trading-copilot-subscriptions';
 export { RemoveTradingCopilotSubscriptionCommand } from './remove-trading-copilot-subscription';
 export { GetEnsInfoCommand } from './get-ens-info';
+export { GetEnsNameCommand } from './get-ens-name';
 export { GetEnsAddressCommand } from './get-ens-address';

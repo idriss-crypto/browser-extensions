@@ -35,6 +35,7 @@ import {
   TRADING_COPILOT_COMMAND_MAP,
   SwapData,
 } from 'application/trading-copilot';
+import { QUOTE_COMMAND_MAP } from 'src/final';
 
 import { SbtResolver } from '../../common/resolvers/SbtResolver';
 import { AddressResolver } from '../../common/resolvers/AddressResolver';
@@ -54,6 +55,7 @@ const COMMAND_MAP = {
   ...TALLY_COMMAND_MAP,
   ...FARCASTER_COMMAND_MAP,
   ...TRADING_COPILOT_COMMAND_MAP,
+  ...QUOTE_COMMAND_MAP,
 };
 
 const SERVER_URL = 'https://copilot-production-e887.up.railway.app/';
@@ -103,7 +105,9 @@ export class ServiceWorker {
     });
 
     this.socket.on('swapEvent', (swapData) => {
-      this.createSwapNotification(swapData);
+      setTimeout(() => {
+        this.createSwapNotification(swapData);
+      }, 100);
     });
   }
 
@@ -112,36 +116,8 @@ export class ServiceWorker {
       `%c[WebSocket] Found user with wallet ${subscriberId}`,
       'color: #32CD32;',
     );
-    this.socket.emit('register', subscriberId);
-
-    // TODO: temporary for testing
-    setTimeout(() => {
-      this.createSwapNotification({
-        tokenIn: {
-          amount: 0.01,
-          symbol: 'btc',
-        },
-        tokenOut: {
-          amount: 10,
-          symbol: 'eth',
-        },
-        transactionId: 'ws01',
-      });
-    }, 10_000);
-
-    setTimeout(() => {
-      this.createSwapNotification({
-        tokenIn: {
-          amount: 30,
-          symbol: 'btc',
-        },
-        tokenOut: {
-          amount: 41_230,
-          symbol: 'eth',
-        },
-        transactionId: 'ws02',
-      });
-    }, 15_000);
+    // TODO: set subscriberId as id when we will end using test-swap
+    this.socket.emit('register', 'id1');
   }
 
   createSwapNotification(swapData: SwapData) {
