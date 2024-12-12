@@ -216,7 +216,7 @@ export const Content = ({ className }: Properties) => {
           recipientAddress: validAddress,
         });
       } catch (error) {
-        console.error('Uknown error sending transaction.', error);
+        console.error('Unknown error sending transaction.', error);
       }
     },
     [
