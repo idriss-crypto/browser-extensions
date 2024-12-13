@@ -12,6 +12,7 @@ import {
 import { SubscriptionRequest } from '../types';
 
 import { SubscriptionForm, SubscriptionsList } from './components';
+import { ContentProperties } from './subscriptions-management.types';
 
 export const SubscriptionsManagement = () => {
   const { wallet, isConnectionModalOpened, openConnectionModal } = useWallet();
@@ -34,17 +35,14 @@ export const SubscriptionsManagement = () => {
   );
 };
 
-type SubscriptionsManagementContentProperties = {
-  subscriberId: string;
-};
-
 const SubscriptionsManagementContent = ({
   subscriberId,
-}: SubscriptionsManagementContentProperties) => {
+}: ContentProperties) => {
   const subscriptionsQuery = useCommandQuery({
     command: new GetTradingCopilotSubscriptionsCommand({
       subscriberId,
     }),
+    staleTime: Number.POSITIVE_INFINITY,
   });
 
   const subscribe = useCommandMutation(AddTradingCopilotSubscriptionCommand);

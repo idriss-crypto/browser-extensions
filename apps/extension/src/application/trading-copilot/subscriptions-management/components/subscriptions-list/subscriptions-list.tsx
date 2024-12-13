@@ -2,25 +2,16 @@ import { useMemo } from 'react';
 
 import { Empty, Spinner } from 'shared/ui';
 
-import { SubscriptionRequest, SubscriptionsResponse } from '../../../types';
-
+import { ListProperties } from './subscription-list.types';
 import { SubscriptionItem } from './subscription-item';
 
-type Properties = {
-  subscriptions: SubscriptionsResponse | undefined;
-  subscriptionsLoading: boolean;
-  subscriptionsUpdatePending: boolean;
-  className?: string;
-  onRemove: (address: SubscriptionRequest['address']) => void;
-};
-
 export const SubscriptionsList = ({
+  onRemove,
+  className,
   subscriptions,
   subscriptionsLoading,
   subscriptionsUpdatePending,
-  onRemove,
-  className,
-}: Properties) => {
+}: ListProperties) => {
   const subscriptionsListBody = useMemo(() => {
     if (subscriptionsLoading) {
       return (

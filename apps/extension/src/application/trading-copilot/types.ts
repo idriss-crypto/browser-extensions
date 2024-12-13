@@ -2,7 +2,7 @@ import { CHAIN, Hex } from 'shared/web3';
 
 export type SubscriptionRequest = {
   subscriberId: string;
-  address: Hex;
+  address: string;
 };
 
 export type SubscriptionResponse = Hex;

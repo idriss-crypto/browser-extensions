@@ -12,39 +12,29 @@ import {
   GetEnsNameCommand,
 } from 'application/trading-copilot';
 import { getFormattedTimeDifference } from 'shared/utils';
-import { CHAIN } from 'shared/web3';
+import { CHAIN, roundToSignificantFigures } from 'shared/web3';
 
 import { GetQuoteCommand } from '../../commands/get-quote';
 import { GetEnsBalanceCommand } from '../../commands/get-ens-balance';
 
 import {
-  TradingCopilotDialogProperties,
+  Properties,
   TradingCopilotDialogFormValues,
   TradingCopilotDialogContentProperties,
-  TradingCopilotWalletBalanceProperties,
+  WalletBalanceProperties,
+  QuotePayload,
 } from './trading-copilot-dialog.types';
-
-type Payload = {
-  originChain: number;
-  destinationChain: number;
-  originToken: string;
-  destinationToken: string;
-  fromAddress: string;
-  amount: string;
-};
 
 const EMPTY_FORM: TradingCopilotDialogFormValues = {
   amount: '',
 };
 
-export const TradingCopilotDialog = ({
-  dialog,
-  closeDialog,
-}: TradingCopilotDialogProperties) => {
+export const TradingCopilotDialog = ({ dialog, closeDialog }: Properties) => {
   const ensNameQuery = useCommandQuery({
     command: new GetEnsNameCommand({
       address: dialog.from,
     }),
+    staleTime: Number.POSITIVE_INFINITY,
   });
 
   if (ensNameQuery.isFetching) {
@@ -65,15 +55,14 @@ const TradingCopilotDialogContent = ({
   userName,
   closeDialog,
 }: TradingCopilotDialogContentProperties) => {
+  const getQuote = useCommandMutation(GetQuoteCommand);
   const { wallet, isConnectionModalOpened, openConnectionModal } = useWallet();
 
   const { handleSubmit, control } = useForm<TradingCopilotDialogFormValues>({
     defaultValues: EMPTY_FORM,
   });
 
-  const getQuote = useCommandMutation(GetQuoteCommand);
-
-  const handleGetQuote = async (payload: Payload) => {
+  const handleGetQuote = async (payload: QuotePayload) => {
     return await getQuote.mutateAsync(payload);
   };
 
@@ -138,7 +127,9 @@ const TradingCopilotDialogContent = ({
               <p className="text-label3 text-neutral-900">
                 {userName}{' '}
                 <span className="text-body3 text-neutral-600">
-                  purchased {dialog.tokenOut.amount} {dialog.tokenOut.symbol}
+                  purchased{' '}
+                  {roundToSignificantFigures(dialog.tokenIn.amount, 2)}{' '}
+                  {dialog.tokenIn.symbol}
                 </span>
               </p>
               <p className="text-body6 text-mint-700">
@@ -188,6 +179,8 @@ const TradingCopilotDialogContent = ({
                   size="medium"
                   className="w-full"
                   type="submit"
+                  loading={getQuote.isPending}
+                  disabled={getQuote.isError}
                 >
                   BUY
                 </Button>
@@ -210,15 +203,18 @@ const TradingCopilotDialogContent = ({
   );
 };
 
-const TradingCopilotWalletBalance = ({
-  wallet,
-}: TradingCopilotWalletBalanceProperties) => {
+const TradingCopilotWalletBalance = ({ wallet }: WalletBalanceProperties) => {
   const balanceQuery = useCommandQuery({
     command: new GetEnsBalanceCommand({
       address: wallet?.account ?? '',
       blockTag: 'safe',
     }),
+    staleTime: Number.POSITIVE_INFINITY,
   });
+
+  if (!balanceQuery.data) {
+    return;
+  }
 
   return (
     <p className="text-body6 text-neutral-500">

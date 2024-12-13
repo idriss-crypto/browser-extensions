@@ -7,20 +7,16 @@ import {
   GetEnsNameCommand,
 } from 'application/trading-copilot';
 import { getFormattedTimeDifference } from 'shared/utils';
+import { roundToSignificantFigures } from 'shared/web3';
 
-import {
-  TradingCopilotToastContentProperties,
-  TradingCopilotToastProperties,
-} from './trading-copilot-toast.types';
+import { Properties, ContentProperties } from './trading-copilot-toast.types';
 
-export const TradingCopilotToast = ({
-  toast,
-  openDialog,
-}: TradingCopilotToastProperties) => {
+export const TradingCopilotToast = ({ toast, openDialog }: Properties) => {
   const ensNameQuery = useCommandQuery({
     command: new GetEnsNameCommand({
       address: toast.from,
     }),
+    staleTime: Number.POSITIVE_INFINITY,
   });
 
   if (ensNameQuery.isFetching) {
@@ -40,7 +36,7 @@ const TradingCopilotToastContent = ({
   toast,
   userName,
   openDialog,
-}: TradingCopilotToastContentProperties) => {
+}: ContentProperties) => {
   const avatarQuery = useCommandQuery({
     command: new GetEnsInfoCommand({
       ensName: userName,
@@ -64,7 +60,8 @@ const TradingCopilotToastContent = ({
         <p className="text-label3 text-neutral-900">
           {userName}{' '}
           <span className="text-body3 text-neutral-600">
-            purchased {toast.tokenOut.amount} {toast.tokenOut.symbol}
+            purchased {roundToSignificantFigures(toast.tokenIn.amount, 2)}{' '}
+            {toast.tokenIn.symbol}
           </span>
         </p>
         <div className="flex w-full justify-between">
@@ -76,7 +73,7 @@ const TradingCopilotToastContent = ({
             size="small"
             className="uppercase"
             onClick={() => {
-              openDialog(toast.transactionHash);
+              openDialog(toast);
             }}
           >
             Copy

@@ -9,18 +9,21 @@ import { getTwitterUserLink } from 'host/twitter';
 import { GetEnsNameCommand } from 'application/trading-copilot/commands/get-ens-name';
 
 import { GetEnsInfoCommand } from '../../../commands';
-import { SubscriptionRequest, SubscriptionResponse } from '../../../types';
 
-type Properties = {
-  subscription: SubscriptionResponse;
-  onRemove: (address: SubscriptionRequest['address']) => void;
-};
+import {
+  ItemProperties,
+  ItemContentProperties,
+} from './subscription-list.types';
 
-export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
+export const SubscriptionItem = ({
+  onRemove,
+  subscription,
+}: ItemProperties) => {
   const ensNameQuery = useCommandQuery({
     command: new GetEnsNameCommand({
       address: subscription,
     }),
+    staleTime: Number.POSITIVE_INFINITY,
   });
 
   return (
@@ -33,17 +36,12 @@ export const SubscriptionItem = ({ subscription, onRemove }: Properties) => {
   );
 };
 
-type SubscriptionItemContentProperties = Properties & {
-  ensName: string;
-  isFallback: boolean;
-};
-
 const SubscriptionItemContent = ({
   ensName,
-  subscription,
   onRemove,
   isFallback,
-}: SubscriptionItemContentProperties) => {
+  subscription,
+}: ItemContentProperties) => {
   const remove = useCallback(() => {
     onRemove(subscription);
   }, [onRemove, subscription]);
@@ -115,10 +113,10 @@ const SubscriptionItemContent = ({
 
           {twitterQuery.data && (
             <ExternalLink href={getTwitterUserLink(twitterQuery.data)}>
-              <Icon
+              <IdrissIcon
+                name="TwitterX"
                 size={16}
-                name="TwitterLogoIcon"
-                className="text-[#757575] [&>path]:fill-rule-non-zero"
+                className="text-[#757575]"
               />
             </ExternalLink>
           )}

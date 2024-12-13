@@ -5,7 +5,7 @@ import {
   useLocationInfo,
   ExtensionPopup,
   Final,
-  NotificationPopup,
+  NotificationsPopup,
 } from 'final';
 import { LookUpWalletAddress } from 'application/look-up-wallet-address';
 
@@ -72,7 +72,7 @@ const ApplicationWithProviders = () => {
   return (
     <Providers disabledWalletRdns={disabledWalletRdns}>
       <LookUpWalletAddress />
-      <NotificationPopup />
+      <NotificationsPopup />
       <ExtensionPopup />
       <Final />
     </Providers>
