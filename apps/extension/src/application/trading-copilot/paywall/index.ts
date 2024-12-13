@@ -1,0 +1,1 @@
+export { Paywall } from './paywall';
