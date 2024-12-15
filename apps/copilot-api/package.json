@@ -1,5 +1,5 @@
 {
-  "name": "copilot",
+  "name": "@idriss-xyz/copilot-api",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {

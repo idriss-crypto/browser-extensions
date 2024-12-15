@@ -6,8 +6,8 @@ import {
   OkResult,
 } from 'shared/messaging';
 
-import { GetTokenBookResponse, TokenIdToBook } from '../types';
-import { POLYMARKET_CLOB_API } from '../constants';
+import {GetTokenBookResponse, TokenIdToBook} from '../types';
+import {POLYMARKET_CLOB_API} from '../constants';
 
 type Payload = {
   tokensIds: string[];
@@ -46,7 +46,7 @@ export class GetTokensBooksCommand extends Command<Payload, TokenIdToBook> {
       return new OkResult(result);
     } catch (error) {
       if (error instanceof HandlerResponseError && error.statusCode === 404) {
-        // polymarket api returns 404 if market is closed, we don't want to capture this exception
+        // polymarket copilot-api returns 404 if market is closed, we don't want to capture this exception
         return new FailureResult('Books does not exist for these tokens');
       }
       this.captureException(error);
