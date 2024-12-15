@@ -1,0 +1,326 @@
+import axios from "axios";
+import dotenv from "dotenv";
+import {PoolClient} from "pg";
+import pool from "./db";
+import {v4 as uuidv4} from "uuid";
+
+dotenv.config({override: true});
+
+const ALCHEMY_API_BASE_URL = "https://dashboard.alchemyapi.io";
+const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY!;
+const WEBHOOK_URL = process.env.WEBHOOK_URL!;
+const NETWORK = process.env.NETWORK!;
+const MAX_ADDRESSES_PER_WEBHOOK =
+    Number(process.env.MAX_ADDRESSES_PER_WEBHOOK) || 100;
+
+// Functions to manage subscriptions
+export async function subscribeAddress(
+    subscriberId: string,
+    address: string
+): Promise<void> {
+    address = address.toLowerCase();
+
+    const client = await pool.connect();
+    try {
+        await client.query("BEGIN");
+
+        // Ensure subscriber exists
+        await client.query(
+            "INSERT INTO subscribers (subscriber_id) VALUES ($1) ON CONFLICT DO NOTHING",
+            [subscriberId]
+        );
+
+        // Ensure address exists
+        await client.query(
+            "INSERT INTO addresses (address) VALUES ($1) ON CONFLICT DO NOTHING",
+            [address]
+        );
+
+        // Create subscription
+        await client.query(
+            "INSERT INTO subscriptions (subscriber_id, address) VALUES ($1, $2) ON CONFLICT DO NOTHING",
+            [subscriberId, address]
+        );
+
+        // Check if address is already associated with a webhook
+        const res = await client.query(
+            "SELECT webhook_internal_id FROM address_webhook_map WHERE address = $1",
+            [address]
+        );
+
+        if (res.rows.length === 0) {
+            // Address not associated with a webhook, add it
+            await addAddressToWebhook(client, address);
+        }
+
+        await client.query("COMMIT");
+    } catch (error) {
+        await client.query("ROLLBACK");
+        console.error("Error subscribing address:", error);
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+export async function unsubscribeAddress(
+    subscriberId: string,
+    address: string
+): Promise<void> {
+    address = address.toLowerCase();
+
+    const client = await pool.connect();
+    try {
+        await client.query("BEGIN");
+
+        // Delete subscription
+        await client.query(
+            "DELETE FROM subscriptions WHERE subscriber_id = $1 AND address = $2",
+            [subscriberId, address]
+        );
+
+        // Check if the subscriber has any other subscriptions
+        const subscriberRes = await client.query(
+            "SELECT COUNT(*) FROM subscriptions WHERE subscriber_id = $1",
+            [subscriberId]
+        );
+
+        if (parseInt(subscriberRes.rows[0].count, 10) === 0) {
+            // Subscriber has no more subscriptions, remove from subscribers table
+            await client.query(
+                "DELETE FROM subscribers WHERE subscriber_id = $1",
+                [subscriberId]
+            );
+        }
+
+        // Check if the address has any other subscribers
+        const addressRes = await client.query(
+            "SELECT COUNT(*) FROM subscriptions WHERE address = $1",
+            [address]
+        );
+
+        if (parseInt(addressRes.rows[0].count, 10) === 0) {
+            // No more subscribers, remove address from webhook and addresses table
+            await removeAddressFromWebhook(client, address);
+
+            // Remove address from addresses table
+            await client.query("DELETE FROM addresses WHERE address = $1", [
+                address,
+            ]);
+        }
+
+        await client.query("COMMIT");
+    } catch (error) {
+        await client.query("ROLLBACK");
+        console.error("Error unsubscribing address:", error);
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+export async function getSubscriberAddresses(
+    subscriberId: string
+): Promise<string[]> {
+    const res = await pool.query(
+        "SELECT address FROM subscriptions WHERE subscriber_id = $1",
+        [subscriberId]
+    );
+    return res.rows.map((row) => row.address);
+}
+
+export async function isSubscribedAddress(address: string): Promise<boolean> {
+    const res = await pool.query(
+        "SELECT COUNT(*) FROM subscriptions WHERE address = $1",
+        [address.toLowerCase()]
+    );
+    return parseInt(res.rows[0].count, 10) > 0;
+}
+
+// Functions to manage webhooks
+async function addAddressToWebhook(
+    client: PoolClient,
+    address: string
+): Promise<void> {
+    // Find a webhook with available capacity
+    const res = await client.query(
+        `SELECT internal_id, webhook_id FROM webhooks
+     WHERE internal_id IN (
+       SELECT webhook_internal_id FROM address_webhook_map
+       GROUP BY webhook_internal_id
+       HAVING COUNT(address) < $1
+     )
+     LIMIT 1`,
+        [MAX_ADDRESSES_PER_WEBHOOK]
+    );
+
+    let webhookInternalId: string;
+    let webhookId: string;
+    let signingKey: string;
+
+    if (res.rows.length === 0) {
+        // No available webhook; create a new one
+        ({
+            webhookId,
+            internalWebhookId: webhookInternalId,
+            signingKey: signingKey,
+        } = await createNewWebhook(address));
+
+        // Insert new webhook into database
+        await client.query(
+            "INSERT INTO webhooks (internal_id, webhook_id, signing_key) VALUES ($1, $2, $3)",
+            [webhookInternalId, webhookId, signingKey]
+        );
+    } else {
+        webhookInternalId = res.rows[0].internal_id;
+        webhookId = res.rows[0].webhook_id;
+
+        // Update the webhook via Alchemy's API
+        await updateWebhookAddresses(webhookId, [address], []);
+    }
+
+    // Associate address with webhook
+    await client.query(
+        "INSERT INTO address_webhook_map (address, webhook_internal_id) VALUES ($1, $2)",
+        [address, webhookInternalId]
+    );
+}
+
+async function removeAddressFromWebhook(
+    client: PoolClient,
+    address: string
+): Promise<void> {
+    // Get the webhook associated with the address
+    const res = await client.query(
+        "SELECT webhook_internal_id FROM address_webhook_map WHERE address = $1",
+        [address]
+    );
+
+    if (res.rows.length === 0) {
+        // Address is not associated with any webhook
+        return;
+    }
+
+    const webhookInternalId = res.rows[0].webhook_internal_id;
+
+    // Get webhook ID and signing key
+    const webhookData = await client.query(
+        "SELECT webhook_id, signing_key FROM webhooks WHERE internal_id = $1",
+        [webhookInternalId]
+    );
+
+    if (webhookData.rows.length === 0) {
+        // Webhook does not exist
+        return;
+    }
+
+    const webhookId = webhookData.rows[0].webhook_id;
+
+    // Update the webhook via Alchemy's API
+    await updateWebhookAddresses(webhookId, [], [address]);
+
+    // Remove address from address_webhook_map
+    await client.query("DELETE FROM address_webhook_map WHERE address = $1", [
+        address,
+    ]);
+
+    // Check if webhook has any other addresses
+    const countRes = await client.query(
+        "SELECT COUNT(*) FROM address_webhook_map WHERE webhook_internal_id = $1",
+        [webhookInternalId]
+    );
+
+    if (parseInt(countRes.rows[0].count, 10) === 0) {
+        // Delete webhook from Alchemy and database
+        await deleteWebhook(webhookId);
+        await client.query("DELETE FROM webhooks WHERE internal_id = $1", [
+            webhookInternalId,
+        ]);
+    }
+}
+
+// Alchemy API interaction functions
+async function createNewWebhook(
+    initialAddress: string
+): Promise<{webhookId: string; internalWebhookId: string; signingKey: string}> {
+    const internalWebhookId = uuidv4();
+    const webhookUrl = `${WEBHOOK_URL}/webhook/${internalWebhookId}`;
+
+    const response = await axios.post(
+        `${ALCHEMY_API_BASE_URL}/api/create-webhook`,
+        {
+            webhook_url: webhookUrl,
+            network: NETWORK,
+            webhook_type: "ADDRESS_ACTIVITY",
+            addresses: [initialAddress],
+        },
+        {
+            headers: {
+                accept: "application/json",
+                "content-type": "application/json",
+                "X-Alchemy-Token": ALCHEMY_API_KEY,
+            },
+        }
+    );
+
+    const data = response.data;
+
+    const webhookId = data.data.id;
+    const signingKey = data.data.signing_key;
+
+    console.log(
+        `Created new webhook with ID: ${webhookId} and internal ID: ${internalWebhookId}`
+    );
+
+    return {webhookId, internalWebhookId, signingKey};
+}
+
+async function updateWebhookAddresses(
+    webhookId: string,
+    addressesToAdd: string[],
+    addressesToRemove: string[]
+): Promise<void> {
+    await axios.patch(
+        `${ALCHEMY_API_BASE_URL}/api/update-webhook-addresses`,
+        {
+            webhook_id: webhookId,
+            addresses_to_add: addressesToAdd,
+            addresses_to_remove: addressesToRemove,
+        },
+        {
+            headers: {
+                accept: "application/json",
+                "content-type": "application/json",
+                "X-Alchemy-Token": ALCHEMY_API_KEY,
+            },
+        }
+    );
+
+    console.log(
+        `Updated webhook ${webhookId}: Added ${addressesToAdd.length} addresses, removed ${addressesToRemove.length} addresses.`
+    );
+}
+
+async function deleteWebhook(webhookId: string): Promise<void> {
+    await axios.delete(
+        `${ALCHEMY_API_BASE_URL}/api/delete-webhook?webhook_id=${webhookId}`,
+        {
+            headers: {
+                accept: "application/json",
+                "X-Alchemy-Token": ALCHEMY_API_KEY,
+            },
+        }
+    );
+    console.log(`Deleted webhook ${webhookId}`);
+    return;
+}
+
+export async function getSubscribersByAddress(
+    address: string
+): Promise<string[]> {
+    const res = await pool.query(
+        "SELECT subscriber_id FROM subscriptions WHERE address = $1",
+        [address.toLowerCase()]
+    );
+    return res.rows.map((row) => row.subscriber_id);
+}
