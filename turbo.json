@@ -69,7 +69,7 @@
         "build"
       ]
     },
-    "@idriss-xyz/copilot-api#dev": {
+    "@idriss-xyz/copilot-api#start": {
       "cache": false,
       "persistent": true,
       "env": [
