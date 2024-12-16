@@ -35,7 +35,7 @@ export type FarcasterTransfersResponse = {
   };
 };
 
-export type FarcasterConnectedAddress = {
+type FarcasterConnectedAddress = {
   address: string;
   fid: number;
   protocol: string;
