@@ -3,7 +3,10 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { useCommandMutation } from 'shared/messaging';
 
-import { GetEnsAddressCommand } from '../../commands';
+import {
+  GetEnsAddressCommand,
+  GetFarcasterAddressCommand,
+} from '../../commands';
 
 import { Properties, FormValues } from './subscription-form.types';
 
@@ -17,18 +20,25 @@ export const SubscriptionForm = ({ onSubmit }: Properties) => {
   });
 
   const getEnsAddressMutation = useCommandMutation(GetEnsAddressCommand);
+  const getFarcasterAddressMutation = useCommandMutation(
+    GetFarcasterAddressCommand,
+  );
 
   const addSubscriber: SubmitHandler<FormValues> = useCallback(
     async (data) => {
       const hexPattern = /^0x[\dA-Fa-f]+$/;
+      const farcasterPattern = /^[^.]+$/;
       const isWalletAddress = hexPattern.test(data.subscriptionDetails);
+      const isFarcasterName = farcasterPattern.test(data.subscriptionDetails);
 
       if (isWalletAddress) {
         onSubmit(data.subscriptionDetails);
         form.reset(EMPTY_FORM);
-      } else {
-        const address = await getEnsAddressMutation.mutateAsync({
-          ensName: data.subscriptionDetails,
+      }
+
+      if (isFarcasterName) {
+        const address = await getFarcasterAddressMutation.mutateAsync({
+          name: data.subscriptionDetails,
         });
 
         if (!address) {
@@ -38,8 +48,19 @@ export const SubscriptionForm = ({ onSubmit }: Properties) => {
         onSubmit(address);
         form.reset(EMPTY_FORM);
       }
+
+      const address = await getEnsAddressMutation.mutateAsync({
+        ensName: data.subscriptionDetails,
+      });
+
+      if (!address) {
+        return;
+      }
+
+      onSubmit(address);
+      form.reset(EMPTY_FORM);
     },
-    [form, getEnsAddressMutation, onSubmit],
+    [form, getEnsAddressMutation, getFarcasterAddressMutation, onSubmit],
   );
 
   return (

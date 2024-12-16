@@ -16,6 +16,39 @@ export type SubscriptionsResponse = {
   addresses: SubscriptionResponse[];
 };
 
+export type FarcasterAddressRequest = {
+  name: string;
+};
+
+export type FarcasterAddressResponse = string | null;
+
+export type FarcasterTransfersResponse = {
+  transfer: {
+    id: number;
+    timestamp: number;
+    username: string;
+    owner: string;
+    from: number;
+    to: number;
+    user_signature: string;
+    server_signature: string;
+  };
+};
+
+export type FarcasterConnectedAddress = {
+  address: string;
+  fid: number;
+  protocol: string;
+  timestamp: number;
+  version: string;
+};
+
+export type FarcasterConnectedAddressesResponse = {
+  result: {
+    verifications: FarcasterConnectedAddress[];
+  };
+};
+
 type SwapDataToken = {
   address: Hex;
   symbol: string;

@@ -4,6 +4,7 @@ import { RemoveTradingCopilotSubscriptionCommand } from './remove-trading-copilo
 import { GetEnsInfoCommand } from './get-ens-info';
 import { GetEnsNameCommand } from './get-ens-name';
 import { GetEnsAddressCommand } from './get-ens-address';
+import { GetFarcasterAddressCommand } from './get-farcaster-address';
 
 export const COMMAND_MAP = {
   [AddTradingCopilotSubscriptionCommand.name]:
@@ -12,6 +13,7 @@ export const COMMAND_MAP = {
     GetTradingCopilotSubscriptionsCommand,
   [RemoveTradingCopilotSubscriptionCommand.name]:
     RemoveTradingCopilotSubscriptionCommand,
+  [GetFarcasterAddressCommand.name]: GetFarcasterAddressCommand,
   [GetEnsInfoCommand.name]: GetEnsInfoCommand,
   [GetEnsNameCommand.name]: GetEnsNameCommand,
   [GetEnsAddressCommand.name]: GetEnsAddressCommand,
@@ -23,3 +25,4 @@ export { RemoveTradingCopilotSubscriptionCommand } from './remove-trading-copilo
 export { GetEnsInfoCommand } from './get-ens-info';
 export { GetEnsNameCommand } from './get-ens-name';
 export { GetEnsAddressCommand } from './get-ens-address';
+export { GetFarcasterAddressCommand } from './get-farcaster-address';
