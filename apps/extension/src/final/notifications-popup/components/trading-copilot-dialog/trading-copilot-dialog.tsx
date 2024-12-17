@@ -155,7 +155,7 @@ const TradingCopilotDialogContent = ({
                   <span className="relative mt-2 flex">
                     <NumericInput
                       value={value}
-                      placeholder={dialog.tokenOut.symbol}
+                      placeholder="ETH"
                       onChange={onChange}
                       className="ps-[60px] text-right"
                     />
