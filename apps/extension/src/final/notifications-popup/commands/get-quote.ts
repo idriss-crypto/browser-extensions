@@ -6,18 +6,9 @@ import {
   OkResult,
 } from 'shared/messaging';
 
-import { QuoteResponse as Response } from '../types';
+import { QuoteResponse as Response, QuotePayload as Payload } from '../types';
 
 import { QUOTE_API_URL } from './constants';
-
-type Payload = {
-  originChain: number;
-  destinationChain: number;
-  originToken: string;
-  destinationToken: string;
-  fromAddress: string;
-  amount: string;
-};
 
 export class GetQuoteCommand extends Command<Payload, Response> {
   public readonly name = 'GetQuoteCommand' as const;

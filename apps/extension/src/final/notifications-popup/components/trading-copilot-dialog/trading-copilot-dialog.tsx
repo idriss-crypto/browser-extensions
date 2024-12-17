@@ -4,6 +4,7 @@ import { Icon as IdrissIcon } from '@idriss-xyz/ui/icon';
 import { IconButton } from '@idriss-xyz/ui/icon-button';
 import { NumericInput } from '@idriss-xyz/ui/numeric-input';
 import { useWallet } from '@idriss-xyz/wallet-connect';
+import { formatEther } from 'viem';
 
 import { Closable, Icon, LazyImage } from 'shared/ui';
 import { useCommandMutation, useCommandQuery } from 'shared/messaging';
@@ -16,13 +17,14 @@ import { CHAIN, roundToSignificantFigures } from 'shared/web3';
 
 import { GetQuoteCommand } from '../../commands/get-quote';
 import { GetEnsBalanceCommand } from '../../commands/get-ens-balance';
+import { QuotePayload } from '../../types';
 
 import {
   Properties,
   TradingCopilotDialogFormValues,
   TradingCopilotDialogContentProperties,
   WalletBalanceProperties,
-  QuotePayload,
+  TradeValueProperties,
 } from './trading-copilot-dialog.types';
 
 const EMPTY_FORM: TradingCopilotDialogFormValues = {
@@ -72,7 +74,7 @@ const TradingCopilotDialogContent = ({
     }
 
     const payload = {
-      amount: data.amount,
+      amount: Number(data.amount),
       destinationChain: 8453,
       fromAddress: wallet.account,
       destinationToken: dialog.tokenIn.address,
@@ -130,9 +132,9 @@ const TradingCopilotDialogContent = ({
                   got {roundToSignificantFigures(dialog.tokenIn.amount, 2)}{' '}
                   {dialog.tokenIn.symbol}
                 </span>{' '}
-                <span className="text-body6 text-neutral-500">
-                  ({roundToSignificantFigures(dialog.tokenOut.amount, 2)} ETH)
-                </span>
+                {wallet ? (
+                  <TradingCopilotTradeValue wallet={wallet} dialog={dialog} />
+                ) : null}
               </p>
               <p className="text-body6 text-mint-700">
                 {getFormattedTimeDifference(dialog.timestamp)} ago
@@ -222,5 +224,36 @@ const TradingCopilotWalletBalance = ({ wallet }: WalletBalanceProperties) => {
     <p className="text-body6 text-neutral-500">
       Balance: {roundToSignificantFigures(Number(balanceQuery.data), 2)} ETH
     </p>
+  );
+};
+
+const TradingCopilotTradeValue = ({ wallet, dialog }: TradeValueProperties) => {
+  const payload = {
+    amount: dialog.tokenIn.amount,
+    destinationChain: CHAIN[dialog.tokenIn.network].id,
+    fromAddress: wallet.account,
+    destinationToken: dialog.tokenIn.address,
+    originToken: '0x0000000000000000000000000000000000000000',
+    originChain: 8453,
+  };
+
+  const quoteQuery = useCommandQuery({
+    command: new GetQuoteCommand(payload),
+    staleTime: Number.POSITIVE_INFINITY,
+  });
+
+  if (!quoteQuery.data) {
+    return;
+  }
+
+  console.log(quoteQuery.data);
+
+  const tradeValueInWei = BigInt(quoteQuery.data.estimate.toAmount);
+  const tradeValueInEth = Number(formatEther(tradeValueInWei));
+
+  return (
+    <span className="text-body6 text-neutral-500">
+      ({roundToSignificantFigures(tradeValueInEth, 2)} ETH)
+    </span>
   );
 };

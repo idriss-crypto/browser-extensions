@@ -1,3 +1,12 @@
+export interface QuotePayload {
+  amount: number;
+  originChain: number;
+  originToken: string;
+  fromAddress: string;
+  destinationToken: string;
+  destinationChain: number;
+}
+
 export type QuoteResponse = {
   success: boolean;
   estimate: Estimate;

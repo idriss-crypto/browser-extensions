@@ -18,11 +18,7 @@ export interface WalletBalanceProperties {
   wallet: Wallet;
 }
 
-export interface QuotePayload {
-  amount: string;
-  originChain: number;
-  originToken: string;
-  fromAddress: string;
-  destinationToken: string;
-  destinationChain: number;
+export interface TradeValueProperties {
+  wallet: Wallet;
+  dialog: SwapData;
 }
