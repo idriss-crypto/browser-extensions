@@ -4,7 +4,7 @@ import { Icon as IdrissIcon } from '@idriss-xyz/ui/icon';
 import { IconButton } from '@idriss-xyz/ui/icon-button';
 import { NumericInput } from '@idriss-xyz/ui/numeric-input';
 import { useWallet } from '@idriss-xyz/wallet-connect';
-import { formatEther } from 'viem';
+import { formatEther, parseEther } from 'viem';
 
 import { Closable, Icon, LazyImage } from 'shared/ui';
 import { useCommandMutation, useCommandQuery } from 'shared/messaging';
@@ -73,8 +73,11 @@ const TradingCopilotDialogContent = ({
       return;
     }
 
+    const amountInEth = data.amount;
+    const amountInWei = parseEther(amountInEth).toString();
+
     const payload = {
-      amount: Number(data.amount),
+      amount: amountInWei,
       destinationChain: 8453,
       fromAddress: wallet.account,
       destinationToken: dialog.tokenIn.address,
@@ -228,8 +231,11 @@ const TradingCopilotWalletBalance = ({ wallet }: WalletBalanceProperties) => {
 };
 
 const TradingCopilotTradeValue = ({ wallet, dialog }: TradeValueProperties) => {
+  const amountInEth = dialog.tokenIn.amount.toString();
+  const amountInWei = parseEther(amountInEth).toString();
+
   const payload = {
-    amount: dialog.tokenIn.amount,
+    amount: amountInWei,
     destinationChain: CHAIN[dialog.tokenIn.network].id,
     fromAddress: wallet.account,
     destinationToken: dialog.tokenIn.address,
@@ -245,8 +251,6 @@ const TradingCopilotTradeValue = ({ wallet, dialog }: TradeValueProperties) => {
   if (!quoteQuery.data) {
     return;
   }
-
-  console.log(quoteQuery.data);
 
   const tradeValueInWei = BigInt(quoteQuery.data.estimate.toAmount);
   const tradeValueInEth = Number(formatEther(tradeValueInWei));

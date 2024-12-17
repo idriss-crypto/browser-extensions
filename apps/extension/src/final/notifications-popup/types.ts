@@ -1,5 +1,5 @@
 export interface QuotePayload {
-  amount: number;
+  amount: string;
   originChain: number;
   originToken: string;
   fromAddress: string;
