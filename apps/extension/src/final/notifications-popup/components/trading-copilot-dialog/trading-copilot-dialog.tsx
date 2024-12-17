@@ -218,7 +218,7 @@ const TradingCopilotWalletBalance = ({ wallet }: WalletBalanceProperties) => {
 
   return (
     <p className="text-body6 text-neutral-500">
-      Balance: {balanceQuery.data} ETH
+      Balance: {roundToSignificantFigures(Number(balanceQuery.data), 2)} ETH
     </p>
   );
 };
