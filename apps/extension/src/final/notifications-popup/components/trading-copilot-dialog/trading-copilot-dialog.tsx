@@ -101,7 +101,7 @@ const TradingCopilotDialogContent = ({
       <div className="flex size-full items-center justify-center">
         <div className="flex w-[400px] flex-col gap-y-5 rounded-lg border border-black/20 bg-white p-5">
           <div className="flex flex-row items-center justify-between">
-            <h1 className="text-heading4 text-neutral-900">Trading copilot</h1>
+            <h1 className="text-heading4 text-neutral-900">Copy trade</h1>
             <IconButton
               intent="tertiary"
               size="medium"
@@ -127,9 +127,11 @@ const TradingCopilotDialogContent = ({
               <p className="text-label3 text-neutral-900">
                 {userName}{' '}
                 <span className="text-body3 text-neutral-600">
-                  purchased{' '}
-                  {roundToSignificantFigures(dialog.tokenIn.amount, 2)}{' '}
+                  got {roundToSignificantFigures(dialog.tokenIn.amount, 2)}{' '}
                   {dialog.tokenIn.symbol}
+                </span>{' '}
+                <span className="text-body6 text-neutral-500">
+                  ({roundToSignificantFigures(dialog.tokenOut.amount, 2)} ETH)
                 </span>
               </p>
               <p className="text-body6 text-mint-700">
@@ -182,7 +184,7 @@ const TradingCopilotDialogContent = ({
                   loading={getQuote.isPending}
                   disabled={getQuote.isError}
                 >
-                  BUY
+                  BUY {dialog.tokenIn.symbol}
                 </Button>
               ) : (
                 <Button

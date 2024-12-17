@@ -229,7 +229,7 @@ export class ServiceWorker {
   watchTabChanges() {
     this.environment.tabs.onActivated.addListener(async (activeInfo) => {
       const tab = await this.getTabById(activeInfo.tabId);
-      if (ServiceWorker.isValidTab(tab)) {
+      if (tab?.status === 'complete' && ServiceWorker.isValidTab(tab)) {
         await this.renderSavedNotifications(tab);
       }
     });
