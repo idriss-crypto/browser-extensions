@@ -42,28 +42,10 @@ export class Scraper {
 
     return posts
       .map((post) => {
-        const links = [...post.querySelectorAll('a')];
-        const usernameClasslist = [
-          'font-semibold',
-          'text-default',
-          'hover:underline',
-        ];
-        const repostUsernameClasslist = [
-          'font-semibold',
-          'text-sm',
-          'hover:underline',
-        ];
+        const links = [...post.querySelectorAll('a.font-semibold.hover\\:underline[data-idrissid]')];
 
-        const usernameLinkNode = links.find((link) => {
-          return usernameClasslist.every((className) => {
-            return link.classList.contains(className);
-          });
-        });
-        const repostUsernameLinkNode = links.find((link) => {
-          return repostUsernameClasslist.every((className) => {
-            return link.classList.contains(className);
-          });
-        });
+        const usernameLinkNode = links.length > 0 ? links[0] : undefined;
+        const repostUsernameLinkNode = links.length > 1 ? links[1] : undefined;
 
         const username = usernameLinkNode
           ?.getAttribute('href')
@@ -456,13 +438,14 @@ export class Scraper {
   private static getUserFromDirectCastConversation() {
     const link = Scraper.getMain()?.querySelector('nav div > span > a');
     const username = link?.getAttribute('href')?.replace('/', '');
-    const userFullNameNode = link?.querySelector(':scope > div > span');
-    if (!username || !userFullNameNode?.parentElement) {
+    const userFullNameNode = link?.querySelector(':scope > span');
+    if (!username || !userFullNameNode?.parentElement || !userFullNameNode.parentElement.parentElement) {
       return;
     }
-    const node = userFullNameNode.parentElement;
+    const node = userFullNameNode.parentElement.parentElement;
     node.style.setProperty('display', 'flex', 'important');
     node.style.setProperty('align-items', 'center', 'important');
+    node.style.setProperty('justify-items', 'center', 'important');
     const rect = node.getBoundingClientRect();
 
     return {
