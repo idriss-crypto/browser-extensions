@@ -230,6 +230,7 @@ export class ServiceWorker {
     this.environment.tabs.onActivated.addListener(async (activeInfo) => {
       const tab = await this.getTabById(activeInfo.tabId);
       if (tab?.status === 'complete' && ServiceWorker.isValidTab(tab)) {
+        await this.delay(500); // Temporary delay to prevent rendering notifications before extension content is loaded
         await this.renderSavedNotifications(tab);
       }
     });
@@ -237,10 +238,18 @@ export class ServiceWorker {
     this.environment.tabs.onUpdated.addListener(
       async (_tabId, changeInfo, tab) => {
         if (changeInfo.status === 'complete' && ServiceWorker.isValidTab(tab)) {
+          await this.delay(500); // Temporary delay to prevent rendering notifications before extension content is loaded
           await this.renderSavedNotifications(tab);
         }
       },
     );
+  }
+
+  // TODO: remove after fixing rendering saved notifications
+  private delay(ms: number): Promise<void> {
+    return new Promise((resolve) => {
+      return setTimeout(resolve, ms);
+    });
   }
 
   keepAlive() {
