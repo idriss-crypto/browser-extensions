@@ -26,7 +26,7 @@ export class GetConditionIdCommand extends Command<Payload, string> {
       const polymarketResponse = await fetch(
         `https://api.idriss.xyz/fetch-data?url=${this.payload.url}`,
       );
-      const { text: polymarketHtml } = (await polymarketResponse.json()) as {
+      const {text: polymarketHtml} = (await polymarketResponse.json()) as {
         text: string;
       };
       const openGraphSlug = this.extractSlugFromHtml(polymarketHtml);
@@ -49,13 +49,13 @@ export class GetConditionIdCommand extends Command<Payload, string> {
       const apiEventQuery =
         polymarketPageProperties.props.pageProps.dehydratedState.queries.find(
           (query) => {
-            return query.queryKey[0] === '/api/event';
+            return query.queryKey[0] === '/copilot-api/event';
           },
         );
 
       if (!apiEventQuery) {
         throw new HandlerError(
-          'Could not find api event query in page properties',
+          'Could not find copilot-api event query in page properties',
         );
       }
 
@@ -91,7 +91,7 @@ export class GetConditionIdCommand extends Command<Payload, string> {
     const ogImageRegex =
       /<meta\s+property="og:image"\s+content="[^"]*mslug=([^"&]+)(?:&|&amp;)?/i;
     const [, maybeSlug] =
-      twitterImageRegex.exec(htmlString) ?? ogImageRegex.exec(htmlString) ?? [];
+    twitterImageRegex.exec(htmlString) ?? ogImageRegex.exec(htmlString) ?? [];
 
     return maybeSlug;
   }
