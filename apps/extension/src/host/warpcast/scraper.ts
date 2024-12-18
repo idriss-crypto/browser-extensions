@@ -42,7 +42,11 @@ export class Scraper {
 
     return posts
       .map((post) => {
-        const links = [...post.querySelectorAll('a.font-semibold.hover\\:underline[data-idrissid]')];
+        const links = [
+          ...post.querySelectorAll(
+            'a.font-semibold.hover:underline[data-idrissid]',
+          ),
+        ];
 
         const usernameLinkNode = links.length > 0 ? links[0] : undefined;
         const repostUsernameLinkNode = links.length > 1 ? links[1] : undefined;
@@ -439,7 +443,7 @@ export class Scraper {
     const link = Scraper.getMain()?.querySelector('nav div > span > a');
     const username = link?.getAttribute('href')?.replace('/', '');
     const userFullNameNode = link?.querySelector(':scope > span');
-    if (!username || !userFullNameNode?.parentElement || !userFullNameNode.parentElement.parentElement) {
+    if (!username || !userFullNameNode?.parentElement?.parentElement) {
       return;
     }
     const node = userFullNameNode.parentElement.parentElement;
