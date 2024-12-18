@@ -44,7 +44,7 @@ export class Scraper {
       .map((post) => {
         const links = [
           ...post.querySelectorAll(
-            'a.font-semibold.hover:underline[data-idrissid]',
+            String.raw`a.font-semibold.hover\:underline[data-idrissid]`,
           ),
         ];
 
