@@ -3,11 +3,14 @@ import type { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import { throwInternalError } from '../middleware/error.middleware';
-import { isAddress, verifyMessage } from 'viem';
+import { createPublicClient, isAddress, verifyMessage } from 'viem';
 import { dataSource } from '../db';
 import { AddressesEntity } from '../entities/addreesses.entity';
 import { UsersEntity } from '../entities/users.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { verifySiweMessage } from 'viem/siwe';
+import { mainnet } from 'viem/chains';
+import { http } from 'viem';
 
 dotenv.config();
 
@@ -25,10 +28,13 @@ router.post('/login', async (req: Request, res: Response) => {
   }
 
   try {
-    const valid_address = await verifyMessage({
-      message: challengeMessage,
-      address: walletAddress,
+    const client = createPublicClient({
+      chain: mainnet,
+      transport: http(process.env.VIEM_TRANSPORTER_URL),
+    });
+    const valid_address = await verifySiweMessage(client, {
       signature,
+      message: challengeMessage,
     });
 
     if (!valid_address) {
