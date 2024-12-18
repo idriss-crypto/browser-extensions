@@ -21,6 +21,39 @@ export const getDifferenceInDays = (dateInMs: number) => {
 
   return Math.round(differenceInDays);
 };
+
+/**
+ * Returns the difference between the given ISO timestamp and the current time
+ * in a compact format:
+ * - For days: "1 day 20 hrs 30 mins"
+ * - For hours: "20 hrs 30 mins"
+ * - For minutes: "30 mins"
+ */
+export const getFormattedTimeDifference = (isoTimestamp: string) => {
+  const currentDate = new Date();
+  const targetDate = new Date(isoTimestamp);
+  const differenceInMs = targetDate.getTime() - currentDate.getTime();
+
+  const totalMinutes = Math.abs(Math.floor(differenceInMs / (1000 * 60)));
+  const days = Math.floor(totalMinutes / (60 * 24));
+  const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+  const minutes = totalMinutes % 60;
+
+  let result = '';
+
+  if (days > 0) {
+    result += `${days} ${days > 1 ? 'days' : 'day'} `;
+  }
+
+  if (hours > 0 || days > 0) {
+    result += `${hours} hrs `;
+  }
+
+  result += `${minutes} mins`;
+
+  return result.trim();
+};
+
 /**
  * Returns the label for the end date based on the difference in days.
  *
