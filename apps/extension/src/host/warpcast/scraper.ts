@@ -131,6 +131,7 @@ export class Scraper {
         const rect = userFullNameNode.getBoundingClientRect();
 
         const node = userFullNameNode.parentElement;
+        node.classList.remove('space-x-2');
         node.style.setProperty('display', 'flex', 'important');
         node.style.setProperty('align-items', 'center', 'important');
 
@@ -176,6 +177,7 @@ export class Scraper {
 
     const rect = userFullNameNode.getBoundingClientRect();
     const node = userFullNameNode.parentElement;
+    node.classList.remove('space-x-2');
     node.style.setProperty('display', 'inline-flex', 'important');
     node.style.setProperty('align-items', 'center', 'important');
 
@@ -230,8 +232,11 @@ export class Scraper {
           return;
         }
 
-        node.style.setProperty('display', 'inline-flex', 'important');
-        node.style.setProperty('align-items', 'center', 'important');
+        // skip applying inline-flex in the notifications tab, as it leads to squashed elements
+        if (!username.includes('notifications')) {
+          node.style.setProperty('display', 'inline-flex', 'important');
+          node.style.setProperty('align-items', 'center', 'important');
+        }
 
         return {
           node,
@@ -314,6 +319,7 @@ export class Scraper {
         const rect = userFullNameNode.getBoundingClientRect();
 
         const node = userFullNameNode.parentElement;
+        node.classList.replace('space-x-2', 'space-x-0.5');
         node.style.setProperty('display', 'flex', 'important');
         node.style.setProperty('align-items', 'center', 'important');
 
@@ -351,6 +357,7 @@ export class Scraper {
         const rect = userFullNameNode.getBoundingClientRect();
 
         const node = userFullNameNode.parentElement;
+        node.classList.remove('space-x-2');
         node.style.setProperty('display', 'flex', 'important');
         node.style.setProperty('align-items', 'center', 'important');
 
