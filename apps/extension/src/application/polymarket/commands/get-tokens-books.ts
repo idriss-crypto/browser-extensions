@@ -6,8 +6,8 @@ import {
   OkResult,
 } from 'shared/messaging';
 
-import {GetTokenBookResponse, TokenIdToBook} from '../types';
-import {POLYMARKET_CLOB_API} from '../constants';
+import { GetTokenBookResponse, TokenIdToBook } from '../types';
+import { POLYMARKET_CLOB_API } from '../constants';
 
 type Payload = {
   tokensIds: string[];
