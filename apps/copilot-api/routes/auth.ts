@@ -7,7 +7,7 @@ import {isAddress, verifyMessage} from 'viem';
 import {dataSource} from '../db';
 import {AddressesEntity} from '../entities/addreesses.entity';
 import {UsersEntity} from '../entities/users.entity';
-import {v4 as uuidv4} from 'uuid';
+import { createSiweMessage, generateSiweNonce } from 'viem/siwe'
 
 dotenv.config();
 
@@ -77,20 +77,23 @@ router.post('/login', async (req: Request, res: Response) => {
 
 router.post('/wallet-address', async (req, res) => {
   try {
-    const {walletAddress} = req.body;
-    const nonce = uuidv4();
-    const timestamp = new Date().toISOString();
-    const challengeMessage = `
-            Challenge: ${process.env.CHALLENGE_SECRET},
-            Wallet Address: ${walletAddress},
-            Nonce: ${nonce},
-            Timestamp: ${timestamp}
-        `
-      .replace(/\\s+/g, ' ')
-      .trim();
-    res.status(200).json({nonce, challengeMessage});
+    const { walletAddress, chainId } = req.body;
+    const nonce = generateSiweNonce();
+    const timestamp = new Date();
+
+    const message = createSiweMessage({
+      address: walletAddress,
+      chainId,
+      domain: 'idriss.xyz',
+      nonce,
+      uri: 'https://idriss.xyz/api/login', // TODO: Change for production
+      version: '1',
+      issuedAt: timestamp
+    })
+
+    res.status(200).json({ nonce, message });
   } catch (err) {
-    throwInternalError(res, 'Error generating challenge message: ', err);
+    throwInternalError(res, 'Error generating login message: ', err);
   }
 });
 
