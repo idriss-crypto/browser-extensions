@@ -3,11 +3,12 @@ import type {Request, Response} from 'express';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import {throwInternalError} from '../middleware/error.middleware';
-import {isAddress, verifyMessage} from 'viem';
+import {isAddress} from 'viem';
 import {dataSource} from '../db';
 import {AddressesEntity} from '../entities/addreesses.entity';
 import {UsersEntity} from '../entities/users.entity';
 import { createSiweMessage, generateSiweNonce } from 'viem/siwe'
+import { publicClient } from '../config/publicClient';
 
 dotenv.config();
 
@@ -17,7 +18,7 @@ const addressesRepo = dataSource.getRepository(AddressesEntity);
 const usersRepo = dataSource.getRepository(UsersEntity);
 
 router.post('/login', async (req: Request, res: Response) => {
-  const {signature, walletAddress, challengeMessage} = req.body;
+  const {signature, walletAddress, message} = req.body;
 
   if (!isAddress(walletAddress)) {
     res.status(403).json({error: 'Invalid wallet address'});
@@ -25,13 +26,13 @@ router.post('/login', async (req: Request, res: Response) => {
   }
 
   try {
-    const valid_address = await verifyMessage({
-      signature,
+    const valid = await publicClient.verifySiweMessage({
       address: walletAddress,
-      message: challengeMessage
-    });
+      message,
+      signature,
+    })
 
-    if (!valid_address) {
+    if (!valid) {
       res.status(403).json({error: 'Invalid signature'});
       return;
     }
