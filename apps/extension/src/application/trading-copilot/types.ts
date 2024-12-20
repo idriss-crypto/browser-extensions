@@ -66,3 +66,13 @@ export type SwapData = {
   timestamp: string;
   isComplete: boolean;
 };
+
+export type SiweMessageRequest = {
+  walletAddress: string;
+  chainId: number;
+};
+
+export type SiweMessageResponse = {
+  nonce: string;
+  message: string;
+};
