@@ -1,10 +1,10 @@
-import { SubscriptionsManagement } from './subscriptions-management';
-// TODO: this is only due to unused-exports check, will be resolved once we implement copilot feature
-JSON.stringify(typeof SubscriptionsManagement);
 export {
   COMMAND_MAP as TRADING_COPILOT_COMMAND_MAP,
   GetEnsInfoCommand,
   GetEnsNameCommand,
+  GetEnsBalanceCommand,
+  GetQuoteCommand,
 } from './commands';
-export type { SwapData } from './types';
+export type { SwapData, FormValues } from './types';
 export { SubscriptionsManagement } from './subscriptions-management';
+export { useCopilotTransaction, useExchanger } from './hooks';

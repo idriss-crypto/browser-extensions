@@ -35,7 +35,6 @@ import {
   TRADING_COPILOT_COMMAND_MAP,
   SwapData,
 } from 'application/trading-copilot';
-import { QUOTE_COMMAND_MAP } from 'src/final';
 
 import { SbtResolver } from '../../common/resolvers/SbtResolver';
 import { AddressResolver } from '../../common/resolvers/AddressResolver';
@@ -55,7 +54,6 @@ const COMMAND_MAP = {
   ...TALLY_COMMAND_MAP,
   ...FARCASTER_COMMAND_MAP,
   ...TRADING_COPILOT_COMMAND_MAP,
-  ...QUOTE_COMMAND_MAP,
 };
 
 const SERVER_URL = 'https://copilot-production-e887.up.railway.app/';
@@ -96,6 +94,7 @@ export class ServiceWorker {
           this.registerWithServer(wallet.account);
         } else {
           console.log('%c[WebSocket] User not found.', 'color: red;');
+          this.socket.disconnect();
         }
       });
     });
